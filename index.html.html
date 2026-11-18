@@ -205,7 +205,7 @@
           </div>
         </div>
 
-        <!-- Grafik Compliance% Delivery Success Rate Per Bulan -->
+        <!-- Grafik Compliance% Delivery Success Rate Per Bulan (Target Hub 98%) -->
         <div class="glass-card rounded-3xl p-5 space-y-3">
           <div class="flex items-start justify-between gap-2">
             <div>
@@ -213,7 +213,7 @@
               <p class="text-[11px] text-slate-400">Pencapaian & tren Delivery Success Rate per bulan</p>
             </div>
             <span id="compliance-status-pill" class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-              Target ≥ 90%
+              Target ≥ 98%
             </span>
           </div>
           <div class="h-48 w-full pt-1">
@@ -432,6 +432,9 @@
   </div>
 
   <script>
+    // ==================== TARGET COMPLIANCE HUB ====================
+    const HUB_TARGET_DSR = 98;
+
     // ==================== KONTAK WHATSAPP PIMPINAN HUB ====================
     const WA_CONTACTS = [
       {
@@ -454,7 +457,7 @@
       }
     ];
 
-    // ==================== DATA TERBARU 32 KURIR AKTIF (SUDAH TERMASUK NUMBER OF DAYS WORKING) ====================
+    // ==================== DATA TERBARU 32 KURIR AKTIF ====================
     const DEFAULT_ACTIVE_COURIERS = [
       {"driver_id": "1400091", "driver_name": "AHMAD FAUZI", "password": "spx0091", "category_label": "2WH Mitra", "dsr": "85.88%", "assigned": 85, "delivered": 73, "onhold": 10, "days_working": 3, "bulan": "2026-11"},
       {"driver_id": "1400080", "driver_name": "DENI EKO SAPUTRO", "password": "spx0080", "category_label": "2WH Mitra", "dsr": "96.64%", "assigned": 298, "delivered": 288, "onhold": 7, "days_working": 8, "bulan": "2026-11"},
@@ -498,10 +501,10 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v9_final",
-      SESSION: "spx_pringapus2_session_v9_final",
-      SHEET_URL: "spx_pringapus2_sheet_url_v9_final",
-      FEEDBACK: "spx_pringapus2_feedback_v9_final"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v10_t98",
+      SESSION: "spx_pringapus2_session_v10_t98",
+      SHEET_URL: "spx_pringapus2_sheet_url_v10_t98",
+      FEEDBACK: "spx_pringapus2_feedback_v10_t98"
     };
 
     const NAMA_BULAN_ID = [
@@ -706,7 +709,7 @@
       });
     }
 
-    // ==================== GRAFIK COMPLIANCE% DSR PER BULAN ====================
+    // ==================== GRAFIK COMPLIANCE% DSR PER BULAN (TARGET HUB 98%) ====================
     function parseDsrNumber(dsrStr) {
       const num = parseFloat(String(dsrStr || "0").replace("%", "").trim());
       return isNaN(num) ? 0 : num;
@@ -728,11 +731,11 @@
       const summaryEl = document.getElementById("compliance-summary-text");
       const statusPill = document.getElementById("compliance-status-pill");
 
-      if (currentVal >= 90) {
-        statusPill.textContent = "Tercapai (≥ 90%)";
+      if (currentVal >= HUB_TARGET_DSR) {
+        statusPill.textContent = `Tercapai (≥ ${HUB_TARGET_DSR}%)`;
         statusPill.className = "px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
       } else {
-        statusPill.textContent = "Di Bawah Target (< 90%)";
+        statusPill.textContent = `Di Bawah Target (< ${HUB_TARGET_DSR}%)`;
         statusPill.className = "px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30";
       }
 
@@ -741,19 +744,19 @@
         if (currentVal > prevVal) {
           trendBadge.textContent = `▲ Naik +${diff}%`;
           trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-          summaryEl.innerHTML = `Pencapaian <strong class="text-emerald-400">MENINGKAT +${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Pertahankan performa pengantaran!`;
+          summaryEl.innerHTML = `Pencapaian <strong class="text-emerald-400">MENINGKAT +${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Target Hub: <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong>.`;
         } else if (currentVal < prevVal) {
           trendBadge.textContent = `▼ Turun ${diff}%`;
           trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-red-500/20 text-red-300 border border-red-500/30";
-          summaryEl.innerHTML = `Terjadi <strong class="text-red-400">PENURUNAN ${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Kurangi paket OnHold untuk menaikkan Compliance%.`;
+          summaryEl.innerHTML = `Terjadi <strong class="text-red-400">PENURUNAN ${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Kejar target Hub <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong> dengan menekan paket OnHold.`;
         } else {
           trendBadge.textContent = "• Stabil 0%";
-          summaryEl.innerHTML = `Performa Delivery Success Rate stabil di angka <strong class="text-white">${currentVal}%</strong> dibanding bulan sebelumnya.`;
+          summaryEl.innerHTML = `Performa Delivery Success Rate stabil di angka <strong class="text-white">${currentVal}%</strong> (Target Hub: <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong>).`;
         }
       } else {
         trendBadge.textContent = formatMonthLabel(selectedMonthKey);
         trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-slate-800 text-orange-300 border border-slate-700";
-        summaryEl.innerHTML = `Compliance DSR bulan <strong class="text-white">${formatMonthLabel(selectedMonthKey)}</strong> tercatat sebesar <strong class="text-emerald-400">${currentVal}%</strong>. Grafik otomatis membandingkan kenaikan/penurunan saat data bulan berikutnya masuk.`;
+        summaryEl.innerHTML = `Compliance DSR bulan <strong class="text-white">${formatMonthLabel(selectedMonthKey)}</strong> tercatat sebesar <strong class="text-emerald-400">${currentVal}%</strong> (Target Hub: <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong>). Grafik otomatis membandingkan kenaikan/penurunan saat data bulan berikutnya masuk.`;
       }
 
       const ctx = document.getElementById("complianceChart").getContext("2d");
@@ -779,9 +782,9 @@
               tension: 0.3
             },
             {
-              label: "Target Hub (90%)",
-              data: labels.map(() => 90),
-              borderColor: "rgba(251, 146, 60, 0.6)",
+              label: `Target Hub (${HUB_TARGET_DSR}%)`,
+              data: labels.map(() => HUB_TARGET_DSR),
+              borderColor: "rgba(251, 146, 60, 0.8)",
               borderDash: [5, 5],
               borderWidth: 1.5,
               pointRadius: 0,
@@ -827,8 +830,8 @@
       }
       if (dsr < 85) {
         tips.push(`DSR masih ${c.dsr} (sisa ${undelivered} paket belum terkirim). Prioritaskan pengantaran area terdekat di pagi hari & minta bantuan Shift Lead untuk optimasi urutan rute.`);
-      } else if (dsr < 90) {
-        tips.push(`Tingkatkan penyelesaian ${undelivered} paket tertunda dan lakukan percobaan antar ulang di sore hari agar DSR menembus target ≥ 90%.`);
+      } else if (dsr < HUB_TARGET_DSR) {
+        tips.push(`Tingkatkan penyelesaian ${undelivered} paket tertunda dan lakukan percobaan antar ulang di sore hari agar DSR menembus target Hub ≥ ${HUB_TARGET_DSR}%.`);
       }
       if (c.category_label === "4WH Mitra") {
         tips.push(`Untuk armada 4WH Mitra, pastikan muatan paket besar disusun sesuai urutan titik bongkar (LIFO) agar waktu bongkar lebih cepat dan tidak tertunda.`);
@@ -836,7 +839,7 @@
         tips.push(`Untuk armada 2WH Mitra, pastikan kehadiran rutin dan konfirmasi ketersediaan slot rute pagi agar rasio paket terkirim maksimal.`);
       }
       if (tips.length === 0) {
-        tips.push(`Pertahankan konsistensi pengantaran harian dan pastikan seluruh paket penugasan selesai sebelum jam cut-off hub.`);
+        tips.push(`Pertahankan konsistensi pengantaran harian agar DSR tetap terjaga ≥ ${HUB_TARGET_DSR}% sebelum jam cut-off hub.`);
       }
       return tips.join(" ");
     }
