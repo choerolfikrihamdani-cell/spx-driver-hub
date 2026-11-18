@@ -8,6 +8,7 @@
   <meta http-equiv="Expires" content="0" />
   <title>SPX Pringapus 2 Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body {
@@ -17,12 +18,19 @@
       -webkit-tap-highlight-color: transparent;
     }
     .glass-card {
-      background: rgba(20, 27, 45, 0.85);
+      background: rgba(20, 27, 45, 0.88);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .spx-gradient {
       background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   </style>
 </head>
@@ -30,7 +38,7 @@
 
   <!-- ==================== 1. HALAMAN LOGIN ==================== -->
   <div id="login-screen" class="min-h-screen flex flex-col justify-center px-5 py-8 max-w-md mx-auto w-full">
-    <div class="text-center mb-8">
+    <div class="text-center mb-7">
       <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl spx-gradient shadow-lg shadow-orange-500/30 mb-4">
         <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
@@ -62,7 +70,7 @@
             <input type="password" id="input-pass" required autocomplete="current-password" placeholder="Masukkan password Anda"
               class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-orange-500 transition pr-12" />
             <button type="button" onclick="togglePassword()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1">
-              <svg id="eye-icon" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
               </svg>
@@ -87,8 +95,9 @@
   </div>
 
   <!-- ==================== 2. DASHBOARD KURIR ==================== -->
-  <div id="driver-dashboard" class="hidden min-h-screen flex-col max-w-md mx-auto w-full pb-8">
-    <header class="sticky top-0 z-30 bg-[#0b0f19]/90 backdrop-blur-md border-b border-slate-800/80 px-5 py-4 flex items-center justify-between">
+  <div id="driver-dashboard" class="hidden min-h-screen flex-col max-w-md mx-auto w-full pb-10">
+    <!-- Top Header -->
+    <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-4 py-3.5 flex items-center justify-between">
       <div>
         <h2 class="text-base font-extrabold text-white leading-tight">SPX Pringapus 2 Hub</h2>
         <p class="text-[11px] font-semibold text-orange-400">Strong and Growth Together!</p>
@@ -103,58 +112,188 @@
       </div>
     </header>
 
-    <main class="px-5 pt-5 space-y-5 flex-1">
-      <div class="glass-card rounded-3xl p-5 relative overflow-hidden">
-        <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-orange-500/10 blur-2xl"></div>
-        <div class="flex items-start justify-between gap-3">
+    <main class="px-4 pt-4 space-y-4 flex-1">
+      <!-- Pemilih Bulan (Otomatis pindah ke bulan selanjutnya saat berganti bulan) -->
+      <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </span>
           <div>
-            <span id="drv-badge" class="inline-block px-2.5 py-1 rounded-lg text-[11px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30 mb-2">
-              2WH Dedicated
-            </span>
-            <h3 id="drv-name" class="text-lg font-extrabold text-white leading-snug">NAMA KURIR</h3>
-            <p class="text-xs text-slate-400 font-medium mt-0.5">Driver ID: <span id="drv-id" class="text-slate-200 font-bold">000000</span></p>
-          </div>
-          <div class="w-11 h-11 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-orange-400 font-extrabold text-base shrink-0" id="drv-avatar">
-            K
+            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Periode Laporan</span>
+            <span class="text-xs font-extrabold text-white" id="active-month-label">November 2026</span>
           </div>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-          <span>Periode: <strong class="text-slate-200">Monthly Report Terbaru</strong></span>
-          <span id="last-sync-driver" class="text-emerald-400 font-semibold">Tersinkronisasi</span>
+        <select id="driver-month-select" onchange="onMonthChange(this.value)"
+          class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-orange-300 focus:outline-none focus:border-orange-500">
+        </select>
+      </div>
+
+      <!-- Sub-Menu Navigasi Kurir (Ringkas & Rapi) -->
+      <div class="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
+        <button onclick="switchDriverSubMenu('perf')" id="drv-tab-perf" class="py-2 px-1 rounded-xl text-[11px] font-bold spx-gradient text-white shadow text-center">
+          Performa
+        </button>
+        <button onclick="switchDriverSubMenu('rank')" id="drv-tab-rank" class="py-2 px-1 rounded-xl text-[11px] font-bold text-slate-400 hover:text-white text-center">
+          Top & Evaluasi
+        </button>
+        <button onclick="switchDriverSubMenu('saran')" id="drv-tab-saran" class="py-2 px-1 rounded-xl text-[11px] font-bold text-slate-400 hover:text-white text-center">
+          Saran
+        </button>
+        <button onclick="switchDriverSubMenu('wa')" id="drv-tab-wa" class="py-2 px-1 rounded-xl text-[11px] font-bold text-slate-400 hover:text-white text-center">
+          Bantuan WA
+        </button>
+      </div>
+
+      <!-- ==================== SUB-MENU 1: PERFORMA & GRAFIK COMPLIANCE% ==================== -->
+      <div id="drv-view-perf" class="space-y-4">
+        <!-- Kartu Profil Kurir -->
+        <div class="glass-card rounded-3xl p-5 relative overflow-hidden">
+          <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-orange-500/10 blur-2xl"></div>
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span id="drv-badge" class="inline-block px-2.5 py-1 rounded-lg text-[11px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30 mb-2">
+                2WH Dedicated
+              </span>
+              <h3 id="drv-name" class="text-lg font-extrabold text-white leading-snug">NAMA KURIR</h3>
+              <p class="text-xs text-slate-400 font-medium mt-0.5">Driver ID: <span id="drv-id" class="text-slate-200 font-bold">000000</span></p>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-orange-400 font-extrabold text-base shrink-0" id="drv-avatar">
+              K
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Metrik Utama (Total penugasan) -->
+        <div class="grid grid-cols-1 gap-3">
+          <!-- 1. Delivery success rate(%) -->
+          <div class="glass-card rounded-2xl p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold text-slate-400">Delivery success rate(%)</p>
+              <p id="metric-dsr" class="text-3xl font-extrabold text-emerald-400 mt-0.5">0%</p>
+            </div>
+            <div id="dsr-trend-badge" class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              Bulan Berjalan
+            </div>
+          </div>
+
+          <!-- 2. Total penugasan -->
+          <div class="glass-card rounded-2xl p-4 border-l-4 border-l-blue-500 flex items-center justify-between">
+            <div>
+              <p class="text-xs font-semibold text-slate-400">Total penugasan</p>
+              <p id="metric-assigned" class="text-3xl font-extrabold text-white mt-0.5">0</p>
+            </div>
+            <div class="w-11 h-11 rounded-2xl bg-blue-500/15 flex items-center justify-center text-blue-400">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <!-- 3. Delivered -->
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-orange-500">
+              <p class="text-xs font-semibold text-slate-400">Delivered</p>
+              <p id="metric-delivered" class="text-2xl font-extrabold text-orange-400 mt-1">0</p>
+            </div>
+
+            <!-- 4. OnHold -->
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-amber-400">
+              <p class="text-xs font-semibold text-slate-400">OnHold</p>
+              <p id="metric-onhold" class="text-2xl font-extrabold text-amber-300 mt-1">0</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grafik Compliance% Delivery Success Rate Per Bulan -->
+        <div class="glass-card rounded-3xl p-5 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <h4 class="text-sm font-extrabold text-white">Grafik Compliance% DSR Bulanan</h4>
+              <p class="text-[11px] text-slate-400">Pencapaian & tren Delivery Success Rate per bulan</p>
+            </div>
+            <span id="compliance-status-pill" class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+              Target ≥ 90%
+            </span>
+          </div>
+          <div class="h-48 w-full pt-1">
+            <canvas id="complianceChart"></canvas>
+          </div>
+          <p id="compliance-summary-text" class="text-[11px] text-slate-300 bg-slate-900/80 rounded-xl p-3 border border-slate-800 leading-relaxed">
+            Memuat analisis pencapaian bulanan...
+          </p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 gap-3.5">
-        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-emerald-500 flex items-center justify-between">
-          <div>
-            <p class="text-xs font-semibold text-slate-400">Delivery success rate(%)</p>
-            <p id="metric-dsr" class="text-3xl font-extrabold text-emerald-400 mt-1">0%</p>
+      <!-- ==================== SUB-MENU 2: KURIR TERBAIK & KURIR TERBURUK ==================== -->
+      <div id="drv-view-rank" class="hidden space-y-4">
+        <div class="glass-card rounded-2xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-extrabold text-white">Peringkat Performa Hub</h4>
+            <span class="text-[11px] text-orange-400 font-bold" id="rank-month-badge">November 2026</span>
           </div>
-          <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center text-emerald-400">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+
+          <!-- Toggle Sub-Kategori Terbaik vs Terburuk -->
+          <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800">
+            <button onclick="switchRankSubTab('best')" id="btn-rank-best" class="py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white">
+              🏆 Kurir Terbaik (Top 5)
+            </button>
+            <button onclick="switchRankSubTab('worst')" id="btn-rank-worst" class="py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white">
+              ⚠️ Kurir Terburuk (Bottom 5)
+            </button>
+          </div>
+
+          <div id="rank-list-container" class="space-y-2.5 pt-1"></div>
+        </div>
+      </div>
+
+      <!-- ==================== SUB-MENU 3: SARAN & PERBAIKAN ==================== -->
+      <div id="drv-view-saran" class="hidden space-y-4">
+        <div class="glass-card rounded-3xl p-5 space-y-4">
+          <div>
+            <h4 class="text-base font-extrabold text-white">Kotak Saran & Perbaikan</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Sampaikan masukan, kendala operasional lapangan, atau usulan perbaikan untuk <strong class="text-white">SPX Pringapus 2 Hub</strong>. Pesan Anda hanya dapat dilihat oleh Admin Hub.
+            </p>
+          </div>
+
+          <form onsubmit="submitFeedback(event)" class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Kategori Masukan</label>
+              <select id="saran-kategori" class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-white focus:outline-none focus:border-orange-500">
+                <option value="Operasional & Rute">Operasional & Rute Pengantaran</option>
+                <option value="Aplikasi & Data Performa">Aplikasi & Data Performa</option>
+                <option value="Fasilitas & Hub">Fasilitas & Kondisi Hub</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Isi Saran / Perbaikan</label>
+              <textarea id="saran-pesan" rows="4" required placeholder="Tuliskan saran atau masukan Anda secara jelas..."
+                class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"></textarea>
+            </div>
+
+            <button type="submit" class="w-full py-3 rounded-xl spx-gradient text-white font-bold text-xs shadow-lg shadow-orange-500/20">
+              Kirim Saran ke Admin Hub
+            </button>
+          </form>
+
+          <div id="saran-notif" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold text-center">
+            Terima kasih! Saran Anda telah terkirim dan tercatat untuk Admin Hub.
           </div>
         </div>
+      </div>
 
-        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-blue-500 flex items-center justify-between">
+      <!-- ==================== SUB-MENU 4: BANTUAN WHATSAPP ==================== -->
+      <div id="drv-view-wa" class="hidden space-y-4">
+        <div class="glass-card rounded-3xl p-5 space-y-4">
           <div>
-            <p class="text-xs font-semibold text-slate-400">Penugasan hari ini</p>
-            <p id="metric-assigned" class="text-3xl font-extrabold text-white mt-1">0</p>
-          </div>
-          <div class="w-12 h-12 rounded-2xl bg-blue-500/15 flex items-center justify-center text-blue-400">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3.5">
-          <div class="glass-card rounded-2xl p-4 border-l-4 border-l-orange-500">
-            <p class="text-xs font-semibold text-slate-400">Delivered</p>
-            <p id="metric-delivered" class="text-2xl font-extrabold text-orange-400 mt-1">0</p>
+            <h4 class="text-base font-extrabold text-white">Bantuan & Koordinasi Hub</h4>
+            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+              Jika ada pertanyaan silakan hubungi by <strong class="text-emerald-400">WhatsApp</strong> dengan klik salah satu kontak di bawah ini:
+            </p>
           </div>
 
-          <div class="glass-card rounded-2xl p-4 border-l-4 border-l-amber-400">
-            <p class="text-xs font-semibold text-slate-400">OnHold</p>
-            <p id="metric-onhold" class="text-2xl font-extrabold text-amber-300 mt-1">0</p>
-          </div>
+          <div class="space-y-3" id="wa-contacts-list"></div>
         </div>
       </div>
     </main>
@@ -181,15 +320,31 @@
     </header>
 
     <main class="px-5 pt-5 space-y-5">
-      <div class="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
+      <!-- Pemilih Bulan Admin -->
+      <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
+        <div>
+          <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Filter Bulan Database</span>
+          <span class="text-xs font-extrabold text-white" id="admin-month-label">November 2026</span>
+        </div>
+        <select id="admin-month-select" onchange="onMonthChange(this.value)"
+          class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-orange-300 focus:outline-none focus:border-orange-500">
+        </select>
+      </div>
+
+      <!-- Navigasi Tab Admin (Termasuk Cek Saran & Perbaikan) -->
+      <div class="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
         <button onclick="switchAdminTab('list')" id="tab-btn-list" class="py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow">
-          Data Kurir Aktif (24)
+          Kurir Aktif (24)
+        </button>
+        <button onclick="switchAdminTab('saran')" id="tab-btn-saran" class="py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
+          Saran Masuk (<span id="saran-count-badge">0</span>)
         </button>
         <button onclick="switchAdminTab('sync')" id="tab-btn-sync" class="py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
-          Master Database & Upload
+          Upload & Sync
         </button>
       </div>
 
+      <!-- TAB A: DAFTAR KURIR AKTIF & PASSWORD -->
       <div id="admin-tab-list" class="space-y-4">
         <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button onclick="filterAdminCategory('ALL')" id="cat-ALL" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shrink-0">Semua (24)</button>
@@ -210,11 +365,28 @@
         <div id="admin-courier-cards" class="space-y-3"></div>
       </div>
 
+      <!-- TAB B: KOTAK SARAN & PERBAIKAN (KHUSUS ADMIN) -->
+      <div id="admin-tab-saran" class="hidden space-y-4">
+        <div class="glass-card rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-sm font-extrabold text-white">Daftar Saran & Perbaikan dari Kurir</h3>
+              <p class="text-xs text-slate-400">Hanya Admin Hub yang dapat membaca laporan masukan ini.</p>
+            </div>
+            <button onclick="clearAllFeedback()" class="px-3 py-1.5 rounded-lg bg-red-500/15 text-red-400 text-[11px] font-bold border border-red-500/20">
+              Hapus Semua
+            </button>
+          </div>
+          <div id="admin-saran-list" class="space-y-3 pt-2"></div>
+        </div>
+      </div>
+
+      <!-- TAB C: UPLOAD CSV & SINKRONISASI BULANAN -->
       <div id="admin-tab-sync" class="hidden space-y-4">
         <div class="glass-card rounded-2xl p-5 space-y-3">
           <h3 class="text-sm font-extrabold text-white">1. Upload CSV Monthly Report SPX</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Unggah file <code class="text-orange-300">performance_report_*.csv</code> hasil export dari portal SPX. Sistem otomatis membuang kurir tidak aktif (0 / 0%) dan memperbarui seluruh data.
+            Pilih bulan laporan di atas lalu unggah file <code class="text-orange-300">performance_report_*.csv</code> dari portal SPX. Sistem otomatis menyimpan riwayat per bulan untuk grafik Compliance% DSR.
           </p>
           <input type="file" id="csv-upload-input" accept=".csv" onchange="handleCSVUpload(event)"
             class="block w-full text-xs text-slate-300 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer bg-slate-900/90 rounded-xl border border-slate-800 p-2" />
@@ -222,9 +394,9 @@
         </div>
 
         <div class="glass-card rounded-2xl p-5 space-y-3">
-          <h3 class="text-sm font-extrabold text-white">2. Sumber Database Utama (Otomatis dari GitHub)</h3>
+          <h3 class="text-sm font-extrabold text-white">2. Sumber Database Utama (GitHub Auto-Sync)</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Aplikasi terhubung langsung ke file <code class="text-orange-300">./Master_Database.csv</code> di GitHub/Vercel Anda, atau bisa diarahkan ke link Google Sheets (.csv).
+            Terhubung langsung ke <code class="text-orange-300">./Master_Database.csv</code> di GitHub Anda.
           </p>
           <input type="text" id="sheet-url-input" placeholder="./Master_Database.csv"
             class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500" />
@@ -242,32 +414,30 @@
   </div>
 
   <script>
-    const DEFAULT_ACTIVE_COURIERS = [
-      {"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0},
-      {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4},
-      {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0},
-      {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0},
-      {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1},
-      {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0},
-      {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0},
-      {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0},
-      {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1},
-      {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4},
-      {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1},
-      {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1},
-      {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3},
-      {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3},
-      {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2},
-      {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1},
-      {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14},
-      {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1},
-      {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1},
-      {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1},
-      {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7},
-      {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3},
-      {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0},
-      {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0}
+    // ==================== KONTAK WHATSAPP PIMPINAN HUB ====================
+    const WA_CONTACTS = [
+      {
+        name: "Choerul Fikri Hamdani",
+        role: "Hub Lead",
+        phoneDisplay: "081330676314",
+        phoneWa: "6281330676314"
+      },
+      {
+        name: "Novan Andi Setyawan",
+        role: "Shift Lead",
+        phoneDisplay: "082231157342",
+        phoneWa: "6282231157342"
+      },
+      {
+        name: "Ibnu Hanggara",
+        role: "Shift Lead",
+        phoneDisplay: "085701765261",
+        phoneWa: "6285701765261"
+      }
     ];
+
+    // ==================== DATA DEFAULT 24 KURIR AKTIF ====================
+    const DEFAULT_ACTIVE_COURIERS = [{"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4, "bulan": "2026-11"}, {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4, "bulan": "2026-11"}, {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3, "bulan": "2026-11"}, {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3, "bulan": "2026-11"}, {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2, "bulan": "2026-11"}, {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14, "bulan": "2026-11"}, {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7, "bulan": "2026-11"}, {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3, "bulan": "2026-11"}, {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0, "bulan": "2026-11"}];
 
     const ADMIN_ACCOUNTS = [
       { driver_id: "ADMIN-HUB", password: "pringapus2026", name: "Admin SPX Pringapus 2 Hub" },
@@ -277,39 +447,127 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      COURIERS: "spx_pringapus2_couriers_v3",
-      SESSION: "spx_pringapus2_session_v3",
-      SHEET_URL: "spx_pringapus2_sheet_url_v3"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v4",
+      SESSION: "spx_pringapus2_session_v4",
+      SHEET_URL: "spx_pringapus2_sheet_url_v4",
+      FEEDBACK: "spx_pringapus2_feedback_v4"
     };
 
-    let activeCouriers = [];
-    let currentCategory = "ALL";
+    const NAMA_BULAN_ID = [
+      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
 
-    function loadCouriersFromStorage() {
+    function getCurrentSystemMonthKey() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, "0");
+      return `${y}-${m}`;
+    }
+
+    function formatMonthLabel(monthKey) {
+      const [y, m] = monthKey.split("-");
+      const idx = parseInt(m, 10) - 1;
+      return `${NAMA_BULAN_ID[idx] || m} ${y}`;
+    }
+
+    function generateAvailableMonths(dbObj) {
+      const keys = new Set(Object.keys(dbObj || {}));
+      keys.add("2026-11");
+      const now = new Date();
+      for (let offset = 0; offset <= 2; offset++) {
+        const d = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+        const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+        keys.add(k);
+      }
+      return Array.from(keys).sort();
+    }
+
+    let monthlyDatabase = {};
+    let selectedMonthKey = getCurrentSystemMonthKey();
+    let currentCategory = "ALL";
+    let currentRankTab = "best";
+    let complianceChartInstance = null;
+
+    function loadDatabaseFromStorage() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEYS.COURIERS);
+        const saved = localStorage.getItem(STORAGE_KEYS.MONTHLY_DB);
         if (saved) {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            activeCouriers = parsed;
+          if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
+            monthlyDatabase = parsed;
+            if (!monthlyDatabase["2026-11"]) {
+              monthlyDatabase["2026-11"] = [...DEFAULT_ACTIVE_COURIERS];
+            }
             return;
           }
         }
       } catch (e) {}
-      activeCouriers = [...DEFAULT_ACTIVE_COURIERS];
+      monthlyDatabase = {
+        "2026-11": [...DEFAULT_ACTIVE_COURIERS]
+      };
     }
 
-    function saveCouriersToStorage(list) {
-      activeCouriers = list;
-      localStorage.setItem(STORAGE_KEYS.COURIERS, JSON.stringify(list));
+    function saveDatabaseToStorage() {
+      localStorage.setItem(STORAGE_KEYS.MONTHLY_DB, JSON.stringify(monthlyDatabase));
+      populateMonthSelectors();
       updateStatusBadge();
     }
 
+    function getCouriersForMonth(monthKey) {
+      if (monthlyDatabase[monthKey] && monthlyDatabase[monthKey].length > 0) {
+        return monthlyDatabase[monthKey];
+      }
+      const latestAvailableKey = Object.keys(monthlyDatabase).sort().pop() || "2026-11";
+      const baseList = monthlyDatabase[latestAvailableKey] || DEFAULT_ACTIVE_COURIERS;
+      return baseList.map(c => ({
+        ...c,
+        dsr: "0%",
+        assigned: 0,
+        delivered: 0,
+        onhold: 0,
+        bulan: monthKey
+      }));
+    }
+
+    function populateMonthSelectors() {
+      const months = generateAvailableMonths(monthlyDatabase);
+      if (!months.includes(selectedMonthKey)) {
+        selectedMonthKey = months[months.length - 1];
+      }
+
+      const optionsHtml = months.map(k => {
+        const hasData = monthlyDatabase[k] && monthlyDatabase[k].length > 0;
+        return `<option value="${k}" ${k === selectedMonthKey ? "selected" : ""}>${formatMonthLabel(k)}${hasData ? "" : " (Baru)"}</option>`;
+      }).join("");
+
+      const drvSel = document.getElementById("driver-month-select");
+      const admSel = document.getElementById("admin-month-select");
+      if (drvSel) drvSel.innerHTML = optionsHtml;
+      if (admSel) admSel.innerHTML = optionsHtml;
+
+      const labelText = formatMonthLabel(selectedMonthKey);
+      const drvLbl = document.getElementById("active-month-label");
+      const admLbl = document.getElementById("admin-month-label");
+      const rnkLbl = document.getElementById("rank-month-badge");
+      if (drvLbl) drvLbl.textContent = labelText;
+      if (admLbl) admLbl.textContent = labelText;
+      if (rnkLbl) rnkLbl.textContent = labelText;
+    }
+
+    function onMonthChange(newMonthKey) {
+      selectedMonthKey = newMonthKey;
+      populateMonthSelectors();
+      restoreSession();
+    }
+
     function updateStatusBadge() {
+      const list = getCouriersForMonth(selectedMonthKey);
       const el = document.getElementById("db-status-login");
-      if (el) el.textContent = `Siap (${activeCouriers.length} Kurir Aktif)`;
+      if (el) el.textContent = `Siap (${list.length} Kurir Aktif)`;
       const tabBtn = document.getElementById("tab-btn-list");
-      if (tabBtn) tabBtn.textContent = `Data Kurir Aktif (${activeCouriers.length})`;
+      if (tabBtn) tabBtn.textContent = `Kurir Aktif (${list.length})`;
+      updateFeedbackBadge();
     }
 
     function togglePassword() {
@@ -326,17 +584,16 @@
       const admin = ADMIN_ACCOUNTS.find(a => a.driver_id.toUpperCase() === rawId && a.password === rawPass);
       if (admin) {
         errBox.classList.add("hidden");
-        const sessionObj = { role: "admin", id: admin.driver_id, name: admin.name };
-        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(sessionObj));
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({ role: "admin", id: admin.driver_id }));
         showAdminDashboard();
         return;
       }
 
-      const driver = activeCouriers.find(c => String(c.driver_id).trim().toUpperCase() === rawId && String(c.password).trim() === rawPass);
+      const currentList = getCouriersForMonth(selectedMonthKey);
+      const driver = currentList.find(c => String(c.driver_id).trim().toUpperCase() === rawId && String(c.password).trim() === rawPass);
       if (driver) {
         errBox.classList.add("hidden");
-        const sessionObj = { role: "driver", id: driver.driver_id };
-        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify(sessionObj));
+        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({ role: "driver", id: driver.driver_id }));
         showDriverDashboard(driver);
         return;
       }
@@ -354,12 +611,15 @@
       document.getElementById("input-pass").value = "";
     }
 
+    // ==================== DASHBOARD KURIR & SUB-MENU ====================
     function showDriverDashboard(driver) {
       document.getElementById("login-screen").classList.add("hidden");
       document.getElementById("admin-dashboard").classList.add("hidden");
       const dash = document.getElementById("driver-dashboard");
       dash.classList.remove("hidden");
       dash.classList.add("flex");
+
+      populateMonthSelectors();
 
       document.getElementById("drv-badge").textContent = driver.category_label;
       document.getElementById("drv-name").textContent = driver.driver_name;
@@ -370,8 +630,296 @@
       document.getElementById("metric-assigned").textContent = driver.assigned;
       document.getElementById("metric-delivered").textContent = driver.delivered;
       document.getElementById("metric-onhold").textContent = driver.onhold;
+
+      renderComplianceChart(driver.driver_id);
+      renderRankList();
+      renderWhatsAppContacts(driver);
     }
 
+    function switchDriverSubMenu(sub) {
+      const tabs = ["perf", "rank", "saran", "wa"];
+      tabs.forEach(t => {
+        const view = document.getElementById("drv-view-" + t);
+        const btn = document.getElementById("drv-tab-" + t);
+        if (t === sub) {
+          view.classList.remove("hidden");
+          btn.className = "py-2 px-1 rounded-xl text-[11px] font-bold spx-gradient text-white shadow text-center";
+        } else {
+          view.classList.add("hidden");
+          btn.className = "py-2 px-1 rounded-xl text-[11px] font-bold text-slate-400 hover:text-white text-center";
+        }
+      });
+    }
+
+    // ==================== GRAFIK COMPLIANCE% DSR PER BULAN ====================
+    function parseDsrNumber(dsrStr) {
+      const num = parseFloat(String(dsrStr || "0").replace("%", "").trim());
+      return isNaN(num) ? 0 : num;
+    }
+
+    function renderComplianceChart(driverId) {
+      const availableKeys = Object.keys(monthlyDatabase).sort();
+      const labels = availableKeys.map(k => formatMonthLabel(k));
+      const values = availableKeys.map(k => {
+        const found = (monthlyDatabase[k] || []).find(c => String(c.driver_id) === String(driverId));
+        return found ? parseDsrNumber(found.dsr) : 0;
+      });
+
+      const currentIdx = availableKeys.indexOf(selectedMonthKey);
+      const currentVal = currentIdx >= 0 ? values[currentIdx] : (values[values.length - 1] || 0);
+      const prevVal = currentIdx > 0 ? values[currentIdx - 1] : null;
+
+      const trendBadge = document.getElementById("dsr-trend-badge");
+      const summaryEl = document.getElementById("compliance-summary-text");
+      const statusPill = document.getElementById("compliance-status-pill");
+
+      if (currentVal >= 90) {
+        statusPill.textContent = "Tercapai (≥ 90%)";
+        statusPill.className = "px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+      } else {
+        statusPill.textContent = "Di Bawah Target (< 90%)";
+        statusPill.className = "px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      }
+
+      if (prevVal !== null) {
+        const diff = (currentVal - prevVal).toFixed(2);
+        if (currentVal > prevVal) {
+          trendBadge.textContent = `▲ Naik +${diff}%`;
+          trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+          summaryEl.innerHTML = `Pencapaian <strong class="text-emerald-400">MENINGKAT +${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Pertahankan performa pengantaran!`;
+        } else if (currentVal < prevVal) {
+          trendBadge.textContent = `▼ Turun ${diff}%`;
+          trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-red-500/20 text-red-300 border border-red-500/30";
+          summaryEl.innerHTML = `Terjadi <strong class="text-red-400">PENURUNAN ${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Kurangi paket OnHold untuk menaikkan Compliance%.`;
+        } else {
+          trendBadge.textContent = "• Stabil 0%";
+          summaryEl.innerHTML = `Performa Delivery Success Rate stabil di angka <strong class="text-white">${currentVal}%</strong> dibanding bulan sebelumnya.`;
+        }
+      } else {
+        trendBadge.textContent = formatMonthLabel(selectedMonthKey);
+        trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-slate-800 text-orange-300 border border-slate-700";
+        summaryEl.innerHTML = `Compliance DSR bulan <strong class="text-white">${formatMonthLabel(selectedMonthKey)}</strong> tercatat sebesar <strong class="text-emerald-400">${currentVal}%</strong>. Grafik otomatis membandingkan kenaikan/penurunan saat data bulan berikutnya masuk.`;
+      }
+
+      const ctx = document.getElementById("complianceChart").getContext("2d");
+      if (complianceChartInstance) {
+        complianceChartInstance.destroy();
+      }
+
+      complianceChartInstance = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Compliance DSR (%)",
+              data: values,
+              borderColor: "#10b981",
+              backgroundColor: "rgba(16, 185, 129, 0.16)",
+              borderWidth: 3,
+              pointBackgroundColor: "#ee4d2d",
+              pointBorderColor: "#ffffff",
+              pointRadius: 5,
+              fill: true,
+              tension: 0.3
+            },
+            {
+              label: "Target Hub (90%)",
+              data: labels.map(() => 90),
+              borderColor: "rgba(251, 146, 60, 0.6)",
+              borderDash: [5, 5],
+              borderWidth: 1.5,
+              pointRadius: 0,
+              fill: false
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: "#cbd5e1", font: { size: 10, weight: "bold" } }
+            }
+          },
+          scales: {
+            y: {
+              min: 0,
+              max: 105,
+              ticks: { color: "#94a3b8", font: { size: 10 }, callback: v => v + "%" },
+              grid: { color: "rgba(148, 163, 184, 0.1)" }
+            },
+            x: {
+              ticks: { color: "#cbd5e1", font: { size: 10, weight: "bold" } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // ==================== KURIR TERBAIK & KURIR TERBURUK ====================
+    function switchRankSubTab(mode) {
+      currentRankTab = mode;
+      const btnBest = document.getElementById("btn-rank-best");
+      const btnWorst = document.getElementById("btn-rank-worst");
+      if (mode === "best") {
+        btnBest.className = "py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white";
+        btnWorst.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
+      } else {
+        btnWorst.className = "py-2 rounded-lg text-xs font-bold bg-red-600 text-white";
+        btnBest.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
+      }
+      renderRankList();
+    }
+
+    function renderRankList() {
+      const container = document.getElementById("rank-list-container");
+      const list = [...getCouriersForMonth(selectedMonthKey)];
+
+      list.sort((a, b) => {
+        const diffDsr = parseDsrNumber(b.dsr) - parseDsrNumber(a.dsr);
+        if (Math.abs(diffDsr) > 0.001) return diffDsr;
+        return (b.delivered || 0) - (a.delivered || 0);
+      });
+
+      const sliceList = currentRankTab === "best"
+        ? list.slice(0, 5)
+        : list.slice(-5).reverse();
+
+      container.innerHTML = sliceList.map((c, i) => {
+        const isBest = currentRankTab === "best";
+        const badgeColor = isBest ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" : "bg-red-500/20 text-red-300 border-red-500/30";
+        const dsrColor = isBest ? "text-emerald-400" : "text-red-400";
+        return `
+          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <span class="w-7 h-7 rounded-xl border ${badgeColor} flex items-center justify-center text-xs font-extrabold shrink-0">
+                #${i + 1}
+              </span>
+              <div class="min-w-0">
+                <p class="text-xs font-extrabold text-white truncate">${c.driver_name}</p>
+                <p class="text-[10px] text-slate-400">${c.category_label} • Delivered: ${c.delivered} / ${c.assigned}</p>
+              </div>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="text-sm font-extrabold ${dsrColor}">${c.dsr}</span>
+              <span class="text-[9px] text-slate-500 block">DSR</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // ==================== BANTUAN WHATSAPP (DIRECT CHAT) ====================
+    function renderWhatsAppContacts(driver) {
+      const container = document.getElementById("wa-contacts-list");
+      const msg = encodeURIComponent(`Halo Pak, saya ${driver.driver_name} (ID: ${driver.driver_id}) dari SPX Pringapus 2 Hub ingin bertanya terkait performa/operasional.`);
+
+      container.innerHTML = WA_CONTACTS.map(contact => `
+        <a href="https://wa.me/${contact.phoneWa}?text=${msg}" target="_blank" rel="noopener noreferrer"
+          class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-emerald-500/40 transition group">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 group-hover:scale-105 transition">
+              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+              </svg>
+            </div>
+            <div>
+              <span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-500/15 text-orange-300 mb-0.5">${contact.role}</span>
+              <h5 class="text-xs font-extrabold text-white">${contact.name}</h5>
+              <p class="text-[11px] text-slate-400 font-medium">${contact.phoneDisplay}</p>
+            </div>
+          </div>
+          <span class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-[11px] font-bold shrink-0">
+            Chat WA
+          </span>
+        </a>
+      `).join("");
+    }
+
+    // ==================== SARAN & PERBAIKAN (KURIR KIRIM -> ADMIN BACA) ====================
+    function getFeedbackList() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEYS.FEEDBACK) || "[]");
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function updateFeedbackBadge() {
+      const badge = document.getElementById("saran-count-badge");
+      if (badge) badge.textContent = getFeedbackList().length;
+    }
+
+    function submitFeedback(e) {
+      e.preventDefault();
+      const rawSess = localStorage.getItem(STORAGE_KEYS.SESSION);
+      let senderName = "Kurir";
+      let senderId = "-";
+      if (rawSess) {
+        const sess = JSON.parse(rawSess);
+        const found = getCouriersForMonth(selectedMonthKey).find(c => String(c.driver_id) === String(sess.id));
+        if (found) {
+          senderName = found.driver_name;
+          senderId = found.driver_id;
+        }
+      }
+
+      const kategori = document.getElementById("saran-kategori").value;
+      const pesan = document.getElementById("saran-pesan").value.trim();
+      if (!pesan) return;
+
+      const list = getFeedbackList();
+      list.unshift({
+        id: Date.now(),
+        tanggal: new Date().toLocaleString("id-ID"),
+        driver_id: senderId,
+        driver_name: senderName,
+        kategori: kategori,
+        pesan: pesan
+      });
+      localStorage.setItem(STORAGE_KEYS.FEEDBACK, JSON.stringify(list));
+
+      document.getElementById("saran-pesan").value = "";
+      const notif = document.getElementById("saran-notif");
+      notif.classList.remove("hidden");
+      setTimeout(() => notif.classList.add("hidden"), 4000);
+      updateFeedbackBadge();
+    }
+
+    function renderAdminFeedbackList() {
+      const container = document.getElementById("admin-saran-list");
+      const list = getFeedbackList();
+      updateFeedbackBadge();
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">Belum ada saran atau perbaikan yang masuk dari kurir.</div>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-500/20 text-orange-300">${item.kategori}</span>
+            <span class="text-[10px] text-slate-500">${item.tanggal}</span>
+          </div>
+          <p class="text-xs text-slate-200 leading-relaxed">${item.pesan}</p>
+          <p class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/80">
+            Pengirim: <strong class="text-white">${item.driver_name}</strong> (ID: ${item.driver_id})
+          </p>
+        </div>
+      `).join("");
+    }
+
+    function clearAllFeedback() {
+      if (confirm("Hapus semua daftar saran yang masuk?")) {
+        localStorage.removeItem(STORAGE_KEYS.FEEDBACK);
+        renderAdminFeedbackList();
+      }
+    }
+
+    // ==================== DASHBOARD ADMIN HUB ====================
     function showAdminDashboard() {
       document.getElementById("login-screen").classList.add("hidden");
       document.getElementById("driver-dashboard").classList.add("hidden");
@@ -379,28 +927,27 @@
       dash.classList.remove("hidden");
       dash.classList.add("flex");
 
+      populateMonthSelectors();
       const savedUrl = localStorage.getItem(STORAGE_KEYS.SHEET_URL) || EMBEDDED_MASTER_CSV_URL;
       document.getElementById("sheet-url-input").value = savedUrl;
       renderAdminList();
+      renderAdminFeedbackList();
     }
 
     function switchAdminTab(tab) {
-      const listTab = document.getElementById("admin-tab-list");
-      const syncTab = document.getElementById("admin-tab-sync");
-      const btnList = document.getElementById("tab-btn-list");
-      const btnSync = document.getElementById("tab-btn-sync");
-
-      if (tab === "list") {
-        listTab.classList.remove("hidden");
-        syncTab.classList.add("hidden");
-        btnList.className = "py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow";
-        btnSync.className = "py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
-      } else {
-        syncTab.classList.remove("hidden");
-        listTab.classList.add("hidden");
-        btnSync.className = "py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow";
-        btnList.className = "py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
-      }
+      const tabs = ["list", "saran", "sync"];
+      tabs.forEach(t => {
+        const el = document.getElementById("admin-tab-" + t);
+        const btn = document.getElementById("tab-btn-" + t);
+        if (t === tab) {
+          el.classList.remove("hidden");
+          btn.className = "py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow";
+        } else {
+          el.classList.add("hidden");
+          btn.className = "py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
+        }
+      });
+      if (tab === "saran") renderAdminFeedbackList();
     }
 
     function filterAdminCategory(cat) {
@@ -416,7 +963,8 @@
     function renderAdminList() {
       const q = (document.getElementById("admin-search").value || "").toLowerCase();
       const container = document.getElementById("admin-courier-cards");
-      const filtered = activeCouriers.filter(c => {
+      const list = getCouriersForMonth(selectedMonthKey);
+      const filtered = list.filter(c => {
         const matchCat = currentCategory === "ALL" || c.category_label === currentCategory;
         const matchQuery = c.driver_name.toLowerCase().includes(q) || String(c.driver_id).includes(q);
         return matchCat && matchQuery;
@@ -442,7 +990,7 @@
           </div>
           <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
             <div class="bg-slate-900/80 rounded-xl p-2">
-              <span class="text-[10px] text-slate-400 block">Penugasan hari ini</span>
+              <span class="text-[10px] text-slate-400 block">Total penugasan</span>
               <span class="text-xs font-extrabold text-white">${c.assigned}</span>
             </div>
             <div class="bg-slate-900/80 rounded-xl p-2">
@@ -458,6 +1006,7 @@
       `).join("");
     }
 
+    // ==================== PARSER CSV MULTI-BULAN ====================
     function parseCSVLine(line) {
       const result = [];
       let cur = "";
@@ -485,7 +1034,7 @@
       return !isNaN(num) && num === 0;
     }
 
-    function processCSVText(text) {
+    function processCSVText(text, targetMonthOverride = null) {
       const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
       if (lines.length < 2) return null;
       const headers = parseCSVLine(lines[0]);
@@ -496,16 +1045,19 @@
         const idxPass = headers.indexOf("Password");
         const idxCat = headers.indexOf("Kategori_Armada");
         const idxDsr = headers.indexOf("Delivery_Success_Rate");
-        const idxAss = headers.indexOf("Penugasan_Hari_Ini");
+        const idxAss = headers.indexOf("Total_Penugasan") >= 0 ? headers.indexOf("Total_Penugasan") : headers.indexOf("Penugasan_Hari_Ini");
         const idxDel = headers.indexOf("Delivered");
         const idxHold = headers.indexOf("OnHold");
+        const idxBulan = headers.indexOf("Bulan");
 
-        const parsed = [];
+        const grouped = {};
         for (let i = 1; i < lines.length; i++) {
           const cols = parseCSVLine(lines[i]);
           if (!cols[idxId]) continue;
           const id = cols[idxId].replace(/^\[|\]$/g, "").trim();
-          parsed.push({
+          const mKey = targetMonthOverride || (idxBulan >= 0 && cols[idxBulan] ? cols[idxBulan].trim() : selectedMonthKey);
+          if (!grouped[mKey]) grouped[mKey] = [];
+          grouped[mKey].push({
             driver_id: id,
             driver_name: cols[idxName] || id,
             password: (idxPass >= 0 && cols[idxPass]) ? cols[idxPass] : ("spx" + id.slice(-4)),
@@ -513,10 +1065,11 @@
             dsr: cols[idxDsr] || "0%",
             assigned: parseInt(cols[idxAss] || "0", 10) || 0,
             delivered: parseInt(cols[idxDel] || "0", 10) || 0,
-            onhold: parseInt(cols[idxHold] || "0", 10) || 0
+            onhold: parseInt(cols[idxHold] || "0", 10) || 0,
+            bulan: mKey
           });
         }
-        return parsed.length > 0 ? parsed : null;
+        return Object.keys(grouped).length > 0 ? grouped : null;
       }
 
       const idxDrv = headers.indexOf("Driver");
@@ -529,6 +1082,7 @@
         const idxHold = headers.indexOf("Number of parcels on-hold (1 TO as 1 Parcel)");
         const idxAttend = headers.indexOf("Attend Days");
         const metricStart = idxAttend >= 0 ? idxAttend : 5;
+        const mKey = targetMonthOverride || selectedMonthKey;
 
         const parsed = [];
         for (let i = 1; i < lines.length; i++) {
@@ -559,10 +1113,11 @@
             dsr: cols[idxDsr] || "0%",
             assigned: parseInt(cols[idxAss] || "0", 10) || 0,
             delivered: parseInt(cols[idxDel] || "0", 10) || 0,
-            onhold: parseInt(cols[idxHold] || "0", 10) || 0
+            onhold: parseInt(cols[idxHold] || "0", 10) || 0,
+            bulan: mKey
           });
         }
-        return parsed.length > 0 ? parsed : null;
+        return parsed.length > 0 ? { [mKey]: parsed } : null;
       }
 
       return null;
@@ -573,12 +1128,16 @@
       if (!file) return;
       const reader = new FileReader();
       reader.onload = function(e) {
-        const parsed = processCSVText(e.target.result);
+        const grouped = processCSVText(e.target.result, selectedMonthKey);
         const fb = document.getElementById("upload-feedback");
-        if (parsed) {
-          saveCouriersToStorage(parsed);
+        if (grouped) {
+          Object.keys(grouped).forEach(k => {
+            monthlyDatabase[k] = grouped[k];
+          });
+          saveDatabaseToStorage();
           renderAdminList();
-          fb.textContent = `Berhasil memperbarui ${parsed.length} kurir aktif dari file ${file.name}!`;
+          const count = grouped[selectedMonthKey] ? grouped[selectedMonthKey].length : 0;
+          fb.textContent = `Berhasil memperbarui ${count} kurir aktif untuk bulan ${formatMonthLabel(selectedMonthKey)}!`;
           fb.className = "text-xs font-semibold text-emerald-400";
           fb.classList.remove("hidden");
         } else {
@@ -593,7 +1152,7 @@
     async function syncFromMasterSheet(showAlert = false) {
       const url = localStorage.getItem(STORAGE_KEYS.SHEET_URL) || EMBEDDED_MASTER_CSV_URL;
       if (!url) {
-        if (showAlert) alert("Data sudah tersinkronisasi dari Master_Database.csv!");
+        if (showAlert) alert("Data sudah tersinkronisasi!");
         return;
       }
       try {
@@ -601,11 +1160,14 @@
         const res = await fetch(url + cacheBuster, { cache: "no-store" });
         if (!res.ok) throw new Error("Gagal mengambil data");
         const text = await res.text();
-        const parsed = processCSVText(text);
-        if (parsed) {
-          saveCouriersToStorage(parsed);
+        const grouped = processCSVText(text);
+        if (grouped) {
+          Object.keys(grouped).forEach(k => {
+            monthlyDatabase[k] = grouped[k];
+          });
+          saveDatabaseToStorage();
           restoreSession();
-          if (showAlert) alert(`Sinkronisasi berhasil! ${parsed.length} kurir aktif diperbarui.`);
+          if (showAlert) alert("Sinkronisasi berhasil! Data performa terbaru telah dimuat.");
         }
       } catch (err) {
         if (showAlert) alert("Gagal menarik data terbaru. Periksa koneksi internet.");
@@ -621,17 +1183,23 @@
     function resetToDefault() {
       localStorage.removeItem(STORAGE_KEYS.SHEET_URL);
       document.getElementById("sheet-url-input").value = "";
-      saveCouriersToStorage([...DEFAULT_ACTIVE_COURIERS]);
+      monthlyDatabase = { "2026-11": [...DEFAULT_ACTIVE_COURIERS] };
+      saveDatabaseToStorage();
       renderAdminList();
-      alert("Database berhasil dikembalikan ke data awal (24 Kurir Aktif).");
+      alert("Database berhasil dikembalikan ke data awal.");
     }
 
     function downloadMasterCSV() {
-      const headers = ["Driver_ID", "Nama_Kurir", "Password", "Kategori_Armada", "Delivery_Success_Rate", "Penugasan_Hari_Ini", "Delivered", "OnHold"];
-      const rows = activeCouriers.map(c => [
-        c.driver_id, `"${c.driver_name}"`, c.password, `"${c.category_label}"`, c.dsr, c.assigned, c.delivered, c.onhold
-      ].join(","));
-      const csv = [headers.join(","), ...rows].join("\n");
+      const headers = ["Driver_ID", "Nama_Kurir", "Password", "Kategori_Armada", "Delivery_Success_Rate", "Total_Penugasan", "Delivered", "OnHold", "Bulan"];
+      const allRows = [];
+      Object.keys(monthlyDatabase).sort().forEach(mKey => {
+        (monthlyDatabase[mKey] || []).forEach(c => {
+          allRows.push([
+            c.driver_id, `"${c.driver_name}"`, c.password, `"${c.category_label}"`, c.dsr, c.assigned, c.delivered, c.onhold, mKey
+          ].join(","));
+        });
+      });
+      const csv = [headers.join(","), ...allRows].join("\n");
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
@@ -647,14 +1215,16 @@
         if (sess.role === "admin") {
           showAdminDashboard();
         } else if (sess.role === "driver" && sess.id) {
-          const found = activeCouriers.find(c => String(c.driver_id) === String(sess.id));
+          const list = getCouriersForMonth(selectedMonthKey);
+          const found = list.find(c => String(c.driver_id) === String(sess.id));
           if (found) showDriverDashboard(found);
         }
       } catch (e) {}
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      loadCouriersFromStorage();
+      loadDatabaseFromStorage();
+      populateMonthSelectors();
       updateStatusBadge();
       restoreSession();
       syncFromMasterSheet(false);
