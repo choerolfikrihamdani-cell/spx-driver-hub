@@ -183,7 +183,7 @@
               <p id="metric-assigned" class="text-2xl font-extrabold text-white mt-1">0</p>
             </div>
 
-            <!-- 3. Total hari kerja (Number of days working) -->
+            <!-- 3. Total hari kerja -->
             <div class="glass-card rounded-2xl p-4 border-l-4 border-l-purple-500">
               <p class="text-xs font-semibold text-slate-400">Total hari kerja</p>
               <p class="text-2xl font-extrabold text-purple-300 mt-1"><span id="metric-days">0</span> <span class="text-xs font-semibold text-slate-400">Hari</span></p>
@@ -243,12 +243,7 @@
             </button>
           </div>
 
-          <!-- Keterangan Filter Khusus Terbaik / 4 Kategori Terburuk -->
-          <div id="rank-subtitle-info" class="text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2 font-medium">
-            Khusus armada <strong>2WH Dedicated</strong> & <strong>2WH Courier Plus</strong>
-          </div>
-
-          <!-- Filter 4 Kategori Armada (Muncul saat Tab Kurir Terburuk aktif) -->
+          <!-- Filter 4 Kategori Armada (Hanya muncul saat Tab Kurir Terburuk aktif) -->
           <div id="worst-category-pills" class="hidden grid-cols-2 gap-1.5 pt-0.5">
             <button onclick="selectWorstCategory('2WH Dedicated')" id="wcat-2WH Dedicated" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-red-600 text-white text-left">
               1. 2WH Dedicated
@@ -495,10 +490,10 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v5",
-      SESSION: "spx_pringapus2_session_v5",
-      SHEET_URL: "spx_pringapus2_sheet_url_v5",
-      FEEDBACK: "spx_pringapus2_feedback_v5"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v6",
+      SESSION: "spx_pringapus2_session_v6",
+      SHEET_URL: "spx_pringapus2_sheet_url_v6",
+      FEEDBACK: "spx_pringapus2_feedback_v6"
     };
 
     const NAMA_BULAN_ID = [
@@ -810,7 +805,7 @@
       });
     }
 
-    // ==================== KURIR TERBAIK (KHUSUS 2WH DEDICATED & 2WH COURIER PLUS) & TERBURUK (4 KATEGORI + SOLUSI) ====================
+    // ==================== KURIR TERBAIK & KURIR TERBURUK ====================
     function generateImprovementSolution(c) {
       const dsr = parseDsrNumber(c.dsr);
       const assigned = c.assigned || 0;
@@ -842,21 +837,16 @@
       currentRankTab = mode;
       const btnBest = document.getElementById("btn-rank-best");
       const btnWorst = document.getElementById("btn-rank-worst");
-      const subInfo = document.getElementById("rank-subtitle-info");
       const worstPills = document.getElementById("worst-category-pills");
 
       if (mode === "best") {
         btnBest.className = "py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white";
         btnWorst.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
-        subInfo.className = "text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2 font-medium";
-        subInfo.innerHTML = `🏆 Menampilkan Top 5 khusus armada <strong>2WH Dedicated</strong> & <strong>2WH Courier Plus</strong>`;
         worstPills.classList.add("hidden");
         worstPills.classList.remove("grid");
       } else {
         btnWorst.className = "py-2 rounded-lg text-xs font-bold bg-red-600 text-white";
         btnBest.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
-        subInfo.className = "text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-xl px-3 py-2 font-medium";
-        subInfo.innerHTML = `⚠️ Evaluasi performa terendah per kategori armada beserta <strong>Solusi Perbaikan</strong>:`;
         worstPills.classList.remove("hidden");
         worstPills.classList.add("grid");
       }
@@ -880,7 +870,6 @@
       const allList = [...getCouriersForMonth(selectedMonthKey)];
 
       if (currentRankTab === "best") {
-        // Kurir Terbaik: HANYA mengambil data khusus 2WH Dedicated dan 2WH Courier Plus
         const bestPool = allList.filter(c =>
           c.category_label === "2WH Dedicated" || c.category_label === "2WH Courier Plus"
         );
@@ -892,7 +881,7 @@
 
         const top5 = bestPool.slice(0, 5);
         if (top5.length === 0) {
-          container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">Belum ada data 2WH Dedicated / 2WH Courier Plus pada bulan ini.</div>`;
+          container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">Belum ada data pada bulan ini.</div>`;
           return;
         }
 
@@ -914,7 +903,6 @@
           </div>
         `).join("");
       } else {
-        // Kurir Terburuk: Difilter per kategori (1. 2WH Dedicated, 2. 2WH Courier Plus, 3. 2WH Mitra, 4. 4WH Mitra) + Solusi Perbaikan
         const catPool = allList.filter(c => c.category_label === currentWorstCategory);
         catPool.sort((a, b) => {
           const diffDsr = parseDsrNumber(a.dsr) - parseDsrNumber(b.dsr);
