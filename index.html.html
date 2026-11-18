@@ -96,7 +96,6 @@
 
   <!-- ==================== 2. DASHBOARD KURIR ==================== -->
   <div id="driver-dashboard" class="hidden min-h-screen flex-col max-w-md mx-auto w-full pb-10">
-    <!-- Top Header -->
     <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-4 py-3.5 flex items-center justify-between">
       <div>
         <h2 class="text-base font-extrabold text-white leading-tight">SPX Pringapus 2 Hub</h2>
@@ -147,6 +146,7 @@
 
       <!-- ==================== SUB-MENU 1: PERFORMA & GRAFIK COMPLIANCE% ==================== -->
       <div id="drv-view-perf" class="space-y-4">
+        <!-- Kartu Profil Kurir -->
         <div class="glass-card rounded-3xl p-5 relative overflow-hidden">
           <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-orange-500/10 blur-2xl"></div>
           <div class="flex items-start justify-between gap-3">
@@ -163,7 +163,9 @@
           </div>
         </div>
 
+        <!-- 5 Metrik Utama (Termasuk Total Hari Kerja) -->
         <div class="grid grid-cols-1 gap-3">
+          <!-- 1. Delivery success rate(%) -->
           <div class="glass-card rounded-2xl p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
             <div>
               <p class="text-xs font-semibold text-slate-400">Delivery success rate(%)</p>
@@ -174,22 +176,28 @@
             </div>
           </div>
 
-          <div class="glass-card rounded-2xl p-4 border-l-4 border-l-blue-500 flex items-center justify-between">
-            <div>
+          <div class="grid grid-cols-2 gap-3">
+            <!-- 2. Total penugasan -->
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-blue-500">
               <p class="text-xs font-semibold text-slate-400">Total penugasan</p>
-              <p id="metric-assigned" class="text-3xl font-extrabold text-white mt-0.5">0</p>
+              <p id="metric-assigned" class="text-2xl font-extrabold text-white mt-1">0</p>
             </div>
-            <div class="w-11 h-11 rounded-2xl bg-blue-500/15 flex items-center justify-center text-blue-400">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+
+            <!-- 3. Total hari kerja (Number of days working) -->
+            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-purple-500">
+              <p class="text-xs font-semibold text-slate-400">Total hari kerja</p>
+              <p class="text-2xl font-extrabold text-purple-300 mt-1"><span id="metric-days">0</span> <span class="text-xs font-semibold text-slate-400">Hari</span></p>
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
+            <!-- 4. Delivered -->
             <div class="glass-card rounded-2xl p-4 border-l-4 border-l-orange-500">
               <p class="text-xs font-semibold text-slate-400">Delivered</p>
               <p id="metric-delivered" class="text-2xl font-extrabold text-orange-400 mt-1">0</p>
             </div>
 
+            <!-- 5. OnHold -->
             <div class="glass-card rounded-2xl p-4 border-l-4 border-l-amber-400">
               <p class="text-xs font-semibold text-slate-400">OnHold</p>
               <p id="metric-onhold" class="text-2xl font-extrabold text-amber-300 mt-1">0</p>
@@ -197,6 +205,7 @@
           </div>
         </div>
 
+        <!-- Grafik Compliance% Delivery Success Rate Per Bulan -->
         <div class="glass-card rounded-3xl p-5 space-y-3">
           <div class="flex items-start justify-between gap-2">
             <div>
@@ -220,20 +229,42 @@
       <div id="drv-view-rank" class="hidden space-y-4">
         <div class="glass-card rounded-2xl p-4 space-y-3">
           <div class="flex items-center justify-between">
-            <h4 class="text-sm font-extrabold text-white">Peringkat Performa Hub</h4>
+            <h4 class="text-sm font-extrabold text-white">Peringkat & Evaluasi Hub</h4>
             <span class="text-[11px] text-orange-400 font-bold" id="rank-month-badge">November 2026</span>
           </div>
 
+          <!-- Toggle Sub-Kategori Terbaik vs Terburuk -->
           <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800">
             <button onclick="switchRankSubTab('best')" id="btn-rank-best" class="py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white">
-              🏆 Kurir Terbaik (Top 5)
+              🏆 Kurir Terbaik
             </button>
             <button onclick="switchRankSubTab('worst')" id="btn-rank-worst" class="py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white">
-              ⚠️ Kurir Terburuk (Bottom 5)
+              ⚠️ Kurir Terburuk
             </button>
           </div>
 
-          <div id="rank-list-container" class="space-y-2.5 pt-1"></div>
+          <!-- Keterangan Filter Khusus Terbaik / 4 Kategori Terburuk -->
+          <div id="rank-subtitle-info" class="text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2 font-medium">
+            Khusus armada <strong>2WH Dedicated</strong> & <strong>2WH Courier Plus</strong>
+          </div>
+
+          <!-- Filter 4 Kategori Armada (Muncul saat Tab Kurir Terburuk aktif) -->
+          <div id="worst-category-pills" class="hidden grid-cols-2 gap-1.5 pt-0.5">
+            <button onclick="selectWorstCategory('2WH Dedicated')" id="wcat-2WH Dedicated" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-red-600 text-white text-left">
+              1. 2WH Dedicated
+            </button>
+            <button onclick="selectWorstCategory('2WH Courier Plus')" id="wcat-2WH Courier Plus" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left">
+              2. 2WH Courier Plus
+            </button>
+            <button onclick="selectWorstCategory('2WH Mitra')" id="wcat-2WH Mitra" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left">
+              3. 2WH Mitra
+            </button>
+            <button onclick="selectWorstCategory('4WH Mitra')" id="wcat-4WH Mitra" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left">
+              4. 4WH Mitra
+            </button>
+          </div>
+
+          <div id="rank-list-container" class="space-y-3 pt-1"></div>
         </div>
       </div>
 
@@ -312,6 +343,7 @@
     </header>
 
     <main class="px-5 pt-5 space-y-5">
+      <!-- Pemilih Bulan Admin -->
       <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
         <div>
           <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Filter Bulan Database</span>
@@ -322,6 +354,7 @@
         </select>
       </div>
 
+      <!-- Navigasi Tab Admin -->
       <div class="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
         <button onclick="switchAdminTab('list')" id="tab-btn-list" class="py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow">
           Kurir Aktif (24)
@@ -355,7 +388,7 @@
         <div id="admin-courier-cards" class="space-y-3"></div>
       </div>
 
-      <!-- TAB B: KOTAK SARAN & PERBAIKAN -->
+      <!-- TAB B: KOTAK SARAN & PERBAIKAN (KHUSUS ADMIN) -->
       <div id="admin-tab-saran" class="hidden space-y-4">
         <div class="glass-card rounded-2xl p-5 space-y-3">
           <div class="flex items-center justify-between">
@@ -404,6 +437,7 @@
   </div>
 
   <script>
+    // ==================== KONTAK WHATSAPP PIMPINAN HUB ====================
     const WA_CONTACTS = [
       {
         name: "Choerul Fikri Hamdani",
@@ -425,7 +459,33 @@
       }
     ];
 
-    const DEFAULT_ACTIVE_COURIERS = [{"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4, "bulan": "2026-11"}, {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4, "bulan": "2026-11"}, {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3, "bulan": "2026-11"}, {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3, "bulan": "2026-11"}, {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2, "bulan": "2026-11"}, {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14, "bulan": "2026-11"}, {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1, "bulan": "2026-11"}, {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7, "bulan": "2026-11"}, {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3, "bulan": "2026-11"}, {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0, "bulan": "2026-11"}, {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0, "bulan": "2026-11"}];
+    // ==================== DATA DEFAULT 24 KURIR AKTIF ====================
+    const DEFAULT_ACTIVE_COURIERS = [
+      {"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
+      {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0, "days_working": 0, "bulan": "2026-11"}
+    ];
 
     const ADMIN_ACCOUNTS = [
       { driver_id: "ADMIN-HUB", password: "pringapus2026", name: "Admin SPX Pringapus 2 Hub" },
@@ -435,10 +495,10 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v4",
-      SESSION: "spx_pringapus2_session_v4",
-      SHEET_URL: "spx_pringapus2_sheet_url_v4",
-      FEEDBACK: "spx_pringapus2_feedback_v4"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v5",
+      SESSION: "spx_pringapus2_session_v5",
+      SHEET_URL: "spx_pringapus2_sheet_url_v5",
+      FEEDBACK: "spx_pringapus2_feedback_v5"
     };
 
     const NAMA_BULAN_ID = [
@@ -475,6 +535,7 @@
     let selectedMonthKey = getCurrentSystemMonthKey();
     let currentCategory = "ALL";
     let currentRankTab = "best";
+    let currentWorstCategory = "2WH Dedicated";
     let complianceChartInstance = null;
 
     function isCourierActive(c) {
@@ -528,7 +589,7 @@
 
       const optionsHtml = months.map(k => {
         const hasData = monthlyDatabase[k] && monthlyDatabase[k].length > 0;
-        return `<option value="${k}" ${k === selectedMonthKey ? "selected" : ""}>${formatMonthLabel(k)}${hasData ? "" : " (Belum Ada Data)"}</option>`;
+        return `<option value="${k}" ${k === selectedMonthKey ? "selected" : ""}>${formatMonthLabel(k)}${hasData ? "" : " (Baru)"}</option>`;
       }).join("");
 
       const drvSel = document.getElementById("driver-month-select");
@@ -618,6 +679,7 @@
 
       document.getElementById("metric-dsr").textContent = driver.dsr;
       document.getElementById("metric-assigned").textContent = driver.assigned;
+      document.getElementById("metric-days").textContent = driver.days_working || 0;
       document.getElementById("metric-delivered").textContent = driver.delivered;
       document.getElementById("metric-onhold").textContent = driver.onhold;
 
@@ -651,7 +713,7 @@
       const availableKeys = Object.keys(monthlyDatabase).sort();
       const labels = availableKeys.map(k => formatMonthLabel(k));
       const values = availableKeys.map(k => {
-        const found = (monthlyDatabase[k] || []).filter(isCourierActive).find(c => String(c.driver_id) === String(driverId));
+        const found = (monthlyDatabase[k] || []).find(c => String(c.driver_id) === String(driverId));
         return found ? parseDsrNumber(found.dsr) : 0;
       });
 
@@ -748,57 +810,151 @@
       });
     }
 
-    // ==================== KURIR TERBAIK & KURIR TERBURUK ====================
+    // ==================== KURIR TERBAIK (KHUSUS 2WH DEDICATED & 2WH COURIER PLUS) & TERBURUK (4 KATEGORI + SOLUSI) ====================
+    function generateImprovementSolution(c) {
+      const dsr = parseDsrNumber(c.dsr);
+      const assigned = c.assigned || 0;
+      const delivered = c.delivered || 0;
+      const onhold = c.onhold || 0;
+      const undelivered = Math.max(0, assigned - delivered);
+      const tips = [];
+
+      if (onhold >= 3) {
+        tips.push(`Tekan paket OnHold (${onhold} paket) dengan konfirmasi WA/telepon penerima sebelum berangkat & lampirkan bukti foto valid saat kendala alamat/penerima.`);
+      }
+      if (dsr < 75) {
+        tips.push(`DSR masih ${c.dsr} (sisa ${undelivered} paket belum terkirim). Prioritaskan pengantaran area terdekat di pagi hari & minta bantuan Shift Lead untuk optimasi urutan rute.`);
+      } else if (dsr < 90) {
+        tips.push(`Tingkatkan penyelesaian ${undelivered} paket tertunda dan lakukan percobaan antar ulang di sore hari agar DSR menembus target ≥ 90%.`);
+      }
+      if (c.category_label === "4WH Mitra") {
+        tips.push(`Untuk armada 4WH Mitra, pastikan muatan paket besar disusun sesuai urutan titik bongkar (LIFO) agar waktu bongkar lebih cepat dan tidak tertunda.`);
+      } else if (c.category_label === "2WH Mitra") {
+        tips.push(`Untuk armada 2WH Mitra, pastikan kehadiran rutin dan konfirmasi ketersediaan slot rute pagi agar rasio paket terkirim maksimal.`);
+      }
+      if (tips.length === 0) {
+        tips.push(`Pertahankan konsistensi pengantaran harian dan pastikan seluruh paket penugasan selesai sebelum jam cut-off hub.`);
+      }
+      return tips.join(" ");
+    }
+
     function switchRankSubTab(mode) {
       currentRankTab = mode;
       const btnBest = document.getElementById("btn-rank-best");
       const btnWorst = document.getElementById("btn-rank-worst");
+      const subInfo = document.getElementById("rank-subtitle-info");
+      const worstPills = document.getElementById("worst-category-pills");
+
       if (mode === "best") {
         btnBest.className = "py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white";
         btnWorst.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
+        subInfo.className = "text-[11px] text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl px-3 py-2 font-medium";
+        subInfo.innerHTML = `🏆 Menampilkan Top 5 khusus armada <strong>2WH Dedicated</strong> & <strong>2WH Courier Plus</strong>`;
+        worstPills.classList.add("hidden");
+        worstPills.classList.remove("grid");
       } else {
         btnWorst.className = "py-2 rounded-lg text-xs font-bold bg-red-600 text-white";
         btnBest.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
+        subInfo.className = "text-[11px] text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-xl px-3 py-2 font-medium";
+        subInfo.innerHTML = `⚠️ Evaluasi performa terendah per kategori armada beserta <strong>Solusi Perbaikan</strong>:`;
+        worstPills.classList.remove("hidden");
+        worstPills.classList.add("grid");
+      }
+      renderRankList();
+    }
+
+    function selectWorstCategory(cat) {
+      currentWorstCategory = cat;
+      document.querySelectorAll(".wcat-btn").forEach(btn => {
+        btn.className = "wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left";
+      });
+      const active = document.getElementById("wcat-" + cat);
+      if (active) {
+        active.className = "wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-red-600 text-white text-left";
       }
       renderRankList();
     }
 
     function renderRankList() {
       const container = document.getElementById("rank-list-container");
-      const list = [...getCouriersForMonth(selectedMonthKey)];
+      const allList = [...getCouriersForMonth(selectedMonthKey)];
 
-      list.sort((a, b) => {
-        const diffDsr = parseDsrNumber(b.dsr) - parseDsrNumber(a.dsr);
-        if (Math.abs(diffDsr) > 0.001) return diffDsr;
-        return (b.delivered || 0) - (a.delivered || 0);
-      });
+      if (currentRankTab === "best") {
+        // Kurir Terbaik: HANYA mengambil data khusus 2WH Dedicated dan 2WH Courier Plus
+        const bestPool = allList.filter(c =>
+          c.category_label === "2WH Dedicated" || c.category_label === "2WH Courier Plus"
+        );
+        bestPool.sort((a, b) => {
+          const diffDsr = parseDsrNumber(b.dsr) - parseDsrNumber(a.dsr);
+          if (Math.abs(diffDsr) > 0.001) return diffDsr;
+          return (b.delivered || 0) - (a.delivered || 0);
+        });
 
-      const sliceList = currentRankTab === "best"
-        ? list.slice(0, 5)
-        : list.slice(-5).reverse();
+        const top5 = bestPool.slice(0, 5);
+        if (top5.length === 0) {
+          container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">Belum ada data 2WH Dedicated / 2WH Courier Plus pada bulan ini.</div>`;
+          return;
+        }
 
-      container.innerHTML = sliceList.map((c, i) => {
-        const isBest = currentRankTab === "best";
-        const badgeColor = isBest ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30" : "bg-red-500/20 text-red-300 border-red-500/30";
-        const dsrColor = isBest ? "text-emerald-400" : "text-red-400";
-        return `
+        container.innerHTML = top5.map((c, i) => `
           <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 flex items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
-              <span class="w-7 h-7 rounded-xl border ${badgeColor} flex items-center justify-center text-xs font-extrabold shrink-0">
+              <span class="w-7 h-7 rounded-xl border bg-emerald-500/20 text-emerald-300 border-emerald-500/30 flex items-center justify-center text-xs font-extrabold shrink-0">
                 #${i + 1}
               </span>
               <div class="min-w-0">
                 <p class="text-xs font-extrabold text-white truncate">${c.driver_name}</p>
-                <p class="text-[10px] text-slate-400">${c.category_label} • Delivered: ${c.delivered} / ${c.assigned}</p>
+                <p class="text-[10px] text-slate-400">${c.category_label} • Delivered: ${c.delivered}/${c.assigned} • Kerja: ${c.days_working || 0} Hari</p>
               </div>
             </div>
             <div class="text-right shrink-0">
-              <span class="text-sm font-extrabold ${dsrColor}">${c.dsr}</span>
+              <span class="text-sm font-extrabold text-emerald-400">${c.dsr}</span>
               <span class="text-[9px] text-slate-500 block">DSR</span>
             </div>
           </div>
-        `;
-      }).join("");
+        `).join("");
+      } else {
+        // Kurir Terburuk: Difilter per kategori (1. 2WH Dedicated, 2. 2WH Courier Plus, 3. 2WH Mitra, 4. 4WH Mitra) + Solusi Perbaikan
+        const catPool = allList.filter(c => c.category_label === currentWorstCategory);
+        catPool.sort((a, b) => {
+          const diffDsr = parseDsrNumber(a.dsr) - parseDsrNumber(b.dsr);
+          if (Math.abs(diffDsr) > 0.001) return diffDsr;
+          return (b.onhold || 0) - (a.onhold || 0);
+        });
+
+        if (catPool.length === 0) {
+          container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">Tidak ada kurir aktif pada kategori ${currentWorstCategory}.</div>`;
+          return;
+        }
+
+        const worstList = catPool.slice(0, 5);
+        container.innerHTML = worstList.map((c, i) => {
+          const solusi = generateImprovementSolution(c);
+          return `
+            <div class="bg-slate-900/90 border border-red-500/25 rounded-2xl p-3.5 space-y-2.5">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                  <span class="w-7 h-7 rounded-xl border bg-red-500/20 text-red-300 border-red-500/30 flex items-center justify-center text-xs font-extrabold shrink-0">
+                    #${i + 1}
+                  </span>
+                  <div class="min-w-0">
+                    <p class="text-xs font-extrabold text-white truncate">${c.driver_name}</p>
+                    <p class="text-[10px] text-slate-400">${c.category_label} • Delivered: ${c.delivered}/${c.assigned} • OnHold: ${c.onhold} • Kerja: ${c.days_working || 0} Hari</p>
+                  </div>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="text-sm font-extrabold text-red-400">${c.dsr}</span>
+                  <span class="text-[9px] text-slate-500 block">DSR</span>
+                </div>
+              </div>
+              <div class="bg-amber-500/10 border border-amber-500/25 rounded-xl p-2.5 text-[11px] text-amber-200 leading-relaxed">
+                <strong class="text-amber-300 block mb-0.5">💡 Solusi Perbaikan:</strong>
+                ${solusi}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
     }
 
     // ==================== BANTUAN WHATSAPP (DIRECT CHAT) ====================
@@ -961,7 +1117,7 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">Tidak ada kurir aktif ditemukan untuk periode ini.</div>`;
+        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">Tidak ada kurir ditemukan.</div>`;
         return;
       }
 
@@ -978,9 +1134,9 @@
               <span class="text-base font-extrabold text-emerald-400">${c.dsr}</span>
             </div>
           </div>
-          <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
+          <div class="grid grid-cols-4 gap-2 pt-2 border-t border-slate-800/80 text-center">
             <div class="bg-slate-900/80 rounded-xl p-2">
-              <span class="text-[10px] text-slate-400 block">Total penugasan</span>
+              <span class="text-[10px] text-slate-400 block">Penugasan</span>
               <span class="text-xs font-extrabold text-white">${c.assigned}</span>
             </div>
             <div class="bg-slate-900/80 rounded-xl p-2">
@@ -990,6 +1146,10 @@
             <div class="bg-slate-900/80 rounded-xl p-2">
               <span class="text-[10px] text-slate-400 block">OnHold</span>
               <span class="text-xs font-extrabold text-amber-300">${c.onhold}</span>
+            </div>
+            <div class="bg-slate-900/80 rounded-xl p-2">
+              <span class="text-[10px] text-slate-400 block">Hari Kerja</span>
+              <span class="text-xs font-extrabold text-purple-300">${c.days_working || 0}</span>
             </div>
           </div>
         </div>
@@ -1038,6 +1198,7 @@
         const idxAss = headers.indexOf("Total_Penugasan") >= 0 ? headers.indexOf("Total_Penugasan") : headers.indexOf("Penugasan_Hari_Ini");
         const idxDel = headers.indexOf("Delivered");
         const idxHold = headers.indexOf("OnHold");
+        const idxDays = headers.indexOf("Total_Hari_Kerja");
         const idxBulan = headers.indexOf("Bulan");
 
         const grouped = {};
@@ -1055,6 +1216,7 @@
             assigned: parseInt(cols[idxAss] || "0", 10) || 0,
             delivered: parseInt(cols[idxDel] || "0", 10) || 0,
             onhold: parseInt(cols[idxHold] || "0", 10) || 0,
+            days_working: idxDays >= 0 ? (parseInt(cols[idxDays] || "0", 10) || 0) : 0,
             bulan: mKey
           };
           if (!isCourierActive(itemObj)) continue;
@@ -1072,7 +1234,9 @@
         const idxAss = headers.indexOf("Number of parcels assigned (1 TO as 1 Parcel)");
         const idxDel = headers.indexOf("Number of Parcels delivered(1 TO as 1 Parcel)");
         const idxHold = headers.indexOf("Number of parcels on-hold (1 TO as 1 Parcel)");
+        const idxDaysWork = headers.indexOf("Number of days working");
         const idxAttend = headers.indexOf("Attend Days");
+        const idxDaysCol = idxDaysWork >= 0 ? idxDaysWork : idxAttend;
         const metricStart = idxAttend >= 0 ? idxAttend : 5;
         const mKey = targetMonthOverride || selectedMonthKey;
 
@@ -1106,6 +1270,7 @@
             assigned: parseInt(cols[idxAss] || "0", 10) || 0,
             delivered: parseInt(cols[idxDel] || "0", 10) || 0,
             onhold: parseInt(cols[idxHold] || "0", 10) || 0,
+            days_working: idxDaysCol >= 0 ? (parseInt(cols[idxDaysCol] || "0", 10) || 0) : 0,
             bulan: mKey
           };
           if (!isCourierActive(rawObj)) continue;
@@ -1135,7 +1300,7 @@
           fb.className = "text-xs font-semibold text-emerald-400";
           fb.classList.remove("hidden");
         } else {
-          fb.textContent = "Format CSV tidak dikenali atau semua baris bernilai 0 (tidak aktif).";
+          fb.textContent = "Format CSV tidak dikenali. Pastikan menggunakan file export SPX atau Master_Database.";
           fb.className = "text-xs font-semibold text-red-400";
           fb.classList.remove("hidden");
         }
@@ -1184,12 +1349,12 @@
     }
 
     function downloadMasterCSV() {
-      const headers = ["Driver_ID", "Nama_Kurir", "Password", "Kategori_Armada", "Delivery_Success_Rate", "Total_Penugasan", "Delivered", "OnHold", "Bulan"];
+      const headers = ["Driver_ID", "Nama_Kurir", "Password", "Kategori_Armada", "Delivery_Success_Rate", "Total_Penugasan", "Delivered", "OnHold", "Total_Hari_Kerja", "Bulan"];
       const allRows = [];
       Object.keys(monthlyDatabase).sort().forEach(mKey => {
-        (monthlyDatabase[mKey] || []).filter(isCourierActive).forEach(c => {
+        (monthlyDatabase[mKey] || []).forEach(c => {
           allRows.push([
-            c.driver_id, `"${c.driver_name}"`, c.password, `"${c.category_label}"`, c.dsr, c.assigned, c.delivered, c.onhold, mKey
+            c.driver_id, `"${c.driver_name}"`, c.password, `"${c.category_label}"`, c.dsr, c.assigned, c.delivered, c.onhold, (c.days_working || 0), mKey
           ].join(","));
         });
       });
