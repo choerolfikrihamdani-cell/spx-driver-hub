@@ -89,7 +89,7 @@
 
       <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
         <span>Status Database:</span>
-        <span id="db-status-login" class="font-semibold text-emerald-400">Siap (24 Kurir Aktif)</span>
+        <span id="db-status-login" class="font-semibold text-emerald-400">Siap (32 Kurir Aktif)</span>
       </div>
     </div>
   </div>
@@ -352,7 +352,7 @@
       <!-- Navigasi Tab Admin -->
       <div class="grid grid-cols-3 gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
         <button onclick="switchAdminTab('list')" id="tab-btn-list" class="py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow">
-          Kurir Aktif (24)
+          Kurir Aktif (32)
         </button>
         <button onclick="switchAdminTab('saran')" id="tab-btn-saran" class="py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
           Saran Masuk (<span id="saran-count-badge">0</span>)
@@ -365,7 +365,7 @@
       <!-- TAB A: DAFTAR KURIR AKTIF & PASSWORD -->
       <div id="admin-tab-list" class="space-y-4">
         <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <button onclick="filterAdminCategory('ALL')" id="cat-ALL" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shrink-0">Semua (24)</button>
+          <button onclick="filterAdminCategory('ALL')" id="cat-ALL" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shrink-0">Semua (32)</button>
           <button onclick="filterAdminCategory('2WH Dedicated')" id="cat-2WH Dedicated" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Dedicated</button>
           <button onclick="filterAdminCategory('2WH Courier Plus')" id="cat-2WH Courier Plus" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Courier Plus</button>
           <button onclick="filterAdminCategory('2WH Mitra')" id="cat-2WH Mitra" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Mitra</button>
@@ -404,9 +404,9 @@
         <div class="glass-card rounded-2xl p-5 space-y-3">
           <h3 class="text-sm font-extrabold text-white">1. Upload CSV Monthly Report SPX</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Pilih bulan laporan di atas lalu unggah file <code class="text-orange-300">performance_report_*.csv</code> dari portal SPX. Sistem otomatis menarik kolom <strong class="text-white">Number of days working</strong> untuk Total Hari Kerja.
+            Untuk pembaruan bulan berikutnya, pilih bulan laporan di atas lalu unggah file <code class="text-orange-300">performance_report_*.csv</code> dari portal SPX. Sistem otomatis menarik kolom <strong class="text-white">Number of days working</strong>.
           </p>
-          <input type="file" id="csv-upload-input" accept=".csv" onchange="handleCSVUpload(event)"
+          <input type="file" id="csv-upload-input" accept=".csv,.txt" onchange="handleCSVUpload(event)"
             class="block w-full text-xs text-slate-300 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer bg-slate-900/90 rounded-xl border border-slate-800 p-2" />
           <div id="upload-feedback" class="hidden text-xs font-semibold text-emerald-400"></div>
         </div>
@@ -454,32 +454,40 @@
       }
     ];
 
-    // ==================== DATA DEFAULT 24 KURIR AKTIF ====================
+    // ==================== DATA TERBARU 32 KURIR AKTIF (SUDAH TERMASUK NUMBER OF DAYS WORKING) ====================
     const DEFAULT_ACTIVE_COURIERS = [
-      {"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0, "days_working": 0, "bulan": "2026-11"},
-      {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0, "days_working": 0, "bulan": "2026-11"}
+      {"driver_id": "1400091", "driver_name": "AHMAD FAUZI", "password": "spx0091", "category_label": "2WH Mitra", "dsr": "85.88%", "assigned": 85, "delivered": 73, "onhold": 10, "days_working": 3, "bulan": "2026-11"},
+      {"driver_id": "1400080", "driver_name": "DENI EKO SAPUTRO", "password": "spx0080", "category_label": "2WH Mitra", "dsr": "96.64%", "assigned": 298, "delivered": 288, "onhold": 7, "days_working": 8, "bulan": "2026-11"},
+      {"driver_id": "1392965", "driver_name": "AKMAL ANDROMEDA", "password": "spx2965", "category_label": "2WH Mitra", "dsr": "92.93%", "assigned": 495, "delivered": 460, "onhold": 24, "days_working": 13, "bulan": "2026-11"},
+      {"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "95.97%", "assigned": 720, "delivered": 691, "onhold": 10, "days_working": 17, "bulan": "2026-11"},
+      {"driver_id": "1353049", "driver_name": "ERVIN UBAIDILLAH", "password": "spx3049", "category_label": "2WH Courier Plus", "dsr": "96.12%", "assigned": 3326, "delivered": 3197, "onhold": 39, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "84.92%", "assigned": 2181, "delivered": 1852, "onhold": 37, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1313718", "driver_name": "ACHMAD MUHRON", "password": "spx3718", "category_label": "2WH Courier Plus", "dsr": "87.48%", "assigned": 2333, "delivered": 2041, "onhold": 27, "days_working": 14, "bulan": "2026-11"},
+      {"driver_id": "1297004", "driver_name": "SUJARWANTO", "password": "spx7004", "category_label": "2WH Courier Plus", "dsr": "92.62%", "assigned": 1789, "delivered": 1657, "onhold": 31, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "95.99%", "assigned": 2566, "delivered": 2463, "onhold": 66, "days_working": 16, "bulan": "2026-11"},
+      {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "92.52%", "assigned": 668, "delivered": 618, "onhold": 4, "days_working": 18, "bulan": "2026-11"},
+      {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.49%", "assigned": 820, "delivered": 783, "onhold": 15, "days_working": 17, "bulan": "2026-11"},
+      {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "92.28%", "assigned": 868, "delivered": 801, "onhold": 26, "days_working": 18, "bulan": "2026-11"},
+      {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "90.86%", "assigned": 3401, "delivered": 3090, "onhold": 101, "days_working": 16, "bulan": "2026-11"},
+      {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "89.82%", "assigned": 2652, "delivered": 2382, "onhold": 18, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "91.28%", "assigned": 2856, "delivered": 2607, "onhold": 23, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "89.18%", "assigned": 3059, "delivered": 2728, "onhold": 89, "days_working": 16, "bulan": "2026-11"},
+      {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "96.55%", "assigned": 2407, "delivered": 2324, "onhold": 25, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "89.72%", "assigned": 3035, "delivered": 2723, "onhold": 50, "days_working": 17, "bulan": "2026-11"},
+      {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "89.54%", "assigned": 2199, "delivered": 1969, "onhold": 64, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "89.9%", "assigned": 4466, "delivered": 4015, "onhold": 50, "days_working": 16, "bulan": "2026-11"},
+      {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "92.2%", "assigned": 2398, "delivered": 2211, "onhold": 17, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "95.86%", "assigned": 821, "delivered": 787, "onhold": 12, "days_working": 18, "bulan": "2026-11"},
+      {"driver_id": "1056451", "driver_name": "REZA ARISETYAWAN", "password": "spx6451", "category_label": "4WH Mitra", "dsr": "95.87%", "assigned": 726, "delivered": 696, "onhold": 25, "days_working": 16, "bulan": "2026-11"},
+      {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "82.97%", "assigned": 2167, "delivered": 1798, "onhold": 90, "days_working": 13, "bulan": "2026-11"},
+      {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "91.96%", "assigned": 995, "delivered": 915, "onhold": 28, "days_working": 18, "bulan": "2026-11"},
+      {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "95.84%", "assigned": 2092, "delivered": 2005, "onhold": 23, "days_working": 16, "bulan": "2026-11"},
+      {"driver_id": "860468", "driver_name": "NUR HAMID", "password": "spx0468", "category_label": "2WH Mitra", "dsr": "83.33%", "assigned": 6, "delivered": 5, "onhold": 0, "days_working": 5, "bulan": "2026-11"},
+      {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "89.5%", "assigned": 3058, "delivered": 2737, "onhold": 49, "days_working": 14, "bulan": "2026-11"},
+      {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "94.84%", "assigned": 2483, "delivered": 2355, "onhold": 45, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "92.5%", "assigned": 3052, "delivered": 2823, "onhold": 56, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "96.24%", "assigned": 3216, "delivered": 3095, "onhold": 8, "days_working": 15, "bulan": "2026-11"},
+      {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "93.61%", "assigned": 2784, "delivered": 2606, "onhold": 9, "days_working": 16, "bulan": "2026-11"}
     ];
 
     const ADMIN_ACCOUNTS = [
@@ -490,10 +498,10 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v7",
-      SESSION: "spx_pringapus2_session_v7",
-      SHEET_URL: "spx_pringapus2_sheet_url_v7",
-      FEEDBACK: "spx_pringapus2_feedback_v7"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v9_final",
+      SESSION: "spx_pringapus2_session_v9_final",
+      SHEET_URL: "spx_pringapus2_sheet_url_v9_final",
+      FEEDBACK: "spx_pringapus2_feedback_v9_final"
     };
 
     const NAMA_BULAN_ID = [
@@ -814,10 +822,10 @@
       const undelivered = Math.max(0, assigned - delivered);
       const tips = [];
 
-      if (onhold >= 3) {
+      if (onhold >= 30) {
         tips.push(`Tekan paket OnHold (${onhold} paket) dengan konfirmasi WA/telepon penerima sebelum berangkat & lampirkan bukti foto valid saat kendala alamat/penerima.`);
       }
-      if (dsr < 75) {
+      if (dsr < 85) {
         tips.push(`DSR masih ${c.dsr} (sisa ${undelivered} paket belum terkirim). Prioritaskan pengantaran area terdekat di pagi hari & minta bantuan Shift Lead untuk optimasi urutan rute.`);
       } else if (dsr < 90) {
         tips.push(`Tingkatkan penyelesaian ${undelivered} paket tertunda dan lakukan percobaan antar ulang di sore hari agar DSR menembus target ≥ 90%.`);
@@ -1144,8 +1152,21 @@
       `).join("");
     }
 
-    // ==================== PARSER CSV MULTI-BULAN (CASE-INSENSITIVE) ====================
-    function parseCSVLine(line) {
+    // ==================== PARSER CSV AUTO-DELIMITER (KOMA / TITIK KOMA / TAB) ====================
+    function detectDelimiter(headerLine) {
+      const counts = { ",": 0, ";": 0, "\t": 0 };
+      let inQuotes = false;
+      for (let i = 0; i < headerLine.length; i++) {
+        const ch = headerLine[i];
+        if (ch === '"') inQuotes = !inQuotes;
+        else if (!inQuotes && counts.hasOwnProperty(ch)) counts[ch]++;
+      }
+      if (counts[";"] > counts[","] && counts[";"] >= counts["\t"]) return ";";
+      if (counts["\t"] > counts[","] && counts["\t"] > counts[";"]) return "\t";
+      return ",";
+    }
+
+    function parseCSVLine(line, delimiter = ",") {
       const result = [];
       let cur = "";
       let inQuotes = false;
@@ -1153,7 +1174,7 @@
         const ch = line[i];
         if (ch === '"') {
           inQuotes = !inQuotes;
-        } else if (ch === ',' && !inQuotes) {
+        } else if (ch === delimiter && !inQuotes) {
           result.push(cur.trim());
           cur = "";
         } else {
@@ -1162,6 +1183,10 @@
       }
       result.push(cur.trim());
       return result;
+    }
+
+    function cleanHeaderName(h) {
+      return String(h || "").replace(/^\uFEFF/, "").replace(/^["']+|["']+$/g, "").replace(/\s+/g, " ").trim().toLowerCase();
     }
 
     function findColIndex(headersLower, candidates) {
@@ -1178,6 +1203,13 @@
       return -1;
     }
 
+    function parseCleanInt(val) {
+      if (val === undefined || val === null) return 0;
+      const cleaned = String(val).replace(/[^\d.-]/g, "");
+      const num = parseInt(cleaned, 10);
+      return isNaN(num) ? 0 : num;
+    }
+
     function isZeroVal(v) {
       if (v === undefined || v === null) return true;
       const s = String(v).trim().toUpperCase();
@@ -1189,8 +1221,10 @@
     function processCSVText(text, targetMonthOverride = null) {
       const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
       if (lines.length < 2) return null;
-      const headers = parseCSVLine(lines[0]).map(h => h.replace(/^\uFEFF/, "").trim());
-      const headersLower = headers.map(h => h.toLowerCase());
+
+      const delimiter = detectDelimiter(lines[0]);
+      const headersRaw = parseCSVLine(lines[0], delimiter);
+      const headersLower = headersRaw.map(cleanHeaderName);
 
       // 1. Format Master_Database.csv
       const idxId = findColIndex(headersLower, ["driver_id"]);
@@ -1202,12 +1236,12 @@
         const idxAss = findColIndex(headersLower, ["total_penugasan", "penugasan_hari_ini"]);
         const idxDel = findColIndex(headersLower, ["delivered"]);
         const idxHold = findColIndex(headersLower, ["onhold"]);
-        const idxDays = findColIndex(headersLower, ["total_hari_kerja", "number of days working"]);
+        const idxDays = findColIndex(headersLower, ["total_hari_kerja", "number of days working", "days working"]);
         const idxBulan = findColIndex(headersLower, ["bulan"]);
 
         const grouped = {};
         for (let i = 1; i < lines.length; i++) {
-          const cols = parseCSVLine(lines[i]);
+          const cols = parseCSVLine(lines[i], delimiter);
           if (!cols[idxId]) continue;
           const id = cols[idxId].replace(/^\[|\]$/g, "").trim();
           const mKey = targetMonthOverride || (idxBulan >= 0 && cols[idxBulan] ? cols[idxBulan].trim() : selectedMonthKey);
@@ -1217,10 +1251,10 @@
             password: (idxPass >= 0 && cols[idxPass]) ? cols[idxPass] : ("spx" + id.slice(-4)),
             category_label: (idxCat >= 0 && cols[idxCat]) ? cols[idxCat] : "2WH Mitra",
             dsr: idxDsr >= 0 ? (cols[idxDsr] || "0%") : "0%",
-            assigned: idxAss >= 0 ? (parseInt(cols[idxAss] || "0", 10) || 0) : 0,
-            delivered: idxDel >= 0 ? (parseInt(cols[idxDel] || "0", 10) || 0) : 0,
-            onhold: idxHold >= 0 ? (parseInt(cols[idxHold] || "0", 10) || 0) : 0,
-            days_working: idxDays >= 0 ? (parseInt(cols[idxDays] || "0", 10) || 0) : 0,
+            assigned: idxAss >= 0 ? parseCleanInt(cols[idxAss]) : 0,
+            delivered: idxDel >= 0 ? parseCleanInt(cols[idxDel]) : 0,
+            onhold: idxHold >= 0 ? parseCleanInt(cols[idxHold]) : 0,
+            days_working: idxDays >= 0 ? parseCleanInt(cols[idxDays]) : 0,
             bulan: mKey
           };
           if (!isCourierActive(itemObj)) continue;
@@ -1235,11 +1269,11 @@
       if (idxDrv >= 0) {
         const idxVeh = findColIndex(headersLower, ["vehicle type"]);
         const idxCon = findColIndex(headersLower, ["contract type"]);
-        const idxDsr = findColIndex(headersLower, ["delivery success rate(%)"]);
+        const idxDsr = findColIndex(headersLower, ["delivery success rate(%)", "delivery success rate"]);
         const idxAss = findColIndex(headersLower, ["number of parcels assigned (1 to as 1 parcel)", "number of parcels assigned"]);
         const idxDel = findColIndex(headersLower, ["number of parcels delivered(1 to as 1 parcel)", "number of parcels delivered"]);
         const idxHold = findColIndex(headersLower, ["number of parcels on-hold (1 to as 1 parcel)", "number of parcels on-hold"]);
-        const idxDaysWork = findColIndex(headersLower, ["number of days working"]);
+        const idxDaysWork = findColIndex(headersLower, ["number of days working", "days working", "working days"]);
         const idxAttend = findColIndex(headersLower, ["attend days"]);
         const idxDaysCol = idxDaysWork >= 0 ? idxDaysWork : idxAttend;
         const metricStart = idxAttend >= 0 ? idxAttend : (idxDaysWork >= 0 ? idxDaysWork : 5);
@@ -1247,7 +1281,7 @@
 
         const parsed = [];
         for (let i = 1; i < lines.length; i++) {
-          const cols = parseCSVLine(lines[i]);
+          const cols = parseCSVLine(lines[i], delimiter);
           if (!cols[idxDrv]) continue;
 
           const metrics = cols.slice(metricStart);
@@ -1272,10 +1306,10 @@
             password: "spx" + id.slice(-4),
             category_label: cat,
             dsr: idxDsr >= 0 ? (cols[idxDsr] || "0%") : "0%",
-            assigned: idxAss >= 0 ? (parseInt(cols[idxAss] || "0", 10) || 0) : 0,
-            delivered: idxDel >= 0 ? (parseInt(cols[idxDel] || "0", 10) || 0) : 0,
-            onhold: idxHold >= 0 ? (parseInt(cols[idxHold] || "0", 10) || 0) : 0,
-            days_working: idxDaysCol >= 0 ? (parseInt(cols[idxDaysCol] || "0", 10) || 0) : 0,
+            assigned: idxAss >= 0 ? parseCleanInt(cols[idxAss]) : 0,
+            delivered: idxDel >= 0 ? parseCleanInt(cols[idxDel]) : 0,
+            onhold: idxHold >= 0 ? parseCleanInt(cols[idxHold]) : 0,
+            days_working: idxDaysCol >= 0 ? parseCleanInt(cols[idxDaysCol]) : 0,
             bulan: mKey
           };
           if (!isCourierActive(rawObj)) continue;
@@ -1300,8 +1334,9 @@
           });
           saveDatabaseToStorage();
           renderAdminList();
-          const count = grouped[selectedMonthKey] ? grouped[selectedMonthKey].length : 0;
-          fb.textContent = `Berhasil memperbarui ${count} kurir aktif (termasuk Number of days working) untuk bulan ${formatMonthLabel(selectedMonthKey)}!`;
+          const listMonth = grouped[selectedMonthKey] || [];
+          const sampleDays = listMonth.length > 0 ? listMonth[0].days_working : 0;
+          fb.textContent = `Berhasil memperbarui ${listMonth.length} kurir aktif (contoh Hari Kerja terbaca: ${sampleDays} Hari) untuk bulan ${formatMonthLabel(selectedMonthKey)}!`;
           fb.className = "text-xs font-semibold text-emerald-400";
           fb.classList.remove("hidden");
         } else {
@@ -1331,7 +1366,7 @@
           });
           saveDatabaseToStorage();
           restoreSession();
-          if (showAlert) alert("Sinkronisasi berhasil! Data performa & Number of days working terbaru telah dimuat.");
+          if (showAlert) alert("Sinkronisasi berhasil! Data performa & Total Hari Kerja telah dimuat.");
         }
       } catch (err) {
         if (showAlert) alert("Gagal menarik data terbaru. Periksa koneksi internet.");
