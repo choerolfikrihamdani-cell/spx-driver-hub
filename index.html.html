@@ -163,7 +163,7 @@
           </div>
         </div>
 
-        <!-- 5 Metrik Utama (Termasuk Total Hari Kerja) -->
+        <!-- 5 Metrik Utama (Termasuk Total Hari Kerja dari Number of days working) -->
         <div class="grid grid-cols-1 gap-3">
           <!-- 1. Delivery success rate(%) -->
           <div class="glass-card rounded-2xl p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
@@ -183,7 +183,7 @@
               <p id="metric-assigned" class="text-2xl font-extrabold text-white mt-1">0</p>
             </div>
 
-            <!-- 3. Total hari kerja -->
+            <!-- 3. Total hari kerja (Number of days working) -->
             <div class="glass-card rounded-2xl p-4 border-l-4 border-l-purple-500">
               <p class="text-xs font-semibold text-slate-400">Total hari kerja</p>
               <p class="text-2xl font-extrabold text-purple-300 mt-1"><span id="metric-days">0</span> <span class="text-xs font-semibold text-slate-400">Hari</span></p>
@@ -404,7 +404,7 @@
         <div class="glass-card rounded-2xl p-5 space-y-3">
           <h3 class="text-sm font-extrabold text-white">1. Upload CSV Monthly Report SPX</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Pilih bulan laporan di atas lalu unggah file <code class="text-orange-300">performance_report_*.csv</code> dari portal SPX. Sistem otomatis menyimpan riwayat per bulan untuk grafik Compliance% DSR.
+            Pilih bulan laporan di atas lalu unggah file <code class="text-orange-300">performance_report_*.csv</code> dari portal SPX. Sistem otomatis menarik kolom <strong class="text-white">Number of days working</strong> untuk Total Hari Kerja.
           </p>
           <input type="file" id="csv-upload-input" accept=".csv" onchange="handleCSVUpload(event)"
             class="block w-full text-xs text-slate-300 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer bg-slate-900/90 rounded-xl border border-slate-800 p-2" />
@@ -490,10 +490,10 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v6",
-      SESSION: "spx_pringapus2_session_v6",
-      SHEET_URL: "spx_pringapus2_sheet_url_v6",
-      FEEDBACK: "spx_pringapus2_feedback_v6"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v7",
+      SESSION: "spx_pringapus2_session_v7",
+      SHEET_URL: "spx_pringapus2_sheet_url_v7",
+      FEEDBACK: "spx_pringapus2_feedback_v7"
     };
 
     const NAMA_BULAN_ID = [
@@ -1144,7 +1144,7 @@
       `).join("");
     }
 
-    // ==================== PARSER CSV MULTI-BULAN ====================
+    // ==================== PARSER CSV MULTI-BULAN (CASE-INSENSITIVE) ====================
     function parseCSVLine(line) {
       const result = [];
       let cur = "";
@@ -1164,6 +1164,20 @@
       return result;
     }
 
+    function findColIndex(headersLower, candidates) {
+      for (const name of candidates) {
+        const target = name.toLowerCase().trim();
+        const exact = headersLower.indexOf(target);
+        if (exact >= 0) return exact;
+      }
+      for (const name of candidates) {
+        const target = name.toLowerCase().trim();
+        const partial = headersLower.findIndex(h => h.includes(target));
+        if (partial >= 0) return partial;
+      }
+      return -1;
+    }
+
     function isZeroVal(v) {
       if (v === undefined || v === null) return true;
       const s = String(v).trim().toUpperCase();
@@ -1175,19 +1189,21 @@
     function processCSVText(text, targetMonthOverride = null) {
       const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
       if (lines.length < 2) return null;
-      const headers = parseCSVLine(lines[0]);
+      const headers = parseCSVLine(lines[0]).map(h => h.replace(/^\uFEFF/, "").trim());
+      const headersLower = headers.map(h => h.toLowerCase());
 
-      if (headers.includes("Driver_ID") && headers.includes("Nama_Kurir")) {
-        const idxId = headers.indexOf("Driver_ID");
-        const idxName = headers.indexOf("Nama_Kurir");
-        const idxPass = headers.indexOf("Password");
-        const idxCat = headers.indexOf("Kategori_Armada");
-        const idxDsr = headers.indexOf("Delivery_Success_Rate");
-        const idxAss = headers.indexOf("Total_Penugasan") >= 0 ? headers.indexOf("Total_Penugasan") : headers.indexOf("Penugasan_Hari_Ini");
-        const idxDel = headers.indexOf("Delivered");
-        const idxHold = headers.indexOf("OnHold");
-        const idxDays = headers.indexOf("Total_Hari_Kerja");
-        const idxBulan = headers.indexOf("Bulan");
+      // 1. Format Master_Database.csv
+      const idxId = findColIndex(headersLower, ["driver_id"]);
+      const idxName = findColIndex(headersLower, ["nama_kurir"]);
+      if (idxId >= 0 && idxName >= 0) {
+        const idxPass = findColIndex(headersLower, ["password"]);
+        const idxCat = findColIndex(headersLower, ["kategori_armada"]);
+        const idxDsr = findColIndex(headersLower, ["delivery_success_rate"]);
+        const idxAss = findColIndex(headersLower, ["total_penugasan", "penugasan_hari_ini"]);
+        const idxDel = findColIndex(headersLower, ["delivered"]);
+        const idxHold = findColIndex(headersLower, ["onhold"]);
+        const idxDays = findColIndex(headersLower, ["total_hari_kerja", "number of days working"]);
+        const idxBulan = findColIndex(headersLower, ["bulan"]);
 
         const grouped = {};
         for (let i = 1; i < lines.length; i++) {
@@ -1200,10 +1216,10 @@
             driver_name: cols[idxName] || id,
             password: (idxPass >= 0 && cols[idxPass]) ? cols[idxPass] : ("spx" + id.slice(-4)),
             category_label: (idxCat >= 0 && cols[idxCat]) ? cols[idxCat] : "2WH Mitra",
-            dsr: cols[idxDsr] || "0%",
-            assigned: parseInt(cols[idxAss] || "0", 10) || 0,
-            delivered: parseInt(cols[idxDel] || "0", 10) || 0,
-            onhold: parseInt(cols[idxHold] || "0", 10) || 0,
+            dsr: idxDsr >= 0 ? (cols[idxDsr] || "0%") : "0%",
+            assigned: idxAss >= 0 ? (parseInt(cols[idxAss] || "0", 10) || 0) : 0,
+            delivered: idxDel >= 0 ? (parseInt(cols[idxDel] || "0", 10) || 0) : 0,
+            onhold: idxHold >= 0 ? (parseInt(cols[idxHold] || "0", 10) || 0) : 0,
             days_working: idxDays >= 0 ? (parseInt(cols[idxDays] || "0", 10) || 0) : 0,
             bulan: mKey
           };
@@ -1214,18 +1230,19 @@
         return Object.keys(grouped).length > 0 ? grouped : null;
       }
 
-      const idxDrv = headers.indexOf("Driver");
+      // 2. Format Export Portal SPX (Menarik kolom "Number of days working")
+      const idxDrv = findColIndex(headersLower, ["driver"]);
       if (idxDrv >= 0) {
-        const idxVeh = headers.indexOf("Vehicle Type");
-        const idxCon = headers.indexOf("Contract Type");
-        const idxDsr = headers.indexOf("Delivery success rate(%)");
-        const idxAss = headers.indexOf("Number of parcels assigned (1 TO as 1 Parcel)");
-        const idxDel = headers.indexOf("Number of Parcels delivered(1 TO as 1 Parcel)");
-        const idxHold = headers.indexOf("Number of parcels on-hold (1 TO as 1 Parcel)");
-        const idxDaysWork = headers.indexOf("Number of days working");
-        const idxAttend = headers.indexOf("Attend Days");
+        const idxVeh = findColIndex(headersLower, ["vehicle type"]);
+        const idxCon = findColIndex(headersLower, ["contract type"]);
+        const idxDsr = findColIndex(headersLower, ["delivery success rate(%)"]);
+        const idxAss = findColIndex(headersLower, ["number of parcels assigned (1 to as 1 parcel)", "number of parcels assigned"]);
+        const idxDel = findColIndex(headersLower, ["number of parcels delivered(1 to as 1 parcel)", "number of parcels delivered"]);
+        const idxHold = findColIndex(headersLower, ["number of parcels on-hold (1 to as 1 parcel)", "number of parcels on-hold"]);
+        const idxDaysWork = findColIndex(headersLower, ["number of days working"]);
+        const idxAttend = findColIndex(headersLower, ["attend days"]);
         const idxDaysCol = idxDaysWork >= 0 ? idxDaysWork : idxAttend;
-        const metricStart = idxAttend >= 0 ? idxAttend : 5;
+        const metricStart = idxAttend >= 0 ? idxAttend : (idxDaysWork >= 0 ? idxDaysWork : 5);
         const mKey = targetMonthOverride || selectedMonthKey;
 
         const parsed = [];
@@ -1240,8 +1257,8 @@
           const id = m ? m[1].trim() : cols[idxDrv].trim();
           const name = m ? m[2].trim() : cols[idxDrv].trim();
 
-          const veh = (cols[idxVeh] || "").toUpperCase();
-          const con = (cols[idxCon] || "").toUpperCase();
+          const veh = (idxVeh >= 0 ? cols[idxVeh] || "" : "").toUpperCase();
+          const con = (idxCon >= 0 ? cols[idxCon] || "" : "").toUpperCase();
           let cat = "2WH Mitra";
           if (veh.includes("4WH")) cat = "4WH Mitra";
           else if (veh.includes("2WH")) {
@@ -1254,10 +1271,10 @@
             driver_name: name,
             password: "spx" + id.slice(-4),
             category_label: cat,
-            dsr: cols[idxDsr] || "0%",
-            assigned: parseInt(cols[idxAss] || "0", 10) || 0,
-            delivered: parseInt(cols[idxDel] || "0", 10) || 0,
-            onhold: parseInt(cols[idxHold] || "0", 10) || 0,
+            dsr: idxDsr >= 0 ? (cols[idxDsr] || "0%") : "0%",
+            assigned: idxAss >= 0 ? (parseInt(cols[idxAss] || "0", 10) || 0) : 0,
+            delivered: idxDel >= 0 ? (parseInt(cols[idxDel] || "0", 10) || 0) : 0,
+            onhold: idxHold >= 0 ? (parseInt(cols[idxHold] || "0", 10) || 0) : 0,
             days_working: idxDaysCol >= 0 ? (parseInt(cols[idxDaysCol] || "0", 10) || 0) : 0,
             bulan: mKey
           };
@@ -1284,7 +1301,7 @@
           saveDatabaseToStorage();
           renderAdminList();
           const count = grouped[selectedMonthKey] ? grouped[selectedMonthKey].length : 0;
-          fb.textContent = `Berhasil memperbarui ${count} kurir aktif untuk bulan ${formatMonthLabel(selectedMonthKey)}!`;
+          fb.textContent = `Berhasil memperbarui ${count} kurir aktif (termasuk Number of days working) untuk bulan ${formatMonthLabel(selectedMonthKey)}!`;
           fb.className = "text-xs font-semibold text-emerald-400";
           fb.classList.remove("hidden");
         } else {
@@ -1314,7 +1331,7 @@
           });
           saveDatabaseToStorage();
           restoreSession();
-          if (showAlert) alert("Sinkronisasi berhasil! Data performa terbaru telah dimuat.");
+          if (showAlert) alert("Sinkronisasi berhasil! Data performa & Number of days working terbaru telah dimuat.");
         }
       } catch (err) {
         if (showAlert) alert("Gagal menarik data terbaru. Periksa koneksi internet.");
