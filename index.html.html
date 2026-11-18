@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SPX Driver Hub</title>
+    <title>SPX Pringapus 2 Hub</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -38,7 +38,6 @@
             font-family: 'Inter', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
-        /* Hide scrollbar for clean mobile look */
         ::-webkit-scrollbar {
             width: 4px;
             height: 4px;
@@ -65,143 +64,199 @@
     <div id="app-shell" class="w-full max-w-md min-h-screen bg-[#0B1120] border-x border-slate-800/80 flex flex-col relative shadow-2xl overflow-x-hidden">
 
         <!-- ==========================================
-             VIEW 1: LOGIN SCREEN
+             VIEW 1: CLEAN & SECURE LOGIN SCREEN
              ========================================== -->
-        <div id="login-view" class="flex-1 flex flex-col justify-between p-6 fade-in">
-            <div class="pt-6 text-center">
+        <div id="login-view" class="flex-1 flex flex-col justify-center p-6 fade-in">
+            <div class="text-center mb-8">
                 <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-spx-orange to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
                     <i class="fas fa-shipping-fast text-white text-2xl"></i>
                 </div>
                 <div class="inline-block px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/30 text-spx-orange text-[11px] font-bold tracking-wider uppercase mb-2">
                     SPX Express • Last Mile Hub
                 </div>
-                <h1 class="text-2xl font-extrabold tracking-tight text-white">SPX Driver Hub</h1>
-                <p class="text-xs text-slate-400 mt-1">Delivery Performance & AI Auto-Sync System</p>
+                <h1 class="text-2xl font-extrabold tracking-tight text-white">SPX Pringapus 2 Hub</h1>
+                <p class="text-xs text-slate-400 mt-1">Strong and Growth Together!</p>
             </div>
 
             <!-- Login Form -->
-            <form id="login-form" onsubmit="handleLogin(event)" class="my-6 space-y-4 bg-slate-900/90 p-5 rounded-3xl border border-slate-800 shadow-xl">
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4 bg-slate-900/90 p-6 rounded-3xl border border-slate-800 shadow-xl">
+                <!-- Inline Error Message Box -->
+                <div id="login-error-box" class="hidden p-3 rounded-xl bg-rose-950/90 border border-rose-700/80 text-rose-200 text-xs font-medium flex items-center gap-2">
+                    <i class="fas fa-exclamation-circle text-rose-400 shrink-0"></i>
+                    <span id="login-error-text">Driver ID atau Password tidak sesuai.</span>
+                </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Driver ID / Admin ID</label>
+                    <label for="login-driver-id" class="block text-xs font-semibold text-slate-300 mb-1.5">Driver ID</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                             <i class="fas fa-id-badge text-sm"></i>
                         </span>
-                        <input type="text" id="login-driver-id" required placeholder="Contoh: DRV-201"
+                        <input type="text" id="login-driver-id" autocomplete="off" required placeholder="Masukkan Driver ID Anda"
                             class="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange uppercase">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
+                    <label for="login-password" class="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
                             <i class="fas fa-lock text-sm"></i>
                         </span>
-                        <input type="password" id="login-password" required placeholder="Masukkan password"
-                            class="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange">
+                        <input type="password" id="login-password" required placeholder="Masukkan password Anda"
+                            class="w-full pl-10 pr-11 py-3 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange">
+                        <button type="button" onclick="togglePasswordVisibility()" aria-label="Tampilkan atau sembunyikan password"
+                            class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white transition">
+                            <i id="password-eye-icon" class="fas fa-eye text-sm"></i>
+                        </button>
                     </div>
                 </div>
 
-                <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-spx-orange to-orange-600 hover:from-orange-500 hover:to-orange-600 active:scale-[0.98] text-white font-bold rounded-xl text-sm shadow-lg shadow-orange-600/25 transition flex items-center justify-center gap-2">
-                    <span>Masuk Aplikasi</span>
+                <button type="submit" class="w-full py-3.5 mt-2 bg-gradient-to-r from-spx-orange to-orange-600 hover:from-orange-500 hover:to-orange-600 active:scale-[0.98] text-white font-bold rounded-xl text-sm shadow-lg shadow-orange-600/25 transition flex items-center justify-center gap-2">
+                    <span>Masuk / Login</span>
                     <i class="fas fa-arrow-right text-xs"></i>
                 </button>
             </form>
 
-            <!-- Quick Demo Accounts -->
-            <div class="space-y-2.5 pb-4">
-                <div class="flex items-center justify-between px-1">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Akun Demo Cepat (Klik untuk Isi)</span>
-                    <span class="text-[10px] text-slate-500">4 Kategori + Admin</span>
+            <p class="text-center text-[11px] text-slate-500 mt-6">
+                Gunakan Driver ID dan Password resmi yang diberikan oleh Koordinator Hub.
+            </p>
+        </div>
+
+        <!-- ==========================================
+             VIEW 2: DRIVER PERSONAL DASHBOARD (4 METRICS)
+             ========================================== -->
+        <div id="driver-view" class="hidden flex-1 flex flex-col justify-between p-4 fade-in">
+            <div class="space-y-4">
+                <!-- Top App Bar -->
+                <header class="bg-slate-900/95 border border-slate-800 rounded-2xl px-4 py-3 flex items-center justify-between shadow">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="w-10 h-10 rounded-xl bg-spx-orange flex items-center justify-center text-white font-bold shrink-0 shadow">
+                            <i class="fas fa-motorcycle text-base" id="driver-vehicle-icon"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <h2 id="driver-name-display" class="text-sm font-extrabold text-white truncate">NAMA KURIR</h2>
+                            <div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
+                                <span id="driver-id-display" class="text-[11px] font-mono text-slate-400">ID: 000000</span>
+                                <span class="text-slate-600">•</span>
+                                <span id="driver-category-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">2WH Dedicated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="handleLogout()" title="Keluar" class="p-2.5 rounded-xl bg-slate-950 hover:bg-rose-950/70 text-slate-400 hover:text-rose-400 border border-slate-800 transition shrink-0 ml-2">
+                        <i class="fas fa-sign-out-alt text-sm"></i>
+                    </button>
+                </header>
+
+                <!-- Report Date Stamp -->
+                <div class="flex items-center justify-between px-1 text-[11px] text-slate-400">
+                    <span class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Status Akun: <strong class="text-emerald-400">Aktif</strong>
+                    </span>
+                    <span id="driver-report-date">Laporan Performa Harian</span>
                 </div>
 
-                <div class="grid grid-cols-1 gap-2">
-                    <!-- Demo 1: 2WH Dedicated -->
-                    <button type="button" onclick="fillDemo('DRV-201', 'spx201')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/70 transition text-left group">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[11px]">2WH</div>
-                            <div>
-                                <div class="text-xs font-bold text-white group-hover:text-emerald-400 transition">Budi Santoso <span class="text-[10px] font-normal text-slate-400">(DRV-201)</span></div>
-                                <div class="text-[10px] text-emerald-400 font-medium">2WH Dedicated</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] bg-slate-900 px-2 py-1 rounded-md text-slate-400 font-mono">spx201</span>
-                    </button>
+                <!-- METRIC CARD 1: Delivery success rate(%) -->
+                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Delivery success rate(%)</span>
+                        <span id="driver-sla-pill" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                            Target ≥ 95%
+                        </span>
+                    </div>
 
-                    <!-- Demo 2: 2WH Courier Plus -->
-                    <button type="button" onclick="fillDemo('DRV-202', 'spx202')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/70 transition text-left group">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-[11px]">2WH+</div>
-                            <div>
-                                <div class="text-xs font-bold text-white group-hover:text-amber-400 transition">Andi Pratama <span class="text-[10px] font-normal text-slate-400">(DRV-202)</span></div>
-                                <div class="text-[10px] text-amber-400 font-medium">2WH Courier Plus</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] bg-slate-900 px-2 py-1 rounded-md text-slate-400 font-mono">spx202</span>
-                    </button>
+                    <div class="flex items-baseline justify-between">
+                        <div id="metric-dsr" class="text-4xl font-extrabold text-white tracking-tight">0%</div>
+                        <div class="text-xs text-slate-400">Tingkat Keberhasilan</div>
+                    </div>
 
-                    <!-- Demo 3: 2WH Mitra -->
-                    <button type="button" onclick="fillDemo('DRV-203', 'spx203')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/70 transition text-left group">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-8 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-[11px]">2WH-M</div>
-                            <div>
-                                <div class="text-xs font-bold text-white group-hover:text-purple-400 transition">Rizky Ramadhan <span class="text-[10px] font-normal text-slate-400">(DRV-203)</span></div>
-                                <div class="text-[10px] text-purple-400 font-medium">2WH Mitra</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] bg-slate-900 px-2 py-1 rounded-md text-slate-400 font-mono">spx203</span>
-                    </button>
-
-                    <!-- Demo 4: 4WH Mitra -->
-                    <button type="button" onclick="fillDemo('DRV-401', 'spx401')" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-slate-700/70 transition text-left group">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-[11px]">4WH</div>
-                            <div>
-                                <div class="text-xs font-bold text-white group-hover:text-blue-400 transition">Hendra Wijaya <span class="text-[10px] font-normal text-slate-400">(DRV-401)</span></div>
-                                <div class="text-[10px] text-blue-400 font-medium">4WH Mitra • Armada Mobil</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] bg-slate-900 px-2 py-1 rounded-md text-slate-400 font-mono">spx401</span>
-                    </button>
-
-                    <!-- Demo 5: Admin -->
-                    <button type="button" onclick="fillDemo('ADMIN-HUB', 'admin123')" class="flex items-center justify-between p-2.5 rounded-xl bg-gradient-to-r from-orange-950/60 to-slate-800/80 hover:from-orange-900/60 border border-spx-orange/40 transition text-left group">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-8 rounded-lg bg-spx-orange text-white flex items-center justify-center font-bold text-xs">
-                                <i class="fas fa-robot"></i>
-                            </div>
-                            <div>
-                                <div class="text-xs font-bold text-white">Admin Hub & AI Control <span class="text-[10px] font-normal text-orange-300">(ADMIN-HUB)</span></div>
-                                <div class="text-[10px] text-orange-300">Lihat 4 Kategori Kurir + Google Sheets Sync</div>
-                            </div>
-                        </div>
-                        <span class="text-[10px] bg-slate-950/80 px-2 py-1 rounded-md text-orange-300 font-mono">admin123</span>
-                    </button>
+                    <div class="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800">
+                        <div id="metric-dsr-bar" class="h-full bg-gradient-to-r from-spx-orange to-emerald-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
                 </div>
+
+                <!-- METRIC CARDS 2, 3, 4 -->
+                <div class="grid grid-cols-1 gap-3">
+                    <!-- Metric 2: Penugasan hari ini -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-2xl bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center">
+                                <i class="fas fa-clipboard-list text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-slate-300">Penugasan hari ini</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">Total paket yang ditugaskan</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span id="metric-assigned" class="text-2xl font-extrabold text-white">0</span>
+                            <span class="text-xs text-slate-400 block">Paket</span>
+                        </div>
+                    </div>
+
+                    <!-- Metric 3: Delivered -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+                                <i class="fas fa-check-circle text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-slate-300">Delivered</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">Paket berhasil terkirim</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span id="metric-delivered" class="text-2xl font-extrabold text-emerald-400">0</span>
+                            <span class="text-xs text-slate-400 block">Paket</span>
+                        </div>
+                    </div>
+
+                    <!-- Metric 4: OnHold -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-11 h-11 rounded-2xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center">
+                                <i class="fas fa-pause-circle text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-bold text-slate-300">OnHold</div>
+                                <div class="text-[11px] text-slate-500 mt-0.5">Paket tertunda / belum terkirim</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span id="metric-onhold" class="text-2xl font-extrabold text-rose-400">0</span>
+                            <span class="text-xs text-slate-400 block">Paket</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Logout Button for Driver -->
+            <div class="pt-6 pb-2">
+                <button onclick="handleLogout()" class="w-full py-3 bg-slate-900 hover:bg-rose-950/50 border border-slate-800 hover:border-rose-800/60 text-slate-300 hover:text-rose-300 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar dari Akun</span>
+                </button>
             </div>
         </div>
 
         <!-- ==========================================
-             VIEW 2: MAIN APP SHELL (LOGGED IN)
+             VIEW 3: ADMIN HUB VIEW (ALL 24 DRIVERS + CSV UPLOAD)
              ========================================== -->
-        <div id="main-app-view" class="hidden flex-1 flex flex-col pb-20">
-
-            <!-- Top App Bar -->
-            <header class="sticky top-0 z-30 bg-[#0B1120]/95 backdrop-blur-md border-b border-slate-800/90 px-4 py-3 flex items-center justify-between">
+        <div id="admin-view" class="hidden flex-1 flex flex-col pb-6 fade-in">
+            <!-- Admin Header -->
+            <header class="sticky top-0 z-30 bg-[#0B1120]/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
                     <div class="w-9 h-9 rounded-xl bg-spx-orange flex items-center justify-center text-white font-bold shadow">
-                        <i class="fas fa-box-open text-sm"></i>
+                        <i class="fas fa-shield-alt text-sm"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <h2 id="header-user-name" class="text-sm font-bold text-white leading-tight">Nama Kurir</h2>
-                            <span id="header-role-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">2WH</span>
+                            <h2 class="text-sm font-bold text-white">SPX Pringapus 2 Hub</h2>
+                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-spx-orange/20 text-spx-orange border border-spx-orange/30">24 Kurir Aktif</span>
                         </div>
-                        <p class="text-[10px] text-slate-400 flex items-center gap-1 mt-0.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            Sync: <span id="last-sync-time">Hari ini, 10:00 WIB</span>
-                        </p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">Strong and Growth Together!</p>
                     </div>
                 </div>
 
@@ -210,262 +265,57 @@
                 </button>
             </header>
 
-            <!-- ==========================================
-                 TAB 1: DASHBOARD PERFORMANCE
-                 ========================================== -->
-            <main id="tab-dashboard" class="p-4 space-y-4 fade-in">
-                
-                <!-- ADMIN VIEW: Category & Sub-Category Filters -->
-                <div id="admin-filter-section" class="hidden space-y-2.5">
-                    <!-- Top-level Tabs: Semua | Armada 2WH | 4WH Mitra -->
-                    <div class="bg-slate-900 p-1.5 rounded-2xl border border-slate-800 grid grid-cols-3 gap-1">
-                        <button onclick="setMainFilter('ALL')" id="btn-filter-ALL" class="filter-main-btn py-2 px-2 rounded-xl text-xs font-bold transition bg-spx-orange text-white shadow">
-                            Semua (4 Tipe)
-                        </button>
-                        <button onclick="setMainFilter('2WH')" id="btn-filter-2WH" class="filter-main-btn py-2 px-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white">
-                            <i class="fas fa-motorcycle mr-1"></i> Armada 2WH
-                        </button>
-                        <button onclick="setMainFilter('4WH')" id="btn-filter-4WH" class="filter-main-btn py-2 px-2 rounded-xl text-xs font-bold transition text-slate-400 hover:text-white">
-                            <i class="fas fa-truck mr-1"></i> 4WH Mitra
-                        </button>
-                    </div>
-
-                    <!-- Sub-Filter Pills specifically for Armada 2WH: Semua 2WH | Dedicated | Courier Plus | 2WH Mitra -->
-                    <div id="subfilter-2wh-container" class="hidden bg-slate-900/90 p-2 rounded-2xl border border-slate-800 space-y-1.5">
-                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">Filter Kategori Armada 2WH:</div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <button onclick="setSubFilter('ALL_2WH')" id="sub-ALL_2WH" class="sub-btn px-2.5 py-1.5 rounded-xl text-[11px] font-bold bg-spx-orange text-white">Semua 2WH</button>
-                            <button onclick="setSubFilter('2WH Dedicated')" id="sub-2WH Dedicated" class="sub-btn px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white">2WH Dedicated</button>
-                            <button onclick="setSubFilter('2WH Courier Plus')" id="sub-2WH Courier Plus" class="sub-btn px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white">2WH Courier Plus</button>
-                            <button onclick="setSubFilter('2WH Mitra')" id="sub-2WH Mitra" class="sub-btn px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-800 text-slate-300 hover:text-white">2WH Mitra</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Summary KPI Card -->
-                <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 border border-slate-800 rounded-3xl p-4 shadow-lg space-y-4">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <h3 id="kpi-card-title" class="text-base font-extrabold text-white">Performa Harian</h3>
-                            <p id="kpi-card-subtitle" class="text-[11px] text-slate-400 mt-0.5">Daily Delivery Performance Report</p>
-                        </div>
-                        <span id="kpi-category-pill" class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700">
-                            2WH Dedicated
-                        </span>
-                    </div>
-
-                    <!-- Delivery Success Rate Progress Bar -->
-                    <div class="bg-slate-950/70 p-3 rounded-2xl border border-slate-800/80 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-semibold text-slate-300">Delivery Success Rate (DSR)</span>
-                            <span id="stat-dsr" class="text-lg font-extrabold text-emerald-400">96.5%</span>
-                        </div>
-                        <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden">
-                            <div id="stat-dsr-bar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500" style="width: 96.5%"></div>
-                        </div>
-                        <div class="flex items-center justify-between text-[10px] text-slate-400">
-                            <span>Target SLA Hub: 95.0%</span>
-                            <span id="stat-sla-status" class="text-emerald-400 font-semibold"><i class="fas fa-check-circle"></i> Memenuhi Target</span>
-                        </div>
-                    </div>
-
-                    <!-- 4 Grid Metrics -->
-                    <div class="grid grid-cols-2 gap-2.5">
-                        <div class="bg-slate-800/70 border border-slate-700/60 rounded-2xl p-3">
-                            <div class="flex items-center gap-2 text-slate-400 text-[11px] mb-1">
-                                <i class="fas fa-box text-blue-400"></i> Total Assigned
-                            </div>
-                            <div id="stat-assigned" class="text-xl font-extrabold text-white">85 <span class="text-xs font-normal text-slate-400">pkt</span></div>
-                        </div>
-
-                        <div class="bg-slate-800/70 border border-slate-700/60 rounded-2xl p-3">
-                            <div class="flex items-center gap-2 text-slate-400 text-[11px] mb-1">
-                                <i class="fas fa-check-double text-emerald-400"></i> Sukses Terkirim
-                            </div>
-                            <div id="stat-delivered" class="text-xl font-extrabold text-emerald-400">82 <span class="text-xs font-normal text-slate-400">pkt</span></div>
-                        </div>
-
-                        <div class="bg-slate-800/70 border border-slate-700/60 rounded-2xl p-3">
-                            <div class="flex items-center gap-2 text-slate-400 text-[11px] mb-1">
-                                <i class="fas fa-undo-alt text-rose-400"></i> Failed / On-Hold
-                            </div>
-                            <div id="stat-failed" class="text-xl font-extrabold text-rose-400">3 <span class="text-xs font-normal text-slate-400">pkt</span></div>
-                        </div>
-
-                        <div class="bg-gradient-to-br from-orange-950/80 to-slate-800/90 border border-spx-orange/40 rounded-2xl p-3">
-                            <div class="flex items-center gap-2 text-orange-300 text-[11px] mb-1">
-                                <i id="stat-fourth-icon" class="fas fa-wallet text-spx-orange"></i> <span id="stat-fourth-label">Est. Insentif</span>
-                            </div>
-                            <div id="stat-incentive" class="text-lg font-extrabold text-white">Rp 164.000</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DRIVER VIEW: Daily Parcel Manifest -->
-                <div id="driver-daily-parcels" class="space-y-2.5">
-                    <div class="flex items-center justify-between px-1">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Sampel Resi Harian (Daily)</h4>
-                        <span class="text-[10px] text-slate-500">Update 10:00 WIB</span>
-                    </div>
-                    <div id="driver-parcel-list" class="space-y-2"></div>
-                </div>
-
-                <!-- ADMIN VIEW: List of Filtered Couriers -->
-                <div id="admin-courier-list-section" class="hidden space-y-2.5">
-                    <div class="flex items-center justify-between px-1">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Daftar Performa Kurir</h4>
-                        <span id="admin-list-count" class="text-[11px] font-bold text-spx-orange">7 Kurir</span>
-                    </div>
-
-                    <!-- Search Box -->
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
-                            <i class="fas fa-search text-xs"></i>
-                        </span>
-                        <input type="text" id="admin-search-input" oninput="renderDashboard()" placeholder="Cari nama kurir atau Driver ID..."
-                            class="w-full pl-9 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange">
-                    </div>
-
-                    <div id="admin-courier-cards" class="space-y-2.5"></div>
-                </div>
-            </main>
-
-            <!-- ==========================================
-                 TAB 2: AI AGENT & SPREADSHEET SYNC
-                 ========================================== -->
-            <section id="tab-agent" class="hidden p-4 space-y-4 fade-in">
-                <!-- AI Agent Scheduler Card -->
-                <div class="bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/80 rounded-3xl p-4 space-y-3 shadow-lg">
+            <div class="p-4 space-y-4">
+                <!-- CSV Upload & Sync Tools -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 space-y-2.5">
                     <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-10 h-10 rounded-2xl bg-spx-orange/20 border border-spx-orange/40 text-spx-orange flex items-center justify-center">
-                                <i class="fas fa-robot text-lg"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-extrabold text-white">SPX Autonomous AI Agent</h3>
-                                <p class="text-[11px] text-slate-400">Jadwal Otomatis: Setiap 10:00 WIB</p>
-                            </div>
-                        </div>
-                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold">
-                            AKTIF
+                        <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                            <i class="fas fa-file-csv text-emerald-400"></i> Update Data Export SPX (.csv)
                         </span>
-                    </div>
-
-                    <div class="bg-slate-950/80 rounded-2xl p-3 border border-slate-800 text-[11px] text-slate-300 space-y-1">
-                        <div class="flex justify-between">
-                            <span class="text-slate-500">Target Portal:</span>
-                            <span class="font-mono text-orange-300">spx.shopee.co.id</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-500">Menu Path:</span>
-                            <span class="text-slate-200">Workforce → Delivery Perf.</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-500">Filter Otomatis:</span>
-                            <span class="text-emerald-400 font-semibold">4 Kategori Armada</span>
-                        </div>
-                    </div>
-
-                    <button onclick="runAIAgentSimulation()" id="btn-run-ai" class="w-full py-3 bg-spx-orange hover:bg-orange-500 active:scale-[0.98] text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-orange-600/20 transition">
-                        <i class="fas fa-play"></i>
-                        <span>Jalankan Simulasi Tarik Data Sekarang</span>
-                    </button>
-                </div>
-
-                <!-- Live Terminal Log Output -->
-                <div class="bg-[#090D16] border border-slate-800 rounded-2xl overflow-hidden shadow-inner">
-                    <div class="bg-slate-900 px-3.5 py-2 border-b border-slate-800 flex items-center justify-between">
-                        <div class="flex items-center gap-1.5">
-                            <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                            <span class="text-[11px] font-mono text-slate-400 ml-1.5">ai-agent-crawler.log</span>
-                        </div>
-                        <span id="ai-status-badge" class="text-[10px] font-mono text-slate-400">IDLE</span>
-                    </div>
-                    <div id="ai-terminal-logs" class="p-3.5 font-mono text-[11px] space-y-2 max-h-56 overflow-y-auto text-slate-300">
-                        <div class="text-slate-500">[10:00:01] Menunggu jadwal berikutnya atau eksekusi manual...</div>
-                        <div class="text-emerald-400">[10:00:14] Sinkronisasi terakhir sukses: 4 kategori kurir terklasifikasi (2WH Dedicated, 2WH Courier Plus, 2WH Mitra, 4WH Mitra).</div>
-                    </div>
-                </div>
-
-                <!-- Google Sheets Published CSV Configuration -->
-                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-4 space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
-                            <i class="fas fa-link"></i> Integrasi Link Google Sheets (CSV)
-                        </h4>
-                        <span class="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">Auto-Save</span>
+                        <button onclick="resetToDefaultData()" class="text-[10px] text-slate-400 hover:text-white underline">
+                            Reset Data Awal
+                        </button>
                     </div>
                     <p class="text-[11px] text-slate-400 leading-relaxed">
-                        Tempelkan 4 link <strong>Publish to web (.csv)</strong> dari Google Sheets untuk masing-masing kategori kurir agar aplikasi menarik data langsung:
+                        Unggah file <code class="text-orange-300">performance_report_*.csv</code> baru untuk memfilter kurir aktif dan memperbarui seluruh data secara otomatis.
                     </p>
-
-                    <div class="space-y-2.5 pt-1">
-                        <div>
-                            <label class="block text-[10px] font-bold text-emerald-400 mb-1">1. URL CSV Tab: 2WH_Dedicated</label>
-                            <input type="url" id="gsheet-url-dedicated" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?gid=0&single=true&output=csv" 
-                                class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-emerald-500 font-mono">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-amber-400 mb-1">2. URL CSV Tab: 2WH_Courier_Plus</label>
-                            <input type="url" id="gsheet-url-courierplus" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&output=csv" 
-                                class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-amber-500 font-mono">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-purple-400 mb-1">3. URL CSV Tab: 2WH_Mitra</label>
-                            <input type="url" id="gsheet-url-2whmitra" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&output=csv" 
-                                class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-purple-500 font-mono">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] font-bold text-blue-400 mb-1">4. URL CSV Tab: 4WH_Mitra</label>
-                            <input type="url" id="gsheet-url-4whmitra" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&output=csv" 
-                                class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-[11px] text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono">
-                        </div>
-
-                        <button onclick="syncFromGoogleSheets()" id="btn-sync-gsheets" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 active:scale-[0.98] text-white font-bold rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition mt-2">
-                            <i class="fas fa-sync-alt"></i>
-                            <span>Sinkronisasi dari Google Sheets</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Manual Spreadsheet Export & CSV Import Section -->
-                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-4 space-y-3">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                        <i class="fas fa-table text-spx-orange"></i> Export & Upload Manual CSV
-                    </h4>
-                    <p class="text-[11px] text-slate-400 leading-relaxed">
-                        Unduh rekap 4 kategori kurir ke format CSV Spreadsheet atau unggah file CSV hasil export manual dari portal SPX.
-                    </p>
-
-                    <div class="grid grid-cols-2 gap-2.5 pt-1">
-                        <button onclick="exportToCSV()" class="py-3 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-300 rounded-xl text-xs font-bold flex flex-col items-center justify-center gap-1 transition">
-                            <i class="fas fa-file-download text-base"></i>
-                            <span>Export Filtered CSV</span>
-                        </button>
-
-                        <label class="py-3 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-blue-300 rounded-xl text-xs font-bold flex flex-col items-center justify-center gap-1 transition cursor-pointer">
-                            <i class="fas fa-file-upload text-base"></i>
-                            <span>Upload CSV SPX</span>
-                            <input type="file" id="csv-file-input" accept=".csv,.json" class="hidden" onchange="handleFileUpload(event)">
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="py-2.5 px-3 bg-spx-orange hover:bg-orange-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition shadow">
+                            <i class="fas fa-upload"></i>
+                            <span>Upload CSV Baru</span>
+                            <input type="file" accept=".csv" class="hidden" onchange="handleSPXCSVUpload(event)">
                         </label>
+                        <button onclick="exportCredentialsCSV()" class="py-2.5 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-emerald-300 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                            <i class="fas fa-key"></i>
+                            <span>Unduh ID & Pass</span>
+                        </button>
                     </div>
                 </div>
-            </section>
 
-            <!-- Bottom Navigation Bar -->
-            <nav class="fixed bottom-0 w-full max-w-md bg-[#0B1120]/95 backdrop-blur-md border-t border-slate-800 px-6 py-2.5 flex justify-around items-center z-40">
-                <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="flex flex-col items-center gap-1 text-spx-orange transition">
-                    <i class="fas fa-chart-pie text-base"></i>
-                    <span class="text-[10px] font-bold">Performa</span>
-                </button>
-                <button onclick="switchTab('agent')" id="nav-btn-agent" class="flex flex-col items-center gap-1 text-slate-400 hover:text-white transition">
-                    <i class="fas fa-robot text-base"></i>
-                    <span class="text-[10px] font-bold">AI Agent & Sync</span>
-                </button>
-            </nav>
+                <!-- 4 Category Filter Pills -->
+                <div class="space-y-1.5">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-1">Filter Kategori Armada:</div>
+                    <div class="flex flex-wrap gap-1.5" id="admin-category-tabs">
+                        <button onclick="setAdminCategory('ALL')" id="cat-tab-ALL" class="admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-bold bg-spx-orange text-white">Semua (24)</button>
+                        <button onclick="setAdminCategory('2WH Dedicated')" id="cat-tab-2WH Dedicated" class="admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-900 border border-slate-800 text-slate-300">2WH Dedicated (10)</button>
+                        <button onclick="setAdminCategory('2WH Courier Plus')" id="cat-tab-2WH Courier Plus" class="admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-900 border border-slate-800 text-slate-300">2WH Courier Plus (8)</button>
+                        <button onclick="setAdminCategory('2WH Mitra')" id="cat-tab-2WH Mitra" class="admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-900 border border-slate-800 text-slate-300">2WH Mitra (1)</button>
+                        <button onclick="setAdminCategory('4WH Mitra')" id="cat-tab-4WH Mitra" class="admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-900 border border-slate-800 text-slate-300">4WH Mitra (5)</button>
+                    </div>
+                </div>
 
+                <!-- Search Courier -->
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                        <i class="fas fa-search text-xs"></i>
+                    </span>
+                    <input type="text" id="admin-search-box" oninput="renderAdminList()" placeholder="Cari nama kurir atau Driver ID..."
+                        class="w-full pl-9 pr-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange">
+                </div>
+
+                <!-- Active Couriers Cards -->
+                <div id="admin-drivers-container" class="space-y-2.5"></div>
+            </div>
         </div>
 
         <!-- Custom Toast Notification -->
@@ -479,441 +329,268 @@
     </div>
 
     <script>
-        // 1. DATABASE AKUN & DATA PERFORMA KURIR (4 KATEGORI: 2WH Dedicated, 2WH Courier Plus, 2WH Mitra, 4WH Mitra)
-        const USERS_DB = {
-            'DRV-201': { id: 'DRV-201', pass: 'spx201', name: 'Budi Santoso', role: 'DRIVER', fleet: '2WH', category: '2WH Dedicated' },
-            'DRV-202': { id: 'DRV-202', pass: 'spx202', name: 'Andi Pratama', role: 'DRIVER', fleet: '2WH', category: '2WH Courier Plus' },
-            'DRV-203': { id: 'DRV-203', pass: 'spx203', name: 'Rizky Ramadhan', role: 'DRIVER', fleet: '2WH', category: '2WH Mitra' },
-            'DRV-401': { id: 'DRV-401', pass: 'spx401', name: 'Hendra Wijaya', role: 'DRIVER', fleet: '4WH', category: '4WH Mitra' },
-            'ADMIN-HUB': { id: 'ADMIN-HUB', pass: 'admin123', name: 'Koordinator Hub', role: 'ADMIN', fleet: 'ALL', category: 'All Fleets' }
-        };
-
-        // Dataset Delivery Performance Report (Daily)
-        let performanceData = [
-            {
-                driverId: 'DRV-201',
-                name: 'Budi Santoso',
-                fleet: '2WH',
-                category: '2WH Dedicated',
-                assigned: 85,
-                delivered: 82,
-                failed: 3,
-                incentive: 164000,
-                parcels: [
-                    { awb: 'SPXID049281721', area: 'Tembalang', status: 'Delivered', time: '09:42' },
-                    { awb: 'SPXID049281722', area: 'Banyumanik', status: 'Delivered', time: '10:15' },
-                    { awb: 'SPXID049281723', area: 'Pedurungan', status: 'On-Hold / RTS', time: '11:05' }
-                ]
-            },
-            {
-                driverId: 'DRV-202',
-                name: 'Andi Pratama',
-                fleet: '2WH',
-                category: '2WH Courier Plus',
-                assigned: 64,
-                delivered: 61,
-                failed: 3,
-                incentive: 134200,
-                parcels: [
-                    { awb: 'SPXID049281801', area: 'Candisari', status: 'Delivered', time: '09:50' },
-                    { awb: 'SPXID049281802', area: 'Gajahmungkur', status: 'Delivered', time: '10:30' }
-                ]
-            },
-            {
-                driverId: 'DRV-203',
-                name: 'Rizky Ramadhan',
-                fleet: '2WH',
-                category: '2WH Mitra',
-                assigned: 74,
-                delivered: 71,
-                failed: 3,
-                incentive: 142000,
-                parcels: [
-                    { awb: 'SPXID049281855', area: 'Genuk', status: 'Delivered', time: '09:35' },
-                    { awb: 'SPXID049281856', area: 'Gayamsari', status: 'Delivered', time: '10:40' }
-                ]
-            },
-            {
-                driverId: 'DRV-204',
-                name: 'Dimas Saputra',
-                fleet: '2WH',
-                category: '2WH Mitra',
-                assigned: 58,
-                delivered: 54,
-                failed: 4,
-                incentive: 108000,
-                parcels: []
-            },
-            {
-                driverId: 'DRV-205',
-                name: 'Fajar Nugroho',
-                fleet: '2WH',
-                category: '2WH Dedicated',
-                assigned: 92,
-                delivered: 90,
-                failed: 2,
-                incentive: 180000,
-                parcels: []
-            },
-            {
-                driverId: 'DRV-401',
-                name: 'Hendra Wijaya',
-                fleet: '4WH',
-                category: '4WH Mitra',
-                assigned: 140,
-                delivered: 136,
-                failed: 4,
-                incentive: 340000,
-                parcels: [
-                    { awb: 'SPXID049289901', area: 'Kawasan Industri Candi', status: 'Delivered (Bulky)', time: '10:12' },
-                    { awb: 'SPXID049289902', area: 'Ngaliyan', status: 'Delivered', time: '11:20' }
-                ]
-            },
-            {
-                driverId: 'DRV-402',
-                name: 'Slamet Riyadi',
-                fleet: '4WH',
-                category: '4WH Mitra',
-                assigned: 128,
-                delivered: 121,
-                failed: 7,
-                incentive: 302500,
-                parcels: []
-            }
+        // =========================================================================
+        // 1. EMBEDDED 24 ACTIVE COURIERS FROM SPX PERFORMANCE REPORT CSV
+        //    (33 inactive couriers with 0 / 0% metrics have been strictly excluded)
+        // =========================================================================
+        const DEFAULT_ACTIVE_COURIERS = [
+            { id: '1380062', name: 'SURYANA', password: 'spx0062', category: '4WH Mitra', dsr: '64.71%', assigned: 17, delivered: 11, onhold: 0 },
+            { id: '1330235', name: 'SETIO BUDI UTOMO', password: 'spx0235', category: '2WH Courier Plus', dsr: '87.63%', assigned: 97, delivered: 85, onhold: 4 },
+            { id: '1291606', name: 'MUHAMAD RIDUAN', password: 'spx1606', category: '2WH Courier Plus', dsr: '93.22%', assigned: 59, delivered: 55, onhold: 0 },
+            { id: '1241227', name: 'RIZKY WAHYU WIJAYA', password: 'spx1227', category: '4WH Mitra', dsr: '93.55%', assigned: 31, delivered: 29, onhold: 0 },
+            { id: '1208523', name: 'FANDY ACHMAD AL BALAD', password: 'spx8523', category: '2WH Mitra', dsr: '95.92%', assigned: 49, delivered: 47, onhold: 1 },
+            { id: '1207875', name: 'AJI NUGROHO', password: 'spx7875', category: '4WH Mitra', dsr: '19.05%', assigned: 21, delivered: 4, onhold: 0 },
+            { id: '1207638', name: 'RANGGA ADI SAPUTRA', password: 'spx7638', category: '2WH Courier Plus', dsr: '76.47%', assigned: 119, delivered: 91, onhold: 0 },
+            { id: '1207637', name: 'AFIF NALA NIAM', password: 'spx7637', category: '2WH Courier Plus', dsr: '90.91%', assigned: 44, delivered: 40, onhold: 0 },
+            { id: '1194512', name: 'ADE DWIKI IMAM SYAFII', password: 'spx4512', category: '2WH Dedicated', dsr: '89.66%', assigned: 87, delivered: 78, onhold: 1 },
+            { id: '1191220', name: 'GUNTUR EHTIYAR', password: 'spx1220', category: '2WH Courier Plus', dsr: '90.74%', assigned: 108, delivered: 98, onhold: 4 },
+            { id: '1189067', name: 'MASUDI', password: 'spx9067', category: '2WH Dedicated', dsr: '80.95%', assigned: 189, delivered: 153, onhold: 1 },
+            { id: '1184817', name: 'IRVANA PANJI GUSNIAN', password: 'spx4817', category: '2WH Dedicated', dsr: '79.37%', assigned: 126, delivered: 100, onhold: 1 },
+            { id: '1106350', name: 'ABDUL MALIK', password: 'spx6350', category: '2WH Courier Plus', dsr: '73.08%', assigned: 52, delivered: 38, onhold: 3 },
+            { id: '1102568', name: 'ADE EKA KHOIRU SEPTIYAN', password: 'spx2568', category: '2WH Courier Plus', dsr: '90.64%', assigned: 171, delivered: 155, onhold: 3 },
+            { id: '1100475', name: 'AGIM HENRI ARDANI', password: 'spx0475', category: '2WH Dedicated', dsr: '96.05%', assigned: 76, delivered: 73, onhold: 2 },
+            { id: '1060807', name: 'JEFRI KURNIAWAN', password: 'spx0807', category: '4WH Mitra', dsr: '86.11%', assigned: 36, delivered: 31, onhold: 1 },
+            { id: '1054791', name: 'AMAT SUTOMO', password: 'spx4791', category: '2WH Courier Plus', dsr: '30.59%', assigned: 85, delivered: 26, onhold: 14 },
+            { id: '1035623', name: 'EKO SANTOSO HASAN', password: 'spx5623', category: '4WH Mitra', dsr: '96.55%', assigned: 29, delivered: 28, onhold: 1 },
+            { id: '893812', name: 'FAJAR OKI SETIAWAN', password: 'spx3812', category: '2WH Dedicated', dsr: '100%', assigned: 151, delivered: 159, onhold: 1 },
+            { id: '829762', name: 'SIGIT NUGROHO', password: 'spx9762', category: '2WH Dedicated', dsr: '93.59%', assigned: 78, delivered: 73, onhold: 1 },
+            { id: '710119', name: 'LOVY TAUFAN WAHYU UTAMA', password: 'spx0119', category: '2WH Dedicated', dsr: '92.16%', assigned: 102, delivered: 94, onhold: 7 },
+            { id: '646598', name: 'AHMAD KHOZIN', password: 'spx6598', category: '2WH Dedicated', dsr: '95.96%', assigned: 99, delivered: 95, onhold: 3 },
+            { id: '594188', name: 'MAHARIF', password: 'spx4188', category: '2WH Dedicated', dsr: '87.73%', assigned: 163, delivered: 143, onhold: 0 },
+            { id: '457770', name: 'LIFI ASEP SUTENDI', password: 'spx7770', category: '2WH Dedicated', dsr: '100%', assigned: 88, delivered: 104, onhold: 0 }
         ];
 
-        // App State
-        let currentUser = null;
-        let currentMainFilter = 'ALL'; // 'ALL' | '2WH' | '4WH'
-        let currentSubFilter = 'ALL_2WH'; // 'ALL_2WH' | '2WH Dedicated' | '2WH Courier Plus' | '2WH Mitra'
-        let isAISimulating = false;
+        const ADMIN_ACCOUNT = {
+            id: 'ADMIN-HUB',
+            password: 'admin123',
+            name: 'Admin Koordinator Hub'
+        };
 
-        // Load saved Google Sheets URLs from localStorage on startup
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedUrls = JSON.parse(localStorage.getItem('spx_gsheet_urls') || '{}');
-            if (savedUrls.dedicated) document.getElementById('gsheet-url-dedicated').value = savedUrls.dedicated;
-            if (savedUrls.courierPlus) document.getElementById('gsheet-url-courierplus').value = savedUrls.courierPlus;
-            if (savedUrls.mitra2wh) document.getElementById('gsheet-url-2whmitra').value = savedUrls.mitra2wh;
-            if (savedUrls.mitra4wh) document.getElementById('gsheet-url-4whmitra').value = savedUrls.mitra4wh;
-        });
+        // Load active couriers from localStorage if updated via CSV upload, otherwise use DEFAULT_ACTIVE_COURIERS
+        let activeCouriers = [];
+        try {
+            const saved = localStorage.getItem('spx_active_couriers_v1');
+            activeCouriers = saved ? JSON.parse(saved) : [...DEFAULT_ACTIVE_COURIERS];
+        } catch (e) {
+            activeCouriers = [...DEFAULT_ACTIVE_COURIERS];
+        }
 
-        // 2. TOAST NOTIFICATION SYSTEM
-        let toastTimeout = null;
-        function showToast(message, type = 'info') {
+        let currentAdminCategory = 'ALL';
+
+        // =========================================================================
+        // 2. TOAST NOTIFICATION
+        // =========================================================================
+        let toastTimer = null;
+        function showToast(msg, type = 'info') {
             const box = document.getElementById('toast-box');
-            const msgEl = document.getElementById('toast-message');
-            const iconEl = document.getElementById('toast-icon');
-            const contentEl = document.getElementById('toast-content');
+            const content = document.getElementById('toast-content');
+            const icon = document.getElementById('toast-icon');
+            const text = document.getElementById('toast-message');
 
-            msgEl.textContent = message;
-            contentEl.className = 'px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border ';
-
+            text.textContent = msg;
+            content.className = 'px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs font-semibold border ';
             if (type === 'success') {
-                contentEl.className += 'bg-emerald-950/95 border-emerald-700 text-emerald-200';
-                iconEl.className = 'fas fa-check-circle text-emerald-400';
+                content.className += 'bg-emerald-950/95 border-emerald-700 text-emerald-200';
+                icon.className = 'fas fa-check-circle text-emerald-400';
             } else if (type === 'error') {
-                contentEl.className += 'bg-rose-950/95 border-rose-700 text-rose-200';
-                iconEl.className = 'fas fa-exclamation-circle text-rose-400';
+                content.className += 'bg-rose-950/95 border-rose-700 text-rose-200';
+                icon.className = 'fas fa-exclamation-circle text-rose-400';
             } else {
-                contentEl.className += 'bg-slate-900/95 border-slate-700 text-white';
-                iconEl.className = 'fas fa-info-circle text-spx-orange';
+                content.className += 'bg-slate-900/95 border-slate-700 text-white';
+                icon.className = 'fas fa-info-circle text-spx-orange';
             }
 
             box.classList.remove('hidden');
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                box.classList.add('hidden');
-            }, 3200);
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => box.classList.add('hidden'), 3000);
         }
 
-        // 3. AUTHENTICATION HANDLERS
-        function fillDemo(id, pass) {
-            document.getElementById('login-driver-id').value = id;
-            document.getElementById('login-password').value = pass;
+        // =========================================================================
+        // 3. STRICT AUTHENTICATION (NO DEMO LIST, EXACT ID + PASSWORD REQUIRED)
+        // =========================================================================
+        function togglePasswordVisibility() {
+            const input = document.getElementById('login-password');
+            const icon = document.getElementById('password-eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash text-sm';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye text-sm';
+            }
         }
 
         function handleLogin(event) {
             event.preventDefault();
-            const idInput = document.getElementById('login-driver-id').value.trim().toUpperCase();
-            const passInput = document.getElementById('login-password').value.trim();
+            const rawId = document.getElementById('login-driver-id').value.trim().toUpperCase();
+            const rawPass = document.getElementById('login-password').value.trim();
+            const errorBox = document.getElementById('login-error-box');
+            const errorText = document.getElementById('login-error-text');
 
-            const user = USERS_DB[idInput];
-            if (!user || user.pass !== passInput) {
-                showToast('Driver ID atau Password salah!', 'error');
+            errorBox.classList.add('hidden');
+
+            // 1. Check Admin Hub Login
+            if (rawId === ADMIN_ACCOUNT.id && rawPass === ADMIN_ACCOUNT.password) {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('admin-view').classList.remove('hidden');
+                updateAdminCategoryCounts();
+                renderAdminList();
+                showToast('Berhasil masuk sebagai Admin Hub', 'success');
                 return;
             }
 
-            currentUser = user;
-            document.getElementById('login-view').classList.add('hidden');
-            document.getElementById('main-app-view').classList.remove('hidden');
+            // 2. Strict Driver Authentication: Both exact Driver ID and exact Password must match
+            const matchedDriver = activeCouriers.find(
+                c => c.id.toUpperCase() === rawId && c.password === rawPass
+            );
 
-            document.getElementById('header-user-name').textContent = currentUser.name;
-            const roleBadge = document.getElementById('header-role-badge');
-
-            if (currentUser.role === 'ADMIN') {
-                roleBadge.textContent = 'ADMIN HUB';
-                roleBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-spx-orange text-white';
-                document.getElementById('admin-filter-section').classList.remove('hidden');
-                document.getElementById('admin-courier-list-section').classList.remove('hidden');
-                document.getElementById('driver-daily-parcels').classList.add('hidden');
-            } else {
-                roleBadge.textContent = currentUser.category;
-                roleBadge.className = getCategoryBadgeStyle(currentUser.category);
-                document.getElementById('admin-filter-section').classList.add('hidden');
-                document.getElementById('admin-courier-list-section').classList.add('hidden');
-                document.getElementById('driver-daily-parcels').classList.remove('hidden');
+            if (!matchedDriver) {
+                errorText.textContent = 'Akses ditolak: Driver ID atau Password salah, atau akun kurir tidak aktif.';
+                errorBox.classList.remove('hidden');
+                return;
             }
 
-            switchTab('dashboard');
-            renderDashboard();
-            showToast(`Selamat datang, ${currentUser.name}!`, 'success');
+            // Login Success -> Render Only This Driver's Personal Dashboard
+            renderDriverDashboard(matchedDriver);
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('driver-view').classList.remove('hidden');
+            showToast(`Selamat bertugas, ${matchedDriver.name}!`, 'success');
         }
 
         function handleLogout() {
-            currentUser = null;
-            document.getElementById('main-app-view').classList.add('hidden');
+            document.getElementById('driver-view').classList.add('hidden');
+            document.getElementById('admin-view').classList.add('hidden');
             document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('login-driver-id').value = '';
             document.getElementById('login-password').value = '';
-            showToast('Anda telah keluar dari sesi.', 'info');
+            document.getElementById('login-error-box').classList.add('hidden');
         }
 
-        function getCategoryBadgeStyle(category) {
-            if (category === '2WH Dedicated') return 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-            if (category === '2WH Courier Plus') return 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30';
-            if (category === '2WH Mitra') return 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30';
-            return 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30';
+        // =========================================================================
+        // 4. DRIVER PERSONAL DASHBOARD (4 REQUESTED METRICS)
+        // =========================================================================
+        function getCategoryBadgeClass(category) {
+            if (category === '2WH Dedicated') return 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+            if (category === '2WH Courier Plus') return 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30';
+            if (category === '2WH Mitra') return 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30';
+            return 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30';
         }
 
-        // 4. NAVIGATION TABS
-        function switchTab(tabName) {
-            const dashTab = document.getElementById('tab-dashboard');
-            const agentTab = document.getElementById('tab-agent');
-            const btnDash = document.getElementById('nav-btn-dashboard');
-            const btnAgent = document.getElementById('nav-btn-agent');
+        function renderDriverDashboard(driver) {
+            document.getElementById('driver-name-display').textContent = driver.name;
+            document.getElementById('driver-id-display').textContent = `ID: ${driver.id}`;
 
-            if (tabName === 'dashboard') {
-                dashTab.classList.remove('hidden');
-                agentTab.classList.add('hidden');
-                btnDash.className = 'flex flex-col items-center gap-1 text-spx-orange transition';
-                btnAgent.className = 'flex flex-col items-center gap-1 text-slate-400 hover:text-white transition';
+            const badge = document.getElementById('driver-category-badge');
+            badge.textContent = driver.category;
+            badge.className = getCategoryBadgeClass(driver.category);
+
+            const vehicleIcon = document.getElementById('driver-vehicle-icon');
+            vehicleIcon.className = driver.category.includes('4WH') ? 'fas fa-truck text-base' : 'fas fa-motorcycle text-base';
+
+            // 1. Delivery success rate(%)
+            document.getElementById('metric-dsr').textContent = driver.dsr;
+            const numericDsr = parseFloat(driver.dsr.replace('%', '')) || 0;
+            document.getElementById('metric-dsr-bar').style.width = `${Math.min(numericDsr, 100)}%`;
+
+            const slaPill = document.getElementById('driver-sla-pill');
+            if (numericDsr >= 95) {
+                slaPill.textContent = 'SLA Tercapai (≥ 95%)';
+                slaPill.className = 'text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
             } else {
-                dashTab.classList.add('hidden');
-                agentTab.classList.remove('hidden');
-                btnDash.className = 'flex flex-col items-center gap-1 text-slate-400 hover:text-white transition';
-                btnAgent.className = 'flex flex-col items-center gap-1 text-spx-orange transition';
+                slaPill.textContent = 'Target SLA: 95%';
+                slaPill.className = 'text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30';
             }
+
+            // 2. Penugasan hari ini
+            document.getElementById('metric-assigned').textContent = driver.assigned;
+
+            // 3. Delivered
+            document.getElementById('metric-delivered').textContent = driver.delivered;
+
+            // 4. OnHold
+            document.getElementById('metric-onhold').textContent = driver.onhold;
         }
 
-        // 5. ADMIN FILTERS (2WH vs 4WH & Sub-categories)
-        function setMainFilter(filter) {
-            currentMainFilter = filter;
-            document.querySelectorAll('.filter-main-btn').forEach(btn => {
-                btn.classList.remove('bg-spx-orange', 'text-white', 'shadow');
-                btn.classList.add('text-slate-400');
+        // =========================================================================
+        // 5. ADMIN HUB VIEW & CSV UPLOAD PARSER
+        // =========================================================================
+        function updateAdminCategoryCounts() {
+            const countAll = activeCouriers.length;
+            const countDed = activeCouriers.filter(c => c.category === '2WH Dedicated').length;
+            const countCP = activeCouriers.filter(c => c.category === '2WH Courier Plus').length;
+            const count2M = activeCouriers.filter(c => c.category === '2WH Mitra').length;
+            const count4M = activeCouriers.filter(c => c.category === '4WH Mitra').length;
+
+            document.getElementById('cat-tab-ALL').textContent = `Semua (${countAll})`;
+            document.getElementById('cat-tab-2WH Dedicated').textContent = `2WH Dedicated (${countDed})`;
+            document.getElementById('cat-tab-2WH Courier Plus').textContent = `2WH Courier Plus (${countCP})`;
+            document.getElementById('cat-tab-2WH Mitra').textContent = `2WH Mitra (${count2M})`;
+            document.getElementById('cat-tab-4WH Mitra').textContent = `4WH Mitra (${count4M})`;
+        }
+
+        function setAdminCategory(cat) {
+            currentAdminCategory = cat;
+            document.querySelectorAll('.admin-cat-btn').forEach(btn => {
+                btn.className = 'admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-slate-900 border border-slate-800 text-slate-300';
             });
-            const activeBtn = document.getElementById(`btn-filter-${filter}`);
-            activeBtn.classList.add('bg-spx-orange', 'text-white', 'shadow');
-            activeBtn.classList.remove('text-slate-400');
-
-            const subContainer = document.getElementById('subfilter-2wh-container');
-            if (filter === '2WH') {
-                subContainer.classList.remove('hidden');
-            } else {
-                subContainer.classList.add('hidden');
+            const activeBtn = document.getElementById(`cat-tab-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = 'admin-cat-btn px-3 py-1.5 rounded-xl text-[11px] font-bold bg-spx-orange text-white';
             }
-
-            renderDashboard();
+            renderAdminList();
         }
 
-        function setSubFilter(sub) {
-            currentSubFilter = sub;
-            document.querySelectorAll('.sub-btn').forEach(btn => {
-                btn.classList.remove('bg-spx-orange', 'text-white', 'font-bold');
-                btn.classList.add('bg-slate-800', 'text-slate-300', 'font-semibold');
+        function renderAdminList() {
+            const container = document.getElementById('admin-drivers-container');
+            const query = (document.getElementById('admin-search-box').value || '').trim().toLowerCase();
+
+            const filtered = activeCouriers.filter(c => {
+                if (currentAdminCategory !== 'ALL' && c.category !== currentAdminCategory) return false;
+                if (query && !c.name.toLowerCase().includes(query) && !c.id.toLowerCase().includes(query)) return false;
+                return true;
             });
-            const activeSub = document.getElementById(`sub-${sub}`);
-            activeSub.classList.add('bg-spx-orange', 'text-white', 'font-bold');
-            activeSub.classList.remove('bg-slate-800', 'text-slate-300', 'font-semibold');
 
-            renderDashboard();
-        }
-
-        // 6. RENDER DASHBOARD METRICS & LISTS
-        function renderDashboard() {
-            if (!currentUser) return;
-
-            if (currentUser.role === 'DRIVER') {
-                const driverRecord = performanceData.find(d => d.driverId === currentUser.id) || {
-                    driverId: currentUser.id,
-                    name: currentUser.name,
-                    fleet: currentUser.fleet,
-                    category: currentUser.category,
-                    assigned: 0,
-                    delivered: 0,
-                    failed: 0,
-                    incentive: 0,
-                    parcels: []
-                };
-
-                document.getElementById('stat-fourth-icon').className = 'fas fa-wallet text-spx-orange';
-                document.getElementById('stat-fourth-label').textContent = 'Est. Insentif';
-
-                updateKPICard(
-                    driverRecord.name,
-                    `Driver ID: ${driverRecord.driverId} • Semarang LM Hub`,
-                    driverRecord.category,
-                    driverRecord.assigned,
-                    driverRecord.delivered,
-                    driverRecord.failed,
-                    `Rp ${driverRecord.incentive.toLocaleString('id-ID')}`
-                );
-                renderDriverParcels(driverRecord);
-            } else {
-                const searchQuery = (document.getElementById('admin-search-input').value || '').toLowerCase();
-                
-                let filtered = performanceData.filter(item => {
-                    if (currentMainFilter === '2WH' && item.fleet !== '2WH') return false;
-                    if (currentMainFilter === '4WH' && item.fleet !== '4WH') return false;
-                    
-                    if (currentMainFilter === '2WH' && currentSubFilter !== 'ALL_2WH') {
-                        if (item.category !== currentSubFilter) return false;
-                    }
-
-                    if (searchQuery && !item.name.toLowerCase().includes(searchQuery) && !item.driverId.toLowerCase().includes(searchQuery)) {
-                        return false;
-                    }
-                    return true;
-                });
-
-                const totals = filtered.reduce((acc, cur) => {
-                    acc.assigned += cur.assigned;
-                    acc.delivered += cur.delivered;
-                    acc.failed += cur.failed;
-                    acc.incentive += cur.incentive;
-                    return acc;
-                }, { assigned: 0, delivered: 0, failed: 0, incentive: 0 });
-
-                let labelBadge = 'Semua Kategori (4 Tipe)';
-                if (currentMainFilter === '2WH') {
-                    labelBadge = currentSubFilter === 'ALL_2WH' ? 'Armada 2WH (Semua)' : currentSubFilter;
-                } else if (currentMainFilter === '4WH') {
-                    labelBadge = '4WH Mitra';
-                }
-
-                document.getElementById('stat-fourth-icon').className = 'fas fa-users text-spx-orange';
-                document.getElementById('stat-fourth-label').textContent = 'Total Kurir Aktif';
-
-                updateKPICard(
-                    'Total Performa Hub',
-                    `Rekapitulasi ${filtered.length} Kurir Aktif`,
-                    labelBadge,
-                    totals.assigned,
-                    totals.delivered,
-                    totals.failed,
-                    `${filtered.length} Driver`
-                );
-
-                renderAdminCourierCards(filtered);
-            }
-        }
-
-        function updateKPICard(title, subtitle, pillText, assigned, delivered, failed, fourthMetricText) {
-            document.getElementById('kpi-card-title').textContent = title;
-            document.getElementById('kpi-card-subtitle').textContent = subtitle;
-            document.getElementById('kpi-category-pill').textContent = pillText;
-
-            const dsr = assigned > 0 ? ((delivered / assigned) * 100).toFixed(1) : '0.0';
-            document.getElementById('stat-dsr').textContent = `${dsr}%`;
-            document.getElementById('stat-dsr-bar').style.width = `${Math.min(dsr, 100)}%`;
-
-            const slaEl = document.getElementById('stat-sla-status');
-            if (parseFloat(dsr) >= 95.0) {
-                slaEl.innerHTML = '<i class="fas fa-check-circle"></i> Memenuhi Target';
-                slaEl.className = 'text-emerald-400 font-semibold';
-            } else {
-                slaEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Di Bawah Target';
-                slaEl.className = 'text-amber-400 font-semibold';
-            }
-
-            document.getElementById('stat-assigned').innerHTML = `${assigned} <span class="text-xs font-normal text-slate-400">pkt</span>`;
-            document.getElementById('stat-delivered').innerHTML = `${delivered} <span class="text-xs font-normal text-slate-400">pkt</span>`;
-            document.getElementById('stat-failed').innerHTML = `${failed} <span class="text-xs font-normal text-slate-400">pkt</span>`;
-            document.getElementById('stat-incentive').textContent = fourthMetricText;
-        }
-
-        function renderDriverParcels(record) {
-            const container = document.getElementById('driver-parcel-list');
-            if (!record.parcels || record.parcels.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-4 text-center text-xs text-slate-400">
-                        Semua manifest resi terangkum pada total laporan harian di atas.
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = record.parcels.map(p => {
-                const isSuccess = p.status.toLowerCase().includes('delivered');
-                return `
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3 flex items-center justify-between">
-                        <div>
-                            <div class="text-xs font-mono font-bold text-white">${p.awb}</div>
-                            <div class="text-[11px] text-slate-400 mt-0.5"><i class="fas fa-map-marker-alt text-spx-orange mr-1"></i>${p.area} • ${p.time}</div>
-                        </div>
-                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full ${isSuccess ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'}">
-                            ${p.status}
-                        </span>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderAdminCourierCards(list) {
-            const container = document.getElementById('admin-courier-cards');
-            document.getElementById('admin-list-count').textContent = `${list.length} Kurir`;
-
-            if (list.length === 0) {
+            if (filtered.length === 0) {
                 container.innerHTML = `
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center text-xs text-slate-400">
-                        Tidak ada data kurir yang cocok dengan filter ini.
+                        Tidak ada data kurir aktif pada filter ini.
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = list.map(item => {
-                const dsr = item.assigned > 0 ? ((item.delivered / item.assigned) * 100).toFixed(1) : '0.0';
-                const badgeClass = getCategoryBadgeStyle(item.category);
-
+            container.innerHTML = filtered.map(c => {
+                const badgeClass = getCategoryBadgeClass(c.category);
+                const numericDsr = parseFloat(c.dsr.replace('%', '')) || 0;
                 return `
-                <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-3.5 transition">
-                    <div class="flex items-start justify-between mb-2.5">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 space-y-2.5">
+                    <div class="flex items-start justify-between gap-2">
                         <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-bold text-white">${item.name}</span>
-                                <span class="text-[10px] font-mono text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded">${item.driverId}</span>
+                            <div class="text-xs font-extrabold text-white">${c.name}</div>
+                            <div class="flex items-center gap-1.5 mt-1 flex-wrap">
+                                <span class="text-[10px] font-mono bg-slate-800 text-slate-300 px-2 py-0.5 rounded">ID: ${c.id}</span>
+                                <span class="text-[10px] font-mono bg-orange-950/70 text-orange-300 border border-orange-800/40 px-2 py-0.5 rounded">Pass: ${c.password}</span>
                             </div>
-                            <span class="inline-block mt-1 ${badgeClass}">
-                                ${item.category}
-                            </span>
                         </div>
-                        <div class="text-right">
-                            <div class="text-sm font-extrabold ${parseFloat(dsr) >= 95 ? 'text-emerald-400' : 'text-amber-400'}">${dsr}%</div>
-                            <div class="text-[10px] text-slate-500">Success Rate</div>
-                        </div>
+                        <span class="${badgeClass} shrink-0">${c.category}</span>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800/80 text-center">
-                        <div>
-                            <div class="text-[10px] text-slate-500">Assigned</div>
-                            <div class="text-xs font-bold text-white">${item.assigned}</div>
+
+                    <div class="grid grid-cols-4 gap-1.5 pt-2 border-t border-slate-800/80 text-center">
+                        <div class="bg-slate-950/70 rounded-xl p-1.5">
+                            <div class="text-[9px] text-slate-400 leading-tight">Delivery success rate(%)</div>
+                            <div class="text-xs font-extrabold mt-0.5 ${numericDsr >= 95 ? 'text-emerald-400' : 'text-amber-400'}">${c.dsr}</div>
                         </div>
-                        <div>
-                            <div class="text-[10px] text-slate-500">Delivered</div>
-                            <div class="text-xs font-bold text-emerald-400">${item.delivered}</div>
+                        <div class="bg-slate-950/70 rounded-xl p-1.5">
+                            <div class="text-[9px] text-slate-400 leading-tight">Penugasan hari ini</div>
+                            <div class="text-xs font-extrabold text-white mt-0.5">${c.assigned}</div>
                         </div>
-                        <div>
-                            <div class="text-[10px] text-slate-500">Failed</div>
-                            <div class="text-xs font-bold text-rose-400">${item.failed}</div>
+                        <div class="bg-slate-950/70 rounded-xl p-1.5">
+                            <div class="text-[9px] text-slate-400 leading-tight">Delivered</div>
+                            <div class="text-xs font-extrabold text-emerald-400 mt-0.5">${c.delivered}</div>
+                        </div>
+                        <div class="bg-slate-950/70 rounded-xl p-1.5">
+                            <div class="text-[9px] text-slate-400 leading-tight">OnHold</div>
+                            <div class="text-xs font-extrabold text-rose-400 mt-0.5">${c.onhold}</div>
                         </div>
                     </div>
                 </div>
@@ -921,233 +598,141 @@
             }).join('');
         }
 
-        // 7. AI AGENT SIMULATION
-        function runAIAgentSimulation() {
-            if (isAISimulating) return;
-            isAISimulating = true;
-
-            const btn = document.getElementById('btn-run-ai');
-            const badge = document.getElementById('ai-status-badge');
-            const terminal = document.getElementById('ai-terminal-logs');
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> <span>AI Agent Sedang Menarik Data...</span>';
-            badge.textContent = 'RUNNING';
-            badge.className = 'text-[10px] font-mono text-amber-400 animate-pulse';
-            terminal.innerHTML = '';
-
-            const steps = [
-                { text: 'Membuka https://spx.shopee.co.id/#/dashboard/all-mile-hub/lm...', color: 'text-sky-400', delay: 500 },
-                { text: 'Mendeteksi halaman login SSO SPX. Mengisi Email Kantor (ops.lm.semarang@spx.co.id)...', color: 'text-slate-300', delay: 1400 },
-                { text: 'Autentikasi berhasil! Membuka sidebar Workforce Management...', color: 'text-emerald-400', delay: 2300 },
-                { text: 'Klik Driver Performance Management -> Delivery Performance Report...', color: 'text-amber-300', delay: 3200 },
-                { text: 'Mengatur filter Periode: [Daily] -> Klik [Search] -> Klik [Export Report]...', color: 'text-orange-400', delay: 4200 },
-                { text: 'Mengunduh file Delivery_Performance_Daily.xlsx & memparsing data ke Spreadsheet...', color: 'text-purple-400', delay: 5200 },
-                { text: 'Memisahkan 4 kategori: 2WH Dedicated, 2WH Courier Plus, 2WH Mitra, & 4WH Mitra...', color: 'text-sky-300', delay: 6200 },
-                { text: 'Selesai! Data performa harian berhasil diperbarui ke database aplikasi.', color: 'text-emerald-400 font-bold', delay: 7100 }
-            ];
-
-            steps.forEach((step, idx) => {
-                setTimeout(() => {
-                    const now = new Date();
-                    const ts = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-                    const line = document.createElement('div');
-                    line.className = step.color;
-                    line.textContent = `[${ts}] ${step.text}`;
-                    terminal.appendChild(line);
-                    terminal.scrollTop = terminal.scrollHeight;
-
-                    if (idx === steps.length - 1) {
-                        // Slightly increment delivered parcels to reflect live sync
-                        performanceData = performanceData.map(d => {
-                            if (d.failed > 0) {
-                                return {
-                                    ...d,
-                                    delivered: d.delivered + 1,
-                                    failed: d.failed - 1,
-                                    incentive: d.incentive + (d.fleet === '4WH' ? 2500 : 2000)
-                                };
-                            }
-                            return d;
-                        });
-
-                        document.getElementById('last-sync-time').textContent = `Baru saja (${ts} WIB)`;
-                        renderDashboard();
-                        showToast('AI Agent selesai menarik & memfilter 4 kategori kurir!', 'success');
-
-                        btn.disabled = false;
-                        btn.innerHTML = '<i class="fas fa-play"></i> <span>Jalankan Simulasi Tarik Data Sekarang</span>';
-                        badge.textContent = 'COMPLETED';
-                        badge.className = 'text-[10px] font-mono text-emerald-400';
-                        isAISimulating = false;
-                    }
-                }, step.delay);
-            });
-        }
-
-        // 8. GOOGLE SHEETS LIVE CSV SYNC & EXPORT/IMPORT
-        async function syncFromGoogleSheets() {
-            const urls = {
-                dedicated: document.getElementById('gsheet-url-dedicated').value.trim(),
-                courierPlus: document.getElementById('gsheet-url-courierplus').value.trim(),
-                mitra2wh: document.getElementById('gsheet-url-2whmitra').value.trim(),
-                mitra4wh: document.getElementById('gsheet-url-4whmitra').value.trim()
-            };
-
-            localStorage.setItem('spx_gsheet_urls', JSON.stringify(urls));
-
-            const entries = [
-                { url: urls.dedicated, fleet: '2WH', category: '2WH Dedicated' },
-                { url: urls.courierPlus, fleet: '2WH', category: '2WH Courier Plus' },
-                { url: urls.mitra2wh, fleet: '2WH', category: '2WH Mitra' },
-                { url: urls.mitra4wh, fleet: '4WH', category: '4WH Mitra' }
-            ].filter(e => e.url.length > 0);
-
-            if (entries.length === 0) {
-                showToast('Masukkan minimal 1 URL Google Sheets CSV terlebih dahulu!', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('btn-sync-gsheets');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Menarik Data Google Sheets...</span>';
-
-            try {
-                let fetchedRecords = [];
-                for (const entry of entries) {
-                    const response = await fetch(entry.url);
-                    if (!response.ok) throw new Error(`Gagal akses ${entry.category}`);
-                    const csvText = await response.text();
-                    const parsedRows = parseSPXCSV(csvText, entry.fleet, entry.category);
-                    fetchedRecords = fetchedRecords.concat(parsedRows);
-                }
-
-                if (fetchedRecords.length > 0) {
-                    performanceData = fetchedRecords;
-                    const now = new Date();
-                    document.getElementById('last-sync-time').textContent = `Google Sheets (${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} WIB)`;
-                    renderDashboard();
-                    showToast(`Berhasil sinkronisasi ${fetchedRecords.length} data kurir dari Google Sheets!`, 'success');
-                } else {
-                    showToast('File CSV Google Sheets kosong atau format kolom belum sesuai.', 'error');
-                }
-            } catch (err) {
-                showToast('Gagal mengambil CSV. Pastikan link sudah "Publish to Web (.csv)".', 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sync-alt"></i> <span>Sinkronisasi dari Google Sheets</span>';
-            }
-        }
-
-        function parseSPXCSV(csvText, defaultFleet, defaultCategory) {
-            const lines = csvText.split('\n').map(l => l.trim()).filter(l => l);
-            if (lines.length <= 1) return [];
-
-            const results = [];
-            for (let i = 1; i < lines.length; i++) {
-                const cols = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
-                const clean = cols.map(c => c.replace(/^"|"$/g, '').trim());
-                if (clean.length >= 4) {
-                    const assigned = parseInt(clean[2]) || parseInt(clean[4]) || 0;
-                    const delivered = parseInt(clean[3]) || parseInt(clean[5]) || 0;
-                    const failed = parseInt(clean[4]) || parseInt(clean[6]) || Math.max(0, assigned - delivered);
-                    results.push({
-                        driverId: clean[0].toUpperCase(),
-                        name: clean[1] || 'Kurir SPX',
-                        fleet: defaultFleet,
-                        category: defaultCategory,
-                        assigned: assigned,
-                        delivered: delivered,
-                        failed: failed,
-                        incentive: delivered * (defaultFleet === '4WH' ? 2500 : 2000),
-                        parcels: []
-                    });
-                }
-            }
-            return results;
-        }
-
-        function exportToCSV() {
-            const headers = ['Driver_ID', 'Nama_Kurir', 'Armada', 'Kategori_Mitra', 'Total_Assigned', 'Sukses_Terkirim', 'Failed_OnHold', 'Success_Rate_%', 'Estimasi_Insentif_IDR'];
-            
-            const rows = performanceData.map(d => {
-                const dsr = d.assigned > 0 ? ((d.delivered / d.assigned) * 100).toFixed(1) : '0.0';
-                return [
-                    d.driverId,
-                    `"${d.name}"`,
-                    d.fleet,
-                    `"${d.category}"`,
-                    d.assigned,
-                    d.delivered,
-                    d.failed,
-                    dsr,
-                    d.incentive
-                ].join(',');
-            });
-
-            const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            const dateStamp = new Date().toISOString().slice(0, 10);
-            link.setAttribute('download', `SPX_Driver_Hub_4Kategori_${dateStamp}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            showToast('File CSV (4 Kategori Kurir) berhasil diunduh!', 'success');
-        }
-
-        function handleFileUpload(event) {
+        // Parse newly uploaded SPX performance_report CSV and filter out inactive 0/0% drivers
+        function handleSPXCSVUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
-                    const content = e.target.result;
-                    if (file.name.endsWith('.json')) {
-                        const parsed = JSON.parse(content);
-                        if (Array.isArray(parsed)) {
-                            performanceData = parsed;
-                            renderDashboard();
-                            showToast(`Berhasil mengimpor ${parsed.length} baris data JSON!`, 'success');
-                        }
-                    } else if (file.name.endsWith('.csv')) {
-                        const lines = content.split('\n').map(l => l.trim()).filter(l => l);
-                        if (lines.length > 1) {
-                            const imported = [];
-                            for (let i = 1; i < lines.length; i++) {
-                                const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, ''));
-                                if (cols.length >= 7) {
-                                    const cat = cols[3] || '2WH Mitra';
-                                    const flt = cat.includes('4WH') ? '4WH' : '2WH';
-                                    imported.push({
-                                        driverId: cols[0].toUpperCase(),
-                                        name: cols[1],
-                                        fleet: flt,
-                                        category: cat,
-                                        assigned: parseInt(cols[4]) || 0,
-                                        delivered: parseInt(cols[5]) || 0,
-                                        failed: parseInt(cols[6]) || 0,
-                                        incentive: parseInt(cols[8]) || 0,
-                                        parcels: []
-                                    });
-                                }
-                            }
-                            if (imported.length > 0) {
-                                performanceData = imported;
-                                renderDashboard();
-                                showToast(`Berhasil mengimpor ${imported.length} data kurir dari CSV!`, 'success');
+                    const text = e.target.result;
+                    const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+                    if (lines.length < 2) throw new Error('File kosong');
+
+                    const parseRow = (rowStr) => {
+                        const result = [];
+                        let cur = '';
+                        let inQuotes = false;
+                        for (let i = 0; i < rowStr.length; i++) {
+                            const ch = rowStr[i];
+                            if (ch === '"') {
+                                inQuotes = !inQuotes;
+                            } else if (ch === ',' && !inQuotes) {
+                                result.push(cur.trim());
+                                cur = '';
+                            } else {
+                                cur += ch;
                             }
                         }
+                        result.push(cur.trim());
+                        return result;
+                    };
+
+                    const headers = parseRow(lines[0]);
+                    const idxId = headers.findIndex(h => h.toLowerCase() === 'driver id');
+                    const idxName = headers.findIndex(h => h.toLowerCase() === 'driver name');
+                    const idxContract = headers.findIndex(h => h.toLowerCase() === 'contract group');
+                    const idxVehicle = headers.findIndex(h => h.toLowerCase() === 'vehicle type');
+                    const idxDsr = headers.findIndex(h => h.toLowerCase().includes('delivery success rate(%)'));
+                    const idxAssigned = headers.findIndex(h => h.toLowerCase().includes('number of parcels assigned'));
+                    const idxDelivered = headers.findIndex(h => h.toLowerCase().includes('number of parcels delivered(1 to as 1 parcel)'));
+                    const idxOnhold = headers.findIndex(h => h.toLowerCase().includes('number of parcels on-hold'));
+
+                    if (idxId === -1 || idxName === -1 || idxAssigned === -1) {
+                        throw new Error('Header kolom CSV tidak sesuai format SPX');
                     }
+
+                    const newActiveList = [];
+                    for (let i = 1; i < lines.length; i++) {
+                        const cols = parseRow(lines[i]);
+                        if (cols.length <= idxAssigned) continue;
+
+                        const driverId = cols[idxId];
+                        const driverName = cols[idxName];
+                        const assigned = parseInt(cols[idxAssigned]) || 0;
+                        const delivered = parseInt(cols[idxDelivered]) || 0;
+                        const onhold = parseInt(cols[idxOnhold]) || 0;
+                        const dsrRaw = cols[idxDsr] || '0%';
+
+                        // Filter out inactive 0 / 0% drivers
+                        const numericDsr = parseFloat(dsrRaw.replace('%', '')) || 0;
+                        if (assigned === 0 && delivered === 0 && numericDsr === 0) {
+                            continue;
+                        }
+
+                        const vehicle = (cols[idxVehicle] || '').toUpperCase();
+                        const contract = (cols[idxContract] || '').toUpperCase();
+                        let category = '2WH Mitra';
+                        if (vehicle.includes('4WH')) {
+                            category = '4WH Mitra';
+                        } else if (contract.includes('DEDICATED')) {
+                            category = '2WH Dedicated';
+                        } else if (contract.includes('COURIER PLUS')) {
+                            category = '2WH Courier Plus';
+                        }
+
+                        // Generate deterministic password spx + last 4 digits of Driver ID
+                        const suffix = driverId.slice(-4).padStart(4, '0');
+                        newActiveList.push({
+                            id: driverId,
+                            name: driverName,
+                            password: `spx${suffix}`,
+                            category: category,
+                            dsr: dsrRaw,
+                            assigned: assigned,
+                            delivered: delivered,
+                            onhold: onhold
+                        });
+                    }
+
+                    if (newActiveList.length === 0) {
+                        showToast('Tidak ditemukan kurir aktif di dalam file CSV tersebut.', 'error');
+                        return;
+                    }
+
+                    activeCouriers = newActiveList;
+                    localStorage.setItem('spx_active_couriers_v1', JSON.stringify(activeCouriers));
+                    updateAdminCategoryCounts();
+                    renderAdminList();
+                    showToast(`Berhasil memuat ${activeCouriers.length} kurir aktif dari CSV baru!`, 'success');
                 } catch (err) {
-                    showToast('Format file tidak valid. Pastikan sesuai template CSV/JSON SPX.', 'error');
+                    showToast('Gagal membaca CSV. Pastikan file asli dari Export SPX.', 'error');
                 }
                 event.target.value = '';
             };
             reader.readAsText(file);
+        }
+
+        function resetToDefaultData() {
+            activeCouriers = [...DEFAULT_ACTIVE_COURIERS];
+            localStorage.removeItem('spx_active_couriers_v1');
+            updateAdminCategoryCounts();
+            renderAdminList();
+            showToast('Data dikembalikan ke 24 kurir aktif awal.', 'info');
+        }
+
+        function exportCredentialsCSV() {
+            const headers = ['Driver_ID', 'Nama_Kurir', 'Password', 'Kategori_Armada', 'Delivery_Success_Rate', 'Penugasan_Hari_Ini', 'Delivered', 'OnHold'];
+            const rows = activeCouriers.map(c => [
+                c.id,
+                `"${c.name}"`,
+                c.password,
+                `"${c.category}"`,
+                c.dsr,
+                c.assigned,
+                c.delivered,
+                c.onhold
+            ].join(','));
+
+            const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
+            const link = document.createElement('a');
+            link.setAttribute('href', encodeURI(csvContent));
+            link.setAttribute('download', 'Daftar_Akun_Dan_Performa_24_Kurir_SPX.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Daftar Driver ID & Password berhasil diunduh!', 'success');
         }
     </script>
 </body>
