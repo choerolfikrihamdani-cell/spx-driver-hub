@@ -88,7 +88,6 @@
 
   <!-- ==================== 2. DASHBOARD KURIR ==================== -->
   <div id="driver-dashboard" class="hidden min-h-screen flex-col max-w-md mx-auto w-full pb-8">
-    <!-- Top Bar -->
     <header class="sticky top-0 z-30 bg-[#0b0f19]/90 backdrop-blur-md border-b border-slate-800/80 px-5 py-4 flex items-center justify-between">
       <div>
         <h2 class="text-base font-extrabold text-white leading-tight">SPX Pringapus 2 Hub</h2>
@@ -105,7 +104,6 @@
     </header>
 
     <main class="px-5 pt-5 space-y-5 flex-1">
-      <!-- Kartu Profil Kurir -->
       <div class="glass-card rounded-3xl p-5 relative overflow-hidden">
         <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-orange-500/10 blur-2xl"></div>
         <div class="flex items-start justify-between gap-3">
@@ -126,9 +124,7 @@
         </div>
       </div>
 
-      <!-- 4 Metrik Utama Sesuai Permintaan -->
       <div class="grid grid-cols-1 gap-3.5">
-        <!-- 1. Delivery success rate(%) -->
         <div class="glass-card rounded-2xl p-5 border-l-4 border-l-emerald-500 flex items-center justify-between">
           <div>
             <p class="text-xs font-semibold text-slate-400">Delivery success rate(%)</p>
@@ -139,7 +135,6 @@
           </div>
         </div>
 
-        <!-- 2. Penugasan hari ini -->
         <div class="glass-card rounded-2xl p-5 border-l-4 border-l-blue-500 flex items-center justify-between">
           <div>
             <p class="text-xs font-semibold text-slate-400">Penugasan hari ini</p>
@@ -151,13 +146,11 @@
         </div>
 
         <div class="grid grid-cols-2 gap-3.5">
-          <!-- 3. Delivered -->
           <div class="glass-card rounded-2xl p-4 border-l-4 border-l-orange-500">
             <p class="text-xs font-semibold text-slate-400">Delivered</p>
             <p id="metric-delivered" class="text-2xl font-extrabold text-orange-400 mt-1">0</p>
           </div>
 
-          <!-- 4. OnHold -->
           <div class="glass-card rounded-2xl p-4 border-l-4 border-l-amber-400">
             <p class="text-xs font-semibold text-slate-400">OnHold</p>
             <p id="metric-onhold" class="text-2xl font-extrabold text-amber-300 mt-1">0</p>
@@ -188,7 +181,6 @@
     </header>
 
     <main class="px-5 pt-5 space-y-5">
-      <!-- Navigasi Tab Admin -->
       <div class="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
         <button onclick="switchAdminTab('list')" id="tab-btn-list" class="py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow">
           Data Kurir Aktif (24)
@@ -198,9 +190,7 @@
         </button>
       </div>
 
-      <!-- TAB A: DAFTAR KURIR AKTIF & PASSWORD -->
       <div id="admin-tab-list" class="space-y-4">
-        <!-- Filter Kategori -->
         <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
           <button onclick="filterAdminCategory('ALL')" id="cat-ALL" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shrink-0">Semua (24)</button>
           <button onclick="filterAdminCategory('2WH Dedicated')" id="cat-2WH Dedicated" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Dedicated</button>
@@ -209,7 +199,6 @@
           <button onclick="filterAdminCategory('4WH Mitra')" id="cat-4WH Mitra" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">4WH Mitra</button>
         </div>
 
-        <!-- Pencarian & Download Akun -->
         <div class="flex gap-2">
           <input type="text" id="admin-search" oninput="renderAdminList()" placeholder="Cari nama kurir atau Driver ID..."
             class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500" />
@@ -218,13 +207,10 @@
           </button>
         </div>
 
-        <!-- Daftar Kartu Kurir -->
         <div id="admin-courier-cards" class="space-y-3"></div>
       </div>
 
-      <!-- TAB B: UPLOAD CSV & KONEKSI GOOGLE SHEETS -->
       <div id="admin-tab-sync" class="hidden space-y-4">
-        <!-- Upload CSV Langsung dari Export SPX -->
         <div class="glass-card rounded-2xl p-5 space-y-3">
           <h3 class="text-sm font-extrabold text-white">1. Upload CSV Monthly Report SPX</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
@@ -235,13 +221,12 @@
           <div id="upload-feedback" class="hidden text-xs font-semibold text-emerald-400"></div>
         </div>
 
-        <!-- Koneksi Google Sheets Master Database -->
         <div class="glass-card rounded-2xl p-5 space-y-3">
-          <h3 class="text-sm font-extrabold text-white">2. Koneksi Google Sheets (Auto-Sync Semua HP)</h3>
+          <h3 class="text-sm font-extrabold text-white">2. Sumber Database Utama (Otomatis dari GitHub)</h3>
           <p class="text-xs text-slate-400 leading-relaxed">
-            Tempel link <strong>Publish to web (.csv)</strong> dari tab <code class="text-orange-300">Master_Database</code> Google Sheets Anda agar setiap kurir otomatis mendapat data terbaru saat refresh APK.
+            Aplikasi terhubung langsung ke file <code class="text-orange-300">./Master_Database.csv</code> di GitHub/Vercel Anda, atau bisa diarahkan ke link Google Sheets (.csv).
           </p>
-          <input type="url" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/.../pub?output=csv"
+          <input type="text" id="sheet-url-input" placeholder="./Master_Database.csv"
             class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500" />
           <div class="flex gap-2">
             <button onclick="saveSheetUrl()" class="flex-1 py-2.5 rounded-xl spx-gradient text-white text-xs font-bold">
@@ -257,17 +242,39 @@
   </div>
 
   <script>
-    // ==================== DATA DEFAULT 24 KURIR AKTIF ====================
-    const DEFAULT_ACTIVE_COURIERS = [{"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0}, {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4}, {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0}, {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0}, {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1}, {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0}, {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0}, {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0}, {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1}, {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4}, {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1}, {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1}, {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3}, {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3}, {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2}, {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1}, {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14}, {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1}, {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1}, {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1}, {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7}, {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3}, {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0}, {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0}];
+    const DEFAULT_ACTIVE_COURIERS = [
+      {"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "64.71%", "assigned": 17, "delivered": 11, "onhold": 0},
+      {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "87.63%", "assigned": 97, "delivered": 85, "onhold": 4},
+      {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "93.22%", "assigned": 59, "delivered": 55, "onhold": 0},
+      {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "93.55%", "assigned": 31, "delivered": 29, "onhold": 0},
+      {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.92%", "assigned": 49, "delivered": 47, "onhold": 1},
+      {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "19.05%", "assigned": 21, "delivered": 4, "onhold": 0},
+      {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "76.47%", "assigned": 119, "delivered": 91, "onhold": 0},
+      {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "90.91%", "assigned": 44, "delivered": 40, "onhold": 0},
+      {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "89.66%", "assigned": 87, "delivered": 78, "onhold": 1},
+      {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "90.74%", "assigned": 108, "delivered": 98, "onhold": 4},
+      {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "80.95%", "assigned": 189, "delivered": 153, "onhold": 1},
+      {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "79.37%", "assigned": 126, "delivered": 100, "onhold": 1},
+      {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "73.08%", "assigned": 52, "delivered": 38, "onhold": 3},
+      {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "90.64%", "assigned": 171, "delivered": 155, "onhold": 3},
+      {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "96.05%", "assigned": 76, "delivered": 73, "onhold": 2},
+      {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "86.11%", "assigned": 36, "delivered": 31, "onhold": 1},
+      {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "30.59%", "assigned": 85, "delivered": 26, "onhold": 14},
+      {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "96.55%", "assigned": 29, "delivered": 28, "onhold": 1},
+      {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 151, "delivered": 159, "onhold": 1},
+      {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "93.59%", "assigned": 78, "delivered": 73, "onhold": 1},
+      {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "92.16%", "assigned": 102, "delivered": 94, "onhold": 7},
+      {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "95.96%", "assigned": 99, "delivered": 95, "onhold": 3},
+      {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "87.73%", "assigned": 163, "delivered": 143, "onhold": 0},
+      {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "100%", "assigned": 88, "delivered": 104, "onhold": 0}
+    ];
 
-    // ==================== AKUN ADMIN KHUSUS ====================
     const ADMIN_ACCOUNTS = [
       { driver_id: "ADMIN-HUB", password: "pringapus2026", name: "Admin SPX Pringapus 2 Hub" },
       { driver_id: "OPS-PRINGAPUS", password: "spxadmin123", name: "Koordinator Operasional Hub" }
     ];
 
-    // Link CSV Google Sheets permanen (bisa diisi jika sudah di-publish)
-    const EMBEDDED_MASTER_CSV_URL = "";
+    const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
       COURIERS: "spx_pringapus2_couriers_v3",
@@ -316,7 +323,6 @@
       const rawPass = document.getElementById("input-pass").value.trim();
       const errBox = document.getElementById("login-error");
 
-      // 1. Cek Admin
       const admin = ADMIN_ACCOUNTS.find(a => a.driver_id.toUpperCase() === rawId && a.password === rawPass);
       if (admin) {
         errBox.classList.add("hidden");
@@ -326,7 +332,6 @@
         return;
       }
 
-      // 2. Cek Kurir (Wajib cocok Driver ID & Password miliknya sendiri)
       const driver = activeCouriers.find(c => String(c.driver_id).trim().toUpperCase() === rawId && String(c.password).trim() === rawPass);
       if (driver) {
         errBox.classList.add("hidden");
@@ -453,7 +458,6 @@
       `).join("");
     }
 
-    // ==================== PARSER CSV (SPX EXPORT / MASTER SHEET) ====================
     function parseCSVLine(line) {
       const result = [];
       let cur = "";
@@ -486,7 +490,6 @@
       if (lines.length < 2) return null;
       const headers = parseCSVLine(lines[0]);
 
-      // Cek apakah format Master_Database (Driver_ID, Nama_Kurir, ...)
       if (headers.includes("Driver_ID") && headers.includes("Nama_Kurir")) {
         const idxId = headers.indexOf("Driver_ID");
         const idxName = headers.indexOf("Nama_Kurir");
@@ -516,7 +519,6 @@
         return parsed.length > 0 ? parsed : null;
       }
 
-      // Cek format mentah SPX Export (Driver, Vehicle Type, Contract Type, ...)
       const idxDrv = headers.indexOf("Driver");
       if (idxDrv >= 0) {
         const idxVeh = headers.indexOf("Vehicle Type");
@@ -533,7 +535,6 @@
           const cols = parseCSVLine(lines[i]);
           if (!cols[idxDrv]) continue;
 
-          // Filter kurir tidak aktif (semua metrik 0 / 0%)
           const metrics = cols.slice(metricStart);
           if (metrics.length > 0 && metrics.every(m => isZeroVal(m))) continue;
 
@@ -592,7 +593,7 @@
     async function syncFromMasterSheet(showAlert = false) {
       const url = localStorage.getItem(STORAGE_KEYS.SHEET_URL) || EMBEDDED_MASTER_CSV_URL;
       if (!url) {
-        if (showAlert) alert("Data lokal sudah yang terbaru (24 Kurir Aktif). Untuk auto-sync lintas HP, tempel link CSV Google Sheets di menu Admin.");
+        if (showAlert) alert("Data sudah tersinkronisasi dari Master_Database.csv!");
         return;
       }
       try {
@@ -607,7 +608,7 @@
           if (showAlert) alert(`Sinkronisasi berhasil! ${parsed.length} kurir aktif diperbarui.`);
         }
       } catch (err) {
-        if (showAlert) alert("Gagal menarik data dari Google Sheets. Periksa koneksi internet atau link CSV.");
+        if (showAlert) alert("Gagal menarik data terbaru. Periksa koneksi internet.");
       }
     }
 
@@ -634,11 +635,10 @@
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "Master_Database_SPX_Pringapus2.csv";
+      link.download = "Master_Database.csv";
       link.click();
     }
 
-    // ==================== RESTORE SESI SAAT REFRESH (ANTI-LOGOUT) ====================
     function restoreSession() {
       try {
         const raw = localStorage.getItem(STORAGE_KEYS.SESSION);
@@ -653,7 +653,6 @@
       } catch (e) {}
     }
 
-    // Inisialisasi saat aplikasi dibuka / di-refresh
     window.addEventListener("DOMContentLoaded", () => {
       loadCouriersFromStorage();
       updateStatusBadge();
