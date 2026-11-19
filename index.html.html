@@ -2,1455 +2,695 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <title>SPX Pringapus 2 Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SPX Pringapus 2 Hub — Portal Performa & Payroll Kurir</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: #0b0f19;
-      color: #f8fafc;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .glass-card {
-      background: rgba(20, 27, 45, 0.88);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .spx-gradient {
-      background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%);
-    }
-    .salary-card-glow {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(20, 27, 45, 0.95) 65%);
-      border: 1px solid rgba(16, 185, 129, 0.32);
-    }
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-  </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-white">
-
-  <!-- ==================== 1. HALAMAN LOGIN ==================== -->
-  <div id="login-screen" class="min-h-screen flex flex-col justify-center px-5 py-8 max-w-md mx-auto w-full">
-    <div class="text-center mb-7">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl spx-gradient shadow-lg shadow-orange-500/30 mb-4">
-        <svg class="w-9 h-9 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-        </svg>
-      </div>
-      <h1 class="text-2xl font-extrabold tracking-tight text-white">SPX Pringapus 2 Hub</h1>
-      <p class="text-sm font-semibold text-orange-400 mt-1 tracking-wide">Strong and Growth Together!</p>
-    </div>
-
-    <div class="glass-card rounded-3xl p-6 shadow-2xl">
-      <div class="flex items-center justify-between mb-5">
-        <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Portal Login Kurir & Admin</span>
-        <button type="button" onclick="syncFromMasterSheet(true)" id="btn-sync-login" class="text-xs font-semibold text-orange-400 hover:text-orange-300 flex items-center gap-1">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          <span>Refresh Data</span>
-        </button>
-      </div>
-
-      <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Driver ID / Username</label>
-          <input type="text" id="input-id" required autocomplete="username" placeholder="Contoh: 1194512"
-            class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-orange-500 transition" />
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
-          <div class="relative">
-            <input type="password" id="input-pass" required autocomplete="current-password" placeholder="Masukkan password Anda"
-              class="w-full px-4 py-3.5 rounded-xl bg-slate-900/90 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-orange-500 transition pr-12" />
-            <button type="button" onclick="togglePassword()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div id="login-error" class="hidden p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs font-medium text-center">
-          Driver ID atau Password salah! Pastikan Anda menggunakan akun milik Anda sendiri.
-        </div>
-
-        <button type="submit" class="w-full py-3.5 rounded-xl spx-gradient text-white font-bold text-sm shadow-lg shadow-orange-500/25 active:scale-[0.99] transition mt-2">
-          Masuk ke Dashboard
-        </button>
-      </form>
-
-      <div class="mt-5 pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] text-slate-400">
-        <span>Status Database:</span>
-        <span id="db-status-login" class="font-semibold text-emerald-400">Siap (32 Kurir Aktif)</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== 2. DASHBOARD KURIR ==================== -->
-  <div id="driver-dashboard" class="hidden min-h-screen flex-col max-w-md mx-auto w-full pb-10">
-    <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800/80 px-4 py-3.5 flex items-center justify-between">
-      <div>
-        <h2 class="text-base font-extrabold text-white leading-tight">SPX Pringapus 2 Hub</h2>
-        <p class="text-[11px] font-semibold text-orange-400">Strong and Growth Together!</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="syncFromMasterSheet(true)" title="Refresh Data" class="p-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-slate-200 border border-slate-700/60 transition">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-        </button>
-        <button onclick="logout()" class="px-3 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-400 text-xs font-bold border border-red-500/20 transition">
-          Keluar
-        </button>
-      </div>
-    </header>
-
-    <main class="px-4 pt-4 space-y-4 flex-1">
-      <!-- Pemilih Bulan -->
-      <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-2">
-          <span class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          </span>
-          <div>
-            <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Periode Laporan</span>
-            <span class="text-xs font-extrabold text-white" id="active-month-label">November 2026</span>
-          </div>
-        </div>
-        <select id="driver-month-select" onchange="onMonthChange(this.value)"
-          class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-orange-300 focus:outline-none focus:border-orange-500">
-        </select>
-      </div>
-
-      <!-- Sub-Menu Navigasi Kurir -->
-      <div class="grid grid-cols-5 gap-1 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
-        <button onclick="switchDriverSubMenu('perf')" id="drv-tab-perf" class="py-2 px-1 rounded-xl text-[10px] font-bold spx-gradient text-white shadow text-center">
-          Performa
-        </button>
-        <button onclick="switchDriverSubMenu('gaji')" id="drv-tab-gaji" class="py-2 px-1 rounded-xl text-[10px] font-bold text-slate-400 hover:text-white text-center">
-          Simulasi Gaji
-        </button>
-        <button onclick="switchDriverSubMenu('rank')" id="drv-tab-rank" class="py-2 px-1 rounded-xl text-[10px] font-bold text-slate-400 hover:text-white text-center">
-          Top & Eval
-        </button>
-        <button onclick="switchDriverSubMenu('saran')" id="drv-tab-saran" class="py-2 px-1 rounded-xl text-[10px] font-bold text-slate-400 hover:text-white text-center">
-          Saran
-        </button>
-        <button onclick="switchDriverSubMenu('wa')" id="drv-tab-wa" class="py-2 px-1 rounded-xl text-[10px] font-bold text-slate-400 hover:text-white text-center">
-          Bantuan
-        </button>
-      </div>
-
-      <!-- ==================== SUB-MENU 1: PERFORMA & ESTIMASI GAJI ==================== -->
-      <div id="drv-view-perf" class="space-y-4">
-        <div class="glass-card rounded-3xl p-5 relative overflow-hidden">
-          <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-orange-500/10 blur-2xl"></div>
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <span id="drv-badge" class="inline-block px-2.5 py-1 rounded-lg text-[11px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30 mb-2">
-                2WH Dedicated
-              </span>
-              <h3 id="drv-name" class="text-lg font-extrabold text-white leading-snug">NAMA KURIR</h3>
-              <p class="text-xs text-slate-400 font-medium mt-0.5">Driver ID: <span id="drv-id" class="text-slate-200 font-bold">000000</span></p>
-            </div>
-            <div class="w-11 h-11 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-orange-400 font-extrabold text-base shrink-0" id="drv-avatar">
-              K
-            </div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 gap-3">
-          <div class="glass-card rounded-2xl p-4 border-l-4 border-l-emerald-500 flex items-center justify-between">
-            <div>
-              <p class="text-xs font-semibold text-slate-400">Delivery success rate(%)</p>
-              <p id="metric-dsr" class="text-3xl font-extrabold text-emerald-400 mt-0.5">0%</p>
-            </div>
-            <div id="dsr-trend-badge" class="px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-              Bulan Berjalan
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-blue-500">
-              <p class="text-xs font-semibold text-slate-400">Total penugasan</p>
-              <p id="metric-assigned" class="text-2xl font-extrabold text-white mt-1">0</p>
-            </div>
-
-            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-purple-500">
-              <p class="text-xs font-semibold text-slate-400">Total hari kerja</p>
-              <p class="text-2xl font-extrabold text-purple-300 mt-1"><span id="metric-days">0</span> <span class="text-xs font-semibold text-slate-400">Hari</span></p>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3">
-            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-orange-500">
-              <p class="text-xs font-semibold text-slate-400">Delivered</p>
-              <p id="metric-delivered" class="text-2xl font-extrabold text-orange-400 mt-1">0</p>
-            </div>
-
-            <div class="glass-card rounded-2xl p-4 border-l-4 border-l-amber-400">
-              <p class="text-xs font-semibold text-slate-400">OnHold</p>
-              <p id="metric-onhold" class="text-2xl font-extrabold text-amber-300 mt-1">0</p>
-            </div>
-          </div>
-
-          <!-- KARTU ESTIMASI GAJI PRIBADI KURIR (TEPAT DI BAWAH DELIVERED & ONHOLD) -->
-          <div class="salary-card-glow rounded-3xl p-5 shadow-xl relative overflow-hidden space-y-3">
-            <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none"></div>
-            <div class="flex items-start justify-between gap-3">
-              <div class="flex items-center gap-2.5">
-                <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-emerald-400 shrink-0">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                  </svg>
-                </div>
-                <div>
-                  <span class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-400 block">Estimasi Gaji Anda</span>
-                  <h4 id="perf-salary-total" class="text-2xl font-extrabold text-white tracking-tight mt-0.5">Rp0</h4>
-                </div>
-              </div>
-              <button type="button" onclick="switchDriverSubMenu('gaji')"
-                class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold transition shrink-0">
-                Simulasi →
-              </button>
-            </div>
-            <div id="perf-salary-breakdown" class="space-y-1.5 pt-2.5 border-t border-emerald-500/20 text-[11px]"></div>
-          </div>
-        </div>
-
-        <!-- Grafik Compliance% Delivery Success Rate Per Bulan (Target Hub 98%) -->
-        <div class="glass-card rounded-3xl p-5 space-y-3">
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <h4 class="text-sm font-extrabold text-white">Grafik Compliance% DSR Bulanan</h4>
-              <p class="text-[11px] text-slate-400">Pencapaian & tren Delivery Success Rate per bulan</p>
-            </div>
-            <span id="compliance-status-pill" class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-              Target ≥ 98%
-            </span>
-          </div>
-          <div class="h-48 w-full pt-1">
-            <canvas id="complianceChart"></canvas>
-          </div>
-          <p id="compliance-summary-text" class="text-[11px] text-slate-300 bg-slate-900/80 rounded-xl p-3 border border-slate-800 leading-relaxed">
-            Memuat analisis pencapaian bulanan...
-          </p>
-        </div>
-      </div>
-
-      <!-- ==================== SUB-MENU 2: SIMULASI GAJI PRIBADI KURIR ==================== -->
-      <div id="drv-view-gaji" class="hidden space-y-4">
-        <!-- Kartu Estimasi Gaji Aktual Bulan Berjalan -->
-        <div class="salary-card-glow rounded-3xl p-5 space-y-3">
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <span class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-400 block">Estimasi Pendapatan Aktual Anda</span>
-              <h4 class="text-2xl font-extrabold text-white mt-0.5" id="actual-salary-total">Rp0</h4>
-            </div>
-            <span id="actual-salary-cat" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30">
-              2WH Dedicated
-            </span>
-          </div>
-          <div id="actual-salary-breakdown" class="space-y-1.5 pt-2 border-t border-emerald-500/20 text-xs"></div>
-        </div>
-
-        <!-- Kalkulator Simulasi Pribadi (Khusus Kategori Armada Kurir yang Login) -->
-        <div class="glass-card rounded-3xl p-5 space-y-4">
-          <div>
-            <h4 class="text-sm font-extrabold text-white">Simulasi Target Pendapatan Anda</h4>
-            <p class="text-[11px] text-slate-400 mt-0.5">Ubah target paket delivered atau jumlah hari kerja untuk menghitung simulasi gaji Anda.</p>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3" id="sim-inputs-grid">
-            <div id="sim-delivered-wrapper">
-              <label class="block text-[11px] font-semibold text-slate-300 mb-1">Target Delivered</label>
-              <input type="number" id="sim-delivered" min="0" value="0" oninput="runSalarySimulator()"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-orange-500" />
-            </div>
-            <div id="sim-days-wrapper">
-              <label class="block text-[11px] font-semibold text-slate-300 mb-1">Total Hari Kerja</label>
-              <input type="number" id="sim-days" min="0" max="31" value="0" oninput="runSalarySimulator()"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-orange-500" />
-            </div>
-          </div>
-
-          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-2.5">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-400">Hasil Simulasi Gaji Anda</span>
-              <span class="text-lg font-extrabold text-emerald-400" id="sim-result-total">Rp0</span>
-            </div>
-            <div id="sim-result-breakdown" class="space-y-1.5 pt-2 border-t border-slate-800/80 text-[11px] text-slate-300"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SUB-MENU 3: KURIR TERBAIK & KURIR TERBURUK ==================== -->
-      <div id="drv-view-rank" class="hidden space-y-4">
-        <div class="glass-card rounded-2xl p-4 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-sm font-extrabold text-white">Peringkat & Evaluasi Hub</h4>
-            <span class="text-[11px] text-orange-400 font-bold" id="rank-month-badge">November 2026</span>
-          </div>
-
-          <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-slate-900 border border-slate-800">
-            <button onclick="switchRankSubTab('best')" id="btn-rank-best" class="py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white">
-              🏆 Kurir Terbaik
-            </button>
-            <button onclick="switchRankSubTab('worst')" id="btn-rank-worst" class="py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white">
-              ⚠️ Kurir Terburuk
-            </button>
-          </div>
-
-          <div id="worst-category-pills" class="hidden grid-cols-2 gap-1.5 pt-0.5">
-            <button onclick="selectWorstCategory('2WH Dedicated')" id="wcat-2WH Dedicated" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-red-600 text-white text-left">
-              1. 2WH Dedicated
-            </button>
-            <button onclick="selectWorstCategory('2WH Courier Plus')" id="wcat-2WH Courier Plus" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left">
-              2. 2WH Courier Plus
-            </button>
-            <button onclick="selectWorstCategory('2WH Mitra')" id="wcat-2WH Mitra" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left">
-              3. 2WH Mitra
-            </button>
-            <button onclick="selectWorstCategory('4WH Mitra')" id="wcat-4WH Mitra" class="wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left">
-              4. 4WH Mitra
-            </button>
-          </div>
-
-          <div id="rank-list-container" class="space-y-3 pt-1"></div>
-        </div>
-      </div>
-
-      <!-- ==================== SUB-MENU 4: SARAN & PERBAIKAN ==================== -->
-      <div id="drv-view-saran" class="hidden space-y-4">
-        <div class="glass-card rounded-3xl p-5 space-y-4">
-          <div>
-            <h4 class="text-base font-extrabold text-white">Kotak Saran & Perbaikan</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Sampaikan masukan, kendala operasional lapangan, atau usulan perbaikan untuk <strong class="text-white">SPX Pringapus 2 Hub</strong>. Pesan Anda hanya dapat dilihat oleh Admin Hub.
-            </p>
-          </div>
-
-          <form onsubmit="submitFeedback(event)" class="space-y-3">
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Kategori Masukan</label>
-              <select id="saran-kategori" class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs font-semibold text-white focus:outline-none focus:border-orange-500">
-                <option value="Operasional & Rute">Operasional & Rute Pengantaran</option>
-                <option value="Aplikasi & Data Performa">Aplikasi & Data Performa</option>
-                <option value="Fasilitas & Hub">Fasilitas & Kondisi Hub</option>
-                <option value="Lainnya">Lainnya</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Isi Saran / Perbaikan</label>
-              <textarea id="saran-pesan" rows="4" required placeholder="Tuliskan saran atau masukan Anda secara jelas..."
-                class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500"></textarea>
-            </div>
-
-            <button type="submit" class="w-full py-3 rounded-xl spx-gradient text-white font-bold text-xs shadow-lg shadow-orange-500/20">
-              Kirim Saran ke Admin Hub
-            </button>
-          </form>
-
-          <div id="saran-notif" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-semibold text-center">
-            Terima kasih! Saran Anda telah terkirim dan tercatat untuk Admin Hub.
-          </div>
-        </div>
-      </div>
-
-      <!-- ==================== SUB-MENU 5: BANTUAN WHATSAPP ==================== -->
-      <div id="drv-view-wa" class="hidden space-y-4">
-        <div class="glass-card rounded-3xl p-5 space-y-4">
-          <div>
-            <h4 class="text-base font-extrabold text-white">Bantuan & Koordinasi Hub</h4>
-            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
-              Jika ada pertanyaan silakan hubungi by <strong class="text-emerald-400">WhatsApp</strong> dengan klik salah satu kontak di bawah ini:
-            </p>
-          </div>
-
-          <div class="space-y-3" id="wa-contacts-list"></div>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <!-- ==================== 3. DASHBOARD ADMIN HUB ==================== -->
-  <div id="admin-dashboard" class="hidden min-h-screen flex-col max-w-3xl mx-auto w-full pb-10">
-    <header class="sticky top-0 z-30 bg-[#0b0f19]/95 backdrop-blur-md border-b border-slate-800 px-5 py-4 flex items-center justify-between">
-      <div>
-        <div class="flex items-center gap-2">
-          <h2 class="text-base font-extrabold text-white">SPX Pringapus 2 Hub</h2>
-          <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-orange-500 text-white">ADMIN</span>
-        </div>
-        <p class="text-[11px] font-semibold text-orange-400">Strong and Growth Together!</p>
-      </div>
-      <div class="flex items-center gap-2">
-        <button onclick="syncFromMasterSheet(true)" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700 transition">
-          Refresh Data
-        </button>
-        <button onclick="logout()" class="px-3 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-400 text-xs font-bold border border-red-500/20 transition">
-          Keluar
-        </button>
-      </div>
-    </header>
-
-    <main class="px-5 pt-5 space-y-5">
-      <!-- Pemilih Bulan Admin -->
-      <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between gap-3">
-        <div>
-          <span class="text-[10px] uppercase tracking-wider text-slate-400 font-bold block">Filter Bulan Database</span>
-          <span class="text-xs font-extrabold text-white" id="admin-month-label">November 2026</span>
-        </div>
-        <select id="admin-month-select" onchange="onMonthChange(this.value)"
-          class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-orange-300 focus:outline-none focus:border-orange-500">
-        </select>
-      </div>
-
-      <!-- Navigasi Tab Admin -->
-      <div class="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-slate-900 border border-slate-800">
-        <button onclick="switchAdminTab('list')" id="tab-btn-list" class="py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow">
-          Kurir Aktif (32)
-        </button>
-        <button onclick="switchAdminTab('payroll')" id="tab-btn-payroll" class="py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
-          Simulasi Payroll
-        </button>
-        <button onclick="switchAdminTab('saran')" id="tab-btn-saran" class="py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
-          Saran (<span id="saran-count-badge">0</span>)
-        </button>
-        <button onclick="switchAdminTab('sync')" id="tab-btn-sync" class="py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white">
-          Upload & Sync
-        </button>
-      </div>
-
-      <!-- TAB A: DAFTAR KURIR AKTIF & PASSWORD -->
-      <div id="admin-tab-list" class="space-y-4">
-        <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-          <button onclick="filterAdminCategory('ALL')" id="cat-ALL" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shrink-0">Semua (32)</button>
-          <button onclick="filterAdminCategory('2WH Dedicated')" id="cat-2WH Dedicated" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Dedicated</button>
-          <button onclick="filterAdminCategory('2WH Courier Plus')" id="cat-2WH Courier Plus" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Courier Plus</button>
-          <button onclick="filterAdminCategory('2WH Mitra')" id="cat-2WH Mitra" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">2WH Mitra</button>
-          <button onclick="filterAdminCategory('4WH Mitra')" id="cat-4WH Mitra" class="cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0">4WH Mitra</button>
-        </div>
-
-        <div class="flex gap-2">
-          <input type="text" id="admin-search" oninput="renderAdminList()" placeholder="Cari nama kurir atau Driver ID..."
-            class="flex-1 px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500" />
-          <button onclick="downloadMasterCSV()" class="px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shrink-0">
-            Unduh CSV
-          </button>
-        </div>
-
-        <div id="admin-courier-cards" class="space-y-3"></div>
-      </div>
-
-      <!-- TAB B: REKAP & SIMULASI PAYROLL HUB (KHUSUS ADMIN) -->
-      <div id="admin-tab-payroll" class="hidden space-y-4">
-        <div class="glass-card rounded-2xl p-5 space-y-4">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-extrabold text-white">Rekap Estimasi Gaji & Insentif Hub</h3>
-              <p class="text-xs text-slate-400">Otomatis dihitung dengan skema progresif bertingkat (Threshold 1 & Threshold 2).</p>
-            </div>
-            <div class="text-right">
-              <span class="text-[10px] uppercase text-slate-400 font-bold block">Total Payroll Hub</span>
-              <span class="text-base font-extrabold text-emerald-400" id="admin-total-payroll">Rp0</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3" id="admin-payroll-summary-cards"></div>
-          <div class="space-y-2.5 pt-2" id="admin-payroll-detail-list"></div>
-        </div>
-      </div>
-
-      <!-- TAB C: KOTAK SARAN & PERBAIKAN (KHUSUS ADMIN) -->
-      <div id="admin-tab-saran" class="hidden space-y-4">
-        <div class="glass-card rounded-2xl p-5 space-y-3">
-          <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-extrabold text-white">Daftar Saran & Perbaikan dari Kurir</h3>
-              <p class="text-xs text-slate-400">Hanya Admin Hub yang dapat membaca laporan masukan ini.</p>
-            </div>
-            <button onclick="clearAllFeedback()" class="px-3 py-1.5 rounded-lg bg-red-500/15 text-red-400 text-[11px] font-bold border border-red-500/20">
-              Hapus Semua
-            </button>
-          </div>
-          <div id="admin-saran-list" class="space-y-3 pt-2"></div>
-        </div>
-      </div>
-
-      <!-- TAB D: UPLOAD CSV & SINKRONISASI BULANAN -->
-      <div id="admin-tab-sync" class="hidden space-y-4">
-        <div class="glass-card rounded-2xl p-5 space-y-3">
-          <h3 class="text-sm font-extrabold text-white">1. Upload CSV Monthly Report SPX</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Untuk pembaruan bulan berikutnya, pilih bulan laporan di atas lalu unggah file <code class="text-orange-300">performance_report_*.csv</code> dari portal SPX. Sistem otomatis menarik kolom <strong class="text-white">Number of days working</strong>.
-          </p>
-          <input type="file" id="csv-upload-input" accept=".csv,.txt" onchange="handleCSVUpload(event)"
-            class="block w-full text-xs text-slate-300 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-500 file:text-white hover:file:bg-orange-600 cursor-pointer bg-slate-900/90 rounded-xl border border-slate-800 p-2" />
-          <div id="upload-feedback" class="hidden text-xs font-semibold text-emerald-400"></div>
-        </div>
-
-        <div class="glass-card rounded-2xl p-5 space-y-3">
-          <h3 class="text-sm font-extrabold text-white">2. Sumber Database Utama (GitHub Auto-Sync)</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Terhubung langsung ke <code class="text-orange-300">./Master_Database.csv</code> di GitHub Anda.
-          </p>
-          <input type="text" id="sheet-url-input" placeholder="./Master_Database.csv"
-            class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-orange-500" />
-          <div class="flex gap-2">
-            <button onclick="saveSheetUrl()" class="flex-1 py-2.5 rounded-xl spx-gradient text-white text-xs font-bold">
-              Simpan & Tarik Data
-            </button>
-            <button onclick="resetToDefault()" class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold border border-slate-700">
-              Reset Awal
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
 
   <script>
-    // ==================== TARGET COMPLIANCE HUB ====================
-    const HUB_TARGET_DSR = 98;
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            spx: {
+              orange: '#EE4D2D',
+              bright: '#FF6533',
+              dark: '#C9381B',
+              navy: '#0B1120',
+              slate: '#131C31',
+            }
+          }
+        }
+      }
+    };
+  </script>
 
-    // ==================== KALKULATOR SKEMA GAJI 4 ARMADA (PROGRESIF BERTINGKAT) ====================
+  <style>
+    /* =====================================================================
+       ANIMASI KHUSUS SPX EXPRESS LOGIN & LOGISTICS MOTION
+       ===================================================================== */
+    @keyframes floatParticle {
+      0%, 100% {
+        transform: translateY(0px) translateX(0px) rotate(0deg);
+        opacity: 0.25;
+      }
+      50% {
+        transform: translateY(-22px) translateX(10px) rotate(8deg);
+        opacity: 0.65;
+      }
+    }
+
+    @keyframes courierRide {
+      0% {
+        transform: translateX(-140px);
+      }
+      100% {
+        transform: translateX(460px);
+      }
+    }
+
+    @keyframes wheelSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes speedStreak {
+      0% {
+        transform: translateX(420px);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.85;
+      }
+      80% {
+        opacity: 0.85;
+      }
+      100% {
+        transform: translateX(-160px);
+        opacity: 0;
+      }
+    }
+
+    @keyframes radarPulse {
+      0% {
+        transform: scale(0.85);
+        opacity: 0.7;
+      }
+      70% {
+        transform: scale(1.65);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1.65);
+        opacity: 0;
+      }
+    }
+
+    @keyframes dashRoute {
+      to {
+        stroke-dashoffset: -48;
+      }
+    }
+
+    @keyframes shimmerSweep {
+      0% {
+        transform: translateX(-120%) skewX(-20deg);
+      }
+      100% {
+        transform: translateX(260%) skewX(-20deg);
+      }
+    }
+
+    @keyframes cardEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .animate-float-1 { animation: floatParticle 6s ease-in-out infinite; }
+    .animate-float-2 { animation: floatParticle 8s ease-in-out 1.5s infinite; }
+    .animate-float-3 { animation: floatParticle 7s ease-in-out 3s infinite; }
+
+    .animate-courier {
+      animation: courierRide 5.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    }
+
+    .animate-wheel {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: wheelSpin 0.65s linear infinite;
+    }
+
+    .animate-streak-1 { animation: speedStreak 1.8s linear infinite; }
+    .animate-streak-2 { animation: speedStreak 2.3s linear 0.6s infinite; }
+    .animate-streak-3 { animation: speedStreak 1.5s linear 1.1s infinite; }
+
+    .animate-radar {
+      animation: radarPulse 2.6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    .animate-route-line {
+      stroke-dasharray: 8 8;
+      animation: dashRoute 1.2s linear infinite;
+    }
+
+    .animate-card-in {
+      animation: cardEntrance 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+      animation: shimmerSweep 3s infinite;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0B1120; }
+    ::-webkit-scrollbar-thumb { background: #EE4D2D; border-radius: 9999px; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-spx-orange selection:text-white overflow-x-hidden">
+
+  <!-- =====================================================================
+       TOAST / MESSAGE BOX (Pengganti alert() sesuai standar UI)
+       ===================================================================== -->
+  <div id="toastBox" class="fixed top-4 right-4 z-50 hidden max-w-sm w-full transition-all duration-300 transform translate-y-0">
+    <div id="toastInner" class="flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-spx-orange/50 text-white">
+      <div id="toastIcon" class="w-8 h-8 rounded-xl bg-spx-orange/20 text-spx-bright flex items-center justify-center shrink-0 font-bold">!</div>
+      <div class="flex-1 text-sm">
+        <p id="toastTitle" class="font-bold text-white">Notifikasi Sistem</p>
+        <p id="toastMsg" class="text-slate-300 text-xs mt-0.5 leading-relaxed"></p>
+      </div>
+      <button onclick="hideToast()" class="text-slate-400 hover:text-white text-lg leading-none px-1">&times;</button>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       VIEW 1: ANIMATED SPX EXPRESS LOGIN SCREEN
+       ===================================================================== -->
+  <section id="loginView" class="relative min-h-screen flex flex-col items-center justify-center px-4 py-8 overflow-hidden bg-gradient-to-br from-[#090D16] via-[#131B2E] to-[#1F120E]">
+
+    <!-- Ambient Glow Orbs -->
+    <div class="pointer-events-none absolute -top-28 -left-24 w-96 h-96 rounded-full bg-spx-orange/25 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-32 -right-24 w-[28rem] h-[28rem] rounded-full bg-orange-600/20 blur-3xl"></div>
+    <div class="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 w-[34rem] h-[34rem] rounded-full bg-spx-orange/10 blur-3xl"></div>
+
+    <!-- Subtle Logistics Grid Background -->
+    <div class="pointer-events-none absolute inset-0 opacity-[0.07]"
+         style="background-image: linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px); background-size: 36px 36px;">
+    </div>
+
+    <!-- Floating Logistics Parcel Particles -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <!-- Parcel Box 1 -->
+      <div class="animate-float-1 absolute top-16 left-[10%] text-spx-orange/40">
+        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+          <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+        </svg>
+      </div>
+      <!-- Parcel Box 2 -->
+      <div class="animate-float-2 absolute bottom-24 left-[14%] text-orange-400/35">
+        <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+          <path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+        </svg>
+      </div>
+      <!-- Pin Location 3 -->
+      <div class="animate-float-3 absolute top-24 right-[12%] text-spx-bright/40">
+        <svg class="w-11 h-11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Main Login Container -->
+    <div class="relative z-10 w-full max-w-md animate-card-in">
+
+      <!-- Top Brand Emblem & Animated SPX Express Track Banner -->
+      <div class="mb-5 rounded-3xl border border-orange-500/30 bg-gradient-to-r from-[#1A1314]/90 via-[#221614]/90 to-[#141B2D]/90 backdrop-blur-xl p-4 shadow-2xl overflow-hidden relative">
+
+        <!-- Header Emblem Row -->
+        <div class="flex items-center justify-between gap-3 relative z-10">
+          <div class="flex items-center gap-3">
+            <!-- Pulsing SPX Emblem -->
+            <div class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-spx-orange to-orange-600 shadow-lg shadow-spx-orange/40">
+              <span class="animate-radar absolute inset-0 rounded-2xl border-2 border-spx-bright"></span>
+              <span class="font-display font-black text-white text-lg tracking-tighter">SPX</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-extrabold uppercase tracking-widest text-spx-bright">SPX Express</span>
+                <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">LIVE</span>
+              </div>
+              <h1 class="font-display font-extrabold text-white text-lg leading-tight">Pringapus 2 Hub</h1>
+            </div>
+          </div>
+
+          <div class="text-right">
+            <span class="inline-block px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-[11px] font-semibold text-orange-200">
+              Strong &amp; Growth Together!
+            </span>
+          </div>
+        </div>
+
+        <!-- Animated Courier Scooter & Speed Streaks SVG Track -->
+        <div class="mt-3 pt-2 border-t border-white/10 relative h-14 overflow-hidden rounded-xl bg-slate-950/60">
+          <svg class="w-full h-full" viewBox="0 0 420 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Speed Streaks -->
+            <line class="animate-streak-1" x1="0" y1="14" x2="65" y2="14" stroke="#FF6533" stroke-width="2" stroke-linecap="round" />
+            <line class="animate-streak-2" x1="0" y1="28" x2="90" y2="28" stroke="#FDBA74" stroke-width="1.5" stroke-linecap="round" />
+            <line class="animate-streak-3" x1="0" y1="40" x2="50" y2="40" stroke="#EE4D2D" stroke-width="2" stroke-linecap="round" />
+
+            <!-- Moving Road Dash Line -->
+            <line class="animate-route-line" x1="0" y1="49" x2="420" y2="49" stroke="#EE4D2D" stroke-opacity="0.55" stroke-width="2" />
+
+            <!-- Moving SPX Courier Scooter Group -->
+            <g class="animate-courier">
+              <!-- Motion Trail Glow -->
+              <ellipse cx="26" cy="45" rx="28" ry="3.5" fill="#EE4D2D" fill-opacity="0.35" />
+              <!-- Delivery Box on Back -->
+              <rect x="10" y="16" width="22" height="18" rx="4" fill="#EE4D2D" stroke="#FED7AA" stroke-width="1.5" />
+              <text x="21" y="28" text-anchor="middle" fill="#FFFFFF" font-size="7.5" font-weight="900" font-family="Inter, sans-serif">SPX</text>
+              <!-- Courier Body & Helmet -->
+              <path d="M36 22 L45 22 L49 32 L35 32 Z" fill="#FF6533" />
+              <circle cx="42" cy="14" r="5.5" fill="#FFFFFF" stroke="#EE4D2D" stroke-width="2" />
+              <path d="M43 12 H48 V15 H43 Z" fill="#0F172A" />
+              <!-- Scooter Chassis -->
+              <path d="M16 36 H48 L54 25 H47 L43 34 H22 Z" fill="#F8FAFC" />
+              <!-- Rear Wheel -->
+              <g class="animate-wheel">
+                <circle cx="20" cy="41" r="6.5" fill="#0F172A" stroke="#FF6533" stroke-width="2.2" />
+                <line x1="20" y1="35" x2="20" y2="47" stroke="#94A3B8" stroke-width="1.2" />
+                <line x1="14" y1="41" x2="26" y2="41" stroke="#94A3B8" stroke-width="1.2" />
+              </g>
+              <!-- Front Wheel -->
+              <g class="animate-wheel">
+                <circle cx="50" cy="41" r="6.5" fill="#0F172A" stroke="#FF6533" stroke-width="2.2" />
+                <line x1="50" y1="35" x2="50" y2="47" stroke="#94A3B8" stroke-width="1.2" />
+                <line x1="44" y1="41" x2="56" y2="41" stroke="#94A3B8" stroke-width="1.2" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Glassmorphism Login Card -->
+      <div class="rounded-3xl border border-white/15 bg-slate-900/75 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.65)]">
+        <div class="mb-6">
+          <h2 class="font-display text-2xl font-extrabold text-white tracking-tight">Login teman Pringapus 2 Hub</h2>
+          <p class="text-spx-bright text-xs font-bold uppercase tracking-wider mt-1">Strong &amp; Growth Together!</p>
+          <p class="text-slate-400 text-sm mt-1.5">
+            Pantau performa pengiriman, total hari kerja, dan estimasi insentif bulanan Anda.
+          </p>
+        </div>
+
+        <!-- Helper Info Badge: Password = Driver ID -->
+        <div class="mb-5 flex items-center gap-2.5 rounded-2xl bg-spx-orange/15 border border-spx-orange/35 px-3.5 py-2.5 text-xs text-orange-200">
+          <svg class="w-4 h-4 text-spx-bright shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+          </svg>
+          <span>Untuk kemudahan akses, masukkan <strong>Driver ID</strong> Anda pada kolom <strong>Password</strong>.</span>
+        </div>
+
+        <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
+          <!-- Driver ID Input -->
+          <div>
+            <label for="driverIdInput" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+              Driver ID
+            </label>
+            <div class="relative">
+              <div class="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <input
+                id="driverIdInput"
+                type="text"
+                inputmode="numeric"
+                required
+                placeholder="Contoh: 1189067"
+                class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-spx-orange focus:ring-2 focus:ring-spx-orange/30 transition"
+              />
+            </div>
+          </div>
+
+          <!-- Password Input (Driver ID) -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="passwordInput" class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                Password (Driver ID)
+              </label>
+              <button
+                type="button"
+                onclick="copyDriverIdToPassword()"
+                class="text-[11px] font-semibold text-spx-bright hover:text-orange-300 transition"
+              >
+                Samakan dengan Driver ID
+              </button>
+            </div>
+            <div class="relative">
+              <div class="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+              <input
+                id="passwordInput"
+                type="password"
+                required
+                placeholder="Masukkan Driver ID Anda"
+                class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-spx-orange focus:ring-2 focus:ring-spx-orange/30 transition"
+              />
+              <button
+                type="button"
+                onclick="togglePasswordVisibility()"
+                aria-label="Tampilkan atau sembunyikan password"
+                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white transition"
+              >
+                <svg id="eyeIcon" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            id="loginSubmitBtn"
+            type="submit"
+            class="btn-shimmer w-full mt-2 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-spx-orange to-orange-600 hover:from-spx-bright hover:to-spx-orange text-white font-bold text-sm shadow-lg shadow-spx-orange/35 active:scale-[0.99] transition flex items-center justify-center gap-2"
+          >
+            <span id="loginBtnText">Masuk ke Dashboard Kurir</span>
+            <svg id="loginArrowIcon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+            <svg id="loginSpinner" class="hidden w-5 h-5 animate-spin text-white" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Quick Preview Demo Button -->
+        <div class="mt-6 pt-5 border-t border-slate-800 flex items-center justify-end text-xs">
+          <button
+            type="button"
+            onclick="fillDemoCredentials()"
+            class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-orange-300 font-semibold border border-slate-700 transition"
+          >
+            Isi Akun Demo
+          </button>
+        </div>
+      </div>
+
+      <p class="text-center text-[11px] text-slate-500 mt-5">
+        &copy; 2026 SPX Express &bull; Pringapus 2 Hub &bull; Strong and Growth Together!
+      </p>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       VIEW 2: COURIER PERFORMANCE & PAYROLL DASHBOARD
+       ===================================================================== -->
+  <section id="dashboardView" class="hidden min-h-screen bg-slate-950 pb-12">
+    <!-- Top Sticky Navbar -->
+    <header class="sticky top-0 z-30 border-b border-slate-800/90 bg-slate-900/90 backdrop-blur-xl">
+      <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-spx-orange to-orange-600 flex items-center justify-center font-display font-black text-white text-sm shadow-md shadow-spx-orange/30">
+            SPX
+          </div>
+          <div>
+            <h1 class="font-display font-extrabold text-white text-sm sm:text-base leading-tight">SPX Pringapus 2 Hub</h1>
+            <p class="text-[11px] text-spx-bright font-semibold">Strong and Growth Together!</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button
+            onclick="refreshDashboardData()"
+            title="Segarkan Data Terbaru"
+            class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 text-xs font-semibold"
+          >
+            <svg id="refreshIcon" class="w-4 h-4 text-spx-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+            </svg>
+            <span class="hidden sm:inline">Refresh</span>
+          </button>
+
+          <button
+            onclick="handleLogout()"
+            class="px-3.5 py-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1.5"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+            </svg>
+            <span>Keluar</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Content -->
+    <main class="max-w-5xl mx-auto px-4 pt-6 space-y-6">
+
+      <!-- Courier Profile Banner & Month Filter -->
+      <div class="rounded-3xl bg-gradient-to-r from-[#1E1414] via-[#171E31] to-[#0F172A] border border-orange-500/25 p-5 sm:p-6 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div id="avatarInitials" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-spx-orange to-amber-600 flex items-center justify-center font-display font-black text-white text-xl shadow-lg shadow-spx-orange/30 shrink-0">
+            SP
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span id="dashCategoryBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-spx-orange/20 text-spx-bright border border-spx-orange/40">
+                2WH Dedicated
+              </span>
+              <span class="text-xs text-slate-400 font-mono">ID: <strong id="dashDriverId" class="text-slate-200">-</strong></span>
+            </div>
+            <h2 id="dashDriverName" class="font-display font-extrabold text-xl sm:text-2xl text-white mt-1">-</h2>
+          </div>
+        </div>
+
+        <!-- Month Selector -->
+        <div class="flex items-center gap-2.5 bg-slate-950/70 border border-slate-800 p-2.5 rounded-2xl">
+          <label for="monthSelect" class="text-xs font-bold text-slate-400 pl-1">Periode:</label>
+          <select
+            id="monthSelect"
+            onchange="onMonthChange()"
+            class="bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-spx-orange"
+          ></select>
+        </div>
+      </div>
+
+      <!-- KPI Cards Grid (5 Metrics including Total_Hari_Kerja) -->
+      <div class="grid grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
+        <!-- Delivery Success Rate -->
+        <div class="col-span-2 lg:col-span-1 rounded-2xl bg-slate-900/90 border border-slate-800 p-4 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-semibold text-slate-400">Success Rate (DSR)</span>
+            <span id="dsrTargetBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300">Target 98%</span>
+          </div>
+          <p id="kpiDsr" class="font-display font-black text-2xl sm:text-3xl text-white mt-2">0%</p>
+          <div class="mt-3">
+            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
+              <div id="dsrProgressBar" class="h-full rounded-full bg-gradient-to-r from-spx-orange to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Hari Kerja (Number of days working) -->
+        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
+          <span class="text-xs font-semibold text-slate-400">Total Hari Kerja</span>
+          <p id="kpiDays" class="font-display font-black text-2xl sm:text-3xl text-spx-bright mt-2">0 <span class="text-xs font-bold text-slate-400">Hari</span></p>
+          <p class="text-[11px] text-slate-500 mt-1">Number of days working</p>
+        </div>
+
+        <!-- Total Penugasan -->
+        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
+          <span class="text-xs font-semibold text-slate-400">Total Penugasan</span>
+          <p id="kpiAssigned" class="font-display font-black text-2xl sm:text-3xl text-white mt-2">0</p>
+          <p class="text-[11px] text-slate-500 mt-1">Paket ditugaskan</p>
+        </div>
+
+        <!-- Delivered -->
+        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
+          <span class="text-xs font-semibold text-slate-400">Paket Terkirim</span>
+          <p id="kpiDelivered" class="font-display font-black text-2xl sm:text-3xl text-emerald-400 mt-2">0</p>
+          <p class="text-[11px] text-slate-500 mt-1">Delivered sukses</p>
+        </div>
+
+        <!-- OnHold -->
+        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
+          <span class="text-xs font-semibold text-slate-400">Paket OnHold</span>
+          <p id="kpiOnHold" class="font-display font-black text-2xl sm:text-3xl text-amber-400 mt-2">0</p>
+          <p class="text-[11px] text-slate-500 mt-1">Tertunda / pending</p>
+        </div>
+      </div>
+
+      <!-- Salary & Incentive Breakdown Card -->
+      <div class="rounded-3xl bg-slate-900/95 border border-slate-800 p-5 sm:p-6 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-spx-bright">Rincian Estimasi Pendapatan</span>
+            <h3 class="font-display font-extrabold text-lg sm:text-xl text-white mt-0.5">Simulasi Gaji &amp; Insentif Kurir</h3>
+          </div>
+          <div class="sm:text-right">
+            <span class="text-xs text-slate-400 block">Total Estimasi Gaji</span>
+            <span id="totalSalaryDisplay" class="font-display font-black text-2xl sm:text-3xl text-emerald-400">Rp0</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Rows -->
+        <div id="salaryBreakdownList" class="mt-4 space-y-3 text-sm"></div>
+
+        <div class="mt-5 rounded-2xl bg-slate-950/80 border border-slate-800/90 p-3.5 text-xs text-slate-400 leading-relaxed">
+          <strong class="text-slate-200">Catatan Perhitungan:</strong> Estimasi dihitung otomatis berdasarkan kategori armada (<span id="noteCategoryName" class="text-spx-bright font-semibold">-</span>), jumlah paket terkirim (<em>Delivered</em>), dan <em>Total Hari Kerja</em> yang tercatat pada laporan performa SPX.
+        </div>
+      </div>
+
+    </main>
+  </section>
+
+  <!-- =====================================================================
+       APPLICATION JAVASCRIPT (CSV PARSER, AUTH, SALARY ENGINE)
+       ===================================================================== -->
+  <script>
+    const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
+
+    // Data cadangan apabila preview dijalankan saat offline atau CSV belum ter-push
+    const FALLBACK_DATA = [
+      {
+        Driver_ID: "1189067",
+        Nama_Kurir: "MUHAMMAD NUR ARIFIN",
+        Password: "1189067",
+        Kategori_Armada: "2WH Dedicated",
+        Delivery_Success_Rate: "98.85%",
+        Total_Penugasan: 2610,
+        Delivered: 2580,
+        OnHold: 18,
+        Total_Hari_Kerja: 24,
+        Bulan: "2026-11"
+      },
+      {
+        Driver_ID: "1353049",
+        Nama_Kurir: "ERVIN UBAIDILLAH",
+        Password: "1353049",
+        Kategori_Armada: "2WH Courier Plus",
+        Delivery_Success_Rate: "98.20%",
+        Total_Penugasan: 980,
+        Delivered: 962,
+        OnHold: 12,
+        Total_Hari_Kerja: 15,
+        Bulan: "2026-11"
+      },
+      {
+        Driver_ID: "1380062",
+        Nama_Kurir: "SURYANA",
+        Password: "1380062",
+        Kategori_Armada: "4WH Mitra",
+        Delivery_Success_Rate: "97.50%",
+        Total_Penugasan: 709,
+        Delivered: 691,
+        OnHold: 14,
+        Total_Hari_Kerja: 17,
+        Bulan: "2026-11"
+      },
+      {
+        Driver_ID: "1392965",
+        Nama_Kurir: "AKMAL ANDROMEDA",
+        Password: "1392965",
+        Kategori_Armada: "2WH Mitra",
+        Delivery_Success_Rate: "96.80%",
+        Total_Penugasan: 475,
+        Delivered: 460,
+        OnHold: 11,
+        Total_Hari_Kerja: 13,
+        Bulan: "2026-11"
+      }
+    ];
+
+    let allRecords = [];
+    let currentCourierRecords = [];
+    let loggedInDriverId = null;
+
+    // -----------------------------------------------------------------------
+    // UI Helpers
+    // -----------------------------------------------------------------------
+    function showToast(title, msg, isError = false) {
+      const box = document.getElementById("toastBox");
+      const inner = document.getElementById("toastInner");
+      const icon = document.getElementById("toastIcon");
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastMsg").textContent = msg;
+
+      if (isError) {
+        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-rose-500/60 text-white";
+        icon.className = "w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 font-bold";
+        icon.textContent = "!";
+      } else {
+        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-emerald-500/50 text-white";
+        icon.className = "w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold";
+        icon.textContent = "✓";
+      }
+      box.classList.remove("hidden");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(hideToast, 4500);
+    }
+
+    function hideToast() {
+      document.getElementById("toastBox").classList.add("hidden");
+    }
+
+    function togglePasswordVisibility() {
+      const inp = document.getElementById("passwordInput");
+      inp.type = inp.type === "password" ? "text" : "password";
+    }
+
+    function copyDriverIdToPassword() {
+      const drvVal = document.getElementById("driverIdInput").value.trim();
+      if (!drvVal) {
+        showToast("Isi Driver ID Dahulu", "Ketik Driver ID Anda terlebih dahulu sebelum menyalin ke kolom Password.", true);
+        document.getElementById("driverIdInput").focus();
+        return;
+      }
+      document.getElementById("passwordInput").value = drvVal;
+      showToast("Password Terisi", "Password telah disamakan dengan Driver ID Anda.");
+    }
+
+    function fillDemoCredentials() {
+      const sample = allRecords.length > 0 ? allRecords[0] : FALLBACK_DATA[0];
+      document.getElementById("driverIdInput").value = sample.Driver_ID;
+      document.getElementById("passwordInput").value = sample.Driver_ID;
+      showToast("Akun Demo Siap", `Driver ID & Password diisi (${sample.Driver_ID} - ${sample.Nama_Kurir}). Klik Masuk!`);
+    }
+
     function formatRupiah(num) {
       return "Rp" + Math.round(num || 0).toLocaleString("id-ID");
     }
 
-    function calculateCourierSalary(category, delivered, daysWorking) {
-      const del = Math.max(0, parseInt(delivered || 0, 10));
-      const days = Math.max(0, parseInt(daysWorking || 0, 10));
-
-      if (category === "2WH Dedicated") {
-        const gajiPokok = 1981000;
-        const bonusHarian = 104240 * days;
-        const tier1Pkg = Math.max(0, Math.min(del, 3120) - 1950);
-        const tier2Pkg = Math.max(0, del - 3120);
-        const incentive1 = tier1Pkg * 620;
-        const incentive2 = tier2Pkg * 1095;
-        const gajiInsentif = incentive1 + incentive2;
-        const total = gajiPokok + bonusHarian + gajiInsentif;
-
-        return {
-          category,
-          total,
-          lines: [
-            { label: "Gaji Pokok", val: gajiPokok },
-            { label: `Bonus Harian (${days} hari × Rp104.240)`, val: bonusHarian },
-            { label: `Incentive 1 (${tier1Pkg.toLocaleString("id-ID")} pkt × Rp620)`, val: incentive1 },
-            { label: `Incentive 2 (${tier2Pkg.toLocaleString("id-ID")} pkt × Rp1.095)`, val: incentive2 }
-          ]
-        };
-      }
-
-      if (category === "2WH Courier Plus") {
-        const gajiPokok = 1700109;
-        const bonusHarian = 20000 * days;
-        const tier1Pkg = Math.max(0, Math.min(del, 1090) - 600);
-        const tier2Pkg = Math.max(0, del - 1090);
-        const incentive1 = tier1Pkg * 475;
-        const incentive2 = tier2Pkg * 875;
-        const gajiInsentif = incentive1 + incentive2;
-        const total = gajiPokok + bonusHarian + gajiInsentif;
-
-        return {
-          category,
-          total,
-          lines: [
-            { label: "Gaji Pokok", val: gajiPokok },
-            { label: `Bonus Harian (${days} hari × Rp20.000)`, val: bonusHarian },
-            { label: `Incentive 1 (${tier1Pkg.toLocaleString("id-ID")} pkt × Rp475)`, val: incentive1 },
-            { label: `Incentive 2 (${tier2Pkg.toLocaleString("id-ID")} pkt × Rp875)`, val: incentive2 }
-          ]
-        };
-      }
-
-      if (category === "2WH Mitra") {
-        const rate = 1800;
-        const total = del * rate;
-        return {
-          category,
-          total,
-          lines: [
-            { label: `Tarif Paket Mitra (${del.toLocaleString("id-ID")} delivered × Rp1.800)`, val: total }
-          ]
-        };
-      }
-
-      if (category === "4WH Mitra") {
-        const rate = 5400;
-        const total = del * rate;
-        return {
-          category,
-          total,
-          lines: [
-            { label: `Tarif Paket 4WH (${del.toLocaleString("id-ID")} delivered × Rp5.400)`, val: total }
-          ]
-        };
-      }
-
-      return { category, total: 0, lines: [] };
-    }
-
-    // ==================== KONTAK WHATSAPP PIMPINAN HUB ====================
-    const WA_CONTACTS = [
-      {
-        name: "Choerul Fikri Hamdani",
-        role: "Hub Lead",
-        phoneDisplay: "081330676314",
-        phoneWa: "6281330676314"
-      },
-      {
-        name: "Novan Andi Setyawan",
-        role: "Shift Lead",
-        phoneDisplay: "082231157342",
-        phoneWa: "6282231157342"
-      },
-      {
-        name: "Ibnu Hanggara",
-        role: "Shift Lead",
-        phoneDisplay: "085701765261",
-        phoneWa: "6285701765261"
-      }
-    ];
-
-    // ==================== DATA TERBARU 32 KURIR AKTIF ====================
-    const DEFAULT_ACTIVE_COURIERS = [
-      {"driver_id": "1400091", "driver_name": "AHMAD FAUZI", "password": "spx0091", "category_label": "2WH Mitra", "dsr": "85.88%", "assigned": 85, "delivered": 73, "onhold": 10, "days_working": 3, "bulan": "2026-11"},
-      {"driver_id": "1400080", "driver_name": "DENI EKO SAPUTRO", "password": "spx0080", "category_label": "2WH Mitra", "dsr": "96.64%", "assigned": 298, "delivered": 288, "onhold": 7, "days_working": 8, "bulan": "2026-11"},
-      {"driver_id": "1392965", "driver_name": "AKMAL ANDROMEDA", "password": "spx2965", "category_label": "2WH Mitra", "dsr": "92.93%", "assigned": 495, "delivered": 460, "onhold": 24, "days_working": 13, "bulan": "2026-11"},
-      {"driver_id": "1380062", "driver_name": "SURYANA", "password": "spx0062", "category_label": "4WH Mitra", "dsr": "95.97%", "assigned": 720, "delivered": 691, "onhold": 10, "days_working": 17, "bulan": "2026-11"},
-      {"driver_id": "1353049", "driver_name": "ERVIN UBAIDILLAH", "password": "spx3049", "category_label": "2WH Courier Plus", "dsr": "96.12%", "assigned": 3326, "delivered": 3197, "onhold": 39, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1330235", "driver_name": "SETIO BUDI UTOMO", "password": "spx0235", "category_label": "2WH Courier Plus", "dsr": "84.92%", "assigned": 2181, "delivered": 1852, "onhold": 37, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1313718", "driver_name": "ACHMAD MUHRON", "password": "spx3718", "category_label": "2WH Courier Plus", "dsr": "87.48%", "assigned": 2333, "delivered": 2041, "onhold": 27, "days_working": 14, "bulan": "2026-11"},
-      {"driver_id": "1297004", "driver_name": "SUJARWANTO", "password": "spx7004", "category_label": "2WH Courier Plus", "dsr": "92.62%", "assigned": 1789, "delivered": 1657, "onhold": 31, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1291606", "driver_name": "MUHAMAD RIDUAN", "password": "spx1606", "category_label": "2WH Courier Plus", "dsr": "95.99%", "assigned": 2566, "delivered": 2463, "onhold": 66, "days_working": 16, "bulan": "2026-11"},
-      {"driver_id": "1241227", "driver_name": "RIZKY WAHYU WIJAYA", "password": "spx1227", "category_label": "4WH Mitra", "dsr": "92.52%", "assigned": 668, "delivered": 618, "onhold": 4, "days_working": 18, "bulan": "2026-11"},
-      {"driver_id": "1208523", "driver_name": "FANDY ACHMAD AL BALAD", "password": "spx8523", "category_label": "2WH Mitra", "dsr": "95.49%", "assigned": 820, "delivered": 783, "onhold": 15, "days_working": 17, "bulan": "2026-11"},
-      {"driver_id": "1207875", "driver_name": "AJI NUGROHO", "password": "spx7875", "category_label": "4WH Mitra", "dsr": "92.28%", "assigned": 868, "delivered": 801, "onhold": 26, "days_working": 18, "bulan": "2026-11"},
-      {"driver_id": "1207638", "driver_name": "RANGGA ADI SAPUTRA", "password": "spx7638", "category_label": "2WH Courier Plus", "dsr": "90.86%", "assigned": 3401, "delivered": 3090, "onhold": 101, "days_working": 16, "bulan": "2026-11"},
-      {"driver_id": "1207637", "driver_name": "AFIF NALA NIAM", "password": "spx7637", "category_label": "2WH Courier Plus", "dsr": "89.82%", "assigned": 2652, "delivered": 2382, "onhold": 18, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1194512", "driver_name": "ADE DWIKI IMAM SYAFII", "password": "spx4512", "category_label": "2WH Dedicated", "dsr": "91.28%", "assigned": 2856, "delivered": 2607, "onhold": 23, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1191220", "driver_name": "GUNTUR EHTIYAR", "password": "spx1220", "category_label": "2WH Courier Plus", "dsr": "89.18%", "assigned": 3059, "delivered": 2728, "onhold": 89, "days_working": 16, "bulan": "2026-11"},
-      {"driver_id": "1189067", "driver_name": "MASUDI", "password": "spx9067", "category_label": "2WH Dedicated", "dsr": "96.55%", "assigned": 2407, "delivered": 2324, "onhold": 25, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1184817", "driver_name": "IRVANA PANJI GUSNIAN", "password": "spx4817", "category_label": "2WH Dedicated", "dsr": "89.72%", "assigned": 3035, "delivered": 2723, "onhold": 50, "days_working": 17, "bulan": "2026-11"},
-      {"driver_id": "1106350", "driver_name": "ABDUL MALIK", "password": "spx6350", "category_label": "2WH Courier Plus", "dsr": "89.54%", "assigned": 2199, "delivered": 1969, "onhold": 64, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1102568", "driver_name": "ADE EKA KHOIRU SEPTIYAN", "password": "spx2568", "category_label": "2WH Courier Plus", "dsr": "89.9%", "assigned": 4466, "delivered": 4015, "onhold": 50, "days_working": 16, "bulan": "2026-11"},
-      {"driver_id": "1100475", "driver_name": "AGIM HENRI ARDANI", "password": "spx0475", "category_label": "2WH Dedicated", "dsr": "92.2%", "assigned": 2398, "delivered": 2211, "onhold": 17, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "1060807", "driver_name": "JEFRI KURNIAWAN", "password": "spx0807", "category_label": "4WH Mitra", "dsr": "95.86%", "assigned": 821, "delivered": 787, "onhold": 12, "days_working": 18, "bulan": "2026-11"},
-      {"driver_id": "1056451", "driver_name": "REZA ARISETYAWAN", "password": "spx6451", "category_label": "4WH Mitra", "dsr": "95.87%", "assigned": 726, "delivered": 696, "onhold": 25, "days_working": 16, "bulan": "2026-11"},
-      {"driver_id": "1054791", "driver_name": "AMAT SUTOMO", "password": "spx4791", "category_label": "2WH Courier Plus", "dsr": "82.97%", "assigned": 2167, "delivered": 1798, "onhold": 90, "days_working": 13, "bulan": "2026-11"},
-      {"driver_id": "1035623", "driver_name": "EKO SANTOSO HASAN", "password": "spx5623", "category_label": "4WH Mitra", "dsr": "91.96%", "assigned": 995, "delivered": 915, "onhold": 28, "days_working": 18, "bulan": "2026-11"},
-      {"driver_id": "893812", "driver_name": "FAJAR OKI SETIAWAN", "password": "spx3812", "category_label": "2WH Dedicated", "dsr": "95.84%", "assigned": 2092, "delivered": 2005, "onhold": 23, "days_working": 16, "bulan": "2026-11"},
-      {"driver_id": "860468", "driver_name": "NUR HAMID", "password": "spx0468", "category_label": "2WH Mitra", "dsr": "83.33%", "assigned": 6, "delivered": 5, "onhold": 0, "days_working": 5, "bulan": "2026-11"},
-      {"driver_id": "829762", "driver_name": "SIGIT NUGROHO", "password": "spx9762", "category_label": "2WH Dedicated", "dsr": "89.5%", "assigned": 3058, "delivered": 2737, "onhold": 49, "days_working": 14, "bulan": "2026-11"},
-      {"driver_id": "710119", "driver_name": "LOVY TAUFAN WAHYU UTAMA", "password": "spx0119", "category_label": "2WH Dedicated", "dsr": "94.84%", "assigned": 2483, "delivered": 2355, "onhold": 45, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "646598", "driver_name": "AHMAD KHOZIN", "password": "spx6598", "category_label": "2WH Dedicated", "dsr": "92.5%", "assigned": 3052, "delivered": 2823, "onhold": 56, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "594188", "driver_name": "MAHARIF", "password": "spx4188", "category_label": "2WH Dedicated", "dsr": "96.24%", "assigned": 3216, "delivered": 3095, "onhold": 8, "days_working": 15, "bulan": "2026-11"},
-      {"driver_id": "457770", "driver_name": "LIFI ASEP SUTENDI", "password": "spx7770", "category_label": "2WH Dedicated", "dsr": "93.61%", "assigned": 2784, "delivered": 2606, "onhold": 9, "days_working": 16, "bulan": "2026-11"}
-    ];
-
-    const ADMIN_ACCOUNTS = [
-      { driver_id: "ADMIN-HUB", password: "pringapus2026", name: "Admin SPX Pringapus 2 Hub" },
-      { driver_id: "OPS-PRINGAPUS", password: "spxadmin123", name: "Koordinator Operasional Hub" }
-    ];
-
-    const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
-
-    const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v13_private",
-      SESSION: "spx_pringapus2_session_v13_private",
-      SHEET_URL: "spx_pringapus2_sheet_url_v13_private",
-      FEEDBACK: "spx_pringapus2_feedback_v13_private"
-    };
-
-    const NAMA_BULAN_ID = [
-      "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-      "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
-
-    function getCurrentSystemMonthKey() {
-      const now = new Date();
-      const y = now.getFullYear();
-      const m = String(now.getMonth() + 1).padStart(2, "0");
-      return `${y}-${m}`;
-    }
-
-    function formatMonthLabel(monthKey) {
-      const [y, m] = monthKey.split("-");
-      const idx = parseInt(m, 10) - 1;
-      return `${NAMA_BULAN_ID[idx] || m} ${y}`;
-    }
-
-    function generateAvailableMonths(dbObj) {
-      const keys = new Set(Object.keys(dbObj || {}));
-      keys.add("2026-11");
-      const now = new Date();
-      for (let offset = 0; offset <= 2; offset++) {
-        const d = new Date(now.getFullYear(), now.getMonth() + offset, 1);
-        const k = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-        keys.add(k);
-      }
-      return Array.from(keys).sort();
-    }
-
-    let monthlyDatabase = {};
-    let selectedMonthKey = getCurrentSystemMonthKey();
-    let currentDriverCategory = "2WH Dedicated";
-    let currentCategory = "ALL";
-    let currentRankTab = "best";
-    let currentWorstCategory = "2WH Dedicated";
-    let complianceChartInstance = null;
-
-    function isCourierActive(c) {
-      if (!c) return false;
-      const dsrZero = isZeroVal(c.dsr);
-      const assZero = (parseInt(c.assigned || 0, 10) || 0) === 0;
-      const delZero = (parseInt(c.delivered || 0, 10) || 0) === 0;
-      return !(dsrZero && assZero && delZero);
-    }
-
-    function loadDatabaseFromStorage() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEYS.MONTHLY_DB);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
-            monthlyDatabase = parsed;
-            if (!monthlyDatabase["2026-11"]) {
-              monthlyDatabase["2026-11"] = [...DEFAULT_ACTIVE_COURIERS];
-            }
-            Object.keys(monthlyDatabase).forEach(k => {
-              monthlyDatabase[k] = (monthlyDatabase[k] || []).filter(isCourierActive);
-            });
-            return;
-          }
-        }
-      } catch (e) {}
-      monthlyDatabase = {
-        "2026-11": [...DEFAULT_ACTIVE_COURIERS]
-      };
-    }
-
-    function saveDatabaseToStorage() {
-      localStorage.setItem(STORAGE_KEYS.MONTHLY_DB, JSON.stringify(monthlyDatabase));
-      populateMonthSelectors();
-      updateStatusBadge();
-    }
-
-    function getCouriersForMonth(monthKey) {
-      if (monthlyDatabase[monthKey] && monthlyDatabase[monthKey].length > 0) {
-        return monthlyDatabase[monthKey].filter(isCourierActive);
-      }
-      return [];
-    }
-
-    function populateMonthSelectors() {
-      const months = generateAvailableMonths(monthlyDatabase);
-      if (!months.includes(selectedMonthKey)) {
-        selectedMonthKey = months[months.length - 1];
-      }
-
-      const optionsHtml = months.map(k => {
-        const hasData = monthlyDatabase[k] && monthlyDatabase[k].length > 0;
-        return `<option value="${k}" ${k === selectedMonthKey ? "selected" : ""}>${formatMonthLabel(k)}${hasData ? "" : " (Baru)"}</option>`;
-      }).join("");
-
-      const drvSel = document.getElementById("driver-month-select");
-      const admSel = document.getElementById("admin-month-select");
-      if (drvSel) drvSel.innerHTML = optionsHtml;
-      if (admSel) admSel.innerHTML = optionsHtml;
-
-      const labelText = formatMonthLabel(selectedMonthKey);
-      const drvLbl = document.getElementById("active-month-label");
-      const admLbl = document.getElementById("admin-month-label");
-      const rnkLbl = document.getElementById("rank-month-badge");
-      if (drvLbl) drvLbl.textContent = labelText;
-      if (admLbl) admLbl.textContent = labelText;
-      if (rnkLbl) rnkLbl.textContent = labelText;
-    }
-
-    function onMonthChange(newMonthKey) {
-      selectedMonthKey = newMonthKey;
-      populateMonthSelectors();
-      restoreSession();
-    }
-
-    function updateStatusBadge() {
-      const list = getCouriersForMonth(selectedMonthKey);
-      const el = document.getElementById("db-status-login");
-      if (el) el.textContent = `Siap (${list.length} Kurir Aktif)`;
-      const tabBtn = document.getElementById("tab-btn-list");
-      if (tabBtn) tabBtn.textContent = `Kurir Aktif (${list.length})`;
-      updateFeedbackBadge();
-    }
-
-    function togglePassword() {
-      const inp = document.getElementById("input-pass");
-      inp.type = inp.type === "password" ? "text" : "password";
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const rawId = document.getElementById("input-id").value.trim().toUpperCase();
-      const rawPass = document.getElementById("input-pass").value.trim();
-      const errBox = document.getElementById("login-error");
-
-      const admin = ADMIN_ACCOUNTS.find(a => a.driver_id.toUpperCase() === rawId && a.password === rawPass);
-      if (admin) {
-        errBox.classList.add("hidden");
-        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({ role: "admin", id: admin.driver_id }));
-        showAdminDashboard();
-        return;
-      }
-
-      const currentList = getCouriersForMonth(selectedMonthKey);
-      const driver = currentList.find(c => String(c.driver_id).trim().toUpperCase() === rawId && String(c.password).trim() === rawPass);
-      if (driver) {
-        errBox.classList.add("hidden");
-        localStorage.setItem(STORAGE_KEYS.SESSION, JSON.stringify({ role: "driver", id: driver.driver_id }));
-        showDriverDashboard(driver);
-        return;
-      }
-
-      errBox.classList.remove("hidden");
-    }
-
-    function logout() {
-      localStorage.removeItem(STORAGE_KEYS.SESSION);
-      document.getElementById("driver-dashboard").classList.add("hidden");
-      document.getElementById("driver-dashboard").classList.remove("flex");
-      document.getElementById("admin-dashboard").classList.add("hidden");
-      document.getElementById("admin-dashboard").classList.remove("flex");
-      document.getElementById("login-screen").classList.remove("hidden");
-      document.getElementById("input-pass").value = "";
-    }
-
-    // ==================== DASHBOARD KURIR & SUB-MENU ====================
-    function showDriverDashboard(driver) {
-      document.getElementById("login-screen").classList.add("hidden");
-      document.getElementById("admin-dashboard").classList.add("hidden");
-      const dash = document.getElementById("driver-dashboard");
-      dash.classList.remove("hidden");
-      dash.classList.add("flex");
-
-      populateMonthSelectors();
-      currentDriverCategory = driver.category_label;
-
-      document.getElementById("drv-badge").textContent = driver.category_label;
-      document.getElementById("drv-name").textContent = driver.driver_name;
-      document.getElementById("drv-id").textContent = driver.driver_id;
-      document.getElementById("drv-avatar").textContent = driver.driver_name.charAt(0).toUpperCase();
-
-      document.getElementById("metric-dsr").textContent = driver.dsr;
-      document.getElementById("metric-assigned").textContent = driver.assigned;
-      document.getElementById("metric-days").textContent = driver.days_working || 0;
-      document.getElementById("metric-delivered").textContent = driver.delivered;
-      document.getElementById("metric-onhold").textContent = driver.onhold;
-
-      renderDriverSalaryCard(driver);
-      renderComplianceChart(driver.driver_id);
-      renderRankList();
-      renderWhatsAppContacts(driver);
-    }
-
-    function renderDriverSalaryCard(driver) {
-      const sal = calculateCourierSalary(driver.category_label, driver.delivered, driver.days_working);
-      const breakdownHtml = sal.lines.map(item => `
-        <div class="flex items-center justify-between gap-2 text-slate-300">
-          <span>${item.label}</span>
-          <span class="font-bold text-white shrink-0">${formatRupiah(item.val)}</span>
-        </div>
-      `).join("");
-
-      // Tampilkan di kartu utama tab Performa (di bawah Delivered & OnHold)
-      document.getElementById("perf-salary-total").textContent = formatRupiah(sal.total);
-      document.getElementById("perf-salary-breakdown").innerHTML = breakdownHtml;
-
-      // Tampilkan di tab Simulasi Gaji pribadi kurir
-      document.getElementById("actual-salary-total").textContent = formatRupiah(sal.total);
-      document.getElementById("actual-salary-cat").textContent = driver.category_label;
-      document.getElementById("actual-salary-breakdown").innerHTML = breakdownHtml;
-
-      const simDel = document.getElementById("sim-delivered");
-      const simDays = document.getElementById("sim-days");
-      const daysWrap = document.getElementById("sim-days-wrapper");
-      const inputsGrid = document.getElementById("sim-inputs-grid");
-
-      if (simDel) simDel.value = driver.delivered || 0;
-      if (simDays) simDays.value = driver.days_working || 0;
-
-      // Untuk Mitra (2WH Mitra / 4WH Mitra), gaji murni dari jumlah paket delivered
-      if (driver.category_label === "2WH Mitra" || driver.category_label === "4WH Mitra") {
-        daysWrap.classList.add("hidden");
-        inputsGrid.className = "grid grid-cols-1 gap-3";
-      } else {
-        daysWrap.classList.remove("hidden");
-        inputsGrid.className = "grid grid-cols-2 gap-3";
-      }
-
-      runSalarySimulator();
-    }
-
-    function runSalarySimulator() {
-      const cat = currentDriverCategory;
-      const del = document.getElementById("sim-delivered").value;
-      const days = document.getElementById("sim-days").value;
-
-      const res = calculateCourierSalary(cat, del, days);
-      document.getElementById("sim-result-total").textContent = formatRupiah(res.total);
-      document.getElementById("sim-result-breakdown").innerHTML = res.lines.map(item => `
-        <div class="flex items-center justify-between gap-2">
-          <span>${item.label}</span>
-          <span class="font-bold text-slate-100 shrink-0">${formatRupiah(item.val)}</span>
-        </div>
-      `).join("");
-    }
-
-    function switchDriverSubMenu(sub) {
-      const tabs = ["perf", "gaji", "rank", "saran", "wa"];
-      tabs.forEach(t => {
-        const view = document.getElementById("drv-view-" + t);
-        const btn = document.getElementById("drv-tab-" + t);
-        if (t === sub) {
-          view.classList.remove("hidden");
-          btn.className = "py-2 px-1 rounded-xl text-[10px] font-bold spx-gradient text-white shadow text-center";
-        } else {
-          view.classList.add("hidden");
-          btn.className = "py-2 px-1 rounded-xl text-[10px] font-bold text-slate-400 hover:text-white text-center";
-        }
-      });
-    }
-
-    // ==================== GRAFIK COMPLIANCE% DSR PER BULAN (TARGET HUB 98%) ====================
-    function parseDsrNumber(dsrStr) {
-      const num = parseFloat(String(dsrStr || "0").replace("%", "").trim());
-      return isNaN(num) ? 0 : num;
-    }
-
-    function renderComplianceChart(driverId) {
-      const availableKeys = Object.keys(monthlyDatabase).sort();
-      const labels = availableKeys.map(k => formatMonthLabel(k));
-      const values = availableKeys.map(k => {
-        const found = (monthlyDatabase[k] || []).find(c => String(c.driver_id) === String(driverId));
-        return found ? parseDsrNumber(found.dsr) : 0;
-      });
-
-      const currentIdx = availableKeys.indexOf(selectedMonthKey);
-      const currentVal = currentIdx >= 0 ? values[currentIdx] : (values[values.length - 1] || 0);
-      const prevVal = currentIdx > 0 ? values[currentIdx - 1] : null;
-
-      const trendBadge = document.getElementById("dsr-trend-badge");
-      const summaryEl = document.getElementById("compliance-summary-text");
-      const statusPill = document.getElementById("compliance-status-pill");
-
-      if (currentVal >= HUB_TARGET_DSR) {
-        statusPill.textContent = `Tercapai (≥ ${HUB_TARGET_DSR}%)`;
-        statusPill.className = "px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-      } else {
-        statusPill.textContent = `Di Bawah Target (< ${HUB_TARGET_DSR}%)`;
-        statusPill.className = "px-2.5 py-1 rounded-lg text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/30";
-      }
-
-      if (prevVal !== null) {
-        const diff = (currentVal - prevVal).toFixed(2);
-        if (currentVal > prevVal) {
-          trendBadge.textContent = `▲ Naik +${diff}%`;
-          trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-          summaryEl.innerHTML = `Pencapaian <strong class="text-emerald-400">MENINGKAT +${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Target Hub: <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong>.`;
-        } else if (currentVal < prevVal) {
-          trendBadge.textContent = `▼ Turun ${diff}%`;
-          trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-red-500/20 text-red-300 border border-red-500/30";
-          summaryEl.innerHTML = `Terjadi <strong class="text-red-400">PENURUNAN ${diff}%</strong> dibanding bulan sebelumnya (${prevVal}% → ${currentVal}%). Kejar target Hub <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong> dengan menekan paket OnHold.`;
-        } else {
-          trendBadge.textContent = "• Stabil 0%";
-          summaryEl.innerHTML = `Performa Delivery Success Rate stabil di angka <strong class="text-white">${currentVal}%</strong> (Target Hub: <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong>).`;
-        }
-      } else {
-        trendBadge.textContent = formatMonthLabel(selectedMonthKey);
-        trendBadge.className = "px-2.5 py-1 rounded-xl text-[11px] font-bold bg-slate-800 text-orange-300 border border-slate-700";
-        summaryEl.innerHTML = `Compliance DSR bulan <strong class="text-white">${formatMonthLabel(selectedMonthKey)}</strong> tercatat sebesar <strong class="text-emerald-400">${currentVal}%</strong> (Target Hub: <strong class="text-orange-300">${HUB_TARGET_DSR}%</strong>). Grafik otomatis membandingkan kenaikan/penurunan saat data bulan berikutnya masuk.`;
-      }
-
-      const ctx = document.getElementById("complianceChart").getContext("2d");
-      if (complianceChartInstance) {
-        complianceChartInstance.destroy();
-      }
-
-      complianceChartInstance = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: "Compliance DSR (%)",
-              data: values,
-              borderColor: "#10b981",
-              backgroundColor: "rgba(16, 185, 129, 0.16)",
-              borderWidth: 3,
-              pointBackgroundColor: "#ee4d2d",
-              pointBorderColor: "#ffffff",
-              pointRadius: 5,
-              fill: true,
-              tension: 0.3
-            },
-            {
-              label: `Target Hub (${HUB_TARGET_DSR}%)`,
-              data: labels.map(() => HUB_TARGET_DSR),
-              borderColor: "rgba(251, 146, 60, 0.8)",
-              borderDash: [5, 5],
-              borderWidth: 1.5,
-              pointRadius: 0,
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              labels: { color: "#cbd5e1", font: { size: 10, weight: "bold" } }
-            }
-          },
-          scales: {
-            y: {
-              min: 0,
-              max: 105,
-              ticks: { color: "#94a3b8", font: { size: 10 }, callback: v => v + "%" },
-              grid: { color: "rgba(148, 163, 184, 0.1)" }
-            },
-            x: {
-              ticks: { color: "#cbd5e1", font: { size: 10, weight: "bold" } },
-              grid: { display: false }
-            }
-          }
-        }
-      });
-    }
-
-    // ==================== KURIR TERBAIK & KURIR TERBURUK ====================
-    function generateImprovementSolution(c) {
-      const dsr = parseDsrNumber(c.dsr);
-      const assigned = c.assigned || 0;
-      const delivered = c.delivered || 0;
-      const onhold = c.onhold || 0;
-      const undelivered = Math.max(0, assigned - delivered);
-      const tips = [];
-
-      if (onhold >= 30) {
-        tips.push(`Tekan paket OnHold (${onhold} paket) dengan konfirmasi WA/telepon penerima sebelum berangkat & lampirkan bukti foto valid saat kendala alamat/penerima.`);
-      }
-      if (dsr < 85) {
-        tips.push(`DSR masih ${c.dsr} (sisa ${undelivered} paket belum terkirim). Prioritaskan pengantaran area terdekat di pagi hari & minta bantuan Shift Lead untuk optimasi urutan rute.`);
-      } else if (dsr < HUB_TARGET_DSR) {
-        tips.push(`Tingkatkan penyelesaian ${undelivered} paket tertunda dan lakukan percobaan antar ulang di sore hari agar DSR menembus target Hub ≥ ${HUB_TARGET_DSR}%.`);
-      }
-      if (c.category_label === "4WH Mitra") {
-        tips.push(`Untuk armada 4WH Mitra, pastikan muatan paket besar disusun sesuai urutan titik bongkar (LIFO) agar waktu bongkar lebih cepat dan tidak tertunda.`);
-      } else if (c.category_label === "2WH Mitra") {
-        tips.push(`Untuk armada 2WH Mitra, pastikan kehadiran rutin dan konfirmasi ketersediaan slot rute pagi agar rasio paket terkirim maksimal.`);
-      }
-      if (tips.length === 0) {
-        tips.push(`Pertahankan konsistensi pengantaran harian agar DSR tetap terjaga ≥ ${HUB_TARGET_DSR}% sebelum jam cut-off hub.`);
-      }
-      return tips.join(" ");
-    }
-
-    function switchRankSubTab(mode) {
-      currentRankTab = mode;
-      const btnBest = document.getElementById("btn-rank-best");
-      const btnWorst = document.getElementById("btn-rank-worst");
-      const worstPills = document.getElementById("worst-category-pills");
-
-      if (mode === "best") {
-        btnBest.className = "py-2 rounded-lg text-xs font-bold bg-emerald-600 text-white";
-        btnWorst.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
-        worstPills.classList.add("hidden");
-        worstPills.classList.remove("grid");
-      } else {
-        btnWorst.className = "py-2 rounded-lg text-xs font-bold bg-red-600 text-white";
-        btnBest.className = "py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white";
-        worstPills.classList.remove("hidden");
-        worstPills.classList.add("grid");
-      }
-      renderRankList();
-    }
-
-    function selectWorstCategory(cat) {
-      currentWorstCategory = cat;
-      document.querySelectorAll(".wcat-btn").forEach(btn => {
-        btn.className = "wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-slate-800 text-slate-300 text-left";
-      });
-      const active = document.getElementById("wcat-" + cat);
-      if (active) {
-        active.className = "wcat-btn py-2 px-2.5 rounded-xl text-[11px] font-bold bg-red-600 text-white text-left";
-      }
-      renderRankList();
-    }
-
-    function renderRankList() {
-      const container = document.getElementById("rank-list-container");
-      const allList = [...getCouriersForMonth(selectedMonthKey)];
-
-      if (currentRankTab === "best") {
-        const bestPool = allList.filter(c =>
-          c.category_label === "2WH Dedicated" || c.category_label === "2WH Courier Plus"
-        );
-        bestPool.sort((a, b) => {
-          const diffDsr = parseDsrNumber(b.dsr) - parseDsrNumber(a.dsr);
-          if (Math.abs(diffDsr) > 0.001) return diffDsr;
-          return (b.delivered || 0) - (a.delivered || 0);
-        });
-
-        const top5 = bestPool.slice(0, 5);
-        if (top5.length === 0) {
-          container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">Belum ada data pada bulan ini.</div>`;
-          return;
-        }
-
-        container.innerHTML = top5.map((c, i) => `
-          <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5 flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3 min-w-0">
-              <span class="w-7 h-7 rounded-xl border bg-emerald-500/20 text-emerald-300 border-emerald-500/30 flex items-center justify-center text-xs font-extrabold shrink-0">
-                #${i + 1}
-              </span>
-              <div class="min-w-0">
-                <p class="text-xs font-extrabold text-white truncate">${c.driver_name}</p>
-                <p class="text-[10px] text-slate-400">${c.category_label} • Delivered: ${c.delivered}/${c.assigned} • Kerja: ${c.days_working || 0} Hari</p>
-              </div>
-            </div>
-            <div class="text-right shrink-0">
-              <span class="text-sm font-extrabold text-emerald-400">${c.dsr}</span>
-              <span class="text-[9px] text-slate-500 block">DSR</span>
-            </div>
-          </div>
-        `).join("");
-      } else {
-        const catPool = allList.filter(c => c.category_label === currentWorstCategory);
-        catPool.sort((a, b) => {
-          const diffDsr = parseDsrNumber(a.dsr) - parseDsrNumber(b.dsr);
-          if (Math.abs(diffDsr) > 0.001) return diffDsr;
-          return (b.onhold || 0) - (a.onhold || 0);
-        });
-
-        if (catPool.length === 0) {
-          container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">Tidak ada kurir aktif pada kategori ${currentWorstCategory}.</div>`;
-          return;
-        }
-
-        const worstList = catPool.slice(0, 5);
-        container.innerHTML = worstList.map((c, i) => {
-          const solusi = generateImprovementSolution(c);
-          return `
-            <div class="bg-slate-900/90 border border-red-500/25 rounded-2xl p-3.5 space-y-2.5">
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3 min-w-0">
-                  <span class="w-7 h-7 rounded-xl border bg-red-500/20 text-red-300 border-red-500/30 flex items-center justify-center text-xs font-extrabold shrink-0">
-                    #${i + 1}
-                  </span>
-                  <div class="min-w-0">
-                    <p class="text-xs font-extrabold text-white truncate">${c.driver_name}</p>
-                    <p class="text-[10px] text-slate-400">${c.category_label} • Delivered: ${c.delivered}/${c.assigned} • OnHold: ${c.onhold} • Kerja: ${c.days_working || 0} Hari</p>
-                  </div>
-                </div>
-                <div class="text-right shrink-0">
-                  <span class="text-sm font-extrabold text-red-400">${c.dsr}</span>
-                  <span class="text-[9px] text-slate-500 block">DSR</span>
-                </div>
-              </div>
-              <div class="bg-amber-500/10 border border-amber-500/25 rounded-xl p-2.5 text-[11px] text-amber-200 leading-relaxed">
-                <strong class="text-amber-300 block mb-0.5">💡 Solusi Perbaikan:</strong>
-                ${solusi}
-              </div>
-            </div>
-          `;
-        }).join("");
-      }
-    }
-
-    // ==================== BANTUAN WHATSAPP (DIRECT CHAT) ====================
-    function renderWhatsAppContacts(driver) {
-      const container = document.getElementById("wa-contacts-list");
-      const msg = encodeURIComponent(`Halo Pak, saya ${driver.driver_name} (ID: ${driver.driver_id}) dari SPX Pringapus 2 Hub ingin bertanya terkait performa/operasional.`);
-
-      container.innerHTML = WA_CONTACTS.map(contact => `
-        <a href="https://wa.me/${contact.phoneWa}?text=${msg}" target="_blank" rel="noopener noreferrer"
-          class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-emerald-500/40 transition group">
-          <div class="flex items-center gap-3">
-            <div class="w-11 h-11 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 group-hover:scale-105 transition">
-              <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
-              </svg>
-            </div>
-            <div>
-              <span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-500/15 text-orange-300 mb-0.5">${contact.role}</span>
-              <h5 class="text-xs font-extrabold text-white">${contact.name}</h5>
-              <p class="text-[11px] text-slate-400 font-medium">${contact.phoneDisplay}</p>
-            </div>
-          </div>
-          <span class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-[11px] font-bold shrink-0">
-            Chat WA
-          </span>
-        </a>
-      `).join("");
-    }
-
-    // ==================== SARAN & PERBAIKAN (KURIR KIRIM -> ADMIN BACA) ====================
-    function getFeedbackList() {
-      try {
-        return JSON.parse(localStorage.getItem(STORAGE_KEYS.FEEDBACK) || "[]");
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function updateFeedbackBadge() {
-      const badge = document.getElementById("saran-count-badge");
-      if (badge) badge.textContent = getFeedbackList().length;
-    }
-
-    function submitFeedback(e) {
-      e.preventDefault();
-      const rawSess = localStorage.getItem(STORAGE_KEYS.SESSION);
-      let senderName = "Kurir";
-      let senderId = "-";
-      if (rawSess) {
-        const sess = JSON.parse(rawSess);
-        const found = getCouriersForMonth(selectedMonthKey).find(c => String(c.driver_id) === String(sess.id));
-        if (found) {
-          senderName = found.driver_name;
-          senderId = found.driver_id;
-        }
-      }
-
-      const kategori = document.getElementById("saran-kategori").value;
-      const pesan = document.getElementById("saran-pesan").value.trim();
-      if (!pesan) return;
-
-      const list = getFeedbackList();
-      list.unshift({
-        id: Date.now(),
-        tanggal: new Date().toLocaleString("id-ID"),
-        driver_id: senderId,
-        driver_name: senderName,
-        kategori: kategori,
-        pesan: pesan
-      });
-      localStorage.setItem(STORAGE_KEYS.FEEDBACK, JSON.stringify(list));
-
-      document.getElementById("saran-pesan").value = "";
-      const notif = document.getElementById("saran-notif");
-      notif.classList.remove("hidden");
-      setTimeout(() => notif.classList.add("hidden"), 4000);
-      updateFeedbackBadge();
-    }
-
-    function renderAdminFeedbackList() {
-      const container = document.getElementById("admin-saran-list");
-      const list = getFeedbackList();
-      updateFeedbackBadge();
-
-      if (list.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">Belum ada saran atau perbaikan yang masuk dari kurir.</div>`;
-        return;
-      }
-
-      container.innerHTML = list.map(item => `
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-500/20 text-orange-300">${item.kategori}</span>
-            <span class="text-[10px] text-slate-500">${item.tanggal}</span>
-          </div>
-          <p class="text-xs text-slate-200 leading-relaxed">${item.pesan}</p>
-          <p class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/80">
-            Pengirim: <strong class="text-white">${item.driver_name}</strong> (ID: ${item.driver_id})
-          </p>
-        </div>
-      `).join("");
-    }
-
-    function clearAllFeedback() {
-      if (confirm("Hapus semua daftar saran yang masuk?")) {
-        localStorage.removeItem(STORAGE_KEYS.FEEDBACK);
-        renderAdminFeedbackList();
-      }
-    }
-
-    // ==================== DASHBOARD ADMIN HUB ====================
-    function showAdminDashboard() {
-      document.getElementById("login-screen").classList.add("hidden");
-      document.getElementById("driver-dashboard").classList.add("hidden");
-      const dash = document.getElementById("admin-dashboard");
-      dash.classList.remove("hidden");
-      dash.classList.add("flex");
-
-      populateMonthSelectors();
-      const savedUrl = localStorage.getItem(STORAGE_KEYS.SHEET_URL) || EMBEDDED_MASTER_CSV_URL;
-      document.getElementById("sheet-url-input").value = savedUrl;
-      renderAdminList();
-      renderAdminPayroll();
-      renderAdminFeedbackList();
-    }
-
-    function switchAdminTab(tab) {
-      const tabs = ["list", "payroll", "saran", "sync"];
-      tabs.forEach(t => {
-        const el = document.getElementById("admin-tab-" + t);
-        const btn = document.getElementById("tab-btn-" + t);
-        if (t === tab) {
-          el.classList.remove("hidden");
-          btn.className = "py-2.5 rounded-xl text-xs font-bold spx-gradient text-white shadow";
-        } else {
-          el.classList.add("hidden");
-          btn.className = "py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white";
-        }
-      });
-      if (tab === "payroll") renderAdminPayroll();
-      if (tab === "saran") renderAdminFeedbackList();
-    }
-
-    function filterAdminCategory(cat) {
-      currentCategory = cat;
-      document.querySelectorAll(".cat-pill").forEach(btn => {
-        btn.className = "cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 shrink-0";
-      });
-      const activeBtn = document.getElementById("cat-" + cat);
-      if (activeBtn) activeBtn.className = "cat-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-orange-500 text-white shrink-0";
-      renderAdminList();
-    }
-
-    function renderAdminList() {
-      const q = (document.getElementById("admin-search").value || "").toLowerCase();
-      const container = document.getElementById("admin-courier-cards");
-      const list = getCouriersForMonth(selectedMonthKey);
-      const filtered = list.filter(c => {
-        const matchCat = currentCategory === "ALL" || c.category_label === currentCategory;
-        const matchQuery = c.driver_name.toLowerCase().includes(q) || String(c.driver_id).includes(q);
-        return matchCat && matchQuery;
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-500">Tidak ada kurir ditemukan.</div>`;
-        return;
-      }
-
-      container.innerHTML = filtered.map(c => {
-        const sal = calculateCourierSalary(c.category_label, c.delivered, c.days_working);
-        return `
-          <div class="glass-card rounded-2xl p-4 space-y-3">
-            <div class="flex items-start justify-between gap-2">
-              <div>
-                <span class="inline-block px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-800 text-orange-300 border border-slate-700">${c.category_label}</span>
-                <h4 class="text-sm font-extrabold text-white mt-1">${c.driver_name}</h4>
-                <p class="text-[11px] text-slate-400">ID: <strong class="text-slate-200">${c.driver_id}</strong> • Pass: <strong class="text-emerald-400">${c.password}</strong></p>
-              </div>
-              <div class="text-right">
-                <span class="text-[10px] text-slate-400 block">Estimasi Gaji</span>
-                <span class="text-sm font-extrabold text-emerald-400">${formatRupiah(sal.total)}</span>
-                <span class="text-[10px] text-slate-400 block mt-0.5">DSR: <strong class="text-white">${c.dsr}</strong></span>
-              </div>
-            </div>
-            <div class="grid grid-cols-4 gap-2 pt-2 border-t border-slate-800/80 text-center">
-              <div class="bg-slate-900/80 rounded-xl p-2">
-                <span class="text-[10px] text-slate-400 block">Penugasan</span>
-                <span class="text-xs font-extrabold text-white">${c.assigned}</span>
-              </div>
-              <div class="bg-slate-900/80 rounded-xl p-2">
-                <span class="text-[10px] text-slate-400 block">Delivered</span>
-                <span class="text-xs font-extrabold text-orange-400">${c.delivered}</span>
-              </div>
-              <div class="bg-slate-900/80 rounded-xl p-2">
-                <span class="text-[10px] text-slate-400 block">OnHold</span>
-                <span class="text-xs font-extrabold text-amber-300">${c.onhold}</span>
-              </div>
-              <div class="bg-slate-900/80 rounded-xl p-2">
-                <span class="text-[10px] text-slate-400 block">Hari Kerja</span>
-                <span class="text-xs font-extrabold text-purple-300">${c.days_working || 0}</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    function renderAdminPayroll() {
-      const list = getCouriersForMonth(selectedMonthKey);
-      const cats = ["2WH Dedicated", "2WH Courier Plus", "2WH Mitra", "4WH Mitra"];
-      let grandTotal = 0;
-      const catStats = {};
-      cats.forEach(c => catStats[c] = { count: 0, total: 0 });
-
-      const enriched = list.map(c => {
-        const sal = calculateCourierSalary(c.category_label, c.delivered, c.days_working);
-        grandTotal += sal.total;
-        if (catStats[c.category_label]) {
-          catStats[c.category_label].count += 1;
-          catStats[c.category_label].total += sal.total;
-        }
-        return { ...c, salaryObj: sal };
-      }).sort((a, b) => b.salaryObj.total - a.salaryObj.total);
-
-      document.getElementById("admin-total-payroll").textContent = formatRupiah(grandTotal);
-
-      document.getElementById("admin-payroll-summary-cards").innerHTML = cats.map(cat => `
-        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3.5">
-          <span class="text-[10px] font-bold text-orange-300 block">${cat} (${catStats[cat].count} Kurir)</span>
-          <span class="text-sm font-extrabold text-white mt-1 block">${formatRupiah(catStats[cat].total)}</span>
-        </div>
-      `).join("");
-
-      document.getElementById("admin-payroll-detail-list").innerHTML = enriched.map((c, idx) => `
-        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-3.5 space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <div>
-              <span class="text-xs font-extrabold text-white">#${idx + 1} ${c.driver_name}</span>
-              <span class="text-[10px] text-slate-400 block">${c.category_label} • Delivered: ${c.delivered} • Hari Kerja: ${c.days_working || 0}</span>
-            </div>
-            <span class="text-sm font-extrabold text-emerald-400 shrink-0">${formatRupiah(c.salaryObj.total)}</span>
-          </div>
-          <div class="text-[10px] text-slate-400 border-t border-slate-800/80 pt-1.5 space-y-0.5">
-            ${c.salaryObj.lines.map(l => `<div class="flex justify-between"><span>${l.label}</span><span class="text-slate-200 font-semibold">${formatRupiah(l.val)}</span></div>`).join("")}
-          </div>
-        </div>
-      `).join("");
-    }
-
-    // ==================== PARSER CSV AUTO-DELIMITER (KOMA / TITIK KOMA / TAB) ====================
-    function detectDelimiter(headerLine) {
-      const counts = { ",": 0, ";": 0, "\t": 0 };
-      let inQuotes = false;
-      for (let i = 0; i < headerLine.length; i++) {
-        const ch = headerLine[i];
-        if (ch === '"') inQuotes = !inQuotes;
-        else if (!inQuotes && counts.hasOwnProperty(ch)) counts[ch]++;
-      }
-      if (counts[";"] > counts[","] && counts[";"] >= counts["\t"]) return ";";
-      if (counts["\t"] > counts[","] && counts["\t"] > counts[";"]) return "\t";
-      return ",";
-    }
-
-    function parseCSVLine(line, delimiter = ",") {
+    // -----------------------------------------------------------------------
+    // CSV Parser (Tahan koma di dalam tanda kutip & BOM UTF-8)
+    // -----------------------------------------------------------------------
+    function parseCSVLine(line) {
       const result = [];
       let cur = "";
       let inQuotes = false;
       for (let i = 0; i < line.length; i++) {
         const ch = line[i];
         if (ch === '"') {
-          inQuotes = !inQuotes;
-        } else if (ch === delimiter && !inQuotes) {
+          if (inQuotes && line[i + 1] === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === "," && !inQuotes) {
           result.push(cur.trim());
           cur = "";
         } else {
@@ -1461,251 +701,302 @@
       return result;
     }
 
-    function cleanHeaderName(h) {
-      return String(h || "").replace(/^\uFEFF/, "").replace(/^["']+|["']+$/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+    function normalizeHeaderKey(h) {
+      return String(h || "").replace(/^\uFEFF/, "").trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
     }
 
-    function findColIndex(headersLower, candidates) {
-      for (const name of candidates) {
-        const target = name.toLowerCase().trim();
-        const exact = headersLower.indexOf(target);
-        if (exact >= 0) return exact;
-      }
-      for (const name of candidates) {
-        const target = name.toLowerCase().trim();
-        const partial = headersLower.findIndex(h => h.includes(target));
-        if (partial >= 0) return partial;
-      }
-      return -1;
-    }
+    function parseMasterCSV(csvText) {
+      const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if (lines.length < 2) return [];
 
-    function parseCleanInt(val) {
-      if (val === undefined || val === null) return 0;
-      const cleaned = String(val).replace(/[^\d.-]/g, "");
-      const num = parseInt(cleaned, 10);
-      return isNaN(num) ? 0 : num;
-    }
+      const rawHeaders = parseCSVLine(lines[0]);
+      const normHeaders = rawHeaders.map(normalizeHeaderKey);
 
-    function isZeroVal(v) {
-      if (v === undefined || v === null) return true;
-      const s = String(v).trim().toUpperCase();
-      if (["0", "0.0", "0%", "0.0%", "0.00%", "0IDR", "0 IDR", "-", ""].includes(s)) return true;
-      const num = parseFloat(s.replace("%", "").replace("IDR", "").trim());
-      return !isNaN(num) && num === 0;
-    }
-
-    function processCSVText(text, targetMonthOverride = null) {
-      const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
-      if (lines.length < 2) return null;
-
-      const delimiter = detectDelimiter(lines[0]);
-      const headersRaw = parseCSVLine(lines[0], delimiter);
-      const headersLower = headersRaw.map(cleanHeaderName);
-
-      // 1. Format Master_Database.csv
-      const idxId = findColIndex(headersLower, ["driver_id"]);
-      const idxName = findColIndex(headersLower, ["nama_kurir"]);
-      if (idxId >= 0 && idxName >= 0) {
-        const idxPass = findColIndex(headersLower, ["password"]);
-        const idxCat = findColIndex(headersLower, ["kategori_armada"]);
-        const idxDsr = findColIndex(headersLower, ["delivery_success_rate"]);
-        const idxAss = findColIndex(headersLower, ["total_penugasan", "penugasan_hari_ini"]);
-        const idxDel = findColIndex(headersLower, ["delivered"]);
-        const idxHold = findColIndex(headersLower, ["onhold"]);
-        const idxDays = findColIndex(headersLower, ["total_hari_kerja", "number of days working", "days working"]);
-        const idxBulan = findColIndex(headersLower, ["bulan"]);
-
-        const grouped = {};
-        for (let i = 1; i < lines.length; i++) {
-          const cols = parseCSVLine(lines[i], delimiter);
-          if (!cols[idxId]) continue;
-          const id = cols[idxId].replace(/^\[|\]$/g, "").trim();
-          const mKey = targetMonthOverride || (idxBulan >= 0 && cols[idxBulan] ? cols[idxBulan].trim() : selectedMonthKey);
-          const itemObj = {
-            driver_id: id,
-            driver_name: cols[idxName] || id,
-            password: (idxPass >= 0 && cols[idxPass]) ? cols[idxPass] : ("spx" + id.slice(-4)),
-            category_label: (idxCat >= 0 && cols[idxCat]) ? cols[idxCat] : "2WH Mitra",
-            dsr: idxDsr >= 0 ? (cols[idxDsr] || "0%") : "0%",
-            assigned: idxAss >= 0 ? parseCleanInt(cols[idxAss]) : 0,
-            delivered: idxDel >= 0 ? parseCleanInt(cols[idxDel]) : 0,
-            onhold: idxHold >= 0 ? parseCleanInt(cols[idxHold]) : 0,
-            days_working: idxDays >= 0 ? parseCleanInt(cols[idxDays]) : 0,
-            bulan: mKey
-          };
-          if (!isCourierActive(itemObj)) continue;
-          if (!grouped[mKey]) grouped[mKey] = [];
-          grouped[mKey].push(itemObj);
+      const getIdx = (exactList, partialList) => {
+        for (const e of exactList) {
+          const idx = normHeaders.indexOf(e);
+          if (idx !== -1) return idx;
         }
-        return Object.keys(grouped).length > 0 ? grouped : null;
-      }
-
-      // 2. Format Export Portal SPX (Menarik kolom "Number of days working")
-      const idxDrv = findColIndex(headersLower, ["driver"]);
-      if (idxDrv >= 0) {
-        const idxVeh = findColIndex(headersLower, ["vehicle type"]);
-        const idxCon = findColIndex(headersLower, ["contract type"]);
-        const idxDsr = findColIndex(headersLower, ["delivery success rate(%)", "delivery success rate"]);
-        const idxAss = findColIndex(headersLower, ["number of parcels assigned (1 to as 1 parcel)", "number of parcels assigned"]);
-        const idxDel = findColIndex(headersLower, ["number of parcels delivered(1 to as 1 parcel)", "number of parcels delivered"]);
-        const idxHold = findColIndex(headersLower, ["number of parcels on-hold (1 to as 1 parcel)", "number of parcels on-hold"]);
-        const idxDaysWork = findColIndex(headersLower, ["number of days working", "days working", "working days"]);
-        const idxAttend = findColIndex(headersLower, ["attend days"]);
-        const idxDaysCol = idxDaysWork >= 0 ? idxDaysWork : idxAttend;
-        const metricStart = idxAttend >= 0 ? idxAttend : (idxDaysWork >= 0 ? idxDaysWork : 5);
-        const mKey = targetMonthOverride || selectedMonthKey;
-
-        const parsed = [];
-        for (let i = 1; i < lines.length; i++) {
-          const cols = parseCSVLine(lines[i], delimiter);
-          if (!cols[idxDrv]) continue;
-
-          const metrics = cols.slice(metricStart);
-          if (metrics.length > 0 && metrics.every(m => isZeroVal(m))) continue;
-
-          const m = cols[idxDrv].match(/^\[(\d+)\](.+)$/);
-          const id = m ? m[1].trim() : cols[idxDrv].trim();
-          const name = m ? m[2].trim() : cols[idxDrv].trim();
-
-          const veh = (idxVeh >= 0 ? cols[idxVeh] || "" : "").toUpperCase();
-          const con = (idxCon >= 0 ? cols[idxCon] || "" : "").toUpperCase();
-          let cat = "2WH Mitra";
-          if (veh.includes("4WH")) cat = "4WH Mitra";
-          else if (veh.includes("2WH")) {
-            if (con.includes("DEDICATED")) cat = "2WH Dedicated";
-            else if (con.includes("COURIER PLUS")) cat = "2WH Courier Plus";
-          }
-
-          const rawObj = {
-            driver_id: id,
-            driver_name: name,
-            password: "spx" + id.slice(-4),
-            category_label: cat,
-            dsr: idxDsr >= 0 ? (cols[idxDsr] || "0%") : "0%",
-            assigned: idxAss >= 0 ? parseCleanInt(cols[idxAss]) : 0,
-            delivered: idxDel >= 0 ? parseCleanInt(cols[idxDel]) : 0,
-            onhold: idxHold >= 0 ? parseCleanInt(cols[idxHold]) : 0,
-            days_working: idxDaysCol >= 0 ? parseCleanInt(cols[idxDaysCol]) : 0,
-            bulan: mKey
-          };
-          if (!isCourierActive(rawObj)) continue;
-          parsed.push(rawObj);
+        for (const p of partialList) {
+          const idx = normHeaders.findIndex(h => h.includes(p));
+          if (idx !== -1) return idx;
         }
-        return parsed.length > 0 ? { [mKey]: parsed } : null;
-      }
-
-      return null;
-    }
-
-    function handleCSVUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const grouped = processCSVText(e.target.result, selectedMonthKey);
-        const fb = document.getElementById("upload-feedback");
-        if (grouped) {
-          Object.keys(grouped).forEach(k => {
-            monthlyDatabase[k] = grouped[k];
-          });
-          saveDatabaseToStorage();
-          renderAdminList();
-          renderAdminPayroll();
-          const listMonth = grouped[selectedMonthKey] || [];
-          const sampleDays = listMonth.length > 0 ? listMonth[0].days_working : 0;
-          fb.textContent = `Berhasil memperbarui ${listMonth.length} kurir aktif (contoh Hari Kerja terbaca: ${sampleDays} Hari) untuk bulan ${formatMonthLabel(selectedMonthKey)}!`;
-          fb.className = "text-xs font-semibold text-emerald-400";
-          fb.classList.remove("hidden");
-        } else {
-          fb.textContent = "Format CSV tidak dikenali. Pastikan menggunakan file export SPX atau Master_Database.";
-          fb.className = "text-xs font-semibold text-red-400";
-          fb.classList.remove("hidden");
-        }
+        return -1;
       };
-      reader.readAsText(file);
+
+      const idxId = getIdx(["driver id"], ["driver id"]);
+      const idxName = getIdx(["nama kurir", "driver name"], ["nama kurir", "driver"]);
+      const idxPass = getIdx(["password"], ["password"]);
+      const idxCat = getIdx(["kategori armada"], ["kategori", "armada"]);
+      const idxDsr = getIdx(["delivery success rate"], ["delivery success", "dsr"]);
+      const idxAss = getIdx(["total penugasan"], ["penugasan", "assigned"]);
+      const idxDel = getIdx(["delivered"], ["delivered"]);
+      const idxHold = getIdx(["onhold", "on hold"], ["onhold", "on hold"]);
+      // Membaca Total Hari Kerja dari Total_Hari_Kerja atau Number of days working (bukan Attend Days)
+      const idxDays = getIdx(["total hari kerja", "number of days working"], ["total hari kerja", "number of days working"]);
+      const idxMonth = getIdx(["bulan"], ["bulan", "month"]);
+
+      const parsed = [];
+      for (let i = 1; i < lines.length; i++) {
+        const cols = parseCSVLine(lines[i]);
+        const drvId = idxId !== -1 ? (cols[idxId] || "").trim() : "";
+        if (!drvId) continue;
+
+        parsed.push({
+          Driver_ID: drvId,
+          Nama_Kurir: idxName !== -1 ? (cols[idxName] || drvId).trim() : drvId,
+          Password: idxPass !== -1 && cols[idxPass] ? cols[idxPass].trim() : drvId,
+          Kategori_Armada: idxCat !== -1 ? (cols[idxCat] || "2WH Mitra").trim() : "2WH Mitra",
+          Delivery_Success_Rate: idxDsr !== -1 ? (cols[idxDsr] || "0%").trim() : "0%",
+          Total_Penugasan: idxAss !== -1 ? parseInt(cols[idxAss] || "0", 10) || 0 : 0,
+          Delivered: idxDel !== -1 ? parseInt(cols[idxDel] || "0", 10) || 0 : 0,
+          OnHold: idxHold !== -1 ? parseInt(cols[idxHold] || "0", 10) || 0 : 0,
+          Total_Hari_Kerja: idxDays !== -1 ? parseInt(cols[idxDays] || "0", 10) || 0 : 0,
+          Bulan: idxMonth !== -1 ? (cols[idxMonth] || "2026-11").trim() : "2026-11"
+        });
+      }
+      return parsed;
     }
 
-    async function syncFromMasterSheet(showAlert = false) {
-      const url = localStorage.getItem(STORAGE_KEYS.SHEET_URL) || EMBEDDED_MASTER_CSV_URL;
-      if (!url) {
-        if (showAlert) alert("Data sudah tersinkronisasi!");
+    async function loadDatabaseFromGitHub() {
+      try {
+        const res = await fetch(`${GITHUB_CSV_URL}?t=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+        const rows = parseMasterCSV(text);
+        if (rows.length === 0) throw new Error("CSV kosong");
+        allRecords = rows;
+      } catch (err) {
+        allRecords = [...FALLBACK_DATA];
+      }
+    }
+
+    // -----------------------------------------------------------------------
+    // Authentication Flow (Password = Driver ID)
+    // -----------------------------------------------------------------------
+    async function handleLogin(e) {
+      e.preventDefault();
+      const inputId = document.getElementById("driverIdInput").value.trim();
+      const inputPass = document.getElementById("passwordInput").value.trim();
+
+      if (!inputId || !inputPass) {
+        showToast("Data Belum Lengkap", "Harap isi Driver ID dan Password Anda.", true);
         return;
       }
-      try {
-        const cacheBuster = (url.includes("?") ? "&" : "?") + "t=" + Date.now();
-        const res = await fetch(url + cacheBuster, { cache: "no-store" });
-        if (!res.ok) throw new Error("Gagal mengambil data");
-        const text = await res.text();
-        const grouped = processCSVText(text);
-        if (grouped) {
-          Object.keys(grouped).forEach(k => {
-            monthlyDatabase[k] = grouped[k];
-          });
-          saveDatabaseToStorage();
-          restoreSession();
-          if (showAlert) alert("Sinkronisasi berhasil! Data performa, Total Hari Kerja & Estimasi Gaji telah dimuat.");
-        }
-      } catch (err) {
-        if (showAlert) alert("Gagal menarik data terbaru. Periksa koneksi internet.");
+
+      const btn = document.getElementById("loginSubmitBtn");
+      const btnText = document.getElementById("loginBtnText");
+      const arrow = document.getElementById("loginArrowIcon");
+      const spinner = document.getElementById("loginSpinner");
+
+      btn.disabled = true;
+      btnText.textContent = "Memverifikasi Akun...";
+      arrow.classList.add("hidden");
+      spinner.classList.remove("hidden");
+
+      if (allRecords.length === 0) {
+        await loadDatabaseFromGitHub();
       }
-    }
 
-    function saveSheetUrl() {
-      const url = document.getElementById("sheet-url-input").value.trim();
-      localStorage.setItem(STORAGE_KEYS.SHEET_URL, url);
-      syncFromMasterSheet(true);
-    }
+      setTimeout(() => {
+        btn.disabled = false;
+        btnText.textContent = "Masuk ke Dashboard Kurir";
+        arrow.classList.remove("hidden");
+        spinner.classList.add("hidden");
 
-    function resetToDefault() {
-      localStorage.removeItem(STORAGE_KEYS.SHEET_URL);
-      document.getElementById("sheet-url-input").value = "";
-      monthlyDatabase = { "2026-11": [...DEFAULT_ACTIVE_COURIERS] };
-      saveDatabaseToStorage();
-      renderAdminList();
-      renderAdminPayroll();
-      alert("Database berhasil dikembalikan ke data awal.");
-    }
-
-    function downloadMasterCSV() {
-      const headers = ["Driver_ID", "Nama_Kurir", "Password", "Kategori_Armada", "Delivery_Success_Rate", "Total_Penugasan", "Delivered", "OnHold", "Total_Hari_Kerja", "Estimasi_Gaji", "Bulan"];
-      const allRows = [];
-      Object.keys(monthlyDatabase).sort().forEach(mKey => {
-        (monthlyDatabase[mKey] || []).forEach(c => {
-          const sal = calculateCourierSalary(c.category_label, c.delivered, c.days_working);
-          allRows.push([
-            c.driver_id, `"${c.driver_name}"`, c.password, `"${c.category_label}"`, c.dsr, c.assigned, c.delivered, c.onhold, (c.days_working || 0), sal.total, mKey
-          ].join(","));
-        });
-      });
-      const csv = [headers.join(","), ...allRows].join("\n");
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "Master_Database.csv";
-      link.click();
-    }
-
-    function restoreSession() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEYS.SESSION);
-        if (!raw) return;
-        const sess = JSON.parse(raw);
-        if (sess.role === "admin") {
-          showAdminDashboard();
-        } else if (sess.role === "driver" && sess.id) {
-          const list = getCouriersForMonth(selectedMonthKey);
-          const found = list.find(c => String(c.driver_id) === String(sess.id));
-          if (found) showDriverDashboard(found);
+        const matches = allRecords.filter(r => r.Driver_ID === inputId);
+        if (matches.length === 0) {
+          showToast("Driver ID Tidak Ditemukan", `Driver ID "${inputId}" belum terdaftar di database aktif bulan ini.`, true);
+          return;
         }
-      } catch (e) {}
+
+        // Validasi password: cocok jika sama dengan Driver_ID atau kolom Password di CSV
+        const isValid = matches.some(r => inputPass === r.Driver_ID || inputPass === r.Password);
+        if (!isValid) {
+          showToast("Password Salah", "Gunakan Driver ID Anda sebagai Password untuk masuk.", true);
+          return;
+        }
+
+        loggedInDriverId = inputId;
+        currentCourierRecords = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+
+        document.getElementById("loginView").classList.add("hidden");
+        document.getElementById("dashboardView").classList.remove("hidden");
+
+        populateMonthSelector();
+        renderCourierDashboard(currentCourierRecords[0]);
+        showToast("Login Berhasil", `Selamat datang kembali, ${currentCourierRecords[0].Nama_Kurir}!`);
+      }, 450);
     }
 
+    function handleLogout() {
+      loggedInDriverId = null;
+      currentCourierRecords = [];
+      document.getElementById("passwordInput").value = "";
+      document.getElementById("dashboardView").classList.add("hidden");
+      document.getElementById("loginView").classList.remove("hidden");
+      showToast("Berhasil Keluar", "Sesi Anda telah ditutup dengan aman.");
+    }
+
+    async function refreshDashboardData() {
+      const icon = document.getElementById("refreshIcon");
+      icon.classList.add("animate-spin");
+      await loadDatabaseFromGitHub();
+      setTimeout(() => {
+        icon.classList.remove("animate-spin");
+        if (loggedInDriverId) {
+          const matches = allRecords.filter(r => r.Driver_ID === loggedInDriverId);
+          if (matches.length > 0) {
+            currentCourierRecords = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+            const selectedMonth = document.getElementById("monthSelect").value;
+            const target = currentCourierRecords.find(r => r.Bulan === selectedMonth) || currentCourierRecords[0];
+            populateMonthSelector(target.Bulan);
+            renderCourierDashboard(target);
+            showToast("Data Diperbarui", "Data performa & estimasi gaji terbaru berhasil dimuat.");
+          }
+        }
+      }, 500);
+    }
+
+    // -----------------------------------------------------------------------
+    // Salary Calculation Engine
+    // -----------------------------------------------------------------------
+    function computeSalaryBreakdown(category, delivered, daysWorking) {
+      const d = Math.max(0, Number(delivered) || 0);
+      const days = Math.max(0, Number(daysWorking) || 0);
+      const catUpper = String(category || "").toUpperCase();
+
+      if (catUpper.includes("DEDICATED")) {
+        const gp = 1981000;
+        const bonusHarian = 104240 * days;
+        const t1Qty = Math.max(0, Math.min(d, 3120) - 1950);
+        const t2Qty = Math.max(0, d - 3120);
+        const ins1 = t1Qty * 620;
+        const ins2 = t2Qty * 1095;
+        return {
+          total: gp + bonusHarian + ins1 + ins2,
+          items: [
+            { label: "Gaji Pokok (2WH Dedicated)", desc: "Tarif tetap bulanan", amount: gp },
+            { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × Rp104.240`, amount: bonusHarian },
+            { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: "Paket ke-1.951 s/d 3.120 × Rp620", amount: ins1 },
+            { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: "Paket di atas 3.120 × Rp1.095", amount: ins2 }
+          ]
+        };
+      }
+
+      if (catUpper.includes("COURIER PLUS")) {
+        const gp = 1700109;
+        const bonusHarian = 20000 * days;
+        const t1Qty = Math.max(0, Math.min(d, 1090) - 600);
+        const t2Qty = Math.max(0, d - 1090);
+        const ins1 = t1Qty * 475;
+        const ins2 = t2Qty * 875;
+        return {
+          total: gp + bonusHarian + ins1 + ins2,
+          items: [
+            { label: "Gaji Pokok (2WH Courier Plus)", desc: "Tarif tetap bulanan", amount: gp },
+            { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × Rp20.000`, amount: bonusHarian },
+            { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: "Paket ke-601 s/d 1.090 × Rp475", amount: ins1 },
+            { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: "Paket di atas 1.090 × Rp875", amount: ins2 }
+          ]
+        };
+      }
+
+      if (catUpper.includes("4WH")) {
+        const total = d * 5400;
+        return {
+          total,
+          items: [
+            { label: `Komisi Pengantaran 4WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × Rp5.400`, amount: total }
+          ]
+        };
+      }
+
+      // Default: 2WH Mitra
+      const total = d * 1800;
+      return {
+        total,
+        items: [
+          { label: `Komisi Pengantaran 2WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × Rp1.800`, amount: total }
+        ]
+      };
+    }
+
+    // -----------------------------------------------------------------------
+    // Dashboard Rendering
+    // -----------------------------------------------------------------------
+    function populateMonthSelector(selectedVal = null) {
+      const sel = document.getElementById("monthSelect");
+      sel.innerHTML = "";
+      currentCourierRecords.forEach(rec => {
+        const opt = document.createElement("option");
+        opt.value = rec.Bulan;
+        opt.textContent = rec.Bulan;
+        if (selectedVal && rec.Bulan === selectedVal) opt.selected = true;
+        sel.appendChild(opt);
+      });
+    }
+
+    function onMonthChange() {
+      const val = document.getElementById("monthSelect").value;
+      const found = currentCourierRecords.find(r => r.Bulan === val);
+      if (found) renderCourierDashboard(found);
+    }
+
+    function renderCourierDashboard(rec) {
+      const initials = rec.Nama_Kurir
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(w => w[0] || "")
+        .join("")
+        .toUpperCase() || "SP";
+
+      document.getElementById("avatarInitials").textContent = initials;
+      document.getElementById("dashDriverName").textContent = rec.Nama_Kurir;
+      document.getElementById("dashDriverId").textContent = rec.Driver_ID;
+      document.getElementById("dashCategoryBadge").textContent = rec.Kategori_Armada;
+      document.getElementById("noteCategoryName").textContent = rec.Kategori_Armada;
+
+      // DSR & Progress
+      const dsrNumeric = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
+      document.getElementById("kpiDsr").textContent = rec.Delivery_Success_Rate;
+      document.getElementById("dsrProgressBar").style.width = `${Math.min(100, Math.max(0, dsrNumeric))}%`;
+
+      const targetBadge = document.getElementById("dsrTargetBadge");
+      if (dsrNumeric >= 98) {
+        targetBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        targetBadge.textContent = "Target Tercapai";
+      } else {
+        targetBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+        targetBadge.textContent = "Target ≥ 98%";
+      }
+
+      document.getElementById("kpiDays").innerHTML = `${rec.Total_Hari_Kerja} <span class="text-xs font-bold text-slate-400">Hari</span>`;
+      document.getElementById("kpiAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
+      document.getElementById("kpiDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
+      document.getElementById("kpiOnHold").textContent = rec.OnHold.toLocaleString("id-ID");
+
+      // Salary Breakdown
+      const salary = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+      document.getElementById("totalSalaryDisplay").textContent = formatRupiah(salary.total);
+
+      const listEl = document.getElementById("salaryBreakdownList");
+      listEl.innerHTML = salary.items.map(item => `
+        <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/80">
+          <div>
+            <p class="font-bold text-slate-100 text-xs sm:text-sm">${item.label}</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">${item.desc}</p>
+          </div>
+          <span class="font-display font-extrabold text-sm sm:text-base ${item.amount > 0 ? 'text-white' : 'text-slate-500'}">
+            ${formatRupiah(item.amount)}
+          </span>
+        </div>
+      `).join("");
+    }
+
+    // Boot application
     window.addEventListener("DOMContentLoaded", () => {
-      loadDatabaseFromStorage();
-      populateMonthSelectors();
-      updateStatusBadge();
-      restoreSession();
-      syncFromMasterSheet(false);
+      loadDatabaseFromGitHub();
     });
   </script>
 </body>
