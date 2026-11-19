@@ -25,6 +25,10 @@
     .spx-gradient {
       background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%);
     }
+    .salary-card-glow {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14) 0%, rgba(20, 27, 45, 0.95) 65%);
+      border: 1px solid rgba(16, 185, 129, 0.32);
+    }
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -147,7 +151,7 @@
         </button>
       </div>
 
-      <!-- ==================== SUB-MENU 1: PERFORMA & GRAFIK COMPLIANCE% ==================== -->
+      <!-- ==================== SUB-MENU 1: PERFORMA & ESTIMASI GAJI ==================== -->
       <div id="drv-view-perf" class="space-y-4">
         <div class="glass-card rounded-3xl p-5 relative overflow-hidden">
           <div class="absolute -right-6 -top-6 w-28 h-28 rounded-full bg-orange-500/10 blur-2xl"></div>
@@ -199,6 +203,29 @@
               <p id="metric-onhold" class="text-2xl font-extrabold text-amber-300 mt-1">0</p>
             </div>
           </div>
+
+          <!-- KARTU ESTIMASI GAJI PRIBADI KURIR (TEPAT DI BAWAH DELIVERED & ONHOLD) -->
+          <div class="salary-card-glow rounded-3xl p-5 shadow-xl relative overflow-hidden space-y-3">
+            <div class="absolute -right-8 -bottom-8 w-32 h-32 rounded-full bg-emerald-500/15 blur-2xl pointer-events-none"></div>
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/35 flex items-center justify-center text-emerald-400 shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div>
+                  <span class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-400 block">Estimasi Gaji Anda</span>
+                  <h4 id="perf-salary-total" class="text-2xl font-extrabold text-white tracking-tight mt-0.5">Rp0</h4>
+                </div>
+              </div>
+              <button type="button" onclick="switchDriverSubMenu('gaji')"
+                class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold transition shrink-0">
+                Simulasi →
+              </button>
+            </div>
+            <div id="perf-salary-breakdown" class="space-y-1.5 pt-2.5 border-t border-emerald-500/20 text-[11px]"></div>
+          </div>
         </div>
 
         <!-- Grafik Compliance% Delivery Success Rate Per Bulan (Target Hub 98%) -->
@@ -221,72 +248,48 @@
         </div>
       </div>
 
-      <!-- ==================== SUB-MENU 2: SIMULASI GAJI & INSENTIF ==================== -->
+      <!-- ==================== SUB-MENU 2: SIMULASI GAJI PRIBADI KURIR ==================== -->
       <div id="drv-view-gaji" class="hidden space-y-4">
         <!-- Kartu Estimasi Gaji Aktual Bulan Berjalan -->
-        <div class="glass-card rounded-3xl p-5 border-t-4 border-t-emerald-500 space-y-3">
+        <div class="salary-card-glow rounded-3xl p-5 space-y-3">
           <div class="flex items-start justify-between gap-2">
             <div>
-              <span class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-400 block">Estimasi Pendapatan Aktual</span>
+              <span class="text-[10px] uppercase tracking-wider font-extrabold text-emerald-400 block">Estimasi Pendapatan Aktual Anda</span>
               <h4 class="text-2xl font-extrabold text-white mt-0.5" id="actual-salary-total">Rp0</h4>
             </div>
             <span id="actual-salary-cat" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-orange-500/20 text-orange-300 border border-orange-500/30">
               2WH Dedicated
             </span>
           </div>
-          <div id="actual-salary-breakdown" class="space-y-1.5 pt-2 border-t border-slate-800 text-xs"></div>
+          <div id="actual-salary-breakdown" class="space-y-1.5 pt-2 border-t border-emerald-500/20 text-xs"></div>
         </div>
 
-        <!-- Kalkulator Simulasi What-If (4 Skema Armada) -->
+        <!-- Kalkulator Simulasi Pribadi (Khusus Kategori Armada Kurir yang Login) -->
         <div class="glass-card rounded-3xl p-5 space-y-4">
           <div>
-            <h4 class="text-sm font-extrabold text-white">Kalkulator Simulasi Gaji (What-If)</h4>
-            <p class="text-[11px] text-slate-400 mt-0.5">Ubah kategori armada, target delivered, atau hari kerja untuk melihat simulasi gaji.</p>
+            <h4 class="text-sm font-extrabold text-white">Simulasi Target Pendapatan Anda</h4>
+            <p class="text-[11px] text-slate-400 mt-0.5">Ubah target paket delivered atau jumlah hari kerja untuk menghitung simulasi gaji Anda.</p>
           </div>
 
-          <div class="space-y-3">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-300 mb-1">1. Pilih Skema Kategori Armada</label>
-              <select id="sim-category" onchange="runSalarySimulator()"
-                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-orange-300 focus:outline-none focus:border-orange-500">
-                <option value="2WH Dedicated">1. 2WH Dedicated</option>
-                <option value="2WH Courier Plus">2. 2WH Courier Plus</option>
-                <option value="2WH Mitra">3. 2WH Mitra</option>
-                <option value="4WH Mitra">4. 4WH Mitra</option>
-              </select>
+          <div class="grid grid-cols-2 gap-3" id="sim-inputs-grid">
+            <div id="sim-delivered-wrapper">
+              <label class="block text-[11px] font-semibold text-slate-300 mb-1">Target Delivered</label>
+              <input type="number" id="sim-delivered" min="0" value="0" oninput="runSalarySimulator()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-orange-500" />
             </div>
-
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Jumlah Delivered</label>
-                <input type="number" id="sim-delivered" min="0" value="3095" oninput="runSalarySimulator()"
-                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-orange-500" />
-              </div>
-              <div id="sim-days-wrapper">
-                <label class="block text-[11px] font-semibold text-slate-300 mb-1">Total Hari Kerja</label>
-                <input type="number" id="sim-days" min="0" max="31" value="15" oninput="runSalarySimulator()"
-                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-orange-500" />
-              </div>
+            <div id="sim-days-wrapper">
+              <label class="block text-[11px] font-semibold text-slate-300 mb-1">Total Hari Kerja</label>
+              <input type="number" id="sim-days" min="0" max="31" value="0" oninput="runSalarySimulator()"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-extrabold text-white focus:outline-none focus:border-orange-500" />
             </div>
           </div>
 
           <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-2.5">
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold text-slate-400">Hasil Simulasi Total Gaji</span>
+              <span class="text-xs font-bold text-slate-400">Hasil Simulasi Gaji Anda</span>
               <span class="text-lg font-extrabold text-emerald-400" id="sim-result-total">Rp0</span>
             </div>
             <div id="sim-result-breakdown" class="space-y-1.5 pt-2 border-t border-slate-800/80 text-[11px] text-slate-300"></div>
-          </div>
-
-          <!-- Panduan Skema 4 Armada (Sesuai Spreadsheet) -->
-          <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-3.5 space-y-2 text-[11px] text-slate-400">
-            <p class="font-bold text-slate-200">Ketentuan Skema Perhitungan (Progresif Bertingkat):</p>
-            <ul class="space-y-1.5 list-disc pl-4">
-              <li><strong class="text-slate-200">2WH Dedicated:</strong> GP Rp1.981.000 + Bonus Harian Rp104.240/hari + Incentive 1 (paket ke-1.951 s/d 3.120 @ Rp620) + Incentive 2 (paket di atas 3.120 @ Rp1.095).</li>
-              <li><strong class="text-slate-200">2WH Courier Plus:</strong> GP Rp1.700.109 + Bonus Harian Rp20.000/hari + Incentive 1 (paket ke-601 s/d 1.090 @ Rp475) + Incentive 2 (paket di atas 1.090 @ Rp875).</li>
-              <li><strong class="text-slate-200">2WH Mitra:</strong> Rp1.800 × total delivered.</li>
-              <li><strong class="text-slate-200">4WH Mitra:</strong> Rp5.400 × total delivered.</li>
-            </ul>
           </div>
         </div>
       </div>
@@ -531,9 +534,6 @@
       const days = Math.max(0, parseInt(daysWorking || 0, 10));
 
       if (category === "2WH Dedicated") {
-        // Threshold 1: 1,950 (Rp 620) | Threshold 2: 3,120 (Rp 1,095)
-        // Incentive 1 = MAX(0, MIN(del, 3120) - 1950) * 620
-        // Incentive 2 = MAX(0, del - 3120) * 1095
         const gajiPokok = 1981000;
         const bonusHarian = 104240 * days;
         const tier1Pkg = Math.max(0, Math.min(del, 3120) - 1950);
@@ -556,9 +556,6 @@
       }
 
       if (category === "2WH Courier Plus") {
-        // Threshold 1: 600 (Rp 475) | Threshold 2: 1,090 (Rp 875)
-        // Incentive 1 = MAX(0, MIN(del, 1090) - 600) * 475
-        // Incentive 2 = MAX(0, del - 1090) * 875
         const gajiPokok = 1700109;
         const bonusHarian = 20000 * days;
         const tier1Pkg = Math.max(0, Math.min(del, 1090) - 600);
@@ -673,10 +670,10 @@
     const EMBEDDED_MASTER_CSV_URL = "./Master_Database.csv";
 
     const STORAGE_KEYS = {
-      MONTHLY_DB: "spx_pringapus2_monthly_db_v12_tier",
-      SESSION: "spx_pringapus2_session_v12_tier",
-      SHEET_URL: "spx_pringapus2_sheet_url_v12_tier",
-      FEEDBACK: "spx_pringapus2_feedback_v12_tier"
+      MONTHLY_DB: "spx_pringapus2_monthly_db_v13_private",
+      SESSION: "spx_pringapus2_session_v13_private",
+      SHEET_URL: "spx_pringapus2_sheet_url_v13_private",
+      FEEDBACK: "spx_pringapus2_feedback_v13_private"
     };
 
     const NAMA_BULAN_ID = [
@@ -711,6 +708,7 @@
 
     let monthlyDatabase = {};
     let selectedMonthKey = getCurrentSystemMonthKey();
+    let currentDriverCategory = "2WH Dedicated";
     let currentCategory = "ALL";
     let currentRankTab = "best";
     let currentWorstCategory = "2WH Dedicated";
@@ -849,6 +847,7 @@
       dash.classList.add("flex");
 
       populateMonthSelectors();
+      currentDriverCategory = driver.category_label;
 
       document.getElementById("drv-badge").textContent = driver.category_label;
       document.getElementById("drv-name").textContent = driver.driver_name;
@@ -869,35 +868,46 @@
 
     function renderDriverSalaryCard(driver) {
       const sal = calculateCourierSalary(driver.category_label, driver.delivered, driver.days_working);
-      document.getElementById("actual-salary-total").textContent = formatRupiah(sal.total);
-      document.getElementById("actual-salary-cat").textContent = driver.category_label;
-      document.getElementById("actual-salary-breakdown").innerHTML = sal.lines.map(item => `
+      const breakdownHtml = sal.lines.map(item => `
         <div class="flex items-center justify-between gap-2 text-slate-300">
           <span>${item.label}</span>
           <span class="font-bold text-white shrink-0">${formatRupiah(item.val)}</span>
         </div>
       `).join("");
 
-      const simCat = document.getElementById("sim-category");
+      // Tampilkan di kartu utama tab Performa (di bawah Delivered & OnHold)
+      document.getElementById("perf-salary-total").textContent = formatRupiah(sal.total);
+      document.getElementById("perf-salary-breakdown").innerHTML = breakdownHtml;
+
+      // Tampilkan di tab Simulasi Gaji pribadi kurir
+      document.getElementById("actual-salary-total").textContent = formatRupiah(sal.total);
+      document.getElementById("actual-salary-cat").textContent = driver.category_label;
+      document.getElementById("actual-salary-breakdown").innerHTML = breakdownHtml;
+
       const simDel = document.getElementById("sim-delivered");
       const simDays = document.getElementById("sim-days");
-      if (simCat) simCat.value = driver.category_label;
+      const daysWrap = document.getElementById("sim-days-wrapper");
+      const inputsGrid = document.getElementById("sim-inputs-grid");
+
       if (simDel) simDel.value = driver.delivered || 0;
       if (simDays) simDays.value = driver.days_working || 0;
+
+      // Untuk Mitra (2WH Mitra / 4WH Mitra), gaji murni dari jumlah paket delivered
+      if (driver.category_label === "2WH Mitra" || driver.category_label === "4WH Mitra") {
+        daysWrap.classList.add("hidden");
+        inputsGrid.className = "grid grid-cols-1 gap-3";
+      } else {
+        daysWrap.classList.remove("hidden");
+        inputsGrid.className = "grid grid-cols-2 gap-3";
+      }
+
       runSalarySimulator();
     }
 
     function runSalarySimulator() {
-      const cat = document.getElementById("sim-category").value;
+      const cat = currentDriverCategory;
       const del = document.getElementById("sim-delivered").value;
       const days = document.getElementById("sim-days").value;
-
-      const daysWrap = document.getElementById("sim-days-wrapper");
-      if (cat === "2WH Mitra" || cat === "4WH Mitra") {
-        daysWrap.classList.add("opacity-40");
-      } else {
-        daysWrap.classList.remove("opacity-40");
-      }
 
       const res = calculateCourierSalary(cat, del, days);
       document.getElementById("sim-result-total").textContent = formatRupiah(res.total);
@@ -1633,7 +1643,7 @@
           });
           saveDatabaseToStorage();
           restoreSession();
-          if (showAlert) alert("Sinkronisasi berhasil! Data performa, Total Hari Kerja & Simulasi Gaji telah dimuat.");
+          if (showAlert) alert("Sinkronisasi berhasil! Data performa, Total Hari Kerja & Estimasi Gaji telah dimuat.");
         }
       } catch (err) {
         if (showAlert) alert("Gagal menarik data terbaru. Periksa koneksi internet.");
