@@ -396,17 +396,6 @@
             </svg>
           </button>
         </form>
-
-        <!-- Quick Preview Demo Button -->
-        <div class="mt-6 pt-5 border-t border-slate-800 flex items-center justify-end text-xs">
-          <button
-            type="button"
-            onclick="fillDemoCredentials()"
-            class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-orange-300 font-semibold border border-slate-700 transition"
-          >
-            Isi Akun Demo
-          </button>
-        </div>
       </div>
 
       <p class="text-center text-[11px] text-slate-500 mt-5">
@@ -416,154 +405,435 @@
   </section>
 
   <!-- =====================================================================
-       VIEW 2: COURIER PERFORMANCE & PAYROLL DASHBOARD
+       VIEW 2: COURIER PERFORMANCE & PAYROLL DASHBOARD WITH SIDEBAR
        ===================================================================== -->
-  <section id="dashboardView" class="hidden min-h-screen bg-slate-950 pb-12">
-    <!-- Top Sticky Navbar -->
-    <header class="sticky top-0 z-30 border-b border-slate-800/90 bg-slate-900/90 backdrop-blur-xl">
-      <div class="max-w-5xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-spx-orange to-orange-600 flex items-center justify-center font-display font-black text-white text-sm shadow-md shadow-spx-orange/30">
-            SPX
-          </div>
-          <div>
-            <h1 class="font-display font-extrabold text-white text-sm sm:text-base leading-tight">SPX Pringapus 2 Hub</h1>
-            <p class="text-[11px] text-spx-bright font-semibold">Strong and Growth Together!</p>
-          </div>
-        </div>
+  <section id="dashboardView" class="hidden min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row">
 
-        <div class="flex items-center gap-2">
-          <button
-            onclick="refreshDashboardData()"
-            title="Segarkan Data Terbaru"
-            class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center gap-1.5 text-xs font-semibold"
-          >
-            <svg id="refreshIcon" class="w-4 h-4 text-spx-bright" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
-            </svg>
-            <span class="hidden sm:inline">Refresh</span>
-          </button>
+    <!-- Mobile Sidebar Backdrop -->
+    <div
+      id="sidebarBackdrop"
+      onclick="toggleMobileSidebar(false)"
+      class="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs hidden lg:hidden transition-opacity"
+    ></div>
 
-          <button
-            onclick="handleLogout()"
-            class="px-3.5 py-2.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-bold transition flex items-center gap-1.5"
-          >
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
-            </svg>
-            <span>Keluar</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Dashboard Content -->
-    <main class="max-w-5xl mx-auto px-4 pt-6 space-y-6">
-
-      <!-- Courier Profile Banner & Month Filter -->
-      <div class="rounded-3xl bg-gradient-to-r from-[#1E1414] via-[#171E31] to-[#0F172A] border border-orange-500/25 p-5 sm:p-6 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-4">
-          <div id="avatarInitials" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-spx-orange to-amber-600 flex items-center justify-center font-display font-black text-white text-xl shadow-lg shadow-spx-orange/30 shrink-0">
-            SP
-          </div>
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span id="dashCategoryBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-spx-orange/20 text-spx-bright border border-spx-orange/40">
-                2WH Dedicated
-              </span>
-              <span class="text-xs text-slate-400 font-mono">ID: <strong id="dashDriverId" class="text-slate-200">-</strong></span>
+    <!-- Left Sidebar Navigation -->
+    <aside
+      id="appSidebar"
+      class="fixed inset-y-0 left-0 z-50 w-72 bg-[#111827] text-slate-100 border-r border-slate-800 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 lg:static lg:shrink-0 transition-transform duration-300 ease-out"
+    >
+      <div>
+        <!-- Sidebar Brand Header -->
+        <div class="px-5 py-5 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-spx-orange to-[#FF7337] flex items-center justify-center font-display font-black text-white text-sm shadow-lg shadow-spx-orange/30">
+              SPX
             </div>
-            <h2 id="dashDriverName" class="font-display font-extrabold text-xl sm:text-2xl text-white mt-1">-</h2>
+            <div>
+              <h1 class="font-display font-extrabold text-white text-sm leading-tight">Pringapus 2 Hub</h1>
+              <p class="text-[11px] text-[#FF7337] font-semibold">Strong &amp; Growth Together!</p>
+            </div>
           </div>
+          <button
+            onclick="toggleMobileSidebar(false)"
+            aria-label="Tutup menu"
+            class="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+            </svg>
+          </button>
         </div>
 
-        <!-- Month Selector -->
-        <div class="flex items-center gap-2.5 bg-slate-950/70 border border-slate-800 p-2.5 rounded-2xl">
-          <label for="monthSelect" class="text-xs font-bold text-slate-400 pl-1">Periode:</label>
-          <select
-            id="monthSelect"
-            onchange="onMonthChange()"
-            class="bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl border border-slate-700 focus:outline-none focus:border-spx-orange"
-          ></select>
-        </div>
-      </div>
-
-      <!-- KPI Cards Grid (5 Metrics including Total_Hari_Kerja) -->
-      <div class="grid grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
-        <!-- Delivery Success Rate -->
-        <div class="col-span-2 lg:col-span-1 rounded-2xl bg-slate-900/90 border border-slate-800 p-4 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-semibold text-slate-400">Success Rate (DSR)</span>
-            <span id="dsrTargetBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-300">Target 98%</span>
-          </div>
-          <p id="kpiDsr" class="font-display font-black text-2xl sm:text-3xl text-white mt-2">0%</p>
-          <div class="mt-3">
-            <div class="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-              <div id="dsrProgressBar" class="h-full rounded-full bg-gradient-to-r from-spx-orange to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+        <!-- Mini Courier Card in Sidebar -->
+        <div class="px-4 pt-4">
+          <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-3.5 flex items-center gap-3">
+            <div id="sidebarAvatar" class="w-10 h-10 rounded-xl bg-gradient-to-br from-spx-orange to-amber-500 flex items-center justify-center font-display font-black text-white text-sm shrink-0">
+              SP
+            </div>
+            <div class="min-w-0">
+              <p id="sidebarDriverName" class="text-xs font-extrabold text-white truncate">-</p>
+              <p class="text-[11px] text-slate-400 font-mono truncate">ID: <span id="sidebarDriverId" class="text-slate-200">-</span></p>
             </div>
           </div>
         </div>
 
-        <!-- Total Hari Kerja (Number of days working) -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
-          <span class="text-xs font-semibold text-slate-400">Total Hari Kerja</span>
-          <p id="kpiDays" class="font-display font-black text-2xl sm:text-3xl text-spx-bright mt-2">0 <span class="text-xs font-bold text-slate-400">Hari</span></p>
-          <p class="text-[11px] text-slate-500 mt-1">Number of days working</p>
-        </div>
+        <!-- Sidebar Menu Navigation -->
+        <nav class="px-4 py-5 space-y-1.5" aria-label="Menu Utama">
+          <p class="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Menu Utama</p>
 
-        <!-- Total Penugasan -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
-          <span class="text-xs font-semibold text-slate-400">Total Penugasan</span>
-          <p id="kpiAssigned" class="font-display font-black text-2xl sm:text-3xl text-white mt-2">0</p>
-          <p class="text-[11px] text-slate-500 mt-1">Paket ditugaskan</p>
-        </div>
+          <button
+            type="button"
+            data-tab="overview"
+            onclick="switchDashboardTab('overview')"
+            class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>
+            </svg>
+            <span>Ringkasan Performa</span>
+          </button>
 
-        <!-- Delivered -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
-          <span class="text-xs font-semibold text-slate-400">Paket Terkirim</span>
-          <p id="kpiDelivered" class="font-display font-black text-2xl sm:text-3xl text-emerald-400 mt-2">0</p>
-          <p class="text-[11px] text-slate-500 mt-1">Delivered sukses</p>
-        </div>
+          <button
+            type="button"
+            data-tab="salary"
+            onclick="switchDashboardTab('salary')"
+            class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/>
+            </svg>
+            <span>Simulasi Gaji &amp; Insentif</span>
+          </button>
 
-        <!-- OnHold -->
-        <div class="rounded-2xl bg-slate-900/90 border border-slate-800 p-4">
-          <span class="text-xs font-semibold text-slate-400">Paket OnHold</span>
-          <p id="kpiOnHold" class="font-display font-black text-2xl sm:text-3xl text-amber-400 mt-2">0</p>
-          <p class="text-[11px] text-slate-500 mt-1">Tertunda / pending</p>
-        </div>
+          <button
+            type="button"
+            data-tab="history"
+            onclick="switchDashboardTab('history')"
+            class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/>
+            </svg>
+            <span>Riwayat Bulanan</span>
+          </button>
+
+          <button
+            type="button"
+            data-tab="profile"
+            onclick="switchDashboardTab('profile')"
+            class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Profil &amp; Pengaturan Akun</span>
+          </button>
+        </nav>
       </div>
 
-      <!-- Salary & Incentive Breakdown Card -->
-      <div class="rounded-3xl bg-slate-900/95 border border-slate-800 p-5 sm:p-6 shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-800">
-          <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-spx-bright">Rincian Estimasi Pendapatan</span>
-            <h3 class="font-display font-extrabold text-lg sm:text-xl text-white mt-0.5">Simulasi Gaji &amp; Insentif Kurir</h3>
-          </div>
-          <div class="sm:text-right">
-            <span class="text-xs text-slate-400 block">Total Estimasi Gaji</span>
-            <span id="totalSalaryDisplay" class="font-display font-black text-2xl sm:text-3xl text-emerald-400">Rp0</span>
-          </div>
-        </div>
-
-        <!-- Breakdown Rows -->
-        <div id="salaryBreakdownList" class="mt-4 space-y-3 text-sm"></div>
-
-        <div class="mt-5 rounded-2xl bg-slate-950/80 border border-slate-800/90 p-3.5 text-xs text-slate-400 leading-relaxed">
-          <strong class="text-slate-200">Catatan Perhitungan:</strong> Estimasi dihitung otomatis berdasarkan kategori armada (<span id="noteCategoryName" class="text-spx-bright font-semibold">-</span>), jumlah paket terkirim (<em>Delivered</em>), dan <em>Total Hari Kerja</em> yang tercatat pada laporan performa SPX.
-        </div>
+      <!-- Bottom Sidebar Logout -->
+      <div class="p-4 border-t border-slate-800">
+        <button
+          type="button"
+          onclick="handleLogout()"
+          class="w-full py-3 px-4 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-sm font-bold transition flex items-center justify-center gap-2"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+          </svg>
+          <span>Keluar / Logout</span>
+        </button>
       </div>
+    </aside>
 
-    </main>
+    <!-- Main Right Content Area -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- Top Header Bar -->
+      <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <!-- Mobile Hamburger Button -->
+            <button
+              type="button"
+              onclick="toggleMobileSidebar(true)"
+              aria-label="Buka menu navigasi"
+              class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+              </svg>
+            </button>
+            <div>
+              <h2 id="headerPageTitle" class="font-display font-extrabold text-slate-900 text-base sm:text-lg leading-tight">Ringkasan Performa</h2>
+              <p class="text-xs text-slate-500 hidden sm:block">Portal Kinerja &amp; Estimasi Insentif Kurir SPX</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Month Selector -->
+            <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded-xl">
+              <label for="monthSelect" class="text-xs font-bold text-slate-600 hidden sm:inline">Bulan:</label>
+              <select
+                id="monthSelect"
+                onchange="onMonthChange()"
+                class="bg-white text-slate-900 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:border-spx-orange"
+              ></select>
+            </div>
+
+            <!-- Refresh Button -->
+            <button
+              type="button"
+              onclick="refreshDashboardData()"
+              title="Segarkan Data Terbaru"
+              class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 transition flex items-center gap-1.5 text-xs font-bold"
+            >
+              <svg id="refreshIcon" class="w-4 h-4 text-spx-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+              </svg>
+              <span class="hidden md:inline">Refresh</span>
+            </button>
+
+            <!-- Profile Pill Badge -->
+            <button
+              type="button"
+              onclick="switchDashboardTab('profile')"
+              class="hidden sm:flex items-center gap-2 pl-2 pr-3 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100 border border-orange-200 transition"
+            >
+              <span id="headerAvatarBadge" class="w-7 h-7 rounded-full bg-spx-orange text-white font-display font-extrabold text-xs flex items-center justify-center">SP</span>
+              <span id="headerDriverBadge" class="text-xs font-bold text-slate-800 max-w-[120px] truncate">-</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Workspace Content Container -->
+      <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+        <!-- ===============================================================
+             TAB 1: RINGKASAN PERFORMA (OVERVIEW)
+             =============================================================== -->
+        <div id="tab-overview" class="dashboard-tab-panel space-y-6">
+
+          <!-- Welcome Hero Banner -->
+          <div class="rounded-3xl bg-gradient-to-r from-[#111827] via-[#1E293B] to-[#3B1810] text-white p-6 sm:p-7 shadow-xl relative overflow-hidden">
+            <div class="pointer-events-none absolute -right-12 -top-12 w-56 h-56 rounded-full bg-spx-orange/25 blur-2xl"></div>
+            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-4">
+                <div id="avatarInitials" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-spx-orange to-[#FF7337] flex items-center justify-center font-display font-black text-white text-xl sm:text-2xl shadow-lg shadow-spx-orange/30 shrink-0">
+                  SP
+                </div>
+                <div>
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span id="dashCategoryBadge" class="px-3 py-0.5 rounded-full text-xs font-bold bg-spx-orange text-white">
+                      2WH Dedicated
+                    </span>
+                    <span class="text-xs text-slate-300 font-mono bg-white/10 px-2.5 py-0.5 rounded-full">
+                      Driver ID: <strong id="dashDriverId" class="text-white">-</strong>
+                    </span>
+                  </div>
+                  <h3 id="dashDriverName" class="font-display font-extrabold text-xl sm:text-2xl text-white mt-1.5">-</h3>
+                  <p class="text-xs text-orange-200 mt-0.5">SPX Pringapus 2 Hub &bull; Strong and Growth Together!</p>
+                </div>
+              </div>
+
+              <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl px-4 py-3 sm:text-right">
+                <span class="text-[11px] uppercase tracking-wider text-slate-300 block font-semibold">Estimasi Gaji Bulan Ini</span>
+                <span id="overviewSalaryQuick" class="font-display font-black text-xl sm:text-2xl text-emerald-300">Rp0</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 Main KPI Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <!-- KPI 1: Delivery Success Rate (DSR) -->
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Delivery Success Rate</span>
+                <span id="dsrTargetBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Target 98%</span>
+              </div>
+              <p id="kpiDsr" class="font-display font-black text-3xl text-slate-900 mt-3">0%</p>
+              <div class="mt-3.5">
+                <div class="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
+                  <div id="dsrProgressBar" class="h-full rounded-full bg-gradient-to-r from-spx-orange to-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+                <p id="dsrHelperText" class="text-[11px] text-slate-500 mt-1.5">Target minimal bonus DSR ≥ 98%</p>
+              </div>
+            </div>
+
+            <!-- KPI 2: Total Penugasan -->
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Penugasan</span>
+                <span class="w-8 h-8 rounded-xl bg-orange-50 text-spx-orange flex items-center justify-center">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+                  </svg>
+                </span>
+              </div>
+              <p id="kpiAssigned" class="font-display font-black text-3xl text-slate-900 mt-3">0</p>
+              <p class="text-xs text-slate-500 mt-2">Total paket yang ditugaskan</p>
+            </div>
+
+            <!-- KPI 3: Delivered vs OnHold -->
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Delivered vs OnHold</span>
+                <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </span>
+              </div>
+              <div class="flex items-baseline gap-2 mt-3">
+                <p id="kpiDelivered" class="font-display font-black text-3xl text-emerald-600">0</p>
+                <span class="text-xs font-bold text-slate-400">terkirim</span>
+              </div>
+              <p class="text-xs text-amber-600 font-semibold mt-2">
+                OnHold: <span id="kpiOnHold" class="font-extrabold">0</span> paket tertunda
+              </p>
+            </div>
+
+            <!-- KPI 4: Total Hari Kerja -->
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Hari Kerja</span>
+                <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+                  </svg>
+                </span>
+              </div>
+              <p id="kpiDays" class="font-display font-black text-3xl text-spx-orange mt-3">0 <span class="text-sm font-bold text-slate-500">Hari</span></p>
+              <p class="text-xs text-slate-500 mt-2">Kehadiran kerja aktif bulan ini</p>
+            </div>
+          </div>
+
+          <!-- Visual Performance Status Card -->
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Status Evaluasi Kinerja</span>
+                <h4 id="perfStatusHeadline" class="font-display font-extrabold text-lg text-slate-900 mt-0.5">Analisis Performa Pengiriman</h4>
+              </div>
+              <button
+                type="button"
+                onclick="switchDashboardTab('salary')"
+                class="px-4 py-2.5 rounded-xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs font-bold transition self-start sm:self-auto"
+              >
+                Lihat Rincian Gaji &rarr;
+              </button>
+            </div>
+            <p id="perfStatusSummary" class="text-sm text-slate-600 mt-3 leading-relaxed">
+              Memuat status performa pengiriman Anda...
+            </p>
+          </div>
+        </div>
+
+        <!-- ===============================================================
+             TAB 2: SIMULASI GAJI & INSENTIF (PAYROLL BREAKDOWN)
+             =============================================================== -->
+        <div id="tab-salary" class="dashboard-tab-panel hidden space-y-6">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Slip Estimasi Pendapatan</span>
+                <h3 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900 mt-0.5">Simulasi Gaji &amp; Insentif Kurir</h3>
+                <p class="text-xs text-slate-500 mt-1">
+                  Kategori Armada: <strong id="noteCategoryName" class="text-slate-800">-</strong> &bull;
+                  Hari Kerja: <strong id="salaryDaysNote" class="text-slate-800">0 Hari</strong> &bull;
+                  Terkirim: <strong id="salaryDeliveredNote" class="text-slate-800">0 Paket</strong>
+                </p>
+              </div>
+              <div class="bg-emerald-50 border border-emerald-200 rounded-2xl px-5 py-3 sm:text-right">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-700 block">Estimasi Take-Home Pay</span>
+                <span id="totalSalaryDisplay" class="font-display font-black text-2xl sm:text-3xl text-emerald-700">Rp0</span>
+              </div>
+            </div>
+
+            <!-- Itemized Breakdown List -->
+            <div id="salaryBreakdownList" class="mt-5 space-y-3"></div>
+
+            <!-- DSR 98%+ Eligibility Banner -->
+            <div id="dsrBonusEligibilityBox" class="mt-5 rounded-2xl p-4 border text-xs leading-relaxed"></div>
+          </div>
+        </div>
+
+        <!-- ===============================================================
+             TAB 3: RIWAYAT BULANAN (MONTHLY HISTORY)
+             =============================================================== -->
+        <div id="tab-history" class="dashboard-tab-panel hidden space-y-6">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
+            <div class="mb-5">
+              <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Rekap Antar Periode</span>
+              <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Riwayat Performa &amp; Pendapatan Bulanan</h3>
+              <p class="text-xs text-slate-500 mt-1">Perbandingan capaian pengiriman dan estimasi pendapatan Anda di setiap bulan.</p>
+            </div>
+
+            <!-- Visual Bar Comparison -->
+            <div id="historyVisualBars" class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+
+            <!-- Responsive Table -->
+            <div class="overflow-x-auto rounded-2xl border border-slate-200">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr class="bg-slate-900 text-white">
+                    <th class="py-3.5 px-4 font-bold">Bulan</th>
+                    <th class="py-3.5 px-4 font-bold">Hari Kerja</th>
+                    <th class="py-3.5 px-4 font-bold">Penugasan</th>
+                    <th class="py-3.5 px-4 font-bold">Delivered</th>
+                    <th class="py-3.5 px-4 font-bold">OnHold</th>
+                    <th class="py-3.5 px-4 font-bold">DSR</th>
+                    <th class="py-3.5 px-4 font-bold text-right">Estimasi Gaji</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===============================================================
+             TAB 4: PROFIL & PENGATURAN AKUN (PROFILE)
+             =============================================================== -->
+        <div id="tab-profile" class="dashboard-tab-panel hidden space-y-6">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs max-w-2xl">
+            <div class="flex items-center gap-4 pb-5 border-b border-slate-200">
+              <div id="profileBigAvatar" class="w-16 h-16 rounded-2xl bg-gradient-to-br from-spx-orange to-[#FF7337] flex items-center justify-center font-display font-black text-white text-2xl shadow-md">
+                SP
+              </div>
+              <div>
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-spx-orange">Akun Kurir Aktif</span>
+                <h3 id="profileFullName" class="font-display font-extrabold text-xl text-slate-900 mt-1">-</h3>
+                <p class="text-xs text-slate-500">SPX Express &bull; Pringapus 2 Hub</p>
+              </div>
+            </div>
+
+            <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Driver ID</dt>
+                <dd id="profileDriverId" class="font-mono font-extrabold text-slate-900 text-base mt-1">-</dd>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Kategori Armada</dt>
+                <dd id="profileCategory" class="font-extrabold text-spx-orange text-base mt-1">-</dd>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 sm:col-span-2">
+                <dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Informasi Login Akun</dt>
+                <dd class="text-slate-700 text-xs sm:text-sm mt-1 leading-relaxed">
+                  Untuk kemudahan akses harian, <strong>Password</strong> Anda disetel sama dengan <strong>Driver ID</strong> (<span id="profilePwdHint" class="font-mono font-bold text-slate-900">-</span>).
+                </dd>
+              </div>
+            </dl>
+
+            <div class="mt-6 pt-5 border-t border-slate-200 flex justify-end">
+              <button
+                type="button"
+                onclick="handleLogout()"
+                class="px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold shadow-sm transition flex items-center gap-2"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+                </svg>
+                <span>Keluar dari Akun</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
   </section>
 
   <!-- =====================================================================
-       APPLICATION JAVASCRIPT (CSV PARSER, AUTH, SALARY ENGINE)
+       APPLICATION JAVASCRIPT (CSV PARSER, AUTH, SIDEBAR NAV, SALARY ENGINE)
        ===================================================================== -->
   <script>
     const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
 
-    // Data cadangan apabila preview dijalankan saat offline atau CSV belum ter-push
+    // Data cadangan internal apabila preview dijalankan saat offline
     const FALLBACK_DATA = [
       {
         Driver_ID: "1189067",
@@ -576,6 +846,18 @@
         OnHold: 18,
         Total_Hari_Kerja: 24,
         Bulan: "2026-11"
+      },
+      {
+        Driver_ID: "1189067",
+        Nama_Kurir: "MUHAMMAD NUR ARIFIN",
+        Password: "1189067",
+        Kategori_Armada: "2WH Dedicated",
+        Delivery_Success_Rate: "98.10%",
+        Total_Penugasan: 2450,
+        Delivered: 2403,
+        OnHold: 22,
+        Total_Hari_Kerja: 23,
+        Bulan: "2026-10"
       },
       {
         Driver_ID: "1353049",
@@ -618,7 +900,99 @@
     let allRecords = [];
     let currentCourierRecords = [];
     let loggedInDriverId = null;
+    let activeTab = "overview";
 
+    const TAB_TITLES = {
+      overview: "Ringkasan Performa",
+      salary: "Simulasi Gaji & Insentif",
+      history: "Riwayat Bulanan",
+      profile: "Profil & Pengaturan Akun"
+    };
+
+    // -----------------------------------------------------------------------
+    // UI & Sidebar Navigation Helpers
+    // -----------------------------------------------------------------------
+    function showToast(title, msg, isError = false) {
+      const box = document.getElementById("toastBox");
+      const inner = document.getElementById("toastInner");
+      const icon = document.getElementById("toastIcon");
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastMsg").textContent = msg;
+
+      if (isError) {
+        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-rose-500/60 text-white";
+        icon.className = "w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 font-bold";
+        icon.textContent = "!";
+      } else {
+        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-emerald-500/50 text-white";
+        icon.className = "w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold";
+        icon.textContent = "✓";
+      }
+      box.classList.remove("hidden");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(hideToast, 4500);
+    }
+
+    function hideToast() {
+      document.getElementById("toastBox").classList.add("hidden");
+    }
+
+    function togglePasswordVisibility() {
+      const inp = document.getElementById("passwordInput");
+      inp.type = inp.type === "password" ? "text" : "password";
+    }
+
+    function copyDriverIdToPassword() {
+      const drvVal = document.getElementById("driverIdInput").value.trim();
+      if (!drvVal) {
+        showToast("Isi Driver ID Dahulu", "Ketik Driver ID Anda terlebih dahulu sebelum menyalin ke kolom Password.", true);
+        document.getElementById("driverIdInput").focus();
+        return;
+      }
+      document.getElementById("passwordInput").value = drvVal;
+      showToast("Password Terisi", "Password telah disamakan dengan Driver ID Anda.");
+    }
+
+    function toggleMobileSidebar(open) {
+      const sidebar = document.getElementById("appSidebar");
+      const backdrop = document.getElementById("sidebarBackdrop");
+      if (open) {
+        sidebar.classList.remove("-translate-x-full");
+        backdrop.classList.remove("hidden");
+      } else {
+        sidebar.classList.add("-translate-x-full");
+        backdrop.classList.add("hidden");
+      }
+    }
+
+    function switchDashboardTab(tabKey) {
+      activeTab = tabKey;
+      document.getElementById("headerPageTitle").textContent = TAB_TITLES[tabKey] || "Ringkasan Performa";
+
+      document.querySelectorAll(".dashboard-tab-panel").forEach(panel => {
+        panel.classList.add("hidden");
+      });
+      const activePanel = document.getElementById(`tab-${tabKey}`);
+      if (activePanel) activePanel.classList.remove("hidden");
+
+      document.querySelectorAll(".sidebar-nav-btn").forEach(btn => {
+        const isCurrent = btn.getAttribute("data-tab") === tabKey;
+        if (isCurrent) {
+          btn.className = "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition";
+        } else {
+          btn.className = "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
+        }
+      });
+
+      toggleMobileSidebar(false);
+    }
+
+    function formatRupiah(num) {
+      return "Rp" + Math.round(num || 0).toLocaleString("id-ID");
+    }
+
+    // -----------------------------------------------------------------------
+    // CSV Parser & Background GitHub Fetch
     // -----------------------------------------------------------------------
     // UI Helpers
     // -----------------------------------------------------------------------
@@ -823,8 +1197,10 @@
         document.getElementById("loginView").classList.add("hidden");
         document.getElementById("dashboardView").classList.remove("hidden");
 
+        switchDashboardTab("overview");
         populateMonthSelector();
         renderCourierDashboard(currentCourierRecords[0]);
+        renderMonthlyHistory();
         showToast("Login Berhasil", `Selamat datang kembali, ${currentCourierRecords[0].Nama_Kurir}!`);
       }, 450);
     }
@@ -832,6 +1208,7 @@
     function handleLogout() {
       loggedInDriverId = null;
       currentCourierRecords = [];
+      toggleMobileSidebar(false);
       document.getElementById("passwordInput").value = "";
       document.getElementById("dashboardView").classList.add("hidden");
       document.getElementById("loginView").classList.remove("hidden");
@@ -852,6 +1229,7 @@
             const target = currentCourierRecords.find(r => r.Bulan === selectedMonth) || currentCourierRecords[0];
             populateMonthSelector(target.Bulan);
             renderCourierDashboard(target);
+            renderMonthlyHistory();
             showToast("Data Diperbarui", "Data performa & estimasi gaji terbaru berhasil dimuat.");
           }
         }
@@ -912,7 +1290,6 @@
         };
       }
 
-      // Default: 2WH Mitra
       const total = d * 1800;
       return {
         total,
@@ -923,7 +1300,7 @@
     }
 
     // -----------------------------------------------------------------------
-    // Dashboard Rendering
+    // Dashboard, Salary, History & Profile Rendering
     // -----------------------------------------------------------------------
     function populateMonthSelector(selectedVal = null) {
       const sel = document.getElementById("monthSelect");
@@ -951,11 +1328,25 @@
         .join("")
         .toUpperCase() || "SP";
 
+      // Sidebar & Header Identity
+      document.getElementById("sidebarAvatar").textContent = initials;
+      document.getElementById("sidebarDriverName").textContent = rec.Nama_Kurir;
+      document.getElementById("sidebarDriverId").textContent = rec.Driver_ID;
+      document.getElementById("headerAvatarBadge").textContent = initials;
+      document.getElementById("headerDriverBadge").textContent = rec.Nama_Kurir;
+
+      // Overview Hero & KPIs
       document.getElementById("avatarInitials").textContent = initials;
       document.getElementById("dashDriverName").textContent = rec.Nama_Kurir;
       document.getElementById("dashDriverId").textContent = rec.Driver_ID;
       document.getElementById("dashCategoryBadge").textContent = rec.Kategori_Armada;
-      document.getElementById("noteCategoryName").textContent = rec.Kategori_Armada;
+
+      // Profile Tab
+      document.getElementById("profileBigAvatar").textContent = initials;
+      document.getElementById("profileFullName").textContent = rec.Nama_Kurir;
+      document.getElementById("profileDriverId").textContent = rec.Driver_ID;
+      document.getElementById("profileCategory").textContent = rec.Kategori_Armada;
+      document.getElementById("profilePwdHint").textContent = rec.Driver_ID;
 
       // DSR & Progress
       const dsrNumeric = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
@@ -963,35 +1354,103 @@
       document.getElementById("dsrProgressBar").style.width = `${Math.min(100, Math.max(0, dsrNumeric))}%`;
 
       const targetBadge = document.getElementById("dsrTargetBadge");
+      const statusHeadline = document.getElementById("perfStatusHeadline");
+      const statusSummary = document.getElementById("perfStatusSummary");
+      const bonusBox = document.getElementById("dsrBonusEligibilityBox");
+
       if (dsrNumeric >= 98) {
-        targetBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        targetBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
         targetBadge.textContent = "Target Tercapai";
+        statusHeadline.textContent = "Performa Prima — Target DSR Hub ≥ 98% Tercapai!";
+        statusSummary.textContent = `Selamat ${rec.Nama_Kurir}! Capaian Delivery Success Rate Anda sebesar ${rec.Delivery_Success_Rate} dengan ${rec.Delivered.toLocaleString("id-ID")} paket terkirim dalam ${rec.Total_Hari_Kerja} hari kerja telah memenuhi standar kualitas layanan SPX Pringapus 2 Hub.`;
+        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-emerald-50/80 border-emerald-200 text-emerald-900 text-xs leading-relaxed";
+        bonusBox.innerHTML = `<strong>Status Kualifikasi DSR ≥ 98%:</strong> Memenuhi syarat kualitas pengantaran (DSR <strong>${rec.Delivery_Success_Rate}</strong>). Pertahankan tingkat keberhasilan pengiriman dan minimalkan paket OnHold.`;
       } else {
-        targetBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+        targetBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
         targetBadge.textContent = "Target ≥ 98%";
+        statusHeadline.textContent = "Perlu Peningkatan — Kejar Target DSR Hub ≥ 98%";
+        statusSummary.textContent = `Capaian DSR Anda saat ini ${rec.Delivery_Success_Rate} (${rec.Delivered.toLocaleString("id-ID")} dari ${rec.Total_Penugasan.toLocaleString("id-ID")} paket terkirim, dengan ${rec.OnHold.toLocaleString("id-ID")} paket OnHold). Prioritaskan penyelesaian paket tertunda di rute berikutnya untuk menembus target 98%.`;
+        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-amber-50/80 border-amber-200 text-amber-900 text-xs leading-relaxed";
+        bonusBox.innerHTML = `<strong>Catatan Target DSR 98%:</strong> DSR saat ini berada di <strong>${rec.Delivery_Success_Rate}</strong>. Tingkatkan penyelesaian paket OnHold (${rec.OnHold} paket) agar rasio DSR mencapai standar ≥ 98%.`;
       }
 
-      document.getElementById("kpiDays").innerHTML = `${rec.Total_Hari_Kerja} <span class="text-xs font-bold text-slate-400">Hari</span>`;
+      document.getElementById("kpiDays").innerHTML = `${rec.Total_Hari_Kerja} <span class="text-sm font-bold text-slate-500">Hari</span>`;
       document.getElementById("kpiAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
       document.getElementById("kpiDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
       document.getElementById("kpiOnHold").textContent = rec.OnHold.toLocaleString("id-ID");
 
       // Salary Breakdown
       const salary = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+      document.getElementById("overviewSalaryQuick").textContent = formatRupiah(salary.total);
       document.getElementById("totalSalaryDisplay").textContent = formatRupiah(salary.total);
+      document.getElementById("noteCategoryName").textContent = rec.Kategori_Armada;
+      document.getElementById("salaryDaysNote").textContent = `${rec.Total_Hari_Kerja} Hari`;
+      document.getElementById("salaryDeliveredNote").textContent = `${rec.Delivered.toLocaleString("id-ID")} Paket`;
 
       const listEl = document.getElementById("salaryBreakdownList");
       listEl.innerHTML = salary.items.map(item => `
-        <div class="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800/80">
+        <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
           <div>
-            <p class="font-bold text-slate-100 text-xs sm:text-sm">${item.label}</p>
-            <p class="text-[11px] text-slate-400 mt-0.5">${item.desc}</p>
+            <p class="font-bold text-slate-900 text-xs sm:text-sm">${item.label}</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">${item.desc}</p>
           </div>
-          <span class="font-display font-extrabold text-sm sm:text-base ${item.amount > 0 ? 'text-white' : 'text-slate-500'}">
+          <span class="font-display font-extrabold text-sm sm:text-base ${item.amount > 0 ? 'text-slate-900' : 'text-slate-400'}">
             ${formatRupiah(item.amount)}
           </span>
         </div>
       `).join("");
+    }
+
+    function renderMonthlyHistory() {
+      const barsContainer = document.getElementById("historyVisualBars");
+      const tbody = document.getElementById("historyTableBody");
+
+      if (!currentCourierRecords || currentCourierRecords.length === 0) {
+        barsContainer.innerHTML = "";
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">Belum ada riwayat bulanan.</td></tr>`;
+        return;
+      }
+
+      const maxDelivered = Math.max(...currentCourierRecords.map(r => Number(r.Delivered) || 1), 1);
+
+      barsContainer.innerHTML = currentCourierRecords.map(rec => {
+        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+        const pct = Math.min(100, Math.round(((Number(rec.Delivered) || 0) / maxDelivered) * 100));
+        return `
+          <div class="rounded-2xl bg-slate-50 border border-slate-200/80 p-4">
+            <div class="flex items-center justify-between text-xs font-bold">
+              <span class="text-slate-900 font-mono">${rec.Bulan}</span>
+              <span class="text-spx-orange">${rec.Delivery_Success_Rate}</span>
+            </div>
+            <p class="font-display font-extrabold text-base text-slate-900 mt-1">${formatRupiah(sal.total)}</p>
+            <div class="w-full h-2 rounded-full bg-slate-200 mt-2.5 overflow-hidden">
+              <div class="h-full rounded-full bg-gradient-to-r from-spx-orange to-[#FF7337]" style="width: ${pct}%"></div>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-1.5">${rec.Delivered.toLocaleString("id-ID")} paket &bull; ${rec.Total_Hari_Kerja} hari kerja</p>
+          </div>
+        `;
+      }).join("");
+
+      tbody.innerHTML = currentCourierRecords.map(rec => {
+        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+        const dsrNum = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
+        const dsrBadgeClass = dsrNum >= 98
+          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+          : "bg-amber-50 text-amber-700 border-amber-200";
+        return `
+          <tr class="hover:bg-orange-50/40 transition">
+            <td class="py-3.5 px-4 font-mono font-bold text-slate-900">${rec.Bulan}</td>
+            <td class="py-3.5 px-4 font-semibold text-slate-700">${rec.Total_Hari_Kerja} Hari</td>
+            <td class="py-3.5 px-4 text-slate-700">${rec.Total_Penugasan.toLocaleString("id-ID")}</td>
+            <td class="py-3.5 px-4 font-bold text-emerald-700">${rec.Delivered.toLocaleString("id-ID")}</td>
+            <td class="py-3.5 px-4 text-amber-700">${rec.OnHold.toLocaleString("id-ID")}</td>
+            <td class="py-3.5 px-4">
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold border ${dsrBadgeClass}">${rec.Delivery_Success_Rate}</span>
+            </td>
+            <td class="py-3.5 px-4 text-right font-display font-extrabold text-slate-900">${formatRupiah(sal.total)}</td>
+          </tr>
+        `;
+      }).join("");
     }
 
     // Boot application
