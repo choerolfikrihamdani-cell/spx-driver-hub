@@ -1229,15 +1229,15 @@
                       <input id="rateCpBase" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
                     </div>
                     <div>
-                      <label class="block font-bold text-slate-600 mb-1">Insentif per Hari Kerja (Rp)</label>
+                      <label class="block font-bold text-slate-600 mb-1">Bonus Harian per Hari Kerja (Rp)</label>
                       <input id="rateCpDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
                     </div>
                     <div>
-                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 1 (601–1.090)</label>
+                      <label class="block font-bold text-slate-600 mb-1">Incentive 1 (601–1.090 pkt) (Rp)</label>
                       <input id="rateCpTier1" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
                     </div>
                     <div>
-                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 2 (&gt; 1.090)</label>
+                      <label class="block font-bold text-slate-600 mb-1">Incentive 2 (&gt; 1.090 pkt) (Rp)</label>
                       <input id="rateCpTier2" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
                     </div>
                   </div>
@@ -1421,10 +1421,10 @@
       dedDaily: 15000,
       dedTier1: 1000,
       dedTier2: 2000,
-      cpBase: 1320000,
-      cpDaily: 15000,
-      cpTier1: 1000,
-      cpTier2: 2000,
+      cpBase: 1700109,
+      cpDaily: 20000,
+      cpTier1: 475,
+      cpTier2: 875,
       rate4whPkg: 3500,
       rate2whPkg: 2200,
       dsrMin: 98.0,
@@ -1789,18 +1789,20 @@
       } else if (cat.includes("COURIER PLUS")) {
         const base = Number(salaryRates.cpBase) || 0;
         const dailyBonus = days * (Number(salaryRates.cpDaily) || 0);
+        // Threshold 1: 600, Threshold 2: 1.090 -> Selisih 490 paket dikali Rp475
         const tier1Pkgs = Math.max(0, Math.min(delivered, 1090) - 600);
+        // Paket di atas Threshold 2 (> 1.090) dikali Rp875
         const tier2Pkgs = Math.max(0, delivered - 1090);
         const tier1Pay = tier1Pkgs * (Number(salaryRates.cpTier1) || 0);
         const tier2Pay = tier2Pkgs * (Number(salaryRates.cpTier2) || 0);
 
         items.push({ label: "Gaji Pokok (2WH Courier Plus)", desc: "Komponen tetap bulanan", amount: base });
-        items.push({ label: `Insentif Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(salaryRates.cpDaily)}`, amount: dailyBonus });
+        items.push({ label: `Bonus Harian (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(salaryRates.cpDaily)}`, amount: dailyBonus });
         if (tier1Pkgs > 0) {
-          items.push({ label: `Insentif Paket Tier 1 (${tier1Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket ke 601–1.090 × ${formatRupiah(salaryRates.cpTier1)}`, amount: tier1Pay });
+          items.push({ label: `Incentive 1 (${tier1Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket ke 601–1.090 × ${formatRupiah(salaryRates.cpTier1)}`, amount: tier1Pay });
         }
         if (tier2Pkgs > 0) {
-          items.push({ label: `Insentif Paket Tier 2 (${tier2Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket > 1.090 × ${formatRupiah(salaryRates.cpTier2)}`, amount: tier2Pay });
+          items.push({ label: `Incentive 2 (${tier2Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket > 1.090 × ${formatRupiah(salaryRates.cpTier2)}`, amount: tier2Pay });
         }
         total += base + dailyBonus + tier1Pay + tier2Pay;
       } else if (cat.includes("4WH")) {
