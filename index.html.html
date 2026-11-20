@@ -1406,271 +1406,71 @@
   <script>
     const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
     const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v1";
+    const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v1";
+    const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v1";
 
     // Akun Pimpinan Khusus Hub Lead & Shift Lead (Ops ID = Password)
     const LEADERSHIP_ACCOUNTS = {
-      "1792821": { opsId: "1792821", password: "1792821", role: "Hub Lead" },
-      "1731944": { opsId: "1731944", password: "1731944", role: "Shift Lead" },
-      "1727343": { opsId: "1727343", password: "1727343", role: "Shift Lead" }
-    };
-
-    const DEFAULT_SALARY_RATES = {
-      dedBase: 1981000,
-      dedDaily: 104240,
-      dedTier1: 620,
-      dedTier2: 1095,
-      cpBase: 1700109,
-      cpDaily: 20000,
-      cpTier1: 475,
-      cpTier2: 875,
-      rate4whPkg: 5400,
-      rate2whPkg: 1800,
-      dsrMin: 98,
-      dsrBonus: 0
-    };
-
-    function loadSalaryRates() {
-      try {
-        const raw = localStorage.getItem(RATE_STORAGE_KEY);
-        if (!raw) return { ...DEFAULT_SALARY_RATES };
-        return { ...DEFAULT_SALARY_RATES, ...JSON.parse(raw) };
-      } catch (e) {
-        return { ...DEFAULT_SALARY_RATES };
-      }
-    }
-
-    let salaryRates = loadSalaryRates();
 // ... existing code ... -->
-    let allRecords = [];
-    let currentCourierRecords = [];
-    let loggedInDriverId = null;
     let loggedInLeader = null;
     let activeTab = "overview";
     let activeLeadTab = "monitoring";
 
+    // -----------------------------------------------------------------------
+    // Persistent Session & Cache Helpers (Anti-Logout saat Refresh)
+    // -----------------------------------------------------------------------
+    function saveActiveSession(sessionObj) {
+      try {
+        const serialized = JSON.stringify(sessionObj);
+        localStorage.setItem(SESSION_STORAGE_KEY, serialized);
+        sessionStorage.setItem(SESSION_STORAGE_KEY, serialized);
+      } catch (e) {
+        console.warn("Gagal menyimpan sesi ke storage:", e);
+      }
+    }
+
+    function readActiveSession() {
+      try {
+        const raw = localStorage.getItem(SESSION_STORAGE_KEY) || sessionStorage.getItem(SESSION_STORAGE_KEY);
+        if (!raw) return null;
+        return JSON.parse(raw);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function clearActiveSession() {
+      try {
+        localStorage.removeItem(SESSION_STORAGE_KEY);
+        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+      } catch (e) {
+        console.warn("Gagal menghapus sesi:", e);
+      }
+    }
+
+    function saveCachedRecords(records) {
+      try {
+        if (Array.isArray(records) && records.length > 0) {
+          localStorage.setItem(CACHE_RECORDS_KEY, JSON.stringify(records));
+        }
+      } catch (e) {
+        console.warn("Gagal menyimpan cache CSV:", e);
+      }
+    }
+
+    function readCachedRecords() {
+      try {
+        const raw = localStorage.getItem(CACHE_RECORDS_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
     const TAB_TITLES = {
-      overview: "Ringkasan Performa",
-      salary: "Simulasi Gaji & Insentif",
-      history: "Riwayat Bulanan",
-      profile: "Profil & Pengaturan Akun"
-    };
-
-    const LEAD_TAB_TITLES = {
-      monitoring: "Dashboard Monitoring Hub",
-      couriers: "Data & Performa Kurir",
-      rates: "Pengaturan Tarif & Simulasi",
-      account: "Info Akun Pimpinan"
-    };
-
-    // -----------------------------------------------------------------------
-    // UI & Sidebar Navigation Helpers
-    // -----------------------------------------------------------------------
-    function showToast(title, msg, isError = false) {
-      const box = document.getElementById("toastBox");
-      const inner = document.getElementById("toastInner");
-      const icon = document.getElementById("toastIcon");
-      document.getElementById("toastTitle").textContent = title;
-      document.getElementById("toastMsg").textContent = msg;
-
-      if (isError) {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-rose-500/60 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 font-bold";
-        icon.textContent = "!";
-      } else {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-emerald-500/50 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold";
-        icon.textContent = "✓";
-      }
-      box.classList.remove("hidden");
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(hideToast, 4500);
-    }
-
-    function hideToast() {
-      document.getElementById("toastBox").classList.add("hidden");
-    }
-
-    function togglePasswordVisibility() {
-      const inp = document.getElementById("passwordInput");
-      inp.type = inp.type === "password" ? "text" : "password";
-    }
-
-    function copyDriverIdToPassword() {
-      const drvVal = document.getElementById("driverIdInput").value.trim();
-      if (!drvVal) {
-        showToast("Isi ID Dahulu", "Ketik Driver ID atau Ops ID Anda terlebih dahulu.", true);
-        document.getElementById("driverIdInput").focus();
-        return;
-      }
-      document.getElementById("passwordInput").value = drvVal;
-      showToast("Password Terisi", "Password telah disamakan dengan ID Anda.");
-    }
-
-    function toggleMobileSidebar(open) {
-      const sidebar = document.getElementById("appSidebar");
-      const backdrop = document.getElementById("sidebarBackdrop");
-      if (open) {
-        sidebar.classList.remove("-translate-x-full");
-        backdrop.classList.remove("hidden");
-      } else {
-        sidebar.classList.add("-translate-x-full");
-        backdrop.classList.add("hidden");
-      }
-    }
-
-    function toggleLeadSidebar(open) {
-      const sidebar = document.getElementById("leadSidebar");
-      const backdrop = document.getElementById("leadSidebarBackdrop");
-      if (open) {
-        sidebar.classList.remove("-translate-x-full");
-        backdrop.classList.remove("hidden");
-      } else {
-        sidebar.classList.add("-translate-x-full");
-        backdrop.classList.add("hidden");
-      }
-    }
-
-    function switchDashboardTab(tabKey) {
-      activeTab = tabKey;
-      document.getElementById("headerPageTitle").textContent = TAB_TITLES[tabKey] || "Ringkasan Performa";
-
-      document.querySelectorAll(".dashboard-tab-panel").forEach(panel => {
-        panel.classList.add("hidden");
-      });
-      const activePanel = document.getElementById(`tab-${tabKey}`);
-      if (activePanel) activePanel.classList.remove("hidden");
-
-      document.querySelectorAll(".sidebar-nav-btn").forEach(btn => {
-        const isCurrent = btn.getAttribute("data-tab") === tabKey;
-        if (isCurrent) {
-          btn.className = "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition";
-        } else {
-          btn.className = "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
-        }
-      });
-
-      toggleMobileSidebar(false);
-    }
-
-    function switchLeadTab(tabKey) {
-      activeLeadTab = tabKey;
-      document.getElementById("leadHeaderTitle").textContent = LEAD_TAB_TITLES[tabKey] || "Dashboard Monitoring Hub";
-
-      document.querySelectorAll(".lead-tab-panel").forEach(panel => {
-        panel.classList.add("hidden");
-      });
-      const activePanel = document.getElementById(`lead-tab-${tabKey}`);
-      if (activePanel) activePanel.classList.remove("hidden");
-
-      document.querySelectorAll(".lead-nav-btn").forEach(btn => {
-        const isCurrent = btn.getAttribute("data-lead-tab") === tabKey;
-        if (isCurrent) {
-          btn.className = "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition";
-        } else {
-          btn.className = "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
-        }
-      });
-
-      toggleLeadSidebar(false);
-    }
-
-    function formatRupiah(num) {
-      return "Rp" + Math.round(num || 0).toLocaleString("id-ID");
-    }
-
-    // -----------------------------------------------------------------------
-    // CSV Parser (Tahan koma di dalam tanda kutip & BOM UTF-8)
-    // -----------------------------------------------------------------------
-    function parseCSVLine(line) {
-      const result = [];
-      let current = "";
-      let inQuotes = false;
-
-      for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-          if (inQuotes && line[i + 1] === '"') {
-            current += '"';
-            i++;
-          } else {
-            inQuotes = !inQuotes;
-          }
-        } else if (char === "," && !inQuotes) {
-          result.push(current.trim());
-          current = "";
-        } else {
-          current += char;
-        }
-      }
-      result.push(current.trim());
-      return result;
-    }
-
-    function parseMasterCSV(csvText) {
-      const cleanText = String(csvText || "").replace(/^\uFEFF/, "").trim();
-      const lines = cleanText.split(/\r?\n/).filter(l => l.trim().length > 0);
-      if (lines.length < 2) return [];
-
-      const headers = parseCSVLine(lines[0]).map(h => h.replace(/^"|"$/g, "").trim());
-      const records = [];
-
-      for (let i = 1; i < lines.length; i++) {
-        const cols = parseCSVLine(lines[i]);
-        if (cols.length < 2) continue;
-
-        const rowObj = {};
-        headers.forEach((h, idx) => {
-          rowObj[h] = (cols[idx] !== undefined ? cols[idx] : "").replace(/^"|"$/g, "").trim();
-        });
-
-        const driverId = rowObj.Driver_ID || rowObj["Driver ID"] || "";
-        const namaKurir = rowObj.Nama_Kurir || rowObj["Driver Name"] || "";
-        if (!driverId || !namaKurir) continue;
-
-        const daysRaw =
-          rowObj.Total_Hari_Kerja ||
-          rowObj["Number of days working"] ||
-          rowObj["Total Hari Kerja"] ||
-          "0";
-
-        const assignedRaw =
-          rowObj.Total_Penugasan ||
-          rowObj.Penugasan_Hari_Ini ||
-          rowObj["Number of parcels assigned (1 TO as 1 Parcel)"] ||
-          "0";
-
-        const deliveredRaw =
-          rowObj.Delivered ||
-          rowObj["Number of Parcels delivered(1 TO as 1 Parcel)"] ||
-          "0";
-
-        const onHoldRaw =
-          rowObj.OnHold ||
-          rowObj["Number of parcels on-hold (1 TO as 1 Parcel)"] ||
-          "0";
-
-        const dsrRaw =
-          rowObj.Delivery_Success_Rate ||
-          rowObj["Delivery success rate(%)"] ||
-          "0%";
-
-        records.push({
-          Driver_ID: String(driverId).trim(),
-          Nama_Kurir: String(namaKurir).trim(),
-          Password: String(rowObj.Password || driverId).trim(),
-          Kategori_Armada: String(rowObj.Kategori_Armada || "2WH Dedicated").trim(),
-          Total_Hari_Kerja: parseInt(String(daysRaw).replace(/[^\d]/g, ""), 10) || 0,
-          Total_Penugasan: parseInt(String(assignedRaw).replace(/[^\d]/g, ""), 10) || 0,
-          Delivered: parseInt(String(deliveredRaw).replace(/[^\d]/g, ""), 10) || 0,
-          OnHold: parseInt(String(onHoldRaw).replace(/[^\d]/g, ""), 10) || 0,
-          Delivery_Success_Rate: dsrRaw.includes("%") ? dsrRaw : `${dsrRaw}%`,
-          Bulan: String(rowObj.Bulan || rowObj.Month || "2026-04").trim()
-        });
-      }
-
-      return records;
-    }
-
+// ... existing code ... -->
     async function loadDatabaseFromGitHub() {
       try {
         const res = await fetch(`${GITHUB_CSV_URL}?t=${Date.now()}`, { cache: "no-store" });
@@ -1679,10 +1479,14 @@
         const parsed = parseMasterCSV(csvText);
         if (parsed.length > 0) {
           allRecords = parsed;
+          saveCachedRecords(parsed);
         }
       } catch (err) {
         console.warn("Memakai fallback data lokal sementara:", err);
-        if (allRecords.length === 0) {
+        const cached = readCachedRecords();
+        if (cached.length > 0) {
+          allRecords = cached;
+        } else if (allRecords.length === 0) {
           allRecords = [
             {
               Driver_ID: "1194512",
@@ -1704,6 +1508,37 @@
     // -----------------------------------------------------------------------
     // Authentication Flow (Hub Lead / Shift Lead Ops ID & Courier Driver ID)
     // -----------------------------------------------------------------------
+    function activateLeaderSession(leadAccount, savedTab = "monitoring", savedMonth = null) {
+      loggedInLeader = leadAccount;
+      loggedInDriverId = null;
+
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("dashboardView").classList.add("hidden");
+      document.getElementById("leadDashboardView").classList.remove("hidden");
+
+      initLeadDashboard(savedTab, savedMonth);
+    }
+
+    function activateCourierSession(driverId, savedTab = "overview", savedMonth = null) {
+      const matches = allRecords.filter(r => r.Driver_ID === driverId);
+      if (matches.length === 0) return false;
+
+      loggedInDriverId = driverId;
+      loggedInLeader = null;
+      currentCourierRecords = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("leadDashboardView").classList.add("hidden");
+      document.getElementById("dashboardView").classList.remove("hidden");
+
+      const targetRecord = (savedMonth && currentCourierRecords.find(r => r.Bulan === savedMonth)) || currentCourierRecords[0];
+      switchDashboardTab(savedTab || "overview", false);
+      populateMonthSelector(targetRecord.Bulan);
+      renderCourierDashboard(targetRecord);
+      renderMonthlyHistory();
+      return true;
+    }
+
     async function handleLogin(e) {
       e.preventDefault();
       const inputId = document.getElementById("driverIdInput").value.trim();
@@ -1742,14 +1577,14 @@
             return;
           }
 
-          loggedInLeader = leadAccount;
-          loggedInDriverId = null;
+          saveActiveSession({
+            role: "leader",
+            id: leadAccount.opsId,
+            tab: "monitoring",
+            month: null
+          });
 
-          document.getElementById("loginView").classList.add("hidden");
-          document.getElementById("dashboardView").classList.add("hidden");
-          document.getElementById("leadDashboardView").classList.remove("hidden");
-
-          initLeadDashboard();
+          activateLeaderSession(leadAccount, "monitoring", null);
           showToast("Login Pimpinan Berhasil", `Selamat datang, ${leadAccount.role} (Ops ID ${leadAccount.opsId})!`);
           return;
         }
@@ -1767,23 +1602,21 @@
           return;
         }
 
-        loggedInDriverId = inputId;
-        loggedInLeader = null;
-        currentCourierRecords = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+        const sortedMatches = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+        saveActiveSession({
+          role: "courier",
+          id: inputId,
+          tab: "overview",
+          month: sortedMatches[0]?.Bulan || null
+        });
 
-        document.getElementById("loginView").classList.add("hidden");
-        document.getElementById("leadDashboardView").classList.add("hidden");
-        document.getElementById("dashboardView").classList.remove("hidden");
-
-        switchDashboardTab("overview");
-        populateMonthSelector();
-        renderCourierDashboard(currentCourierRecords[0]);
-        renderMonthlyHistory();
-        showToast("Login Berhasil", `Selamat datang kembali, ${currentCourierRecords[0].Nama_Kurir}!`);
-      }, 400);
+        activateCourierSession(inputId, "overview", sortedMatches[0]?.Bulan || null);
+        showToast("Login Berhasil", `Selamat datang kembali, ${sortedMatches[0].Nama_Kurir}!`);
+      }, 350);
     }
 
     function handleLogout() {
+      clearActiveSession();
       loggedInDriverId = null;
       loggedInLeader = null;
       currentCourierRecords = [];
@@ -1795,115 +1628,11 @@
       document.getElementById("loginView").classList.remove("hidden");
       showToast("Berhasil Keluar", "Sesi Anda telah ditutup dengan aman.");
     }
-
-    async function refreshDashboardData() {
-      const icon = document.getElementById("refreshIcon");
-      icon.classList.add("animate-spin");
-      await loadDatabaseFromGitHub();
-      setTimeout(() => {
-        icon.classList.remove("animate-spin");
-        if (loggedInDriverId) {
-          const matches = allRecords.filter(r => r.Driver_ID === loggedInDriverId);
-          if (matches.length > 0) {
-            currentCourierRecords = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
-            const selectedMonth = document.getElementById("monthSelect").value;
-            const target = currentCourierRecords.find(r => r.Bulan === selectedMonth) || currentCourierRecords[0];
-            populateMonthSelector(target.Bulan);
-            renderCourierDashboard(target);
-            renderMonthlyHistory();
-            showToast("Data Diperbarui", "Data performa & estimasi gaji terbaru berhasil dimuat.");
-          }
-        }
-      }, 450);
-    }
-
-    // -----------------------------------------------------------------------
-    // Salary Calculation Engine (Mendukung Parameter Tarif Hub Lead)
-    // -----------------------------------------------------------------------
-    function computeSalaryBreakdown(category, delivered, daysWorking, dsrRaw = "0%") {
-      const d = Math.max(0, Number(delivered) || 0);
-      const days = Math.max(0, Number(daysWorking) || 0);
-      const dsrNum = parseFloat(String(dsrRaw).replace(/[^\d.-]/g, "")) || 0;
-      const catUpper = String(category || "").toUpperCase();
-      const r = salaryRates;
-
-      const dsrBonusEarned = dsrNum >= Number(r.dsrMin || 98) ? Number(r.dsrBonus || 0) : 0;
-
-      if (catUpper.includes("DEDICATED")) {
-        const gp = Number(r.dedBase);
-        const bonusHarian = Number(r.dedDaily) * days;
-        const t1Qty = Math.max(0, Math.min(d, 3120) - 1950);
-        const t2Qty = Math.max(0, d - 3120);
-        const ins1 = t1Qty * Number(r.dedTier1);
-        const ins2 = t2Qty * Number(r.dedTier2);
-        const items = [
-          { label: "Gaji Pokok (2WH Dedicated)", desc: "Tarif tetap bulanan", amount: gp },
-          { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(r.dedDaily)}`, amount: bonusHarian },
-          { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: `Paket ke-1.951 s/d 3.120 × ${formatRupiah(r.dedTier1)}`, amount: ins1 },
-          { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: `Paket di atas 3.120 × ${formatRupiah(r.dedTier2)}`, amount: ins2 }
-        ];
-        if (dsrBonusEarned > 0) {
-          items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
-        }
-        return {
-          total: gp + bonusHarian + ins1 + ins2 + dsrBonusEarned,
-          items
-        };
-      }
-
-      if (catUpper.includes("COURIER PLUS")) {
-        const gp = Number(r.cpBase);
-        const bonusHarian = Number(r.cpDaily) * days;
-        const t1Qty = Math.max(0, Math.min(d, 1090) - 600);
-        const t2Qty = Math.max(0, d - 1090);
-        const ins1 = t1Qty * Number(r.cpTier1);
-        const ins2 = t2Qty * Number(r.cpTier2);
-        const items = [
-          { label: "Gaji Pokok (2WH Courier Plus)", desc: "Tarif tetap bulanan", amount: gp },
-          { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(r.cpDaily)}`, amount: bonusHarian },
-          { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: `Paket ke-601 s/d 1.090 × ${formatRupiah(r.cpTier1)}`, amount: ins1 },
-          { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: `Paket di atas 1.090 × ${formatRupiah(r.cpTier2)}`, amount: ins2 }
-        ];
-        if (dsrBonusEarned > 0) {
-          items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
-        }
-        return {
-          total: gp + bonusHarian + ins1 + ins2 + dsrBonusEarned,
-          items
-        };
-      }
-
-      if (catUpper.includes("4WH")) {
-        const basePkg = d * Number(r.rate4whPkg);
-        const items = [
-          { label: `Komisi Pengantaran 4WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × ${formatRupiah(r.rate4whPkg)}`, amount: basePkg }
-        ];
-        if (dsrBonusEarned > 0) {
-          items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
-        }
-        return {
-          total: basePkg + dsrBonusEarned,
-          items
-        };
-      }
-
-      const basePkg = d * Number(r.rate2whPkg);
-      const items = [
-        { label: `Komisi Pengantaran 2WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × ${formatRupiah(r.rate2whPkg)}`, amount: basePkg }
-      ];
-      if (dsrBonusEarned > 0) {
-        items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
-      }
-      return {
-        total: basePkg + dsrBonusEarned,
-        items
-      };
-    }
-
+// ... existing code ... -->
     // -----------------------------------------------------------------------
     // Hub Lead & Shift Lead Dashboard Logic
     // -----------------------------------------------------------------------
-    function initLeadDashboard() {
+    function initLeadDashboard(savedTab = "monitoring", savedMonth = null) {
       if (!loggedInLeader) return;
       const roleUpper = loggedInLeader.role.toUpperCase();
       document.getElementById("leadRolePill").textContent = roleUpper;
@@ -1916,8 +1645,8 @@
       document.getElementById("leadAccountPosition").textContent = loggedInLeader.role;
 
       populateRateSettingsForm();
-      populateLeadMonthSelector();
-      switchLeadTab("monitoring");
+      populateLeadMonthSelector(savedMonth);
+      switchLeadTab(savedTab || "monitoring");
       renderLeadHubView();
     }
 
@@ -1935,461 +1664,77 @@
     }
 
     function onLeadMonthChange() {
+      const currentSession = readActiveSession();
+      if (currentSession && currentSession.role === "leader") {
+        saveActiveSession({
+          ...currentSession,
+          month: document.getElementById("leadMonthSelect").value
+        });
+      }
       renderLeadHubView();
     }
-
-    async function refreshLeadData() {
-      const icon = document.getElementById("leadRefreshIcon");
-      icon.classList.add("animate-spin");
-      await loadDatabaseFromGitHub();
-      setTimeout(() => {
-        icon.classList.remove("animate-spin");
-        const prevMonth = document.getElementById("leadMonthSelect").value;
-        populateLeadMonthSelector(prevMonth);
-        renderLeadHubView();
-        showToast("Sinkronisasi Berhasil", "Data kurir Pringapus 2 Hub terbaru berhasil dimuat.");
-      }, 450);
-    }
-
-    function getActiveMonthCourierRecords() {
-      const selectedMonth = document.getElementById("leadMonthSelect").value;
-      return allRecords.filter(r => r.Bulan === selectedMonth);
-    }
-
-    function renderLeadHubView() {
-      const selectedMonth = document.getElementById("leadMonthSelect").value || "-";
-      document.getElementById("leadActiveMonthLabel").textContent = selectedMonth;
-
-      const monthRows = getActiveMonthCourierRecords();
-      const totalCouriers = monthRows.length;
-      const totalAssigned = monthRows.reduce((acc, r) => acc + (Number(r.Total_Penugasan) || 0), 0);
-      const totalDelivered = monthRows.reduce((acc, r) => acc + (Number(r.Delivered) || 0), 0);
-      const totalOnHold = monthRows.reduce((acc, r) => acc + (Number(r.OnHold) || 0), 0);
-
-      let avgDsr = 0;
-      if (totalCouriers > 0) {
-        const sumDsr = monthRows.reduce((acc, r) => {
-          return acc + (parseFloat(String(r.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0);
-        }, 0);
-        avgDsr = sumDsr / totalCouriers;
-      }
-
-      const totalPayroll = monthRows.reduce((acc, r) => {
-        return acc + computeSalaryBreakdown(r.Kategori_Armada, r.Delivered, r.Total_Hari_Kerja, r.Delivery_Success_Rate).total;
-      }, 0);
-
-      document.getElementById("hubKpiCouriers").textContent = totalCouriers.toLocaleString("id-ID");
-      document.getElementById("hubKpiAssigned").textContent = totalAssigned.toLocaleString("id-ID");
-      document.getElementById("hubKpiDelivered").textContent = totalDelivered.toLocaleString("id-ID");
-      document.getElementById("hubKpiOnHold").textContent = totalOnHold.toLocaleString("id-ID");
-      document.getElementById("hubKpiAvgDsr").textContent = `${avgDsr.toFixed(2)}%`;
-      document.getElementById("hubDsrBar").style.width = `${Math.min(100, Math.max(0, avgDsr))}%`;
-      document.getElementById("hubKpiTotalPayroll").textContent = formatRupiah(totalPayroll);
-
-      const hubBadge = document.getElementById("hubDsrBadge");
-      if (avgDsr >= 98) {
-        hubBadge.className = "px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
-        hubBadge.textContent = "Target Hub Tercapai";
-      } else {
-        hubBadge.className = "px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
-        hubBadge.textContent = "Target ≥ 98%";
-      }
-
-      // Render Fleet Category Cards
-      const categories = ["4WH Mitra", "2WH Dedicated", "2WH Courier Plus", "2WH Mitra"];
-      const fleetGrid = document.getElementById("fleetCategoryGrid");
-      fleetGrid.innerHTML = categories.map(cat => {
-        const subset = monthRows.filter(r => r.Kategori_Armada.toLowerCase() === cat.toLowerCase());
-        const count = subset.length;
-        const delSum = subset.reduce((s, r) => s + (Number(r.Delivered) || 0), 0);
-        const paySum = subset.reduce((s, r) => s + computeSalaryBreakdown(r.Kategori_Armada, r.Delivered, r.Total_Hari_Kerja, r.Delivery_Success_Rate).total, 0);
-        const catDsr = count > 0
-          ? subset.reduce((s, r) => s + (parseFloat(String(r.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0), 0) / count
-          : 0;
-
-        return `
-          <div class="rounded-2xl bg-slate-50 border border-slate-200/90 p-4 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between gap-2">
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-spx-orange">${cat}</span>
-                <span class="text-xs font-extrabold text-slate-700">${count} Kurir</span>
-              </div>
-              <p class="font-display font-black text-xl text-slate-900 mt-3">${delSum.toLocaleString("id-ID")} <span class="text-xs font-semibold text-slate-500">paket</span></p>
-              <div class="w-full h-1.5 rounded-full bg-slate-200 mt-2 overflow-hidden">
-                <div class="h-full rounded-full bg-spx-orange" style="width: ${Math.min(100, catDsr)}%"></div>
-              </div>
-            </div>
-            <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
-              <span class="text-slate-500">DSR: <strong class="text-slate-800">${catDsr.toFixed(2)}%</strong></span>
-              <span class="font-bold text-emerald-700">${formatRupiah(paySum)}</span>
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      renderLeadCourierTable();
-    }
-
-    function getFilteredSortedCouriers() {
-      const query = (document.getElementById("courierSearchInput").value || "").trim().toLowerCase();
-      const catFilter = document.getElementById("courierCategoryFilter").value;
-      const sortBy = document.getElementById("courierSortSelect").value;
-
-      let rows = getActiveMonthCourierRecords().map(r => {
-        const dsrNum = parseFloat(String(r.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
-        const sal = computeSalaryBreakdown(r.Kategori_Armada, r.Delivered, r.Total_Hari_Kerja, r.Delivery_Success_Rate);
-        return { ...r, _dsrNum: dsrNum, _salaryTotal: sal.total };
-      });
-
-      if (query) {
-        rows = rows.filter(r =>
-          r.Driver_ID.toLowerCase().includes(query) ||
-          r.Nama_Kurir.toLowerCase().includes(query)
-        );
-      }
-
-      if (catFilter !== "ALL") {
-        rows = rows.filter(r => r.Kategori_Armada.toLowerCase() === catFilter.toLowerCase());
-      }
-
-      rows.sort((a, b) => {
-        if (sortBy === "delivered_asc") return a.Delivered - b.Delivered;
-        if (sortBy === "dsr_desc") return b._dsrNum - a._dsrNum;
-        if (sortBy === "dsr_asc") return a._dsrNum - b._dsrNum;
-        if (sortBy === "salary_desc") return b._salaryTotal - a._salaryTotal;
-        return b.Delivered - a.Delivered;
-      });
-
-      return rows;
-    }
-
-    function renderLeadCourierTable() {
-      const rows = getFilteredSortedCouriers();
-      const tbody = document.getElementById("leadCourierTableBody");
-      document.getElementById("leadTableCountInfo").textContent = `Menampilkan ${rows.length} kurir aktif pada periode terpilih.`;
-
-      if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-slate-400">Tidak ada data kurir yang cocok dengan pencarian/filter.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = rows.map(r => {
-        const dsrClass = r._dsrNum >= 98
-          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-          : "bg-amber-50 text-amber-700 border-amber-200";
-        return `
-          <tr class="hover:bg-orange-50/40 transition">
-            <td class="py-3 px-4 font-mono font-bold text-slate-900">${r.Driver_ID}</td>
-            <td class="py-3 px-4 font-bold text-slate-900">${r.Nama_Kurir}</td>
-            <td class="py-3 px-4">
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700">${r.Kategori_Armada}</span>
-            </td>
-            <td class="py-3 px-4 text-center font-semibold text-slate-700">${r.Total_Hari_Kerja}</td>
-            <td class="py-3 px-4 text-right text-slate-700">${r.Total_Penugasan.toLocaleString("id-ID")}</td>
-            <td class="py-3 px-4 text-right font-bold text-emerald-700">${r.Delivered.toLocaleString("id-ID")}</td>
-            <td class="py-3 px-4 text-right text-amber-700">${r.OnHold.toLocaleString("id-ID")}</td>
-            <td class="py-3 px-4 text-center">
-              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold border ${dsrClass}">${r.Delivery_Success_Rate}</span>
-            </td>
-            <td class="py-3 px-4 text-right font-display font-extrabold text-slate-900">${formatRupiah(r._salaryTotal)}</td>
-            <td class="py-3 px-4 text-center">
-              <button
-                type="button"
-                onclick="openCourierDetailModal('${r.Driver_ID}', '${r.Bulan}')"
-                class="px-3 py-1.5 rounded-xl bg-spx-orange/10 hover:bg-spx-orange text-spx-orange hover:text-white text-xs font-bold transition"
-              >
-                Detail
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    function openCourierDetailModal(driverId, monthStr) {
-      const rec = allRecords.find(r => r.Driver_ID === driverId && r.Bulan === monthStr);
-      if (!rec) return;
-
-      const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
-      document.getElementById("modalCourierCat").textContent = rec.Kategori_Armada;
-      document.getElementById("modalCourierName").textContent = rec.Nama_Kurir;
-      document.getElementById("modalCourierId").textContent = rec.Driver_ID;
-      document.getElementById("modalCourierMonth").textContent = rec.Bulan;
-      document.getElementById("modalDays").textContent = `${rec.Total_Hari_Kerja} Hari`;
-      document.getElementById("modalAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
-      document.getElementById("modalDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
-      document.getElementById("modalDsr").textContent = rec.Delivery_Success_Rate;
-      document.getElementById("modalTotalSalary").textContent = formatRupiah(sal.total);
-
-      document.getElementById("modalSalaryItems").innerHTML = sal.items.map(item => `
-        <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80">
-          <div>
-            <p class="font-bold text-slate-900 text-xs">${item.label}</p>
-            <p class="text-[11px] text-slate-500">${item.desc}</p>
-          </div>
-          <span class="font-display font-extrabold text-xs sm:text-sm text-slate-900">${formatRupiah(item.amount)}</span>
-        </div>
-      `).join("");
-
-      document.getElementById("courierDetailModal").classList.remove("hidden");
-    }
-
-    function closeCourierDetailModal() {
-      document.getElementById("courierDetailModal").classList.add("hidden");
-    }
-
-    function exportFilteredCouriersCSV() {
-      const rows = getFilteredSortedCouriers();
-      if (rows.length === 0) {
-        showToast("Tidak Ada Data", "Tidak ada baris kurir untuk diekspor.", true);
-        return;
-      }
-      const headers = [
-        "Driver_ID",
-        "Nama_Kurir",
-        "Kategori_Armada",
-        "Total_Hari_Kerja",
-        "Total_Penugasan",
-        "Delivered",
-        "OnHold",
-        "Delivery_Success_Rate",
-        "Estimasi_Gaji",
-        "Bulan"
-      ];
-      const csvLines = [headers.join(",")];
-      rows.forEach(r => {
-        const line = [
-          `"${r.Driver_ID}"`,
-          `"${r.Nama_Kurir.replace(/"/g, '""')}"`,
-          `"${r.Kategori_Armada}"`,
-          r.Total_Hari_Kerja,
-          r.Total_Penugasan,
-          r.Delivered,
-          r.OnHold,
-          `"${r.Delivery_Success_Rate}"`,
-          Math.round(r._salaryTotal),
-          `"${r.Bulan}"`
-        ];
-        csvLines.push(line.join(","));
-      });
-
-      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      const activeMonth = document.getElementById("leadMonthSelect").value || "rekap";
-      a.href = url;
-      a.download = `Rekap_Kurir_Pringapus2_${activeMonth}.csv`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      showToast("Export CSV Berhasil", `${rows.length} data kurir berhasil diunduh.`);
-    }
-
-    function populateRateSettingsForm() {
-      document.getElementById("rateDedBase").value = salaryRates.dedBase;
-      document.getElementById("rateDedDaily").value = salaryRates.dedDaily;
-      document.getElementById("rateDedTier1").value = salaryRates.dedTier1;
-      document.getElementById("rateDedTier2").value = salaryRates.dedTier2;
-      document.getElementById("rateCpBase").value = salaryRates.cpBase;
-      document.getElementById("rateCpDaily").value = salaryRates.cpDaily;
-      document.getElementById("rateCpTier1").value = salaryRates.cpTier1;
-      document.getElementById("rateCpTier2").value = salaryRates.cpTier2;
-      document.getElementById("rate4whPkg").value = salaryRates.rate4whPkg;
-      document.getElementById("rate2whPkg").value = salaryRates.rate2whPkg;
-      document.getElementById("rateDsrMin").value = salaryRates.dsrMin;
-      document.getElementById("rateDsrBonus").value = salaryRates.dsrBonus;
-    }
-
-    function saveSalaryRates(e) {
-      e.preventDefault();
-      salaryRates = {
-        dedBase: Number(document.getElementById("rateDedBase").value) || 0,
-        dedDaily: Number(document.getElementById("rateDedDaily").value) || 0,
-        dedTier1: Number(document.getElementById("rateDedTier1").value) || 0,
-        dedTier2: Number(document.getElementById("rateDedTier2").value) || 0,
-        cpBase: Number(document.getElementById("rateCpBase").value) || 0,
-        cpDaily: Number(document.getElementById("rateCpDaily").value) || 0,
-        cpTier1: Number(document.getElementById("rateCpTier1").value) || 0,
-        cpTier2: Number(document.getElementById("rateCpTier2").value) || 0,
-        rate4whPkg: Number(document.getElementById("rate4whPkg").value) || 0,
-        rate2whPkg: Number(document.getElementById("rate2whPkg").value) || 0,
-        dsrMin: Number(document.getElementById("rateDsrMin").value) || 98,
-        dsrBonus: Number(document.getElementById("rateDsrBonus").value) || 0
-      };
-      localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(salaryRates));
-      renderLeadHubView();
-      showToast("Tarif Disimpan", "Perhitungan simulasi gaji seluruh kurir telah diperbarui.");
-    }
-
-    function resetSalaryRatesToDefault() {
-      salaryRates = { ...DEFAULT_SALARY_RATES };
-      localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(salaryRates));
-      populateRateSettingsForm();
-      renderLeadHubView();
-      showToast("Tarif Direset", "Semua parameter tarif dikembalikan ke nilai standar.");
-    }
-
-    // -----------------------------------------------------------------------
-    // Dashboard, Salary, History & Profile Rendering (Kurir)
-    // -----------------------------------------------------------------------
-    function populateMonthSelector(selectedVal = null) {
-      const sel = document.getElementById("monthSelect");
-      if (!sel) return;
-      sel.innerHTML = "";
-      currentCourierRecords.forEach(rec => {
-        const opt = document.createElement("option");
-        opt.value = rec.Bulan;
-        opt.textContent = rec.Bulan;
-        if (selectedVal && rec.Bulan === selectedVal) opt.selected = true;
-        sel.appendChild(opt);
-      });
-    }
-
+// ... existing code ... -->
     function onMonthChange() {
       const selectedMonth = document.getElementById("monthSelect").value;
+      const currentSession = readActiveSession();
+      if (currentSession && currentSession.role === "courier") {
+        saveActiveSession({
+          ...currentSession,
+          month: selectedMonth
+        });
+      }
       const target = currentCourierRecords.find(r => r.Bulan === selectedMonth) || currentCourierRecords[0];
       if (target) renderCourierDashboard(target);
     }
 
     function getInitials(name) {
-      const parts = String(name || "SP").trim().split(/\s+/);
-      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-      return (parts[0][0] + parts[1][0]).toUpperCase();
-    }
-
-    function renderCourierDashboard(rec) {
-      if (!rec) return;
-
-      const initials = getInitials(rec.Nama_Kurir);
-      const dsrNum = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
-
-      // Sidebar & Header Badges
-      document.getElementById("sidebarAvatar").textContent = initials;
-      document.getElementById("sidebarDriverName").textContent = rec.Nama_Kurir;
-      document.getElementById("sidebarDriverId").textContent = rec.Driver_ID;
-      document.getElementById("headerAvatarBadge").textContent = initials;
-      document.getElementById("headerDriverBadge").textContent = rec.Nama_Kurir;
-
-      // Hero Banner
-      document.getElementById("avatarInitials").textContent = initials;
-      document.getElementById("dashCategoryBadge").textContent = rec.Kategori_Armada;
-      document.getElementById("dashDriverId").textContent = rec.Driver_ID;
-      document.getElementById("dashDriverName").textContent = rec.Nama_Kurir;
-
-      // KPI Cards
-      document.getElementById("kpiDsr").textContent = rec.Delivery_Success_Rate;
-      document.getElementById("dsrProgressBar").style.width = `${Math.min(100, Math.max(0, dsrNum))}%`;
-      document.getElementById("kpiAssigned").textContent = Number(rec.Total_Penugasan).toLocaleString("id-ID");
-      document.getElementById("kpiDelivered").textContent = Number(rec.Delivered).toLocaleString("id-ID");
-      document.getElementById("kpiOnHold").textContent = Number(rec.OnHold).toLocaleString("id-ID");
-      document.getElementById("kpiDays").innerHTML = `${rec.Total_Hari_Kerja} <span class="text-sm font-bold text-slate-500">Hari</span>`;
-
-      const dsrBadge = document.getElementById("dsrTargetBadge");
-      const dsrHelper = document.getElementById("dsrHelperText");
-      const perfHeadline = document.getElementById("perfStatusHeadline");
-      const perfSummary = document.getElementById("perfStatusSummary");
-
-      if (dsrNum >= 98) {
-        dsrBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
-        dsrBadge.textContent = "Target Tercapai";
-        dsrHelper.textContent = "Luar biasa! DSR memenuhi syarat bonus target ≥ 98%.";
-        perfHeadline.textContent = "Performa Prima — Target DSR ≥ 98% Tercapai!";
-        perfSummary.textContent = `Pada periode ${rec.Bulan}, Anda menyelesaikan ${rec.Delivered.toLocaleString("id-ID")} dari ${rec.Total_Penugasan.toLocaleString("id-ID")} paket dengan tingkat keberhasilan ${rec.Delivery_Success_Rate} selama ${rec.Total_Hari_Kerja} hari kerja.`;
-      } else {
-        dsrBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
-        dsrBadge.textContent = "Target 98%";
-        dsrHelper.textContent = "Tingkatkan penyelesaian paket OnHold untuk mencapai DSR ≥ 98%.";
-        perfHeadline.textContent = "Performa Stabil — Tingkatkan DSR Menuju 98%";
-        perfSummary.textContent = `Pada periode ${rec.Bulan}, Anda menyelesaikan ${rec.Delivered.toLocaleString("id-ID")} paket dari ${rec.Total_Penugasan.toLocaleString("id-ID")} penugasan (DSR ${rec.Delivery_Success_Rate}) dengan ${rec.OnHold} paket OnHold.`;
+// ... existing code ... -->
+    // Muat database GitHub & pulihkan sesi login aktif saat halaman dibuka/di-refresh
+    window.addEventListener("DOMContentLoaded", async () => {
+      const savedSession = readActiveSession();
+      const cached = readCachedRecords();
+      if (cached.length > 0) {
+        allRecords = cached;
       }
 
-      // Salary Breakdown
-      const salary = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
-      document.getElementById("overviewSalaryQuick").textContent = formatRupiah(salary.total);
-      document.getElementById("totalSalaryDisplay").textContent = formatRupiah(salary.total);
-      document.getElementById("noteCategoryName").textContent = rec.Kategori_Armada;
-      document.getElementById("salaryDaysNote").textContent = `${rec.Total_Hari_Kerja} Hari`;
-      document.getElementById("salaryDeliveredNote").textContent = `${Number(rec.Delivered).toLocaleString("id-ID")} Paket`;
-
-      const breakdownList = document.getElementById("salaryBreakdownList");
-      breakdownList.innerHTML = salary.items.map(item => `
-        <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
-          <div>
-            <p class="font-bold text-slate-900 text-xs sm:text-sm">${item.label}</p>
-            <p class="text-[11px] text-slate-500 mt-0.5">${item.desc}</p>
-          </div>
-          <span class="font-display font-extrabold text-sm sm:text-base text-slate-900">${formatRupiah(item.amount)}</span>
-        </div>
-      `).join("");
-
-      const bonusBox = document.getElementById("dsrBonusEligibilityBox");
-      if (dsrNum >= Number(salaryRates.dsrMin || 98)) {
-        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-emerald-50 border-emerald-200 text-emerald-800 text-xs leading-relaxed";
-        bonusBox.innerHTML = `<strong>Status Target Kualitas:</strong> DSR Anda (${rec.Delivery_Success_Rate}) telah memenuhi ambang batas minimal <strong>${salaryRates.dsrMin}%</strong>.`;
-      } else {
-        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-amber-50 border-amber-200 text-amber-800 text-xs leading-relaxed";
-        bonusBox.innerHTML = `<strong>Catatan Target Kualitas:</strong> DSR Anda saat ini <strong>${rec.Delivery_Success_Rate}</strong> (target minimal <strong>${salaryRates.dsrMin}%</strong>). Kurangi paket OnHold untuk memaksimalkan insentif bulan berikutnya.`;
+      // Langsung tampilkan dashboard tanpa menunggu jaringan jika sesi & cache sudah tersedia
+      if (savedSession) {
+        if (savedSession.role === "leader" && LEADERSHIP_ACCOUNTS[savedSession.id]) {
+          activateLeaderSession(
+            LEADERSHIP_ACCOUNTS[savedSession.id],
+            savedSession.tab || "monitoring",
+            savedSession.month || null
+          );
+        } else if (savedSession.role === "courier" && allRecords.length > 0) {
+          activateCourierSession(
+            savedSession.id,
+            savedSession.tab || "overview",
+            savedSession.month || null
+          );
+        }
       }
 
-      // Profile Tab Fields
-      document.getElementById("profileBigAvatar").textContent = initials;
-      document.getElementById("profileFullName").textContent = rec.Nama_Kurir;
-      document.getElementById("profileDriverId").textContent = rec.Driver_ID;
-      document.getElementById("profileCategory").textContent = rec.Kategori_Armada;
-      document.getElementById("profilePwdHint").textContent = rec.Driver_ID;
-    }
+      // Sinkronkan data terbaru dari GitHub di latar belakang
+      await loadDatabaseFromGitHub();
 
-    function renderMonthlyHistory() {
-      const barsContainer = document.getElementById("historyVisualBars");
-      const tbody = document.getElementById("historyTableBody");
-      if (!barsContainer || !tbody) return;
-
-      const maxDelivered = Math.max(1, ...currentCourierRecords.map(r => Number(r.Delivered) || 0));
-
-      barsContainer.innerHTML = currentCourierRecords.map(rec => {
-        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
-        const pct = Math.min(100, Math.round(((Number(rec.Delivered) || 0) / maxDelivered) * 100));
-        return `
-          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
-            <div class="flex items-center justify-between text-xs font-bold">
-              <span class="text-slate-800">${rec.Bulan}</span>
-              <span class="text-spx-orange">${rec.Delivery_Success_Rate}</span>
-            </div>
-            <p class="font-display font-black text-lg text-slate-900 mt-1">${Number(rec.Delivered).toLocaleString("id-ID")} <span class="text-xs font-semibold text-slate-500">paket</span></p>
-            <div class="w-full h-2 rounded-full bg-slate-200 mt-2 overflow-hidden">
-              <div class="h-full rounded-full bg-spx-orange" style="width: ${pct}%"></div>
-            </div>
-            <p class="text-[11px] font-bold text-emerald-700 mt-2">Estimasi: ${formatRupiah(sal.total)}</p>
-          </div>
-        `;
-      }).join("");
-
-      tbody.innerHTML = currentCourierRecords.map(rec => {
-        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
-        const dsrNum = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
-        const badgeCls = dsrNum >= 98
-          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-          : "bg-amber-50 text-amber-700 border-amber-200";
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="py-3.5 px-4 font-bold text-slate-900">${rec.Bulan}</td>
-            <td class="py-3.5 px-4 text-slate-700">${rec.Total_Hari_Kerja} Hari</td>
-            <td class="py-3.5 px-4 text-slate-700">${Number(rec.Total_Penugasan).toLocaleString("id-ID")}</td>
-            <td class="py-3.5 px-4 font-bold text-emerald-700">${Number(rec.Delivered).toLocaleString("id-ID")}</td>
-            <td class="py-3.5 px-4 text-amber-700">${Number(rec.OnHold).toLocaleString("id-ID")}</td>
-            <td class="py-3.5 px-4">
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${badgeCls}">${rec.Delivery_Success_Rate}</span>
-            </td>
-            <td class="py-3.5 px-4 text-right font-display font-extrabold text-slate-900">${formatRupiah(sal.total)}</td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    // Muat database GitHub secara otomatis di latar belakang saat halaman dibuka
-    window.addEventListener("DOMContentLoaded", () => {
-      loadDatabaseFromGitHub();
+      // Perbarui tampilan dengan data terbaru setelah fetch selesai
+      if (savedSession) {
+        if (savedSession.role === "leader" && LEADERSHIP_ACCOUNTS[savedSession.id]) {
+          const activeMonth = document.getElementById("leadMonthSelect").value || savedSession.month || null;
+          populateLeadMonthSelector(activeMonth);
+          renderLeadHubView();
+        } else if (savedSession.role === "courier") {
+          const activeMonth = document.getElementById("monthSelect").value || savedSession.month || null;
+          const restored = activateCourierSession(
+            savedSession.id,
+            activeTab || savedSession.tab || "overview",
+            activeMonth
+          );
+          if (!restored) {
+            clearActiveSession();
+          }
+        }
+      }
     });
   </script>
 </body>
