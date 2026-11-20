@@ -1075,6 +1075,89 @@
             </div>
           </div>
 
+          <!-- Top & Bottom Performer Highlight Cards (Ops ID View) -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Kurir Terbaik -->
+            <div class="rounded-3xl bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-900 text-white border border-emerald-500/35 p-5 sm:p-6 shadow-md relative overflow-hidden">
+              <div class="pointer-events-none absolute -right-8 -top-8 w-36 h-36 rounded-full bg-emerald-500/20 blur-2xl"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                    &#9733; Kurir Terbaik Bulan Ini
+                  </span>
+                  <span id="bestCourierCatBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/10 text-slate-200">-</span>
+                </div>
+                <div class="mt-4 flex items-center justify-between gap-3">
+                  <div class="min-w-0">
+                    <h4 id="bestCourierName" class="font-display font-extrabold text-lg sm:text-xl text-white truncate">-</h4>
+                    <p class="text-xs text-slate-300 font-mono mt-0.5">ID: <span id="bestCourierId" class="text-emerald-300 font-bold">-</span> &bull; <span id="bestCourierDays">0 Hari</span></p>
+                  </div>
+                  <button
+                    id="bestCourierDetailBtn"
+                    type="button"
+                    class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold transition shrink-0"
+                  >
+                    Lihat Slip
+                  </button>
+                </div>
+                <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-3 gap-2 text-center">
+                  <div class="rounded-xl bg-white/5 p-2">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">DSR %</span>
+                    <strong id="bestCourierDsr" class="text-sm sm:text-base font-black text-emerald-300">0%</strong>
+                  </div>
+                  <div class="rounded-xl bg-white/5 p-2">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Delivered</span>
+                    <strong id="bestCourierDelivered" class="text-sm sm:text-base font-black text-white">0</strong>
+                  </div>
+                  <div class="rounded-xl bg-white/5 p-2">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">On-Hold</span>
+                    <strong id="bestCourierOnHold" class="text-sm sm:text-base font-black text-slate-200">0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kurir Terburuk / Perlu Pembinaan -->
+            <div class="rounded-3xl bg-gradient-to-br from-rose-950 via-slate-900 to-slate-900 text-white border border-rose-500/35 p-5 sm:p-6 shadow-md relative overflow-hidden">
+              <div class="pointer-events-none absolute -right-8 -top-8 w-36 h-36 rounded-full bg-rose-500/20 blur-2xl"></div>
+              <div class="relative z-10">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-400/30">
+                    &#9888; Kurir Perlu Pembinaan (Terendah)
+                  </span>
+                  <span id="worstCourierCatBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/10 text-slate-200">-</span>
+                </div>
+                <div class="mt-4 flex items-center justify-between gap-3">
+                  <div class="min-w-0">
+                    <h4 id="worstCourierName" class="font-display font-extrabold text-lg sm:text-xl text-white truncate">-</h4>
+                    <p class="text-xs text-slate-300 font-mono mt-0.5">ID: <span id="worstCourierId" class="text-rose-300 font-bold">-</span> &bull; <span id="worstCourierDays">0 Hari</span></p>
+                  </div>
+                  <button
+                    id="worstCourierDetailBtn"
+                    type="button"
+                    class="px-3.5 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white text-xs font-extrabold transition shrink-0"
+                  >
+                    Cek Detail
+                  </button>
+                </div>
+                <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-3 gap-2 text-center">
+                  <div class="rounded-xl bg-white/5 p-2">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">DSR %</span>
+                    <strong id="worstCourierDsr" class="text-sm sm:text-base font-black text-rose-300">0%</strong>
+                  </div>
+                  <div class="rounded-xl bg-white/5 p-2">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Delivered</span>
+                    <strong id="worstCourierDelivered" class="text-sm sm:text-base font-black text-white">0</strong>
+                  </div>
+                  <div class="rounded-xl bg-white/5 p-2">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">On-Hold</span>
+                    <strong id="worstCourierOnHold" class="text-sm sm:text-base font-black text-amber-300">0</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Fleet Category Performance Breakdown -->
           <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
             <div class="mb-5">
@@ -2038,6 +2121,47 @@
       document.getElementById("hubKpiAvgDsr").textContent = `${avgDsr.toFixed(2)}%`;
       document.getElementById("hubDsrBar").style.width = `${Math.min(100, Math.max(0, avgDsr))}%`;
       document.getElementById("hubKpiTotalPayroll").textContent = formatRupiah(totalPayroll);
+
+      // Evaluasi Kurir Terbaik & Terburuk (berdasarkan DSR %, lalu jumlah Delivered)
+      if (records.length > 0) {
+        const ranked = [...records].sort((a, b) => {
+          const dsrDiff = parseDsrNumber(b.Delivery_Success_Rate) - parseDsrNumber(a.Delivery_Success_Rate);
+          if (Math.abs(dsrDiff) > 0.001) return dsrDiff;
+          return (Number(b.Delivered) || 0) - (Number(a.Delivered) || 0);
+        });
+
+        const best = ranked[0];
+        const worst = ranked[ranked.length - 1];
+
+        document.getElementById("bestCourierCatBadge").textContent = best.Kategori_Armada;
+        document.getElementById("bestCourierName").textContent = best.Nama_Kurir;
+        document.getElementById("bestCourierId").textContent = best.Driver_ID;
+        document.getElementById("bestCourierDays").textContent = `${best.Total_Hari_Kerja} Hari`;
+        document.getElementById("bestCourierDsr").textContent = best.Delivery_Success_Rate;
+        document.getElementById("bestCourierDelivered").textContent = Number(best.Delivered).toLocaleString("id-ID");
+        document.getElementById("bestCourierOnHold").textContent = Number(best.OnHold).toLocaleString("id-ID");
+        document.getElementById("bestCourierDetailBtn").onclick = () => openCourierDetailModal(best.Driver_ID, best.Bulan);
+
+        document.getElementById("worstCourierCatBadge").textContent = worst.Kategori_Armada;
+        document.getElementById("worstCourierName").textContent = worst.Nama_Kurir;
+        document.getElementById("worstCourierId").textContent = worst.Driver_ID;
+        document.getElementById("worstCourierDays").textContent = `${worst.Total_Hari_Kerja} Hari`;
+        document.getElementById("worstCourierDsr").textContent = worst.Delivery_Success_Rate;
+        document.getElementById("worstCourierDelivered").textContent = Number(worst.Delivered).toLocaleString("id-ID");
+        document.getElementById("worstCourierOnHold").textContent = Number(worst.OnHold).toLocaleString("id-ID");
+        document.getElementById("worstCourierDetailBtn").onclick = () => openCourierDetailModal(worst.Driver_ID, worst.Bulan);
+      } else {
+        ["best", "worst"].forEach(prefix => {
+          document.getElementById(`${prefix}CourierCatBadge`).textContent = "-";
+          document.getElementById(`${prefix}CourierName`).textContent = "Belum ada data";
+          document.getElementById(`${prefix}CourierId`).textContent = "-";
+          document.getElementById(`${prefix}CourierDays`).textContent = "0 Hari";
+          document.getElementById(`${prefix}CourierDsr`).textContent = "0%";
+          document.getElementById(`${prefix}CourierDelivered`).textContent = "0";
+          document.getElementById(`${prefix}CourierOnHold`).textContent = "0";
+          document.getElementById(`${prefix}CourierDetailBtn`).onclick = null;
+        });
+      }
 
       const categories = ["4WH Mitra", "2WH Dedicated", "2WH Courier Plus", "2WH Mitra"];
       const fleetGrid = document.getElementById("fleetCategoryGrid");
