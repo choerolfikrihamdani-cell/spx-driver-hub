@@ -1313,7 +1313,15 @@
                     </div>
                     <div>
                       <label class="block font-bold text-slate-600 mb-1">Bonus Harian per Hari Kerja (Rp)</label>
-                      <input id="rateCpDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                      <input id="rateDedDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Incentive 1 (1.951–3.120 pkt) (Rp)</label>
+                      <input id="rateDedTier1" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Incentive 2 (&gt; 3.120 pkt) (Rp)</label>
+                      <input id="rateDedTier2" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
                     </div>
                     <div>
                       <label class="block font-bold text-slate-600 mb-1">Incentive 1 (601–1.090 pkt) (Rp)</label>
@@ -1488,7 +1496,7 @@
        ===================================================================== -->
   <script>
     const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
-    const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v1";
+    const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v2";
     const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v1";
     const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v1";
 
@@ -1500,10 +1508,10 @@
     };
 
     const DEFAULT_SALARY_RATES = {
-      dedBase: 2639000,
-      dedDaily: 15000,
-      dedTier1: 1000,
-      dedTier2: 2000,
+      dedBase: 1981000,
+      dedDaily: 104240,
+      dedTier1: 620,
+      dedTier2: 1095,
       cpBase: 1700109,
       cpDaily: 20000,
       cpTier1: 475,
@@ -1855,18 +1863,20 @@
       if (cat.includes("DEDICATED")) {
         const base = Number(salaryRates.dedBase) || 0;
         const dailyBonus = days * (Number(salaryRates.dedDaily) || 0);
+        // Threshold 1: 1.950, Threshold 2: 3.120 -> paket di antara 1.951 - 3.120 dikali Rp620
         const tier1Pkgs = Math.max(0, Math.min(delivered, 3120) - 1950);
+        // Paket di atas Threshold 2 (> 3.120) dikali Rp1.095
         const tier2Pkgs = Math.max(0, delivered - 3120);
         const tier1Pay = tier1Pkgs * (Number(salaryRates.dedTier1) || 0);
         const tier2Pay = tier2Pkgs * (Number(salaryRates.dedTier2) || 0);
 
         items.push({ label: "Gaji Pokok (2WH Dedicated)", desc: "Komponen tetap bulanan", amount: base });
-        items.push({ label: `Insentif Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(salaryRates.dedDaily)}`, amount: dailyBonus });
+        items.push({ label: `Bonus Harian (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(salaryRates.dedDaily)}`, amount: dailyBonus });
         if (tier1Pkgs > 0) {
-          items.push({ label: `Insentif Paket Tier 1 (${tier1Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket ke 1.951–3.120 × ${formatRupiah(salaryRates.dedTier1)}`, amount: tier1Pay });
+          items.push({ label: `Incentive 1 (${tier1Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket ke 1.951–3.120 × ${formatRupiah(salaryRates.dedTier1)}`, amount: tier1Pay });
         }
         if (tier2Pkgs > 0) {
-          items.push({ label: `Insentif Paket Tier 2 (${tier2Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket > 3.120 × ${formatRupiah(salaryRates.dedTier2)}`, amount: tier2Pay });
+          items.push({ label: `Incentive 2 (${tier2Pkgs.toLocaleString("id-ID")} paket)`, desc: `Paket > 3.120 × ${formatRupiah(salaryRates.dedTier2)}`, amount: tier2Pay });
         }
         total += base + dailyBonus + tier1Pay + tier2Pay;
       } else if (cat.includes("COURIER PLUS")) {
