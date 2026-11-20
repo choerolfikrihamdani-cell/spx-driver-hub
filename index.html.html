@@ -314,14 +314,14 @@
           <svg class="w-4 h-4 text-spx-bright shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
           </svg>
-          <span>Untuk kemudahan akses, masukkan <strong>Driver ID</strong> Anda pada kolom <strong>Password</strong>.</span>
+          <span>Masukkan <strong>Driver ID</strong> (Kurir) atau <strong>Ops ID</strong> (Hub/Shift Lead), dan gunakan <strong>ID yang sama</strong> sebagai Password.</span>
         </div>
 
         <form id="loginForm" class="space-y-4" onsubmit="handleLogin(event)">
-          <!-- Driver ID Input -->
+          <!-- Driver ID / Ops ID Input -->
           <div>
             <label for="driverIdInput" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-              Driver ID
+              Driver ID / Ops ID
             </label>
             <div class="relative">
               <div class="pointer-events-none absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
@@ -334,24 +334,24 @@
                 type="text"
                 inputmode="numeric"
                 required
-                placeholder="Contoh: 1189067"
+                placeholder="Masukkan Driver ID atau Ops ID"
                 class="w-full pl-11 pr-4 py-3.5 rounded-2xl bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-spx-orange focus:ring-2 focus:ring-spx-orange/30 transition"
               />
             </div>
           </div>
 
-          <!-- Password Input (Driver ID) -->
+          <!-- Password Input (Sama dengan ID) -->
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label for="passwordInput" class="block text-xs font-bold uppercase tracking-wider text-slate-300">
-                Password (Driver ID)
+                Password (Sama dengan ID)
               </label>
               <button
                 type="button"
                 onclick="copyDriverIdToPassword()"
                 class="text-[11px] font-semibold text-spx-bright hover:text-orange-300 transition"
               >
-                Samakan dengan Driver ID
+                Samakan dengan ID
               </button>
             </div>
             <div class="relative">
@@ -364,7 +364,7 @@
                 id="passwordInput"
                 type="password"
                 required
-                placeholder="Masukkan Driver ID Anda"
+                placeholder="Masukkan Driver ID / Ops ID Anda"
                 class="w-full pl-11 pr-12 py-3.5 rounded-2xl bg-slate-950/80 border border-slate-700/80 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none focus:border-spx-orange focus:ring-2 focus:ring-spx-orange/30 transition"
               />
               <button
@@ -386,7 +386,7 @@
             type="submit"
             class="btn-shimmer w-full mt-2 py-3.5 px-5 rounded-2xl bg-gradient-to-r from-spx-orange to-orange-600 hover:from-spx-bright hover:to-spx-orange text-white font-bold text-sm shadow-lg shadow-spx-orange/35 active:scale-[0.99] transition flex items-center justify-center gap-2"
           >
-            <span id="loginBtnText">Masuk ke Dashboard Kurir</span>
+            <span id="loginBtnText">Masuk ke Portal Hub</span>
             <svg id="loginArrowIcon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
               <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
             </svg>
@@ -828,85 +828,638 @@
   </section>
 
   <!-- =====================================================================
-       APPLICATION JAVASCRIPT (CSV PARSER, AUTH, SIDEBAR NAV, SALARY ENGINE)
+       VIEW 3: HUB LEAD & SHIFT LEAD DASHBOARD WITH SIDEBAR
+       ===================================================================== -->
+  <section id="leadDashboardView" class="hidden min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row">
+
+    <!-- Mobile Backdrop -->
+    <div
+      id="leadSidebarBackdrop"
+      onclick="toggleLeadSidebar(false)"
+      class="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs hidden lg:hidden transition-opacity"
+    ></div>
+
+    <!-- Left Sidebar for Hub Lead / Shift Lead -->
+    <aside
+      id="leadSidebar"
+      class="fixed inset-y-0 left-0 z-50 w-72 bg-[#111827] text-slate-100 border-r border-slate-800 flex flex-col justify-between transform -translate-x-full lg:translate-x-0 lg:static lg:shrink-0 transition-transform duration-300 ease-out"
+    >
+      <div>
+        <!-- Brand Header -->
+        <div class="px-5 py-5 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-spx-orange to-[#FF7337] flex items-center justify-center font-display font-black text-white text-sm shadow-lg shadow-spx-orange/30">
+              SPX
+            </div>
+            <div>
+              <h1 class="font-display font-extrabold text-white text-sm leading-tight">Pringapus 2 Hub</h1>
+              <p class="text-[11px] text-[#FF7337] font-semibold">Command &amp; Ops Center</p>
+            </div>
+          </div>
+          <button
+            onclick="toggleLeadSidebar(false)"
+            aria-label="Tutup menu"
+            class="lg:hidden p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition"
+          >
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Leadership Role Badge Card -->
+        <div class="px-4 pt-4">
+          <div class="rounded-2xl bg-gradient-to-br from-slate-900 to-[#1E1412] border border-spx-orange/40 p-3.5">
+            <div class="flex items-center gap-2">
+              <span id="leadRolePill" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-spx-orange text-white">
+                HUB LEAD
+              </span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            <p id="leadSidebarBadgeText" class="text-xs font-extrabold text-white mt-2">HUB LEAD — Ops ID 1792821</p>
+            <p class="text-[11px] text-slate-400 mt-0.5">Strong &amp; Growth Together!</p>
+          </div>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <nav class="px-4 py-5 space-y-1.5" aria-label="Menu Pimpinan Hub">
+          <p class="px-3 pb-1 text-[10px] font-bold uppercase tracking-widest text-slate-500">Manajemen Hub</p>
+
+          <button
+            type="button"
+            data-lead-tab="monitoring"
+            onclick="switchLeadTab('monitoring')"
+            class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>
+            </svg>
+            <span>Dashboard Monitoring Hub</span>
+          </button>
+
+          <button
+            type="button"
+            data-lead-tab="couriers"
+            onclick="switchLeadTab('couriers')"
+            class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Data &amp; Performa Kurir</span>
+          </button>
+
+          <button
+            type="button"
+            data-lead-tab="rates"
+            onclick="switchLeadTab('rates')"
+            class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>
+            </svg>
+            <span>Pengaturan Tarif &amp; Simulasi</span>
+          </button>
+
+          <button
+            type="button"
+            data-lead-tab="account"
+            onclick="switchLeadTab('account')"
+            class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Info Akun Pimpinan</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Logout Button -->
+      <div class="p-4 border-t border-slate-800">
+        <button
+          type="button"
+          onclick="handleLogout()"
+          class="w-full py-3 px-4 rounded-2xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-sm font-bold transition flex items-center justify-center gap-2"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+          </svg>
+          <span>Keluar / Logout</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Right Workspace for Hub Lead / Shift Lead -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- Top Header -->
+      <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-xl border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              onclick="toggleLeadSidebar(true)"
+              aria-label="Buka menu navigasi"
+              class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 transition"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+              </svg>
+            </button>
+            <div>
+              <h2 id="leadHeaderTitle" class="font-display font-extrabold text-slate-900 text-base sm:text-lg leading-tight">Dashboard Monitoring Hub</h2>
+              <p class="text-xs text-slate-500 hidden sm:block">Monitoring Operasional &amp; Rekap Kinerja Kurir Pringapus 2 Hub</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Month Selector -->
+            <div class="flex items-center gap-2 bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded-xl">
+              <label for="leadMonthSelect" class="text-xs font-bold text-slate-600 hidden sm:inline">Bulan:</label>
+              <select
+                id="leadMonthSelect"
+                onchange="onLeadMonthChange()"
+                class="bg-white text-slate-900 text-xs font-bold px-2.5 py-1.5 rounded-lg border border-slate-300 focus:outline-none focus:border-spx-orange"
+              ></select>
+            </div>
+
+            <!-- Sync Button -->
+            <button
+              type="button"
+              onclick="refreshLeadData()"
+              class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 transition flex items-center gap-1.5 text-xs font-bold"
+            >
+              <svg id="leadRefreshIcon" class="w-4 h-4 text-spx-orange" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+              </svg>
+              <span class="hidden md:inline">Sinkron Data</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Lead Workspace Content -->
+      <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+        <!-- ===============================================================
+             LEAD TAB 1: DASHBOARD MONITORING HUB
+             =============================================================== -->
+        <div id="lead-tab-monitoring" class="lead-tab-panel space-y-6">
+
+          <!-- Command Hero Banner -->
+          <div class="rounded-3xl bg-gradient-to-r from-[#111827] via-[#1E293B] to-[#3B1810] text-white p-6 sm:p-7 shadow-xl relative overflow-hidden">
+            <div class="pointer-events-none absolute -right-10 -top-10 w-60 h-60 rounded-full bg-spx-orange/25 blur-2xl"></div>
+            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span id="leadBannerRoleBadge" class="px-3 py-0.5 rounded-full text-xs font-black uppercase bg-spx-orange text-white">HUB LEAD</span>
+                  <span class="text-xs text-slate-300 font-mono bg-white/10 px-2.5 py-0.5 rounded-full">
+                    Ops ID: <strong id="leadBannerOpsId" class="text-white">1792821</strong>
+                  </span>
+                </div>
+                <h3 class="font-display font-extrabold text-xl sm:text-2xl text-white mt-2">Ringkasan Operasional SPX Pringapus 2 Hub</h3>
+                <p class="text-xs text-orange-200 mt-0.5">Strong and Growth Together! &bull; Periode Aktif: <strong id="leadActiveMonthLabel">-</strong></p>
+              </div>
+              <button
+                type="button"
+                onclick="switchLeadTab('couriers')"
+                class="px-4 py-3 rounded-2xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs font-bold shadow-lg shadow-spx-orange/30 transition self-start sm:self-auto"
+              >
+                Buka Tabel Semua Kurir &rarr;
+              </button>
+            </div>
+          </div>
+
+          <!-- 6 Aggregate Hub KPI Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Kurir Aktif</span>
+              <p id="hubKpiCouriers" class="font-display font-black text-3xl text-slate-900 mt-2">0</p>
+              <p class="text-xs text-slate-500 mt-1.5">Kurir aktif tercatat pada bulan terpilih</p>
+            </div>
+
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Penugasan Hub</span>
+              <p id="hubKpiAssigned" class="font-display font-black text-3xl text-slate-900 mt-2">0</p>
+              <p class="text-xs text-slate-500 mt-1.5">Akumulasi paket ditugaskan ke seluruh kurir</p>
+            </div>
+
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Delivered Hub</span>
+              <p id="hubKpiDelivered" class="font-display font-black text-3xl text-emerald-600 mt-2">0</p>
+              <p class="text-xs text-slate-500 mt-1.5">Total paket sukses terkirim bulan ini</p>
+            </div>
+
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total On-Hold Hub</span>
+              <p id="hubKpiOnHold" class="font-display font-black text-3xl text-amber-600 mt-2">0</p>
+              <p class="text-xs text-slate-500 mt-1.5">Paket tertunda yang perlu pemantauan</p>
+            </div>
+
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Rata-rata DSR Hub</span>
+                <span id="hubDsrBadge" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Target ≥ 98%</span>
+              </div>
+              <p id="hubKpiAvgDsr" class="font-display font-black text-3xl text-spx-orange mt-2">0%</p>
+              <div class="w-full h-2 rounded-full bg-slate-100 mt-2.5 overflow-hidden">
+                <div id="hubDsrBar" class="h-full rounded-full bg-gradient-to-r from-spx-orange to-emerald-500 transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Estimasi Payroll Hub</span>
+              <p id="hubKpiTotalPayroll" class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-2">Rp0</p>
+              <p class="text-xs text-slate-500 mt-1.5">Total estimasi gaji &amp; insentif seluruh kurir</p>
+            </div>
+          </div>
+
+          <!-- Fleet Category Performance Breakdown -->
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
+            <div class="mb-5">
+              <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Distribusi Armada</span>
+              <h4 class="font-display font-extrabold text-lg text-slate-900 mt-0.5">Performa per Kategori Armada</h4>
+              <p class="text-xs text-slate-500 mt-1">Ringkasan jumlah kurir, paket terkirim, rata-rata DSR, dan estimasi payroll tiap kategori.</p>
+            </div>
+            <div id="fleetCategoryGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"></div>
+          </div>
+        </div>
+
+        <!-- ===============================================================
+             LEAD TAB 2: DATA & PERFORMA KURIR (FULL TABLE + FILTER + EXPORT)
+             =============================================================== -->
+        <div id="lead-tab-couriers" class="lead-tab-panel hidden space-y-5">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-200">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Database Kinerja Kurir</span>
+                <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Data &amp; Performa Seluruh Kurir Aktif</h3>
+                <p class="text-xs text-slate-500 mt-1">Klik tombol <strong>Detail</strong> pada baris kurir untuk melihat rincian slip simulasi gaji.</p>
+              </div>
+              <button
+                type="button"
+                onclick="exportFilteredCouriersCSV()"
+                class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition flex items-center gap-2 self-start lg:self-auto"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
+                </svg>
+                <span>Export CSV Rekap</span>
+              </button>
+            </div>
+
+            <!-- Search, Category Filter & Sort Controls -->
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div class="lg:col-span-2">
+                <label for="courierSearchInput" class="sr-only">Cari Nama atau Driver ID</label>
+                <input
+                  id="courierSearchInput"
+                  type="text"
+                  oninput="renderLeadCourierTable()"
+                  placeholder="Cari Nama Kurir atau Driver ID..."
+                  class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-spx-orange"
+                />
+              </div>
+              <div>
+                <label for="courierCategoryFilter" class="sr-only">Filter Kategori Armada</label>
+                <select
+                  id="courierCategoryFilter"
+                  onchange="renderLeadCourierTable()"
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:border-spx-orange"
+                >
+                  <option value="ALL">Semua Kategori Armada</option>
+                  <option value="4WH Mitra">4WH Mitra</option>
+                  <option value="2WH Dedicated">2WH Dedicated</option>
+                  <option value="2WH Courier Plus">2WH Courier Plus</option>
+                  <option value="2WH Mitra">2WH Mitra</option>
+                </select>
+              </div>
+              <div>
+                <label for="courierSortSelect" class="sr-only">Urutkan Data</label>
+                <select
+                  id="courierSortSelect"
+                  onchange="renderLeadCourierTable()"
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:border-spx-orange"
+                >
+                  <option value="delivered_desc">Urutkan: Delivered Tertinggi</option>
+                  <option value="delivered_asc">Urutkan: Delivered Terendah</option>
+                  <option value="dsr_desc">Urutkan: DSR % Tertinggi</option>
+                  <option value="dsr_asc">Urutkan: DSR % Terendah</option>
+                  <option value="salary_desc">Urutkan: Estimasi Gaji Tertinggi</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Couriers Table -->
+            <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr class="bg-slate-900 text-white">
+                    <th class="py-3.5 px-4 font-bold">Driver ID</th>
+                    <th class="py-3.5 px-4 font-bold">Nama Kurir</th>
+                    <th class="py-3.5 px-4 font-bold">Kategori Armada</th>
+                    <th class="py-3.5 px-4 font-bold text-center">Hari Kerja</th>
+                    <th class="py-3.5 px-4 font-bold text-right">Penugasan</th>
+                    <th class="py-3.5 px-4 font-bold text-right">Delivered</th>
+                    <th class="py-3.5 px-4 font-bold text-right">OnHold</th>
+                    <th class="py-3.5 px-4 font-bold text-center">DSR %</th>
+                    <th class="py-3.5 px-4 font-bold text-right">Estimasi Gaji</th>
+                    <th class="py-3.5 px-4 font-bold text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="leadCourierTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
+              </table>
+            </div>
+            <p id="leadTableCountInfo" class="text-xs text-slate-500 mt-3">Menampilkan 0 kurir.</p>
+          </div>
+        </div>
+
+        <!-- ===============================================================
+             LEAD TAB 3: PENGATURAN TARIF & SIMULASI GAJI
+             =============================================================== -->
+        <div id="lead-tab-rates" class="lead-tab-panel hidden space-y-6">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Konfigurasi Simulasi Payroll</span>
+                <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Pengaturan Tarif &amp; Simulasi Gaji Kurir</h3>
+                <p class="text-xs text-slate-500 mt-1">Perubahan tarif disimpan di browser ini dan langsung memperbarui kalkulasi gaji seluruh kurir.</p>
+              </div>
+              <button
+                type="button"
+                onclick="resetSalaryRatesToDefault()"
+                class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 text-xs font-bold transition self-start sm:self-auto"
+              >
+                Reset ke Tarif Standar
+              </button>
+            </div>
+
+            <form id="rateSettingsForm" onsubmit="saveSalaryRates(event)" class="mt-6 space-y-6">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <!-- 2WH Dedicated Card -->
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
+                  <h4 class="font-display font-extrabold text-slate-900 text-base">1. Kategori 2WH Dedicated</h4>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Gaji Pokok (Rp)</label>
+                      <input id="rateDedBase" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Insentif per Hari Kerja (Rp)</label>
+                      <input id="rateDedDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 1 (1.951–3.120)</label>
+                      <input id="rateDedTier1" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 2 (&gt; 3.120)</label>
+                      <input id="rateDedTier2" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2WH Courier Plus Card -->
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
+                  <h4 class="font-display font-extrabold text-slate-900 text-base">2. Kategori 2WH Courier Plus</h4>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Gaji Pokok (Rp)</label>
+                      <input id="rateCpBase" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Insentif per Hari Kerja (Rp)</label>
+                      <input id="rateCpDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 1 (601–1.090)</label>
+                      <input id="rateCpTier1" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 2 (&gt; 1.090)</label>
+                      <input id="rateCpTier2" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4WH Mitra & 2WH Mitra Card -->
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
+                  <h4 class="font-display font-extrabold text-slate-900 text-base">3. Kategori Mitra (4WH &amp; 2WH)</h4>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Rate 4WH Mitra per Paket (Rp)</label>
+                      <input id="rate4whPkg" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Rate 2WH Mitra per Paket (Rp)</label>
+                      <input id="rate2whPkg" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Target DSR Bonus Card -->
+                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
+                  <h4 class="font-display font-extrabold text-slate-900 text-base">4. Bonus Target DSR &ge; 98%</h4>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Minimal DSR Target (%)</label>
+                      <input id="rateDsrMin" type="number" step="0.1" min="0" max="100" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                    <div>
+                      <label class="block font-bold text-slate-600 mb-1">Bonus Tambahan DSR Tercapai (Rp)</label>
+                      <input id="rateDsrBonus" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-end">
+                <button
+                  type="submit"
+                  class="px-6 py-3 rounded-2xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs sm:text-sm font-bold shadow-lg shadow-spx-orange/25 transition"
+                >
+                  Simpan &amp; Terapkan Tarif ke Semua Kurir
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ===============================================================
+             LEAD TAB 4: INFO AKUN PIMPINAN
+             =============================================================== -->
+        <div id="lead-tab-account" class="lead-tab-panel hidden space-y-6">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs max-w-2xl">
+            <div class="flex items-center gap-4 pb-5 border-b border-slate-200">
+              <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-spx-orange to-[#FF7337] flex items-center justify-center font-display font-black text-white text-xl shadow-md">
+                OPS
+              </div>
+              <div>
+                <span id="leadAccountRoleBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-spx-orange">Hub Lead</span>
+                <h3 id="leadAccountTitle" class="font-display font-extrabold text-xl text-slate-900 mt-1">Pimpinan SPX Pringapus 2 Hub</h3>
+                <p class="text-xs text-slate-500">SPX Express &bull; Strong and Growth Together!</p>
+              </div>
+            </div>
+
+            <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Ops ID Terdaftar</dt>
+                <dd id="leadAccountOpsId" class="font-mono font-extrabold text-slate-900 text-base mt-1">-</dd>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+                <dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Jabatan Operasional</dt>
+                <dd id="leadAccountPosition" class="font-extrabold text-spx-orange text-base mt-1">-</dd>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 sm:col-span-2">
+                <dt class="text-xs font-bold uppercase tracking-wider text-slate-400">Sinkronisasi Database Hub</dt>
+                <dd class="text-slate-700 text-xs sm:text-sm mt-1 leading-relaxed flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <span>Sumber data aktif: <strong>Master_Database.csv</strong> (SPX Pringapus 2 Hub).</span>
+                  <button
+                    type="button"
+                    onclick="refreshLeadData()"
+                    class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition self-start sm:self-auto"
+                  >
+                    Refresh &amp; Sinkron Ulang
+                  </button>
+                </dd>
+              </div>
+            </dl>
+
+            <div class="mt-6 pt-5 border-t border-slate-200 flex justify-end">
+              <button
+                type="button"
+                onclick="handleLogout()"
+                class="px-5 py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white text-xs sm:text-sm font-bold shadow-sm transition flex items-center gap-2"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/>
+                </svg>
+                <span>Keluar dari Sesi Pimpinan</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       MODAL: DETAIL PERFORMA & SLIP GAJI KURIR (UNTUK HUB LEAD / SHIFT LEAD)
+       ===================================================================== -->
+  <div id="courierDetailModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
+    <div class="bg-white text-slate-900 rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden animate-card-in">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <span id="modalCourierCat" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-spx-orange text-white">-</span>
+          <h4 id="modalCourierName" class="font-display font-extrabold text-lg mt-1">-</h4>
+          <p class="text-xs text-slate-400 font-mono">Driver ID: <span id="modalCourierId" class="text-white">-</span> &bull; Bulan: <span id="modalCourierMonth" class="text-white">-</span></p>
+        </div>
+        <button
+          type="button"
+          onclick="closeCourierDetailModal()"
+          class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition text-xl leading-none"
+        >
+          &times;
+        </button>
+      </div>
+
+      <div class="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-[11px] font-bold text-slate-500 block">Hari Kerja</span>
+            <span id="modalDays" class="font-display font-black text-lg text-spx-orange">0</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-[11px] font-bold text-slate-500 block">Penugasan</span>
+            <span id="modalAssigned" class="font-display font-black text-lg text-slate-900">0</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-[11px] font-bold text-slate-500 block">Delivered</span>
+            <span id="modalDelivered" class="font-display font-black text-lg text-emerald-600">0</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+            <span class="text-[11px] font-bold text-slate-500 block">DSR %</span>
+            <span id="modalDsr" class="font-display font-black text-lg text-slate-900">0%</span>
+          </div>
+        </div>
+
+        <div>
+          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">Rincian Simulasi Gaji &amp; Insentif</p>
+          <div id="modalSalaryItems" class="space-y-2.5"></div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-800">Total Estimasi Gaji</span>
+          <span id="modalTotalSalary" class="font-display font-black text-xl text-emerald-700">Rp0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       APPLICATION JAVASCRIPT (CSV PARSER, AUTH, LEAD & COURIER DASHBOARD)
        ===================================================================== -->
   <script>
     const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
+    const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v1";
 
-    // Data cadangan internal apabila preview dijalankan saat offline
-    const FALLBACK_DATA = [
-      {
-        Driver_ID: "1189067",
-        Nama_Kurir: "MUHAMMAD NUR ARIFIN",
-        Password: "1189067",
-        Kategori_Armada: "2WH Dedicated",
-        Delivery_Success_Rate: "98.85%",
-        Total_Penugasan: 2610,
-        Delivered: 2580,
-        OnHold: 18,
-        Total_Hari_Kerja: 24,
-        Bulan: "2026-11"
-      },
-      {
-        Driver_ID: "1189067",
-        Nama_Kurir: "MUHAMMAD NUR ARIFIN",
-        Password: "1189067",
-        Kategori_Armada: "2WH Dedicated",
-        Delivery_Success_Rate: "98.10%",
-        Total_Penugasan: 2450,
-        Delivered: 2403,
-        OnHold: 22,
-        Total_Hari_Kerja: 23,
-        Bulan: "2026-10"
-      },
-      {
-        Driver_ID: "1353049",
-        Nama_Kurir: "ERVIN UBAIDILLAH",
-        Password: "1353049",
-        Kategori_Armada: "2WH Courier Plus",
-        Delivery_Success_Rate: "98.20%",
-        Total_Penugasan: 980,
-        Delivered: 962,
-        OnHold: 12,
-        Total_Hari_Kerja: 15,
-        Bulan: "2026-11"
-      },
-      {
-        Driver_ID: "1380062",
-        Nama_Kurir: "SURYANA",
-        Password: "1380062",
-        Kategori_Armada: "4WH Mitra",
-        Delivery_Success_Rate: "97.50%",
-        Total_Penugasan: 709,
-        Delivered: 691,
-        OnHold: 14,
-        Total_Hari_Kerja: 17,
-        Bulan: "2026-11"
-      },
-      {
-        Driver_ID: "1392965",
-        Nama_Kurir: "AKMAL ANDROMEDA",
-        Password: "1392965",
-        Kategori_Armada: "2WH Mitra",
-        Delivery_Success_Rate: "96.80%",
-        Total_Penugasan: 475,
-        Delivered: 460,
-        OnHold: 11,
-        Total_Hari_Kerja: 13,
-        Bulan: "2026-11"
+    // Akun Pimpinan Khusus Hub Lead & Shift Lead (Ops ID = Password)
+    const LEADERSHIP_ACCOUNTS = {
+      "1792821": { opsId: "1792821", password: "1792821", role: "Hub Lead" },
+      "1731944": { opsId: "1731944", password: "1731944", role: "Shift Lead" },
+      "1727343": { opsId: "1727343", password: "1727343", role: "Shift Lead" }
+    };
+
+    const DEFAULT_SALARY_RATES = {
+      dedBase: 1981000,
+      dedDaily: 104240,
+      dedTier1: 620,
+      dedTier2: 1095,
+      cpBase: 1700109,
+      cpDaily: 20000,
+      cpTier1: 475,
+      cpTier2: 875,
+      rate4whPkg: 5400,
+      rate2whPkg: 1800,
+      dsrMin: 98,
+      dsrBonus: 0
+    };
+
+    function loadSalaryRates() {
+      try {
+        const raw = localStorage.getItem(RATE_STORAGE_KEY);
+        if (!raw) return { ...DEFAULT_SALARY_RATES };
+        return { ...DEFAULT_SALARY_RATES, ...JSON.parse(raw) };
+      } catch (e) {
+        return { ...DEFAULT_SALARY_RATES };
       }
-    ];
+    }
 
+    let salaryRates = loadSalaryRates();
+// ... existing code ... -->
     let allRecords = [];
     let currentCourierRecords = [];
     let loggedInDriverId = null;
+    let loggedInLeader = null;
     let activeTab = "overview";
+    let activeLeadTab = "monitoring";
 
     const TAB_TITLES = {
       overview: "Ringkasan Performa",
       salary: "Simulasi Gaji & Insentif",
       history: "Riwayat Bulanan",
       profile: "Profil & Pengaturan Akun"
+    };
+
+    const LEAD_TAB_TITLES = {
+      monitoring: "Dashboard Monitoring Hub",
+      couriers: "Data & Performa Kurir",
+      rates: "Pengaturan Tarif & Simulasi",
+      account: "Info Akun Pimpinan"
     };
 
     // -----------------------------------------------------------------------
@@ -945,17 +1498,29 @@
     function copyDriverIdToPassword() {
       const drvVal = document.getElementById("driverIdInput").value.trim();
       if (!drvVal) {
-        showToast("Isi Driver ID Dahulu", "Ketik Driver ID Anda terlebih dahulu sebelum menyalin ke kolom Password.", true);
+        showToast("Isi ID Dahulu", "Ketik Driver ID atau Ops ID Anda terlebih dahulu.", true);
         document.getElementById("driverIdInput").focus();
         return;
       }
       document.getElementById("passwordInput").value = drvVal;
-      showToast("Password Terisi", "Password telah disamakan dengan Driver ID Anda.");
+      showToast("Password Terisi", "Password telah disamakan dengan ID Anda.");
     }
 
     function toggleMobileSidebar(open) {
       const sidebar = document.getElementById("appSidebar");
       const backdrop = document.getElementById("sidebarBackdrop");
+      if (open) {
+        sidebar.classList.remove("-translate-x-full");
+        backdrop.classList.remove("hidden");
+      } else {
+        sidebar.classList.add("-translate-x-full");
+        backdrop.classList.add("hidden");
+      }
+    }
+
+    function toggleLeadSidebar(open) {
+      const sidebar = document.getElementById("leadSidebar");
+      const backdrop = document.getElementById("leadSidebarBackdrop");
       if (open) {
         sidebar.classList.remove("-translate-x-full");
         backdrop.classList.remove("hidden");
@@ -987,61 +1552,26 @@
       toggleMobileSidebar(false);
     }
 
-    function formatRupiah(num) {
-      return "Rp" + Math.round(num || 0).toLocaleString("id-ID");
-    }
+    function switchLeadTab(tabKey) {
+      activeLeadTab = tabKey;
+      document.getElementById("leadHeaderTitle").textContent = LEAD_TAB_TITLES[tabKey] || "Dashboard Monitoring Hub";
 
-    // -----------------------------------------------------------------------
-    // CSV Parser & Background GitHub Fetch
-    // -----------------------------------------------------------------------
-    // UI Helpers
-    // -----------------------------------------------------------------------
-    function showToast(title, msg, isError = false) {
-      const box = document.getElementById("toastBox");
-      const inner = document.getElementById("toastInner");
-      const icon = document.getElementById("toastIcon");
-      document.getElementById("toastTitle").textContent = title;
-      document.getElementById("toastMsg").textContent = msg;
+      document.querySelectorAll(".lead-tab-panel").forEach(panel => {
+        panel.classList.add("hidden");
+      });
+      const activePanel = document.getElementById(`lead-tab-${tabKey}`);
+      if (activePanel) activePanel.classList.remove("hidden");
 
-      if (isError) {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-rose-500/60 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 font-bold";
-        icon.textContent = "!";
-      } else {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-emerald-500/50 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 font-bold";
-        icon.textContent = "✓";
-      }
-      box.classList.remove("hidden");
-      clearTimeout(window.__toastTimer);
-      window.__toastTimer = setTimeout(hideToast, 4500);
-    }
+      document.querySelectorAll(".lead-nav-btn").forEach(btn => {
+        const isCurrent = btn.getAttribute("data-lead-tab") === tabKey;
+        if (isCurrent) {
+          btn.className = "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition";
+        } else {
+          btn.className = "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
+        }
+      });
 
-    function hideToast() {
-      document.getElementById("toastBox").classList.add("hidden");
-    }
-
-    function togglePasswordVisibility() {
-      const inp = document.getElementById("passwordInput");
-      inp.type = inp.type === "password" ? "text" : "password";
-    }
-
-    function copyDriverIdToPassword() {
-      const drvVal = document.getElementById("driverIdInput").value.trim();
-      if (!drvVal) {
-        showToast("Isi Driver ID Dahulu", "Ketik Driver ID Anda terlebih dahulu sebelum menyalin ke kolom Password.", true);
-        document.getElementById("driverIdInput").focus();
-        return;
-      }
-      document.getElementById("passwordInput").value = drvVal;
-      showToast("Password Terisi", "Password telah disamakan dengan Driver ID Anda.");
-    }
-
-    function fillDemoCredentials() {
-      const sample = allRecords.length > 0 ? allRecords[0] : FALLBACK_DATA[0];
-      document.getElementById("driverIdInput").value = sample.Driver_ID;
-      document.getElementById("passwordInput").value = sample.Driver_ID;
-      showToast("Akun Demo Siap", `Driver ID & Password diisi (${sample.Driver_ID} - ${sample.Nama_Kurir}). Klik Masuk!`);
+      toggleLeadSidebar(false);
     }
 
     function formatRupiah(num) {
@@ -1053,100 +1583,126 @@
     // -----------------------------------------------------------------------
     function parseCSVLine(line) {
       const result = [];
-      let cur = "";
+      let current = "";
       let inQuotes = false;
+
       for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') {
+        const char = line[i];
+        if (char === '"') {
           if (inQuotes && line[i + 1] === '"') {
-            cur += '"';
+            current += '"';
             i++;
           } else {
             inQuotes = !inQuotes;
           }
-        } else if (ch === "," && !inQuotes) {
-          result.push(cur.trim());
-          cur = "";
+        } else if (char === "," && !inQuotes) {
+          result.push(current.trim());
+          current = "";
         } else {
-          cur += ch;
+          current += char;
         }
       }
-      result.push(cur.trim());
+      result.push(current.trim());
       return result;
     }
 
-    function normalizeHeaderKey(h) {
-      return String(h || "").replace(/^\uFEFF/, "").trim().toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-    }
-
     function parseMasterCSV(csvText) {
-      const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+      const cleanText = String(csvText || "").replace(/^\uFEFF/, "").trim();
+      const lines = cleanText.split(/\r?\n/).filter(l => l.trim().length > 0);
       if (lines.length < 2) return [];
 
-      const rawHeaders = parseCSVLine(lines[0]);
-      const normHeaders = rawHeaders.map(normalizeHeaderKey);
+      const headers = parseCSVLine(lines[0]).map(h => h.replace(/^"|"$/g, "").trim());
+      const records = [];
 
-      const getIdx = (exactList, partialList) => {
-        for (const e of exactList) {
-          const idx = normHeaders.indexOf(e);
-          if (idx !== -1) return idx;
-        }
-        for (const p of partialList) {
-          const idx = normHeaders.findIndex(h => h.includes(p));
-          if (idx !== -1) return idx;
-        }
-        return -1;
-      };
-
-      const idxId = getIdx(["driver id"], ["driver id"]);
-      const idxName = getIdx(["nama kurir", "driver name"], ["nama kurir", "driver"]);
-      const idxPass = getIdx(["password"], ["password"]);
-      const idxCat = getIdx(["kategori armada"], ["kategori", "armada"]);
-      const idxDsr = getIdx(["delivery success rate"], ["delivery success", "dsr"]);
-      const idxAss = getIdx(["total penugasan"], ["penugasan", "assigned"]);
-      const idxDel = getIdx(["delivered"], ["delivered"]);
-      const idxHold = getIdx(["onhold", "on hold"], ["onhold", "on hold"]);
-      // Membaca Total Hari Kerja dari Total_Hari_Kerja atau Number of days working (bukan Attend Days)
-      const idxDays = getIdx(["total hari kerja", "number of days working"], ["total hari kerja", "number of days working"]);
-      const idxMonth = getIdx(["bulan"], ["bulan", "month"]);
-
-      const parsed = [];
       for (let i = 1; i < lines.length; i++) {
         const cols = parseCSVLine(lines[i]);
-        const drvId = idxId !== -1 ? (cols[idxId] || "").trim() : "";
-        if (!drvId) continue;
+        if (cols.length < 2) continue;
 
-        parsed.push({
-          Driver_ID: drvId,
-          Nama_Kurir: idxName !== -1 ? (cols[idxName] || drvId).trim() : drvId,
-          Password: idxPass !== -1 && cols[idxPass] ? cols[idxPass].trim() : drvId,
-          Kategori_Armada: idxCat !== -1 ? (cols[idxCat] || "2WH Mitra").trim() : "2WH Mitra",
-          Delivery_Success_Rate: idxDsr !== -1 ? (cols[idxDsr] || "0%").trim() : "0%",
-          Total_Penugasan: idxAss !== -1 ? parseInt(cols[idxAss] || "0", 10) || 0 : 0,
-          Delivered: idxDel !== -1 ? parseInt(cols[idxDel] || "0", 10) || 0 : 0,
-          OnHold: idxHold !== -1 ? parseInt(cols[idxHold] || "0", 10) || 0 : 0,
-          Total_Hari_Kerja: idxDays !== -1 ? parseInt(cols[idxDays] || "0", 10) || 0 : 0,
-          Bulan: idxMonth !== -1 ? (cols[idxMonth] || "2026-11").trim() : "2026-11"
+        const rowObj = {};
+        headers.forEach((h, idx) => {
+          rowObj[h] = (cols[idx] !== undefined ? cols[idx] : "").replace(/^"|"$/g, "").trim();
+        });
+
+        const driverId = rowObj.Driver_ID || rowObj["Driver ID"] || "";
+        const namaKurir = rowObj.Nama_Kurir || rowObj["Driver Name"] || "";
+        if (!driverId || !namaKurir) continue;
+
+        const daysRaw =
+          rowObj.Total_Hari_Kerja ||
+          rowObj["Number of days working"] ||
+          rowObj["Total Hari Kerja"] ||
+          "0";
+
+        const assignedRaw =
+          rowObj.Total_Penugasan ||
+          rowObj.Penugasan_Hari_Ini ||
+          rowObj["Number of parcels assigned (1 TO as 1 Parcel)"] ||
+          "0";
+
+        const deliveredRaw =
+          rowObj.Delivered ||
+          rowObj["Number of Parcels delivered(1 TO as 1 Parcel)"] ||
+          "0";
+
+        const onHoldRaw =
+          rowObj.OnHold ||
+          rowObj["Number of parcels on-hold (1 TO as 1 Parcel)"] ||
+          "0";
+
+        const dsrRaw =
+          rowObj.Delivery_Success_Rate ||
+          rowObj["Delivery success rate(%)"] ||
+          "0%";
+
+        records.push({
+          Driver_ID: String(driverId).trim(),
+          Nama_Kurir: String(namaKurir).trim(),
+          Password: String(rowObj.Password || driverId).trim(),
+          Kategori_Armada: String(rowObj.Kategori_Armada || "2WH Dedicated").trim(),
+          Total_Hari_Kerja: parseInt(String(daysRaw).replace(/[^\d]/g, ""), 10) || 0,
+          Total_Penugasan: parseInt(String(assignedRaw).replace(/[^\d]/g, ""), 10) || 0,
+          Delivered: parseInt(String(deliveredRaw).replace(/[^\d]/g, ""), 10) || 0,
+          OnHold: parseInt(String(onHoldRaw).replace(/[^\d]/g, ""), 10) || 0,
+          Delivery_Success_Rate: dsrRaw.includes("%") ? dsrRaw : `${dsrRaw}%`,
+          Bulan: String(rowObj.Bulan || rowObj.Month || "2026-04").trim()
         });
       }
-      return parsed;
+
+      return records;
     }
 
     async function loadDatabaseFromGitHub() {
       try {
         const res = await fetch(`${GITHUB_CSV_URL}?t=${Date.now()}`, { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
-        const rows = parseMasterCSV(text);
-        if (rows.length === 0) throw new Error("CSV kosong");
-        allRecords = rows;
+        if (!res.ok) throw new Error("Gagal mengambil CSV dari GitHub");
+        const csvText = await res.text();
+        const parsed = parseMasterCSV(csvText);
+        if (parsed.length > 0) {
+          allRecords = parsed;
+        }
       } catch (err) {
-        allRecords = [...FALLBACK_DATA];
+        console.warn("Memakai fallback data lokal sementara:", err);
+        if (allRecords.length === 0) {
+          allRecords = [
+            {
+              Driver_ID: "1194512",
+              Nama_Kurir: "ADE DWIKI IMAM SYAFII",
+              Password: "1194512",
+              Kategori_Armada: "2WH Dedicated",
+              Total_Hari_Kerja: 24,
+              Total_Penugasan: 2350,
+              Delivered: 2310,
+              OnHold: 12,
+              Delivery_Success_Rate: "98.30%",
+              Bulan: "2026-04"
+            }
+          ];
+        }
       }
     }
 
     // -----------------------------------------------------------------------
-    // Authentication Flow (Password = Driver ID)
+    // Authentication Flow (Hub Lead / Shift Lead Ops ID & Courier Driver ID)
     // -----------------------------------------------------------------------
     async function handleLogin(e) {
       e.preventDefault();
@@ -1154,7 +1710,7 @@
       const inputPass = document.getElementById("passwordInput").value.trim();
 
       if (!inputId || !inputPass) {
-        showToast("Data Belum Lengkap", "Harap isi Driver ID dan Password Anda.", true);
+        showToast("Data Belum Lengkap", "Harap isi Driver ID / Ops ID dan Password Anda.", true);
         return;
       }
 
@@ -1174,17 +1730,37 @@
 
       setTimeout(() => {
         btn.disabled = false;
-        btnText.textContent = "Masuk ke Dashboard Kurir";
+        btnText.textContent = "Masuk ke Portal Hub";
         arrow.classList.remove("hidden");
         spinner.classList.add("hidden");
 
-        const matches = allRecords.filter(r => r.Driver_ID === inputId);
-        if (matches.length === 0) {
-          showToast("Driver ID Tidak Ditemukan", `Driver ID "${inputId}" belum terdaftar di database aktif bulan ini.`, true);
+        // 1. Cek terlebih dahulu apakah akun Hub Lead / Shift Lead
+        const leadAccount = LEADERSHIP_ACCOUNTS[inputId];
+        if (leadAccount) {
+          if (inputPass !== leadAccount.password) {
+            showToast("Password Salah", "Gunakan Ops ID Anda sebagai Password untuk masuk.", true);
+            return;
+          }
+
+          loggedInLeader = leadAccount;
+          loggedInDriverId = null;
+
+          document.getElementById("loginView").classList.add("hidden");
+          document.getElementById("dashboardView").classList.add("hidden");
+          document.getElementById("leadDashboardView").classList.remove("hidden");
+
+          initLeadDashboard();
+          showToast("Login Pimpinan Berhasil", `Selamat datang, ${leadAccount.role} (Ops ID ${leadAccount.opsId})!`);
           return;
         }
 
-        // Validasi password: cocok jika sama dengan Driver_ID atau kolom Password di CSV
+        // 2. Cek ke database kurir dari GitHub
+        const matches = allRecords.filter(r => r.Driver_ID === inputId);
+        if (matches.length === 0) {
+          showToast("ID Tidak Ditemukan", `Driver ID / Ops ID "${inputId}" tidak terdaftar pada sistem Pringapus 2 Hub.`, true);
+          return;
+        }
+
         const isValid = matches.some(r => inputPass === r.Driver_ID || inputPass === r.Password);
         if (!isValid) {
           showToast("Password Salah", "Gunakan Driver ID Anda sebagai Password untuk masuk.", true);
@@ -1192,9 +1768,11 @@
         }
 
         loggedInDriverId = inputId;
+        loggedInLeader = null;
         currentCourierRecords = matches.sort((a, b) => b.Bulan.localeCompare(a.Bulan));
 
         document.getElementById("loginView").classList.add("hidden");
+        document.getElementById("leadDashboardView").classList.add("hidden");
         document.getElementById("dashboardView").classList.remove("hidden");
 
         switchDashboardTab("overview");
@@ -1202,15 +1780,18 @@
         renderCourierDashboard(currentCourierRecords[0]);
         renderMonthlyHistory();
         showToast("Login Berhasil", `Selamat datang kembali, ${currentCourierRecords[0].Nama_Kurir}!`);
-      }, 450);
+      }, 400);
     }
 
     function handleLogout() {
       loggedInDriverId = null;
+      loggedInLeader = null;
       currentCourierRecords = [];
       toggleMobileSidebar(false);
+      toggleLeadSidebar(false);
       document.getElementById("passwordInput").value = "";
       document.getElementById("dashboardView").classList.add("hidden");
+      document.getElementById("leadDashboardView").classList.add("hidden");
       document.getElementById("loginView").classList.remove("hidden");
       showToast("Berhasil Keluar", "Sesi Anda telah ditutup dengan aman.");
     }
@@ -1233,77 +1814,428 @@
             showToast("Data Diperbarui", "Data performa & estimasi gaji terbaru berhasil dimuat.");
           }
         }
-      }, 500);
+      }, 450);
     }
 
     // -----------------------------------------------------------------------
-    // Salary Calculation Engine
+    // Salary Calculation Engine (Mendukung Parameter Tarif Hub Lead)
     // -----------------------------------------------------------------------
-    function computeSalaryBreakdown(category, delivered, daysWorking) {
+    function computeSalaryBreakdown(category, delivered, daysWorking, dsrRaw = "0%") {
       const d = Math.max(0, Number(delivered) || 0);
       const days = Math.max(0, Number(daysWorking) || 0);
+      const dsrNum = parseFloat(String(dsrRaw).replace(/[^\d.-]/g, "")) || 0;
       const catUpper = String(category || "").toUpperCase();
+      const r = salaryRates;
+
+      const dsrBonusEarned = dsrNum >= Number(r.dsrMin || 98) ? Number(r.dsrBonus || 0) : 0;
 
       if (catUpper.includes("DEDICATED")) {
-        const gp = 1981000;
-        const bonusHarian = 104240 * days;
+        const gp = Number(r.dedBase);
+        const bonusHarian = Number(r.dedDaily) * days;
         const t1Qty = Math.max(0, Math.min(d, 3120) - 1950);
         const t2Qty = Math.max(0, d - 3120);
-        const ins1 = t1Qty * 620;
-        const ins2 = t2Qty * 1095;
+        const ins1 = t1Qty * Number(r.dedTier1);
+        const ins2 = t2Qty * Number(r.dedTier2);
+        const items = [
+          { label: "Gaji Pokok (2WH Dedicated)", desc: "Tarif tetap bulanan", amount: gp },
+          { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(r.dedDaily)}`, amount: bonusHarian },
+          { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: `Paket ke-1.951 s/d 3.120 × ${formatRupiah(r.dedTier1)}`, amount: ins1 },
+          { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: `Paket di atas 3.120 × ${formatRupiah(r.dedTier2)}`, amount: ins2 }
+        ];
+        if (dsrBonusEarned > 0) {
+          items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
+        }
         return {
-          total: gp + bonusHarian + ins1 + ins2,
-          items: [
-            { label: "Gaji Pokok (2WH Dedicated)", desc: "Tarif tetap bulanan", amount: gp },
-            { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × Rp104.240`, amount: bonusHarian },
-            { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: "Paket ke-1.951 s/d 3.120 × Rp620", amount: ins1 },
-            { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: "Paket di atas 3.120 × Rp1.095", amount: ins2 }
-          ]
+          total: gp + bonusHarian + ins1 + ins2 + dsrBonusEarned,
+          items
         };
       }
 
       if (catUpper.includes("COURIER PLUS")) {
-        const gp = 1700109;
-        const bonusHarian = 20000 * days;
+        const gp = Number(r.cpBase);
+        const bonusHarian = Number(r.cpDaily) * days;
         const t1Qty = Math.max(0, Math.min(d, 1090) - 600);
         const t2Qty = Math.max(0, d - 1090);
-        const ins1 = t1Qty * 475;
-        const ins2 = t2Qty * 875;
+        const ins1 = t1Qty * Number(r.cpTier1);
+        const ins2 = t2Qty * Number(r.cpTier2);
+        const items = [
+          { label: "Gaji Pokok (2WH Courier Plus)", desc: "Tarif tetap bulanan", amount: gp },
+          { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × ${formatRupiah(r.cpDaily)}`, amount: bonusHarian },
+          { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: `Paket ke-601 s/d 1.090 × ${formatRupiah(r.cpTier1)}`, amount: ins1 },
+          { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: `Paket di atas 1.090 × ${formatRupiah(r.cpTier2)}`, amount: ins2 }
+        ];
+        if (dsrBonusEarned > 0) {
+          items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
+        }
         return {
-          total: gp + bonusHarian + ins1 + ins2,
-          items: [
-            { label: "Gaji Pokok (2WH Courier Plus)", desc: "Tarif tetap bulanan", amount: gp },
-            { label: `Bonus Kehadiran (${days} Hari Kerja)`, desc: `${days} hari × Rp20.000`, amount: bonusHarian },
-            { label: `Insentif Paket Tier 1 (${t1Qty.toLocaleString("id-ID")} paket)`, desc: "Paket ke-601 s/d 1.090 × Rp475", amount: ins1 },
-            { label: `Insentif Paket Tier 2 (${t2Qty.toLocaleString("id-ID")} paket)`, desc: "Paket di atas 1.090 × Rp875", amount: ins2 }
-          ]
+          total: gp + bonusHarian + ins1 + ins2 + dsrBonusEarned,
+          items
         };
       }
 
       if (catUpper.includes("4WH")) {
-        const total = d * 5400;
+        const basePkg = d * Number(r.rate4whPkg);
+        const items = [
+          { label: `Komisi Pengantaran 4WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × ${formatRupiah(r.rate4whPkg)}`, amount: basePkg }
+        ];
+        if (dsrBonusEarned > 0) {
+          items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
+        }
         return {
-          total,
-          items: [
-            { label: `Komisi Pengantaran 4WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × Rp5.400`, amount: total }
-          ]
+          total: basePkg + dsrBonusEarned,
+          items
         };
       }
 
-      const total = d * 1800;
+      const basePkg = d * Number(r.rate2whPkg);
+      const items = [
+        { label: `Komisi Pengantaran 2WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × ${formatRupiah(r.rate2whPkg)}`, amount: basePkg }
+      ];
+      if (dsrBonusEarned > 0) {
+        items.push({ label: `Bonus Kualitas DSR ≥ ${r.dsrMin}%`, desc: `Capaian DSR ${dsrNum}%`, amount: dsrBonusEarned });
+      }
       return {
-        total,
-        items: [
-          { label: `Komisi Pengantaran 2WH Mitra (${d.toLocaleString("id-ID")} paket)`, desc: `${d.toLocaleString("id-ID")} paket terkirim × Rp1.800`, amount: total }
-        ]
+        total: basePkg + dsrBonusEarned,
+        items
       };
     }
 
     // -----------------------------------------------------------------------
-    // Dashboard, Salary, History & Profile Rendering
+    // Hub Lead & Shift Lead Dashboard Logic
+    // -----------------------------------------------------------------------
+    function initLeadDashboard() {
+      if (!loggedInLeader) return;
+      const roleUpper = loggedInLeader.role.toUpperCase();
+      document.getElementById("leadRolePill").textContent = roleUpper;
+      document.getElementById("leadSidebarBadgeText").textContent = `${roleUpper} — Ops ID ${loggedInLeader.opsId}`;
+      document.getElementById("leadBannerRoleBadge").textContent = roleUpper;
+      document.getElementById("leadBannerOpsId").textContent = loggedInLeader.opsId;
+      document.getElementById("leadAccountRoleBadge").textContent = loggedInLeader.role;
+      document.getElementById("leadAccountTitle").textContent = `${loggedInLeader.role} — SPX Pringapus 2 Hub`;
+      document.getElementById("leadAccountOpsId").textContent = loggedInLeader.opsId;
+      document.getElementById("leadAccountPosition").textContent = loggedInLeader.role;
+
+      populateRateSettingsForm();
+      populateLeadMonthSelector();
+      switchLeadTab("monitoring");
+      renderLeadHubView();
+    }
+
+    function populateLeadMonthSelector(selectedVal = null) {
+      const sel = document.getElementById("leadMonthSelect");
+      const months = [...new Set(allRecords.map(r => r.Bulan))].sort((a, b) => b.localeCompare(a));
+      sel.innerHTML = "";
+      months.forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m;
+        opt.textContent = m;
+        if (selectedVal && m === selectedVal) opt.selected = true;
+        sel.appendChild(opt);
+      });
+    }
+
+    function onLeadMonthChange() {
+      renderLeadHubView();
+    }
+
+    async function refreshLeadData() {
+      const icon = document.getElementById("leadRefreshIcon");
+      icon.classList.add("animate-spin");
+      await loadDatabaseFromGitHub();
+      setTimeout(() => {
+        icon.classList.remove("animate-spin");
+        const prevMonth = document.getElementById("leadMonthSelect").value;
+        populateLeadMonthSelector(prevMonth);
+        renderLeadHubView();
+        showToast("Sinkronisasi Berhasil", "Data kurir Pringapus 2 Hub terbaru berhasil dimuat.");
+      }, 450);
+    }
+
+    function getActiveMonthCourierRecords() {
+      const selectedMonth = document.getElementById("leadMonthSelect").value;
+      return allRecords.filter(r => r.Bulan === selectedMonth);
+    }
+
+    function renderLeadHubView() {
+      const selectedMonth = document.getElementById("leadMonthSelect").value || "-";
+      document.getElementById("leadActiveMonthLabel").textContent = selectedMonth;
+
+      const monthRows = getActiveMonthCourierRecords();
+      const totalCouriers = monthRows.length;
+      const totalAssigned = monthRows.reduce((acc, r) => acc + (Number(r.Total_Penugasan) || 0), 0);
+      const totalDelivered = monthRows.reduce((acc, r) => acc + (Number(r.Delivered) || 0), 0);
+      const totalOnHold = monthRows.reduce((acc, r) => acc + (Number(r.OnHold) || 0), 0);
+
+      let avgDsr = 0;
+      if (totalCouriers > 0) {
+        const sumDsr = monthRows.reduce((acc, r) => {
+          return acc + (parseFloat(String(r.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0);
+        }, 0);
+        avgDsr = sumDsr / totalCouriers;
+      }
+
+      const totalPayroll = monthRows.reduce((acc, r) => {
+        return acc + computeSalaryBreakdown(r.Kategori_Armada, r.Delivered, r.Total_Hari_Kerja, r.Delivery_Success_Rate).total;
+      }, 0);
+
+      document.getElementById("hubKpiCouriers").textContent = totalCouriers.toLocaleString("id-ID");
+      document.getElementById("hubKpiAssigned").textContent = totalAssigned.toLocaleString("id-ID");
+      document.getElementById("hubKpiDelivered").textContent = totalDelivered.toLocaleString("id-ID");
+      document.getElementById("hubKpiOnHold").textContent = totalOnHold.toLocaleString("id-ID");
+      document.getElementById("hubKpiAvgDsr").textContent = `${avgDsr.toFixed(2)}%`;
+      document.getElementById("hubDsrBar").style.width = `${Math.min(100, Math.max(0, avgDsr))}%`;
+      document.getElementById("hubKpiTotalPayroll").textContent = formatRupiah(totalPayroll);
+
+      const hubBadge = document.getElementById("hubDsrBadge");
+      if (avgDsr >= 98) {
+        hubBadge.className = "px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+        hubBadge.textContent = "Target Hub Tercapai";
+      } else {
+        hubBadge.className = "px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
+        hubBadge.textContent = "Target ≥ 98%";
+      }
+
+      // Render Fleet Category Cards
+      const categories = ["4WH Mitra", "2WH Dedicated", "2WH Courier Plus", "2WH Mitra"];
+      const fleetGrid = document.getElementById("fleetCategoryGrid");
+      fleetGrid.innerHTML = categories.map(cat => {
+        const subset = monthRows.filter(r => r.Kategori_Armada.toLowerCase() === cat.toLowerCase());
+        const count = subset.length;
+        const delSum = subset.reduce((s, r) => s + (Number(r.Delivered) || 0), 0);
+        const paySum = subset.reduce((s, r) => s + computeSalaryBreakdown(r.Kategori_Armada, r.Delivered, r.Total_Hari_Kerja, r.Delivery_Success_Rate).total, 0);
+        const catDsr = count > 0
+          ? subset.reduce((s, r) => s + (parseFloat(String(r.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0), 0) / count
+          : 0;
+
+        return `
+          <div class="rounded-2xl bg-slate-50 border border-slate-200/90 p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-orange-100 text-spx-orange">${cat}</span>
+                <span class="text-xs font-extrabold text-slate-700">${count} Kurir</span>
+              </div>
+              <p class="font-display font-black text-xl text-slate-900 mt-3">${delSum.toLocaleString("id-ID")} <span class="text-xs font-semibold text-slate-500">paket</span></p>
+              <div class="w-full h-1.5 rounded-full bg-slate-200 mt-2 overflow-hidden">
+                <div class="h-full rounded-full bg-spx-orange" style="width: ${Math.min(100, catDsr)}%"></div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex items-center justify-between text-[11px]">
+              <span class="text-slate-500">DSR: <strong class="text-slate-800">${catDsr.toFixed(2)}%</strong></span>
+              <span class="font-bold text-emerald-700">${formatRupiah(paySum)}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      renderLeadCourierTable();
+    }
+
+    function getFilteredSortedCouriers() {
+      const query = (document.getElementById("courierSearchInput").value || "").trim().toLowerCase();
+      const catFilter = document.getElementById("courierCategoryFilter").value;
+      const sortBy = document.getElementById("courierSortSelect").value;
+
+      let rows = getActiveMonthCourierRecords().map(r => {
+        const dsrNum = parseFloat(String(r.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
+        const sal = computeSalaryBreakdown(r.Kategori_Armada, r.Delivered, r.Total_Hari_Kerja, r.Delivery_Success_Rate);
+        return { ...r, _dsrNum: dsrNum, _salaryTotal: sal.total };
+      });
+
+      if (query) {
+        rows = rows.filter(r =>
+          r.Driver_ID.toLowerCase().includes(query) ||
+          r.Nama_Kurir.toLowerCase().includes(query)
+        );
+      }
+
+      if (catFilter !== "ALL") {
+        rows = rows.filter(r => r.Kategori_Armada.toLowerCase() === catFilter.toLowerCase());
+      }
+
+      rows.sort((a, b) => {
+        if (sortBy === "delivered_asc") return a.Delivered - b.Delivered;
+        if (sortBy === "dsr_desc") return b._dsrNum - a._dsrNum;
+        if (sortBy === "dsr_asc") return a._dsrNum - b._dsrNum;
+        if (sortBy === "salary_desc") return b._salaryTotal - a._salaryTotal;
+        return b.Delivered - a.Delivered;
+      });
+
+      return rows;
+    }
+
+    function renderLeadCourierTable() {
+      const rows = getFilteredSortedCouriers();
+      const tbody = document.getElementById("leadCourierTableBody");
+      document.getElementById("leadTableCountInfo").textContent = `Menampilkan ${rows.length} kurir aktif pada periode terpilih.`;
+
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="10" class="py-8 text-center text-slate-400">Tidak ada data kurir yang cocok dengan pencarian/filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = rows.map(r => {
+        const dsrClass = r._dsrNum >= 98
+          ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+          : "bg-amber-50 text-amber-700 border-amber-200";
+        return `
+          <tr class="hover:bg-orange-50/40 transition">
+            <td class="py-3 px-4 font-mono font-bold text-slate-900">${r.Driver_ID}</td>
+            <td class="py-3 px-4 font-bold text-slate-900">${r.Nama_Kurir}</td>
+            <td class="py-3 px-4">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700">${r.Kategori_Armada}</span>
+            </td>
+            <td class="py-3 px-4 text-center font-semibold text-slate-700">${r.Total_Hari_Kerja}</td>
+            <td class="py-3 px-4 text-right text-slate-700">${r.Total_Penugasan.toLocaleString("id-ID")}</td>
+            <td class="py-3 px-4 text-right font-bold text-emerald-700">${r.Delivered.toLocaleString("id-ID")}</td>
+            <td class="py-3 px-4 text-right text-amber-700">${r.OnHold.toLocaleString("id-ID")}</td>
+            <td class="py-3 px-4 text-center">
+              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold border ${dsrClass}">${r.Delivery_Success_Rate}</span>
+            </td>
+            <td class="py-3 px-4 text-right font-display font-extrabold text-slate-900">${formatRupiah(r._salaryTotal)}</td>
+            <td class="py-3 px-4 text-center">
+              <button
+                type="button"
+                onclick="openCourierDetailModal('${r.Driver_ID}', '${r.Bulan}')"
+                class="px-3 py-1.5 rounded-xl bg-spx-orange/10 hover:bg-spx-orange text-spx-orange hover:text-white text-xs font-bold transition"
+              >
+                Detail
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function openCourierDetailModal(driverId, monthStr) {
+      const rec = allRecords.find(r => r.Driver_ID === driverId && r.Bulan === monthStr);
+      if (!rec) return;
+
+      const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
+      document.getElementById("modalCourierCat").textContent = rec.Kategori_Armada;
+      document.getElementById("modalCourierName").textContent = rec.Nama_Kurir;
+      document.getElementById("modalCourierId").textContent = rec.Driver_ID;
+      document.getElementById("modalCourierMonth").textContent = rec.Bulan;
+      document.getElementById("modalDays").textContent = `${rec.Total_Hari_Kerja} Hari`;
+      document.getElementById("modalAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
+      document.getElementById("modalDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
+      document.getElementById("modalDsr").textContent = rec.Delivery_Success_Rate;
+      document.getElementById("modalTotalSalary").textContent = formatRupiah(sal.total);
+
+      document.getElementById("modalSalaryItems").innerHTML = sal.items.map(item => `
+        <div class="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div>
+            <p class="font-bold text-slate-900 text-xs">${item.label}</p>
+            <p class="text-[11px] text-slate-500">${item.desc}</p>
+          </div>
+          <span class="font-display font-extrabold text-xs sm:text-sm text-slate-900">${formatRupiah(item.amount)}</span>
+        </div>
+      `).join("");
+
+      document.getElementById("courierDetailModal").classList.remove("hidden");
+    }
+
+    function closeCourierDetailModal() {
+      document.getElementById("courierDetailModal").classList.add("hidden");
+    }
+
+    function exportFilteredCouriersCSV() {
+      const rows = getFilteredSortedCouriers();
+      if (rows.length === 0) {
+        showToast("Tidak Ada Data", "Tidak ada baris kurir untuk diekspor.", true);
+        return;
+      }
+      const headers = [
+        "Driver_ID",
+        "Nama_Kurir",
+        "Kategori_Armada",
+        "Total_Hari_Kerja",
+        "Total_Penugasan",
+        "Delivered",
+        "OnHold",
+        "Delivery_Success_Rate",
+        "Estimasi_Gaji",
+        "Bulan"
+      ];
+      const csvLines = [headers.join(",")];
+      rows.forEach(r => {
+        const line = [
+          `"${r.Driver_ID}"`,
+          `"${r.Nama_Kurir.replace(/"/g, '""')}"`,
+          `"${r.Kategori_Armada}"`,
+          r.Total_Hari_Kerja,
+          r.Total_Penugasan,
+          r.Delivered,
+          r.OnHold,
+          `"${r.Delivery_Success_Rate}"`,
+          Math.round(r._salaryTotal),
+          `"${r.Bulan}"`
+        ];
+        csvLines.push(line.join(","));
+      });
+
+      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const activeMonth = document.getElementById("leadMonthSelect").value || "rekap";
+      a.href = url;
+      a.download = `Rekap_Kurir_Pringapus2_${activeMonth}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Export CSV Berhasil", `${rows.length} data kurir berhasil diunduh.`);
+    }
+
+    function populateRateSettingsForm() {
+      document.getElementById("rateDedBase").value = salaryRates.dedBase;
+      document.getElementById("rateDedDaily").value = salaryRates.dedDaily;
+      document.getElementById("rateDedTier1").value = salaryRates.dedTier1;
+      document.getElementById("rateDedTier2").value = salaryRates.dedTier2;
+      document.getElementById("rateCpBase").value = salaryRates.cpBase;
+      document.getElementById("rateCpDaily").value = salaryRates.cpDaily;
+      document.getElementById("rateCpTier1").value = salaryRates.cpTier1;
+      document.getElementById("rateCpTier2").value = salaryRates.cpTier2;
+      document.getElementById("rate4whPkg").value = salaryRates.rate4whPkg;
+      document.getElementById("rate2whPkg").value = salaryRates.rate2whPkg;
+      document.getElementById("rateDsrMin").value = salaryRates.dsrMin;
+      document.getElementById("rateDsrBonus").value = salaryRates.dsrBonus;
+    }
+
+    function saveSalaryRates(e) {
+      e.preventDefault();
+      salaryRates = {
+        dedBase: Number(document.getElementById("rateDedBase").value) || 0,
+        dedDaily: Number(document.getElementById("rateDedDaily").value) || 0,
+        dedTier1: Number(document.getElementById("rateDedTier1").value) || 0,
+        dedTier2: Number(document.getElementById("rateDedTier2").value) || 0,
+        cpBase: Number(document.getElementById("rateCpBase").value) || 0,
+        cpDaily: Number(document.getElementById("rateCpDaily").value) || 0,
+        cpTier1: Number(document.getElementById("rateCpTier1").value) || 0,
+        cpTier2: Number(document.getElementById("rateCpTier2").value) || 0,
+        rate4whPkg: Number(document.getElementById("rate4whPkg").value) || 0,
+        rate2whPkg: Number(document.getElementById("rate2whPkg").value) || 0,
+        dsrMin: Number(document.getElementById("rateDsrMin").value) || 98,
+        dsrBonus: Number(document.getElementById("rateDsrBonus").value) || 0
+      };
+      localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(salaryRates));
+      renderLeadHubView();
+      showToast("Tarif Disimpan", "Perhitungan simulasi gaji seluruh kurir telah diperbarui.");
+    }
+
+    function resetSalaryRatesToDefault() {
+      salaryRates = { ...DEFAULT_SALARY_RATES };
+      localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(salaryRates));
+      populateRateSettingsForm();
+      renderLeadHubView();
+      showToast("Tarif Direset", "Semua parameter tarif dikembalikan ke nilai standar.");
+    }
+
+    // -----------------------------------------------------------------------
+    // Dashboard, Salary, History & Profile Rendering (Kurir)
     // -----------------------------------------------------------------------
     function populateMonthSelector(selectedVal = null) {
       const sel = document.getElementById("monthSelect");
+      if (!sel) return;
       sel.innerHTML = "";
       currentCourierRecords.forEach(rec => {
         const opt = document.createElement("option");
@@ -1315,137 +2247,139 @@
     }
 
     function onMonthChange() {
-      const val = document.getElementById("monthSelect").value;
-      const found = currentCourierRecords.find(r => r.Bulan === val);
-      if (found) renderCourierDashboard(found);
+      const selectedMonth = document.getElementById("monthSelect").value;
+      const target = currentCourierRecords.find(r => r.Bulan === selectedMonth) || currentCourierRecords[0];
+      if (target) renderCourierDashboard(target);
+    }
+
+    function getInitials(name) {
+      const parts = String(name || "SP").trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+      return (parts[0][0] + parts[1][0]).toUpperCase();
     }
 
     function renderCourierDashboard(rec) {
-      const initials = rec.Nama_Kurir
-        .split(/\s+/)
-        .slice(0, 2)
-        .map(w => w[0] || "")
-        .join("")
-        .toUpperCase() || "SP";
+      if (!rec) return;
 
-      // Sidebar & Header Identity
+      const initials = getInitials(rec.Nama_Kurir);
+      const dsrNum = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
+
+      // Sidebar & Header Badges
       document.getElementById("sidebarAvatar").textContent = initials;
       document.getElementById("sidebarDriverName").textContent = rec.Nama_Kurir;
       document.getElementById("sidebarDriverId").textContent = rec.Driver_ID;
       document.getElementById("headerAvatarBadge").textContent = initials;
       document.getElementById("headerDriverBadge").textContent = rec.Nama_Kurir;
 
-      // Overview Hero & KPIs
+      // Hero Banner
       document.getElementById("avatarInitials").textContent = initials;
-      document.getElementById("dashDriverName").textContent = rec.Nama_Kurir;
-      document.getElementById("dashDriverId").textContent = rec.Driver_ID;
       document.getElementById("dashCategoryBadge").textContent = rec.Kategori_Armada;
+      document.getElementById("dashDriverId").textContent = rec.Driver_ID;
+      document.getElementById("dashDriverName").textContent = rec.Nama_Kurir;
 
-      // Profile Tab
-      document.getElementById("profileBigAvatar").textContent = initials;
-      document.getElementById("profileFullName").textContent = rec.Nama_Kurir;
-      document.getElementById("profileDriverId").textContent = rec.Driver_ID;
-      document.getElementById("profileCategory").textContent = rec.Kategori_Armada;
-      document.getElementById("profilePwdHint").textContent = rec.Driver_ID;
-
-      // DSR & Progress
-      const dsrNumeric = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
+      // KPI Cards
       document.getElementById("kpiDsr").textContent = rec.Delivery_Success_Rate;
-      document.getElementById("dsrProgressBar").style.width = `${Math.min(100, Math.max(0, dsrNumeric))}%`;
+      document.getElementById("dsrProgressBar").style.width = `${Math.min(100, Math.max(0, dsrNum))}%`;
+      document.getElementById("kpiAssigned").textContent = Number(rec.Total_Penugasan).toLocaleString("id-ID");
+      document.getElementById("kpiDelivered").textContent = Number(rec.Delivered).toLocaleString("id-ID");
+      document.getElementById("kpiOnHold").textContent = Number(rec.OnHold).toLocaleString("id-ID");
+      document.getElementById("kpiDays").innerHTML = `${rec.Total_Hari_Kerja} <span class="text-sm font-bold text-slate-500">Hari</span>`;
 
-      const targetBadge = document.getElementById("dsrTargetBadge");
-      const statusHeadline = document.getElementById("perfStatusHeadline");
-      const statusSummary = document.getElementById("perfStatusSummary");
-      const bonusBox = document.getElementById("dsrBonusEligibilityBox");
+      const dsrBadge = document.getElementById("dsrTargetBadge");
+      const dsrHelper = document.getElementById("dsrHelperText");
+      const perfHeadline = document.getElementById("perfStatusHeadline");
+      const perfSummary = document.getElementById("perfStatusSummary");
 
-      if (dsrNumeric >= 98) {
-        targetBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
-        targetBadge.textContent = "Target Tercapai";
-        statusHeadline.textContent = "Performa Prima — Target DSR Hub ≥ 98% Tercapai!";
-        statusSummary.textContent = `Selamat ${rec.Nama_Kurir}! Capaian Delivery Success Rate Anda sebesar ${rec.Delivery_Success_Rate} dengan ${rec.Delivered.toLocaleString("id-ID")} paket terkirim dalam ${rec.Total_Hari_Kerja} hari kerja telah memenuhi standar kualitas layanan SPX Pringapus 2 Hub.`;
-        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-emerald-50/80 border-emerald-200 text-emerald-900 text-xs leading-relaxed";
-        bonusBox.innerHTML = `<strong>Status Kualifikasi DSR ≥ 98%:</strong> Memenuhi syarat kualitas pengantaran (DSR <strong>${rec.Delivery_Success_Rate}</strong>). Pertahankan tingkat keberhasilan pengiriman dan minimalkan paket OnHold.`;
+      if (dsrNum >= 98) {
+        dsrBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+        dsrBadge.textContent = "Target Tercapai";
+        dsrHelper.textContent = "Luar biasa! DSR memenuhi syarat bonus target ≥ 98%.";
+        perfHeadline.textContent = "Performa Prima — Target DSR ≥ 98% Tercapai!";
+        perfSummary.textContent = `Pada periode ${rec.Bulan}, Anda menyelesaikan ${rec.Delivered.toLocaleString("id-ID")} dari ${rec.Total_Penugasan.toLocaleString("id-ID")} paket dengan tingkat keberhasilan ${rec.Delivery_Success_Rate} selama ${rec.Total_Hari_Kerja} hari kerja.`;
       } else {
-        targetBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
-        targetBadge.textContent = "Target ≥ 98%";
-        statusHeadline.textContent = "Perlu Peningkatan — Kejar Target DSR Hub ≥ 98%";
-        statusSummary.textContent = `Capaian DSR Anda saat ini ${rec.Delivery_Success_Rate} (${rec.Delivered.toLocaleString("id-ID")} dari ${rec.Total_Penugasan.toLocaleString("id-ID")} paket terkirim, dengan ${rec.OnHold.toLocaleString("id-ID")} paket OnHold). Prioritaskan penyelesaian paket tertunda di rute berikutnya untuk menembus target 98%.`;
-        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-amber-50/80 border-amber-200 text-amber-900 text-xs leading-relaxed";
-        bonusBox.innerHTML = `<strong>Catatan Target DSR 98%:</strong> DSR saat ini berada di <strong>${rec.Delivery_Success_Rate}</strong>. Tingkatkan penyelesaian paket OnHold (${rec.OnHold} paket) agar rasio DSR mencapai standar ≥ 98%.`;
+        dsrBadge.className = "px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200";
+        dsrBadge.textContent = "Target 98%";
+        dsrHelper.textContent = "Tingkatkan penyelesaian paket OnHold untuk mencapai DSR ≥ 98%.";
+        perfHeadline.textContent = "Performa Stabil — Tingkatkan DSR Menuju 98%";
+        perfSummary.textContent = `Pada periode ${rec.Bulan}, Anda menyelesaikan ${rec.Delivered.toLocaleString("id-ID")} paket dari ${rec.Total_Penugasan.toLocaleString("id-ID")} penugasan (DSR ${rec.Delivery_Success_Rate}) dengan ${rec.OnHold} paket OnHold.`;
       }
 
-      document.getElementById("kpiDays").innerHTML = `${rec.Total_Hari_Kerja} <span class="text-sm font-bold text-slate-500">Hari</span>`;
-      document.getElementById("kpiAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
-      document.getElementById("kpiDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
-      document.getElementById("kpiOnHold").textContent = rec.OnHold.toLocaleString("id-ID");
-
       // Salary Breakdown
-      const salary = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+      const salary = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
       document.getElementById("overviewSalaryQuick").textContent = formatRupiah(salary.total);
       document.getElementById("totalSalaryDisplay").textContent = formatRupiah(salary.total);
       document.getElementById("noteCategoryName").textContent = rec.Kategori_Armada;
       document.getElementById("salaryDaysNote").textContent = `${rec.Total_Hari_Kerja} Hari`;
-      document.getElementById("salaryDeliveredNote").textContent = `${rec.Delivered.toLocaleString("id-ID")} Paket`;
+      document.getElementById("salaryDeliveredNote").textContent = `${Number(rec.Delivered).toLocaleString("id-ID")} Paket`;
 
-      const listEl = document.getElementById("salaryBreakdownList");
-      listEl.innerHTML = salary.items.map(item => `
+      const breakdownList = document.getElementById("salaryBreakdownList");
+      breakdownList.innerHTML = salary.items.map(item => `
         <div class="flex items-center justify-between gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
           <div>
             <p class="font-bold text-slate-900 text-xs sm:text-sm">${item.label}</p>
             <p class="text-[11px] text-slate-500 mt-0.5">${item.desc}</p>
           </div>
-          <span class="font-display font-extrabold text-sm sm:text-base ${item.amount > 0 ? 'text-slate-900' : 'text-slate-400'}">
-            ${formatRupiah(item.amount)}
-          </span>
+          <span class="font-display font-extrabold text-sm sm:text-base text-slate-900">${formatRupiah(item.amount)}</span>
         </div>
       `).join("");
+
+      const bonusBox = document.getElementById("dsrBonusEligibilityBox");
+      if (dsrNum >= Number(salaryRates.dsrMin || 98)) {
+        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-emerald-50 border-emerald-200 text-emerald-800 text-xs leading-relaxed";
+        bonusBox.innerHTML = `<strong>Status Target Kualitas:</strong> DSR Anda (${rec.Delivery_Success_Rate}) telah memenuhi ambang batas minimal <strong>${salaryRates.dsrMin}%</strong>.`;
+      } else {
+        bonusBox.className = "mt-5 rounded-2xl p-4 border bg-amber-50 border-amber-200 text-amber-800 text-xs leading-relaxed";
+        bonusBox.innerHTML = `<strong>Catatan Target Kualitas:</strong> DSR Anda saat ini <strong>${rec.Delivery_Success_Rate}</strong> (target minimal <strong>${salaryRates.dsrMin}%</strong>). Kurangi paket OnHold untuk memaksimalkan insentif bulan berikutnya.`;
+      }
+
+      // Profile Tab Fields
+      document.getElementById("profileBigAvatar").textContent = initials;
+      document.getElementById("profileFullName").textContent = rec.Nama_Kurir;
+      document.getElementById("profileDriverId").textContent = rec.Driver_ID;
+      document.getElementById("profileCategory").textContent = rec.Kategori_Armada;
+      document.getElementById("profilePwdHint").textContent = rec.Driver_ID;
     }
 
     function renderMonthlyHistory() {
       const barsContainer = document.getElementById("historyVisualBars");
       const tbody = document.getElementById("historyTableBody");
+      if (!barsContainer || !tbody) return;
 
-      if (!currentCourierRecords || currentCourierRecords.length === 0) {
-        barsContainer.innerHTML = "";
-        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">Belum ada riwayat bulanan.</td></tr>`;
-        return;
-      }
-
-      const maxDelivered = Math.max(...currentCourierRecords.map(r => Number(r.Delivered) || 1), 1);
+      const maxDelivered = Math.max(1, ...currentCourierRecords.map(r => Number(r.Delivered) || 0));
 
       barsContainer.innerHTML = currentCourierRecords.map(rec => {
-        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
         const pct = Math.min(100, Math.round(((Number(rec.Delivered) || 0) / maxDelivered) * 100));
         return `
-          <div class="rounded-2xl bg-slate-50 border border-slate-200/80 p-4">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200/90">
             <div class="flex items-center justify-between text-xs font-bold">
-              <span class="text-slate-900 font-mono">${rec.Bulan}</span>
+              <span class="text-slate-800">${rec.Bulan}</span>
               <span class="text-spx-orange">${rec.Delivery_Success_Rate}</span>
             </div>
-            <p class="font-display font-extrabold text-base text-slate-900 mt-1">${formatRupiah(sal.total)}</p>
-            <div class="w-full h-2 rounded-full bg-slate-200 mt-2.5 overflow-hidden">
-              <div class="h-full rounded-full bg-gradient-to-r from-spx-orange to-[#FF7337]" style="width: ${pct}%"></div>
+            <p class="font-display font-black text-lg text-slate-900 mt-1">${Number(rec.Delivered).toLocaleString("id-ID")} <span class="text-xs font-semibold text-slate-500">paket</span></p>
+            <div class="w-full h-2 rounded-full bg-slate-200 mt-2 overflow-hidden">
+              <div class="h-full rounded-full bg-spx-orange" style="width: ${pct}%"></div>
             </div>
-            <p class="text-[11px] text-slate-500 mt-1.5">${rec.Delivered.toLocaleString("id-ID")} paket &bull; ${rec.Total_Hari_Kerja} hari kerja</p>
+            <p class="text-[11px] font-bold text-emerald-700 mt-2">Estimasi: ${formatRupiah(sal.total)}</p>
           </div>
         `;
       }).join("");
 
       tbody.innerHTML = currentCourierRecords.map(rec => {
-        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja);
+        const sal = computeSalaryBreakdown(rec.Kategori_Armada, rec.Delivered, rec.Total_Hari_Kerja, rec.Delivery_Success_Rate);
         const dsrNum = parseFloat(String(rec.Delivery_Success_Rate).replace(/[^\d.-]/g, "")) || 0;
-        const dsrBadgeClass = dsrNum >= 98
+        const badgeCls = dsrNum >= 98
           ? "bg-emerald-50 text-emerald-700 border-emerald-200"
           : "bg-amber-50 text-amber-700 border-amber-200";
         return `
-          <tr class="hover:bg-orange-50/40 transition">
-            <td class="py-3.5 px-4 font-mono font-bold text-slate-900">${rec.Bulan}</td>
-            <td class="py-3.5 px-4 font-semibold text-slate-700">${rec.Total_Hari_Kerja} Hari</td>
-            <td class="py-3.5 px-4 text-slate-700">${rec.Total_Penugasan.toLocaleString("id-ID")}</td>
-            <td class="py-3.5 px-4 font-bold text-emerald-700">${rec.Delivered.toLocaleString("id-ID")}</td>
-            <td class="py-3.5 px-4 text-amber-700">${rec.OnHold.toLocaleString("id-ID")}</td>
+          <tr class="hover:bg-slate-50">
+            <td class="py-3.5 px-4 font-bold text-slate-900">${rec.Bulan}</td>
+            <td class="py-3.5 px-4 text-slate-700">${rec.Total_Hari_Kerja} Hari</td>
+            <td class="py-3.5 px-4 text-slate-700">${Number(rec.Total_Penugasan).toLocaleString("id-ID")}</td>
+            <td class="py-3.5 px-4 font-bold text-emerald-700">${Number(rec.Delivered).toLocaleString("id-ID")}</td>
+            <td class="py-3.5 px-4 text-amber-700">${Number(rec.OnHold).toLocaleString("id-ID")}</td>
             <td class="py-3.5 px-4">
-              <span class="px-2 py-0.5 rounded-full text-[11px] font-bold border ${dsrBadgeClass}">${rec.Delivery_Success_Rate}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${badgeCls}">${rec.Delivery_Success_Rate}</span>
             </td>
             <td class="py-3.5 px-4 text-right font-display font-extrabold text-slate-900">${formatRupiah(sal.total)}</td>
           </tr>
@@ -1453,7 +2387,7 @@
       }).join("");
     }
 
-    // Boot application
+    // Muat database GitHub secara otomatis di latar belakang saat halaman dibuka
     window.addEventListener("DOMContentLoaded", () => {
       loadDatabaseFromGitHub();
     });
