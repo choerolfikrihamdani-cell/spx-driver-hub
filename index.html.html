@@ -876,7 +876,7 @@
           <div class="flex flex-col sm:flex-row gap-3">
             <input type="text" id="leadCourierSearchInput" oninput="renderLeadCouriersTable()" placeholder="Cari nama kurir atau Driver ID..."
               class="flex-1 px-4 py-3 rounded-2xl bg-white border border-slate-200 text-xs font-medium focus:outline-none focus:border-spx-orange">
-            <select id="leadCategoryFilter" onchange="renderLeadCouriersTable()" class="px-4 py-3 rounded-2xl bg-white border border-slate-200 text-xs font-bold">
+            <select id="leadCategoryFilter" onchange="renderLeadCouriersTable()" class="px-4 py-3 rounded-2xl bg-white border border-slate-200 text-xs font-bold text-slate-900">
               <option value="ALL">Semua Kategori Armada</option>
               <option value="2WH Dedicated">2WH Dedicated</option>
               <option value="2WH Courier Plus">2WH Courier Plus</option>
@@ -1110,7 +1110,7 @@
     const GITHUB_SCHEDULE_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Schedule_Database.csv";
     const GITHUB_API_SCHEDULE_URL = "https://api.github.com/repos/choerolfikrihamdani-cell/spx-driver-hub/contents/Schedule_Database.csv";
     const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v3";
-    const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v3";
+    const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v4";
     const PERIODS_STORAGE_KEY = "spx_pringapus2_schedule_periods_v1";
     const SCHEDULE_STORAGE_KEY = "spx_pringapus2_schedules_by_period_v1";
     const H1_ACK_STORAGE_KEY = "spx_pringapus2_h1_ack_v2";
@@ -1191,32 +1191,36 @@
       "1548375": { id: "1548375", role: "Shift Lead", name: "Shift Lead 2" }
     };
 
+    // Data Asli Kurir SPX Pringapus 2 Hub (21 Kurir Utama + Mitra & 4WH)
     const BUILTIN_MASTER_DB = [
-      { Driver_ID: "1353049", Nama_Kurir: "RENDI SETIAWAN", Password: "1353049", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "98.45%", Total_Penugasan: 2150, Delivered: 2117, OnHold: 12, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "594188", Nama_Kurir: "DANANG PRASETYO", Password: "594188", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.80%", Total_Penugasan: 2040, Delivered: 1995, OnHold: 15, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1207637", Nama_Kurir: "MUHAMMAD FAIZAL", Password: "1207637", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.92%", Total_Penugasan: 1980, Delivered: 1919, OnHold: 18, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "457770", Nama_Kurir: "AGUS SUPRIYANTO", Password: "457770", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.10%", Total_Penugasan: 2100, Delivered: 2039, OnHold: 14, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1194512", Nama_Kurir: "ADE DWIKI IMAM SYAFII", Password: "1194512", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "98.12%", Total_Penugasan: 2210, Delivered: 2168, OnHold: 10, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1191220", Nama_Kurir: "EKO WAHYUDI", Password: "1191220", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.88%", Total_Penugasan: 1890, Delivered: 1812, OnHold: 22, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "1313718", Nama_Kurir: "BAYU SAPUTRA", Password: "1313718", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.40%", Total_Penugasan: 1950, Delivered: 1880, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1189067", Nama_Kurir: "ARIF NUR HIDAYAT", Password: "1189067", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.55%", Total_Penugasan: 2080, Delivered: 2029, OnHold: 11, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "646598", Nama_Kurir: "HENDRA KUSUMA", Password: "646598", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.20%", Total_Penugasan: 1820, Delivered: 1733, OnHold: 24, Total_Hari_Kerja: 24, Bulan: "2026-11" },
-      { Driver_ID: "1207638", Nama_Kurir: "DIMAS ADITYA PRATAMA", Password: "1207638", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.75%", Total_Penugasan: 2005, Delivered: 1940, OnHold: 16, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1100475", Nama_Kurir: "WAHYU NUGROHO", Password: "1100475", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.30%", Total_Penugasan: 2115, Delivered: 2058, OnHold: 13, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1291606", Nama_Kurir: "ILHAM RAMADHAN", Password: "1291606", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.15%", Total_Penugasan: 1930, Delivered: 1856, OnHold: 20, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "710119", Nama_Kurir: "SLAMET RIYADI", Password: "710119", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.60%", Total_Penugasan: 1875, Delivered: 1793, OnHold: 21, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "1054791", Nama_Kurir: "ANDI SETYAWAN", Password: "1054791", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.90%", Total_Penugasan: 2450, Delivered: 2399, OnHold: 14, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      // 11 Kurir 2WH Courier Plus Pringapus 2 Hub
+      { Driver_ID: "1106350", Nama_Kurir: "ABDUL MALIK", Password: "1106350", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.20%", Total_Penugasan: 2390, Delivered: 2323, OnHold: 16, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1313718", Nama_Kurir: "ACHMAD MUHRON", Password: "1313718", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.40%", Total_Penugasan: 1950, Delivered: 1880, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1102568", Nama_Kurir: "ADE EKA KHOIRU SEPTIYAN", Password: "1102568", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "95.95%", Total_Penugasan: 2190, Delivered: 2101, OnHold: 23, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1207637", Nama_Kurir: "AFIF NALA NIAM", Password: "1207637", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.92%", Total_Penugasan: 1980, Delivered: 1919, OnHold: 18, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1054791", Nama_Kurir: "AMAT SUTOMO", Password: "1054791", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.90%", Total_Penugasan: 2450, Delivered: 2399, OnHold: 14, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "1353049", Nama_Kurir: "ERVIN UBAIDILLAH", Password: "1353049", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "98.45%", Total_Penugasan: 2150, Delivered: 2117, OnHold: 12, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1191220", Nama_Kurir: "GUNTUR EHTIYAR", Password: "1191220", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "95.88%", Total_Penugasan: 1890, Delivered: 1812, OnHold: 22, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1291606", Nama_Kurir: "MUHAMAD RIDUAN", Password: "1291606", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.15%", Total_Penugasan: 1930, Delivered: 1856, OnHold: 20, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1207638", Nama_Kurir: "RANGGA ADI SAPUTRA", Password: "1207638", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.75%", Total_Penugasan: 2005, Delivered: 1940, OnHold: 16, Total_Hari_Kerja: 26, Bulan: "2026-11" },
       { Driver_ID: "1330235", Nama_Kurir: "SETIO BUDI UTOMO", Password: "1330235", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.85%", Total_Penugasan: 2320, Delivered: 2247, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1102568", Nama_Kurir: "TEGUH SANTOSO", Password: "1102568", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "95.95%", Total_Penugasan: 2190, Delivered: 2101, OnHold: 23, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "829762", Nama_Kurir: "JOKO SUSILO", Password: "829762", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.50%", Total_Penugasan: 2280, Delivered: 2200, OnHold: 18, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1106350", Nama_Kurir: "HERU PURNOMO", Password: "1106350", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.20%", Total_Penugasan: 2390, Delivered: 2323, OnHold: 16, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1184817", Nama_Kurir: "FAJAR SIDIQ", Password: "1184817", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "95.40%", Total_Penugasan: 2120, Delivered: 2022, OnHold: 25, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "1297004", Nama_Kurir: "SUJARWANTO", Password: "1297004", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.70%", Total_Penugasan: 2295, Delivered: 2219, OnHold: 17, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+
+      // 10 Kurir 2WH Dedicated Pringapus 2 Hub
+      { Driver_ID: "1194512", Nama_Kurir: "ADE DWIKI IMAM SYAFII", Password: "1194512", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "98.12%", Total_Penugasan: 2210, Delivered: 2168, OnHold: 10, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1100475", Nama_Kurir: "AGIM HENRI ARDANI", Password: "1100475", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.30%", Total_Penugasan: 2115, Delivered: 2058, OnHold: 13, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "646598", Nama_Kurir: "AHMAD KHOZIN", Password: "646598", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.20%", Total_Penugasan: 1980, Delivered: 1885, OnHold: 24, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "893812", Nama_Kurir: "FAJAR OKI SETIAWAN", Password: "893812", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.10%", Total_Penugasan: 2210, Delivered: 2124, OnHold: 20, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1184817", Nama_Kurir: "IRVANA PANJI GUSNIAN", Password: "1184817", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.40%", Total_Penugasan: 2120, Delivered: 2022, OnHold: 25, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "457770", Nama_Kurir: "LIFI ASEP SUTENDI", Password: "457770", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.10%", Total_Penugasan: 2100, Delivered: 2039, OnHold: 14, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "710119", Nama_Kurir: "LOVY TAUFAN WAHYU UTAMA", Password: "710119", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.60%", Total_Penugasan: 1995, Delivered: 1907, OnHold: 21, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "594188", Nama_Kurir: "MAHARIF", Password: "594188", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.80%", Total_Penugasan: 2040, Delivered: 1995, OnHold: 15, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1189067", Nama_Kurir: "MASUDI", Password: "1189067", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.55%", Total_Penugasan: 2080, Delivered: 2029, OnHold: 11, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "829762", Nama_Kurir: "SIGIT NUGROHO", Password: "829762", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.50%", Total_Penugasan: 2280, Delivered: 2200, OnHold: 18, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+
+      // Backup / 2WH Mitra & 4WH Mitra Pringapus 2 Hub
       { Driver_ID: "1208523", Nama_Kurir: "FANDY ACHMAD AL BALAD", Password: "1208523", Kategori_Armada: "2WH Mitra", Delivery_Success_Rate: "94.80%", Total_Penugasan: 1450, Delivered: 1375, OnHold: 28, Total_Hari_Kerja: 22, Bulan: "2026-11" },
       { Driver_ID: "860468", Nama_Kurir: "DWI CAHYONO", Password: "860468", Kategori_Armada: "2WH Mitra", Delivery_Success_Rate: "93.90%", Total_Penugasan: 1320, Delivered: 1239, OnHold: 31, Total_Hari_Kerja: 20, Bulan: "2026-11" },
-      { Driver_ID: "1297004", Nama_Kurir: "BAGAS KARA", Password: "1297004", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.70%", Total_Penugasan: 2295, Delivered: 2219, OnHold: 17, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "893812", Nama_Kurir: "SIGIT PRAMONO", Password: "893812", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.10%", Total_Penugasan: 2210, Delivered: 2124, OnHold: 20, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "1400080", Nama_Kurir: "REZA PAHLEVI", Password: "1400080", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.45%", Total_Penugasan: 2410, Delivered: 2349, OnHold: 15, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1392965", Nama_Kurir: "YOGA PRATAMA", Password: "1392965", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.30%", Total_Penugasan: 2250, Delivered: 2167, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
       { Driver_ID: "1241227", Nama_Kurir: "RIZKY WAHYU WIJAYA", Password: "1241227", Kategori_Armada: "4WH Mitra", Delivery_Success_Rate: "95.50%", Total_Penugasan: 1680, Delivered: 1604, OnHold: 24, Total_Hari_Kerja: 25, Bulan: "2026-11" }
     ];
 
@@ -1243,6 +1247,14 @@
       const cleaned = String(dsrStr || "0").replace("%", "").replace(",", ".").trim();
       const val = parseFloat(cleaned);
       return Number.isFinite(val) ? val : 0;
+    }
+
+    function normalizeCategoryName(catStr) {
+      const s = String(catStr || "").trim().toLowerCase();
+      if (s.includes("4wh")) return "4WH Mitra";
+      if (s.includes("dedicated")) return "2WH Dedicated";
+      if (s.includes("courier plus") || s.includes("plus")) return "2WH Courier Plus";
+      return "2WH Mitra";
     }
 
     function formatMonthLabel(ym) {
@@ -1312,7 +1324,7 @@
               Driver_ID: String(r.Driver_ID || "").trim(),
               Nama_Kurir: String(r.Nama_Kurir || "").trim(),
               Password: String(r.Password || r.Driver_ID || "").trim(),
-              Kategori_Armada: String(r.Kategori_Armada || "2WH Mitra").trim(),
+              Kategori_Armada: normalizeCategoryName(r.Kategori_Armada),
               Delivery_Success_Rate: String(r.Delivery_Success_Rate || "0%").trim(),
               Total_Penugasan: Number(r.Total_Penugasan ?? r.Penugasan_Hari_Ini ?? 0) || 0,
               Delivered: Number(r.Delivered || 0) || 0,
@@ -1336,7 +1348,10 @@
         try {
           const cached = JSON.parse(localStorage.getItem(CACHE_RECORDS_KEY) || "[]");
           if (cached.length > 0) {
-            allCourierRecords = cached;
+            allCourierRecords = cached.map(r => ({
+              ...r,
+              Kategori_Armada: normalizeCategoryName(r.Kategori_Armada)
+            }));
             return allCourierRecords;
           }
         } catch (e) {}
@@ -1439,9 +1454,9 @@
       let total = 0;
 
       if (cat.includes("dedicated")) {
-        const gapok = 1981000;
+        const gajiPokok = 1981000;
         const bonusHarian = workDays * 104240;
-         // Threshold 1: 1950 paket (rate Rp620 untuk paket 1951 s/d 3120)
+        // Threshold 1: 1950 paket (rate Rp620 untuk paket 1951 s/d 3120)
         // Threshold 2: > 3120 paket (rate Rp1095 per paket di atas 3120)
         const paketTier1 = Math.max(0, Math.min(delivered, 3120) - 1950);
         const paketTier2 = Math.max(0, delivered - 3120);
@@ -1449,7 +1464,7 @@
         const incentive2 = paketTier2 * 1095;
         const gajiInsentif = incentive1 + incentive2;
 
-        items.push({ label: "Gaji Pokok (Kurir Plus)", amount: gajiPokok });
+        items.push({ label: "Gaji Pokok (2WH Dedicated)", amount: gajiPokok });
         items.push({ label: `Bonus Harian (${workDays} hari × Rp104.240)`, amount: bonusHarian });
         items.push({ label: `Incentive 1 (${paketTier1.toLocaleString("id-ID")} paket [1951–3120] × Rp620)`, amount: incentive1 });
         items.push({ label: `Incentive 2 (${paketTier2.toLocaleString("id-ID")} paket [>3120] × Rp1.095)`, amount: incentive2 });
@@ -2140,15 +2155,25 @@
 
     function populateLeadPeriodSelect() {
       const periods = getPeriodsList();
+      const dbMonths = Array.from(new Set(allCourierRecords.map(r => r.Bulan).filter(Boolean)));
+      const mergedMap = new Map();
+      periods.forEach(p => mergedMap.set(p.id, p));
+      dbMonths.forEach(ym => {
+        if (!mergedMap.has(ym)) {
+          mergedMap.set(ym, { id: ym, label: formatMonthLabel(ym), startDay: 1, endDay: 30 });
+        }
+      });
+      const mergedList = Array.from(mergedMap.values()).sort((a, b) => a.id.localeCompare(b.id));
       const sel = document.getElementById("leadPeriodSelect");
-      sel.innerHTML = periods.map(p => `<option value="${p.id}">${p.label}</option>`).join("");
-      selectedLeadPeriodId = periods[periods.length - 1]?.id || "2026-11";
+      sel.innerHTML = mergedList.map(p => `<option value="${p.id}">${p.label}</option>`).join("");
+      selectedLeadPeriodId = mergedList[mergedList.length - 1]?.id || "2026-11";
       sel.value = selectedLeadPeriodId;
     }
 
     function onLeadPeriodChange() {
       selectedLeadPeriodId = document.getElementById("leadPeriodSelect").value;
       renderLeadScheduleTable();
+      renderLeadCouriersTable();
     }
 
     async function syncLeadDataNow() {
@@ -2157,6 +2182,7 @@
       await loadMasterDatabase(true);
       await loadScheduleFromGitHub();
       icon.classList.remove("fa-spin");
+      populateLeadPeriodSelect();
       renderLeadScheduleTable();
       renderLeadCouriersTable();
       showToast("Database Terupdate", "Data performa & jadwal kurir terbaru telah disinkronkan.");
@@ -2181,6 +2207,15 @@
           ? "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition"
           : "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
       });
+
+      if (tabName === "couriers") {
+        renderLeadCouriersTable();
+      } else if (tabName === "schedule") {
+        renderLeadScheduleTable();
+      } else if (tabName === "feedback") {
+        renderLeadFeedbackInbox();
+      }
+
       toggleLeadSidebar(false);
     }
 
@@ -2208,19 +2243,42 @@
       renderLeadScheduleTable();
     }
 
-    function getUniqueCouriersForLead() {
+    function getCouriersForLeadByPeriod(periodId = null) {
+      const targetPeriod = periodId || selectedLeadPeriodId;
+      const periodMatches = allCourierRecords.filter(r => r.Bulan === targetPeriod);
+      if (periodMatches.length > 0) {
+        const map = new Map();
+        periodMatches.forEach(r => {
+          map.set(r.Driver_ID, {
+            ...r,
+            Kategori_Armada: normalizeCategoryName(r.Kategori_Armada)
+          });
+        });
+        return Array.from(map.values());
+      }
+
       const map = new Map();
       [...allCourierRecords]
         .sort((a, b) => b.Bulan.localeCompare(a.Bulan))
         .forEach(r => {
-          if (!map.has(r.Driver_ID)) map.set(r.Driver_ID, r);
+          if (!map.has(r.Driver_ID)) {
+            map.set(r.Driver_ID, {
+              ...r,
+              Kategori_Armada: normalizeCategoryName(r.Kategori_Armada)
+            });
+          }
         });
       return Array.from(map.values());
     }
 
     function renderLeadScheduleTable() {
       const periods = getPeriodsList();
-      const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
+      const period = periods.find(p => p.id === selectedLeadPeriodId) || {
+        id: selectedLeadPeriodId,
+        label: formatMonthLabel(selectedLeadPeriodId),
+        startDay: 1,
+        endDay: 30
+      };
       const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
       document.getElementById("leadCurrentPeriodTitle").textContent = period.label;
 
@@ -2231,10 +2289,10 @@
       dayFilterSel.value = Array.from(dayFilterSel.options).some(o => o.value === prevFilter) ? prevFilter : "ALL";
 
       const query = (document.getElementById("leadScheduleSearchInput").value || "").toLowerCase();
-      let couriers = getUniqueCouriersForLead();
+      let couriers = getCouriersForLeadByPeriod(period.id);
 
       if (leadScheduleCategoryFilter !== "ALL") {
-        couriers = couriers.filter(c => c.Kategori_Armada === leadScheduleCategoryFilter);
+        couriers = couriers.filter(c => normalizeCategoryName(c.Kategori_Armada) === leadScheduleCategoryFilter);
       }
       if (query) {
         couriers = couriers.filter(c => {
@@ -2260,6 +2318,17 @@
       `;
 
       const tbody = document.getElementById("leadScheduleTableBody");
+      if (couriers.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="${dates.length + 3}" class="py-8 px-4 text-center text-slate-500 font-semibold">
+              Tidak ada data kurir untuk kategori / filter yang dipilih.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
       tbody.innerHTML = couriers.map(c => {
         const sched = getOrCreateCourierSchedule(c, period);
         return `
@@ -2394,6 +2463,7 @@
       closeAddMonthModal();
       populateLeadPeriodSelect();
       renderLeadScheduleTable();
+      renderLeadCouriersTable();
       showToast("Periode Ditambahkan", `Periode ${formatMonthLabel(ym)} siap disusun.`);
     }
 
@@ -2401,7 +2471,7 @@
       const periods = getPeriodsList();
       const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
       const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
-      const couriers = getUniqueCouriersForLead();
+      const couriers = getCouriersForLeadByPeriod(period.id);
       const headers = ["Periode", "Driver_ID", "Nama_Kurir", "Kategori_Armada", "Zona", "Jam_Masuk", "Catatan", ...dates.map(d => d.key)];
       const rows = couriers.map(c => {
         const s = getOrCreateCourierSchedule(c, period);
@@ -2496,16 +2566,22 @@
     }
 
     function renderLeadCouriersTable() {
-      const query = (document.getElementById("leadCourierSearchInput").value || "").toLowerCase();
-      const catFilter = document.getElementById("leadCategoryFilter").value;
-      let couriers = getUniqueCouriersForLead();
+      const searchEl = document.getElementById("leadCourierSearchInput");
+      const filterEl = document.getElementById("leadCategoryFilter");
+      const query = (searchEl ? searchEl.value : "").trim().toLowerCase();
+      const catFilter = filterEl ? filterEl.value : "ALL";
+
+      const baseCouriers = getCouriersForLeadByPeriod(selectedLeadPeriodId);
 
       // Leaderboard untuk Lead
-      const best = couriers
-        .filter(c => c.Kategori_Armada === "2WH Dedicated" || c.Kategori_Armada === "2WH Courier Plus")
+      const best = baseCouriers
+        .filter(c => {
+          const normCat = normalizeCategoryName(c.Kategori_Armada);
+          return normCat === "2WH Dedicated" || normCat === "2WH Courier Plus";
+        })
         .sort((a, b) => parseDsrNumber(b.Delivery_Success_Rate) - parseDsrNumber(a.Delivery_Success_Rate))
         .slice(0, 3);
-      const worst = [...couriers]
+      const worst = [...baseCouriers]
         .sort((a, b) => parseDsrNumber(a.Delivery_Success_Rate) - parseDsrNumber(b.Delivery_Success_Rate))
         .slice(0, 3);
 
@@ -2516,7 +2592,7 @@
             <h4 class="text-xs font-black uppercase tracking-wider text-emerald-400"><i class="fas fa-trophy mr-1.5"></i>Kurir Terbaik (Dedicated &amp; Courier Plus)</h4>
             ${best.map((c, i) => `
               <div class="flex items-center justify-between text-xs p-2.5 rounded-xl bg-white/5">
-                <span><strong>#${i + 1} ${c.Nama_Kurir}</strong> <span class="text-slate-400">(${c.Kategori_Armada})</span></span>
+                <span><strong>#${i + 1} ${c.Nama_Kurir}</strong> <span class="text-slate-400">(${normalizeCategoryName(c.Kategori_Armada)})</span></span>
                 <strong class="text-emerald-400">${c.Delivery_Success_Rate}</strong>
               </div>
             `).join("")}
@@ -2525,7 +2601,7 @@
             <h4 class="text-xs font-black uppercase tracking-wider text-rose-400"><i class="fas fa-exclamation-triangle mr-1.5"></i>Perlu Evaluasi DSR (Terkecil ke Terbesar)</h4>
             ${worst.map((c, i) => `
               <div class="flex items-center justify-between text-xs p-2.5 rounded-xl bg-white/5">
-                <span><strong>${i + 1}. ${c.Nama_Kurir}</strong> <span class="text-slate-400">(${c.Kategori_Armada})</span></span>
+                <span><strong>${i + 1}. ${c.Nama_Kurir}</strong> <span class="text-slate-400">(${normalizeCategoryName(c.Kategori_Armada)})</span></span>
                 <strong class="text-rose-400">${c.Delivery_Success_Rate}</strong>
               </div>
             `).join("")}
@@ -2533,24 +2609,47 @@
         `;
       }
 
-      if (catFilter !== "ALL") couriers = couriers.filter(c => c.Kategori_Armada === catFilter);
-      if (query) couriers = couriers.filter(c => c.Nama_Kurir.toLowerCase().includes(query) || c.Driver_ID.includes(query));
+      let filteredCouriers = [...baseCouriers];
+      if (catFilter && catFilter !== "ALL") {
+        filteredCouriers = filteredCouriers.filter(c => normalizeCategoryName(c.Kategori_Armada) === catFilter);
+      }
+      if (query) {
+        filteredCouriers = filteredCouriers.filter(c =>
+          c.Nama_Kurir.toLowerCase().includes(query) ||
+          String(c.Driver_ID).toLowerCase().includes(query) ||
+          (OFFICIAL_CLUSTER_MAP[c.Driver_ID] || "").toLowerCase().includes(query)
+        );
+      }
 
       const tbody = document.getElementById("leadCouriersTableBody");
-      tbody.innerHTML = couriers.map(c => {
-        const pay = calculateCourierPayroll(c);
+      if (!tbody) return;
+
+      if (filteredCouriers.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-8 px-4 text-center text-slate-500 font-semibold">
+              Tidak ditemukan data kurir untuk kategori <strong>${catFilter}</strong> pada periode ${formatMonthLabel(selectedLeadPeriodId)}.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filteredCouriers.map(c => {
+        const normCat = normalizeCategoryName(c.Kategori_Armada);
+        const pay = calculateCourierPayroll({ ...c, Kategori_Armada: normCat });
         const zone = OFFICIAL_CLUSTER_MAP[c.Driver_ID] || "-";
         return `
           <tr class="hover:bg-slate-50">
             <td class="py-3 px-4">
               <strong class="text-slate-900 block">${c.Nama_Kurir}</strong>
-              <span class="text-[11px] font-mono text-slate-500">ID: ${c.Driver_ID}</span>
+              <span class="text-[11px] font-mono text-slate-500">ID: ${c.Driver_ID} &bull; ${c.Total_Hari_Kerja} Hari Kerja</span>
             </td>
             <td class="py-3 px-4">
-              <span class="px-2 py-0.5 rounded-md bg-orange-50 text-spx-orange font-bold text-[10px]">${c.Kategori_Armada}</span>
+              <span class="px-2 py-0.5 rounded-md bg-orange-50 text-spx-orange font-bold text-[10px]">${normCat}</span>
               <span class="block text-[11px] text-slate-500 mt-0.5">${zone}</span>
             </td>
-            <td class="py-3 px-4 font-bold text-slate-700">${c.Delivered.toLocaleString("id-ID")} / ${c.Total_Penugasan.toLocaleString("id-ID")}</td>
+            <td class="py-3 px-4 font-bold text-slate-700">${Number(c.Delivered).toLocaleString("id-ID")} / ${Number(c.Total_Penugasan).toLocaleString("id-ID")}</td>
             <td class="py-3 px-4 font-extrabold text-emerald-600">${c.Delivery_Success_Rate}</td>
             <td class="py-3 px-4 font-black text-slate-900">${formatRupiah(pay.total)}</td>
             <td class="py-3 px-4 text-center">
@@ -2562,16 +2661,17 @@
     }
 
     function openCourierDetailModal(driverId) {
-      const rec = getUniqueCouriersForLead().find(c => c.Driver_ID === driverId);
+      const rec = getCouriersForLeadByPeriod(selectedLeadPeriodId).find(c => c.Driver_ID === driverId);
       if (!rec) return;
-      const pay = calculateCourierPayroll(rec);
-      document.getElementById("modalCourierCat").textContent = rec.Kategori_Armada;
+      const normCat = normalizeCategoryName(rec.Kategori_Armada);
+      const pay = calculateCourierPayroll({ ...rec, Kategori_Armada: normCat });
+      document.getElementById("modalCourierCat").textContent = normCat;
       document.getElementById("modalCourierName").textContent = rec.Nama_Kurir;
       document.getElementById("modalCourierId").textContent = rec.Driver_ID;
       document.getElementById("modalCourierMonth").textContent = formatMonthLabel(rec.Bulan);
       document.getElementById("modalDays").textContent = `${rec.Total_Hari_Kerja} hr`;
-      document.getElementById("modalAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
-      document.getElementById("modalDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
+      document.getElementById("modalAssigned").textContent = Number(rec.Total_Penugasan).toLocaleString("id-ID");
+      document.getElementById("modalDelivered").textContent = Number(rec.Delivered).toLocaleString("id-ID");
       document.getElementById("modalDsr").textContent = rec.Delivery_Success_Rate;
       document.getElementById("modalTotalSalary").textContent = formatRupiah(pay.total);
 
