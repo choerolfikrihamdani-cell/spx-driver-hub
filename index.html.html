@@ -506,7 +506,7 @@
             <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/>
             </svg>
-            <span>Schedule Kerja</span>
+            <span>Schedule Kerja (22–30 Nov)</span>
           </button>
 
           <button
@@ -603,214 +603,57 @@
       <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
         <!-- ===============================================================
-             TAB 1: RINGKASAN PERFORMA (OVERVIEW)
-             =============================================================== -->
-        <div id="tab-overview" class="dashboard-tab-panel space-y-6">
-
-          <!-- Welcome Hero Banner -->
-          <div class="rounded-3xl bg-gradient-to-r from-[#111827] via-[#1E293B] to-[#3B1810] text-white p-6 sm:p-7 shadow-xl relative overflow-hidden">
-            <div class="pointer-events-none absolute -right-12 -top-12 w-56 h-56 rounded-full bg-spx-orange/25 blur-2xl"></div>
-            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div class="flex items-center gap-4">
-                <div id="avatarInitials" class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-spx-orange to-[#FF7337] flex items-center justify-center font-display font-black text-white text-xl sm:text-2xl shadow-lg shadow-spx-orange/30 shrink-0">
-                  SP
-                </div>
-                <div>
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span id="dashCategoryBadge" class="px-3 py-0.5 rounded-full text-xs font-bold bg-spx-orange text-white">
-                      2WH Dedicated
-                    </span>
-                    <span class="text-xs text-slate-300 font-mono bg-white/10 px-2.5 py-0.5 rounded-full">
-                      Driver ID: <strong id="dashDriverId" class="text-white">-</strong>
-                    </span>
-                  </div>
-                  <h3 id="dashDriverName" class="font-display font-extrabold text-xl sm:text-2xl text-white mt-1.5">-</h3>
-                  <p class="text-xs text-orange-200 mt-0.5">SPX Pringapus 2 Hub &bull; Strong and Growth Together!</p>
-                </div>
-              </div>
-
-              <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl px-4 py-3 sm:text-right">
-                <span class="text-[11px] uppercase tracking-wider text-slate-300 block font-semibold">Estimasi Gaji Bulan Ini</span>
-                <span id="overviewSalaryQuick" class="font-display font-black text-xl sm:text-2xl text-emerald-300">Rp0</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 4 Main KPI Cards -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-            <!-- KPI 1: Delivery Success Rate (DSR) -->
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Delivery Success Rate</span>
-                <span id="dsrTargetBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Target 98%</span>
-              </div>
-              <p id="kpiDsr" class="font-display font-black text-3xl text-slate-900 mt-3">0%</p>
-              <div class="mt-3.5">
-                <div class="w-full h-2.5 rounded-full bg-slate-100 overflow-hidden">
-                  <div id="dsrProgressBar" class="h-full rounded-full bg-gradient-to-r from-spx-orange to-emerald-500 transition-all duration-500" style="width: 0%"></div>
-                </div>
-                <p id="dsrHelperText" class="text-[11px] text-slate-500 mt-1.5">Target minimal bonus DSR ≥ 98%</p>
-              </div>
-            </div>
-
-            <!-- KPI 2: Total Penugasan -->
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Penugasan</span>
-                <span class="w-8 h-8 rounded-xl bg-orange-50 text-spx-orange flex items-center justify-center">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
-                  </svg>
-                </span>
-              </div>
-              <p id="kpiAssigned" class="font-display font-black text-3xl text-slate-900 mt-3">0</p>
-              <p class="text-xs text-slate-500 mt-2">Total paket yang ditugaskan</p>
-            </div>
-
-            <!-- KPI 3: Delivered vs OnHold -->
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Delivered vs OnHold</span>
-                <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                </span>
-              </div>
-              <div class="flex items-baseline gap-2 mt-3">
-                <p id="kpiDelivered" class="font-display font-black text-3xl text-emerald-600">0</p>
-                <span class="text-xs font-bold text-slate-400">terkirim</span>
-              </div>
-              <p class="text-xs text-amber-600 font-semibold mt-2">
-                OnHold: <span id="kpiOnHold" class="font-extrabold">0</span> paket tertunda
-              </p>
-            </div>
-
-            <!-- KPI 4: Total Hari Kerja -->
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-5 shadow-xs">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Hari Kerja</span>
-                <span class="w-8 h-8 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center">
-                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                    <rect width="18" height="18" x="3" y="4" rx="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
-                  </svg>
-                </span>
-              </div>
-              <p id="kpiDays" class="font-display font-black text-3xl text-spx-orange mt-3">0 <span class="text-sm font-bold text-slate-500">Hari</span></p>
-              <p class="text-xs text-slate-500 mt-2">Kehadiran kerja aktif bulan ini</p>
-            </div>
-          </div>
-
-          <!-- Visual Performance Status Card -->
-          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Status Evaluasi Kinerja</span>
-                <h4 id="perfStatusHeadline" class="font-display font-extrabold text-lg text-slate-900 mt-0.5">Analisis Performa Pengiriman</h4>
-              </div>
-              <button
-                type="button"
-                onclick="switchDashboardTab('salary')"
-                class="px-4 py-2.5 rounded-xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs font-bold transition self-start sm:self-auto"
-              >
-                Lihat Rincian Gaji &rarr;
-              </button>
-            </div>
-            <p id="perfStatusSummary" class="text-sm text-slate-600 mt-3 leading-relaxed">
-              Memuat status performa pengiriman Anda...
-            </p>
-          </div>
-        </div>
-
-        <!-- ===============================================================
-             TAB 2: SIMULASI GAJI & INSENTIF (PAYROLL BREAKDOWN)
-             =============================================================== -->
-        <div id="tab-salary" class="dashboard-tab-panel hidden space-y-6">
-          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
-              <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Slip Estimasi Pendapatan</span>
-                <h3 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900 mt-0.5">Simulasi Gaji &amp; Insentif Kurir</h3>
-                <p class="text-xs text-slate-500 mt-1">
-                  Kategori Armada: <strong id="noteCategoryName" class="text-slate-800">-</strong> &bull;
-                  Hari Kerja: <strong id="salaryDaysNote" class="text-slate-800">0 Hari</strong> &bull;
-                  Terkirim: <strong id="salaryDeliveredNote" class="text-slate-800">0 Paket</strong>
-                </p>
-              </div>
-              <div class="bg-emerald-50 border border-emerald-200 rounded-2xl px-5 py-3 sm:text-right">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-700 block">Estimasi Take-Home Pay</span>
-                <span id="totalSalaryDisplay" class="font-display font-black text-2xl sm:text-3xl text-emerald-700">Rp0</span>
-              </div>
-            </div>
-
-            <!-- Itemized Breakdown List -->
-            <div id="salaryBreakdownList" class="mt-5 space-y-3"></div>
-
-            <!-- DSR 98%+ Eligibility Banner -->
-            <div id="dsrBonusEligibilityBox" class="mt-5 rounded-2xl p-4 border text-xs leading-relaxed"></div>
-          </div>
-        </div>
-
-        <!-- ===============================================================
-             TAB 3: RIWAYAT BULANAN (MONTHLY HISTORY)
-             =============================================================== -->
-        <div id="tab-history" class="dashboard-tab-panel hidden space-y-6">
-          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
-            <div class="mb-5">
-              <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Rekap Antar Periode</span>
-              <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Riwayat Performa &amp; Pendapatan Bulanan</h3>
-              <p class="text-xs text-slate-500 mt-1">Perbandingan capaian pengiriman dan estimasi pendapatan Anda di setiap bulan.</p>
-            </div>
-
-            <!-- Visual Bar Comparison -->
-            <div id="historyVisualBars" class="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
-
-            <!-- Responsive Table -->
-            <div class="overflow-x-auto rounded-2xl border border-slate-200">
-              <table class="w-full text-left border-collapse text-xs sm:text-sm">
-                <thead>
-                  <tr class="bg-slate-900 text-white">
-                    <th class="py-3.5 px-4 font-bold">Bulan</th>
-                    <th class="py-3.5 px-4 font-bold">Hari Kerja</th>
-                    <th class="py-3.5 px-4 font-bold">Penugasan</th>
-                    <th class="py-3.5 px-4 font-bold">Delivered</th>
-                    <th class="py-3.5 px-4 font-bold">OnHold</th>
-                    <th class="py-3.5 px-4 font-bold">DSR</th>
-                    <th class="py-3.5 px-4 font-bold text-right">Estimasi Gaji</th>
-                  </tr>
-                </thead>
-                <tbody id="historyTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===============================================================
-             TAB 3.5: SCHEDULE KERJA KURIR (COURIER SCHEDULE VIEW)
+             TAB 3.5: SCHEDULE KERJA KURIR (PERIODE 22 - 30 NOVEMBER + ALARM H-1)
              =============================================================== -->
         <div id="tab-schedule" class="dashboard-tab-panel hidden space-y-6">
+          <!-- Banner Trigger Notifikasi, Dering & Getar H-1 -->
+          <div id="courierH1AlertBanner" class="rounded-3xl bg-gradient-to-r from-[#111827] via-[#1E293B] to-[#3B1810] text-white p-5 sm:p-6 shadow-lg border border-spx-orange/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-spx-orange text-white">Pengingat Otomatis H-1</span>
+                <span id="h1PermissionStatusBadge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Siap Aktif</span>
+              </div>
+              <h4 id="h1AlertHeadline" class="font-display font-extrabold text-base sm:text-lg text-white">Mengecek Jadwal Besok...</h4>
+              <p id="h1AlertSubtext" class="text-xs text-slate-300 leading-relaxed">
+                Sistem otomatis memicu notifikasi HP, dering alarm, dan getaran pada H-1 sebelum jadwal masuk Anda.
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onclick="enableDeviceAlarmPermission(true)"
+                class="px-4 py-2.5 rounded-xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs font-extrabold shadow-md transition flex items-center gap-1.5"
+              >
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span>Aktifkan &amp; Tes Dering H-1</span>
+              </button>
+            </div>
+          </div>
+
           <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
               <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Jadwal Operasional Mingguan</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Jadwal Operasional 22 – 30 November</span>
                 <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Schedule Kerja &amp; Shift Hub</h3>
-                <p class="text-xs text-slate-500 mt-1">Jadwal masuk kerja, zona pengantaran, dan status libur mingguan Anda di Pringapus 2 Hub.</p>
+                <p class="text-xs text-slate-500 mt-1">Jadwal resmi periode <strong>22–30 November</strong> yang disusun oleh Hub Lead / Shift Lead.</p>
               </div>
               <div class="flex items-center gap-2 bg-orange-50 border border-orange-200 px-3.5 py-2 rounded-2xl">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span id="courierTodayShiftBadge" class="text-xs font-extrabold text-slate-900">Hari Ini: Masuk (07:30 WIB)</span>
+                <span id="courierTodayShiftBadge" class="text-xs font-extrabold text-slate-900">Besok (22 Nov): -</span>
               </div>
             </div>
 
-            <!-- Ringkasan Hari Masuk vs Libur Minggu Ini -->
+            <!-- Ringkasan Hari Masuk vs Libur (22 - 30 Nov) -->
             <div class="mt-5 grid grid-cols-3 gap-3">
               <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-center">
                 <span class="text-[11px] font-bold uppercase text-emerald-700 block">Jadwal Masuk</span>
-                <strong id="courierWorkDaysCount" class="font-display font-black text-xl text-emerald-800">6 Hari</strong>
+                <strong id="courierWorkDaysCount" class="font-display font-black text-xl text-emerald-800">0 Hari</strong>
               </div>
               <div class="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-center">
                 <span class="text-[11px] font-bold uppercase text-rose-700 block">Jadwal Off / Libur</span>
-                <strong id="courierOffDaysCount" class="font-display font-black text-xl text-rose-700">1 Hari</strong>
+                <strong id="courierOffDaysCount" class="font-display font-black text-xl text-rose-700">0 Hari</strong>
               </div>
               <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
                 <span class="text-[11px] font-bold uppercase text-slate-500 block">Area / Zona</span>
@@ -818,16 +661,16 @@
               </div>
             </div>
 
-            <!-- Tabel Schedule 7 Hari (Senin - Minggu) -->
+            <!-- Tabel Schedule 22 - 30 November -->
             <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
               <table class="w-full text-left border-collapse text-xs sm:text-sm">
                 <thead>
                   <tr class="bg-slate-900 text-white">
-                    <th class="py-3.5 px-4 font-bold">Hari</th>
-                    <th class="py-3.5 px-4 font-bold">Status</th>
-                    <th class="py-3.5 px-4 font-bold">Jam Briefing &amp; Sortir</th>
+                    <th class="py-3.5 px-4 font-bold">Tanggal</th>
+                    <th class="py-3.5 px-4 font-bold">Status Shift</th>
+                    <th class="py-3.5 px-4 font-bold">Jam Masuk</th>
                     <th class="py-3.5 px-4 font-bold">Zona / Cluster</th>
-                    <th class="py-3.5 px-4 font-bold">Catatan</th>
+                    <th class="py-3.5 px-4 font-bold">Alarm H-1</th>
                   </tr>
                 </thead>
                 <tbody id="courierScheduleTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
@@ -1078,273 +921,27 @@
       <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
 
         <!-- ===============================================================
-             LEAD TAB 1: DASHBOARD MONITORING HUB
-             =============================================================== -->
-        <div id="lead-tab-monitoring" class="lead-tab-panel space-y-6">
-
-          <!-- Command Hero Banner -->
-          <div class="rounded-3xl bg-gradient-to-r from-[#111827] via-[#1E293B] to-[#3B1810] text-white p-6 sm:p-7 shadow-xl relative overflow-hidden">
-            <div class="pointer-events-none absolute -right-10 -top-10 w-60 h-60 rounded-full bg-spx-orange/25 blur-2xl"></div>
-            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <div class="flex flex-wrap items-center gap-2">
-                  <span id="leadBannerRoleBadge" class="px-3 py-0.5 rounded-full text-xs font-black uppercase bg-spx-orange text-white">HUB LEAD</span>
-                  <span class="text-xs text-slate-300 font-mono bg-white/10 px-2.5 py-0.5 rounded-full">
-                    Ops ID: <strong id="leadBannerOpsId" class="text-white">1792821</strong>
-                  </span>
-                </div>
-                <h3 class="font-display font-extrabold text-xl sm:text-2xl text-white mt-2">Ringkasan Operasional SPX Pringapus 2 Hub</h3>
-                <p class="text-xs text-orange-200 mt-0.5">Strong and Growth Together! &bull; Periode Aktif: <strong id="leadActiveMonthLabel">-</strong></p>
-              </div>
-              <button
-                type="button"
-                onclick="switchLeadTab('couriers')"
-                class="px-4 py-3 rounded-2xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs font-bold shadow-lg shadow-spx-orange/30 transition self-start sm:self-auto"
-              >
-                Buka Tabel Semua Kurir &rarr;
-              </button>
-            </div>
-          </div>
-
-          <!-- 6 Aggregate Hub KPI Cards -->
-          <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-xs">
-              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">Total Kurir Aktif</span>
-              <p id="hubKpiCouriers" class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-1.5 sm:mt-2">0</p>
-              <p class="text-[11px] sm:text-xs text-slate-500 mt-1">Kurir aktif bulan terpilih</p>
-            </div>
-
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-xs">
-              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">Total Penugasan</span>
-              <p id="hubKpiAssigned" class="font-display font-black text-2xl sm:text-3xl text-slate-900 mt-1.5 sm:mt-2">0</p>
-              <p class="text-[11px] sm:text-xs text-slate-500 mt-1">Akumulasi paket ditugaskan</p>
-            </div>
-
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-xs">
-              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">Total Delivered</span>
-              <p id="hubKpiDelivered" class="font-display font-black text-2xl sm:text-3xl text-emerald-600 mt-1.5 sm:mt-2">0</p>
-              <p class="text-[11px] sm:text-xs text-slate-500 mt-1">Paket sukses terkirim</p>
-            </div>
-
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-xs">
-              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">Total On-Hold</span>
-              <p id="hubKpiOnHold" class="font-display font-black text-2xl sm:text-3xl text-amber-600 mt-1.5 sm:mt-2">0</p>
-              <p class="text-[11px] sm:text-xs text-slate-500 mt-1">Paket tertunda dipantau</p>
-            </div>
-
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-xs">
-              <div class="flex flex-wrap items-center justify-between gap-1">
-                <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">Rata-rata DSR</span>
-                <span id="hubDsrBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Target ≥ 98%</span>
-              </div>
-              <p id="hubKpiAvgDsr" class="font-display font-black text-2xl sm:text-3xl text-spx-orange mt-1.5 sm:mt-2">0%</p>
-              <div class="w-full h-2 rounded-full bg-slate-100 mt-2 overflow-hidden">
-                <div id="hubDsrBar" class="h-full rounded-full bg-gradient-to-r from-spx-orange to-emerald-500 transition-all duration-500" style="width: 0%"></div>
-              </div>
-            </div>
-
-            <div class="rounded-2xl bg-white border border-slate-200/90 p-4 sm:p-5 shadow-xs">
-              <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-500">Est. Payroll Hub</span>
-              <p id="hubKpiTotalPayroll" class="font-display font-black text-lg sm:text-2xl lg:text-3xl text-slate-900 mt-1.5 sm:mt-2 break-all">Rp0</p>
-              <p class="text-[11px] sm:text-xs text-slate-500 mt-1">Total gaji &amp; insentif hub</p>
-            </div>
-          </div>
-
-          <!-- Top & Bottom Performer Highlight Cards (Ops ID View) -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <!-- Kurir Terbaik -->
-            <div class="rounded-3xl bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-900 text-white border border-emerald-500/35 p-5 sm:p-6 shadow-md relative overflow-hidden">
-              <div class="pointer-events-none absolute -right-8 -top-8 w-36 h-36 rounded-full bg-emerald-500/20 blur-2xl"></div>
-              <div class="relative z-10">
-                <div class="flex items-center justify-between gap-2">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                    &#9733; Kurir Terbaik Bulan Ini
-                  </span>
-                  <span id="bestCourierCatBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/10 text-slate-200">-</span>
-                </div>
-                <div class="mt-4 flex items-center justify-between gap-3">
-                  <div class="min-w-0">
-                    <h4 id="bestCourierName" class="font-display font-extrabold text-lg sm:text-xl text-white truncate">-</h4>
-                    <p class="text-xs text-slate-300 font-mono mt-0.5">ID: <span id="bestCourierId" class="text-emerald-300 font-bold">-</span> &bull; <span id="bestCourierDays">0 Hari</span></p>
-                  </div>
-                  <button
-                    id="bestCourierDetailBtn"
-                    type="button"
-                    class="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold transition shrink-0"
-                  >
-                    Lihat Slip
-                  </button>
-                </div>
-                <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-3 gap-2 text-center">
-                  <div class="rounded-xl bg-white/5 p-2">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">DSR %</span>
-                    <strong id="bestCourierDsr" class="text-sm sm:text-base font-black text-emerald-300">0%</strong>
-                  </div>
-                  <div class="rounded-xl bg-white/5 p-2">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Delivered</span>
-                    <strong id="bestCourierDelivered" class="text-sm sm:text-base font-black text-white">0</strong>
-                  </div>
-                  <div class="rounded-xl bg-white/5 p-2">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">On-Hold</span>
-                    <strong id="bestCourierOnHold" class="text-sm sm:text-base font-black text-slate-200">0</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Kurir Terburuk / Perlu Pembinaan -->
-            <div class="rounded-3xl bg-gradient-to-br from-rose-950 via-slate-900 to-slate-900 text-white border border-rose-500/35 p-5 sm:p-6 shadow-md relative overflow-hidden">
-              <div class="pointer-events-none absolute -right-8 -top-8 w-36 h-36 rounded-full bg-rose-500/20 blur-2xl"></div>
-              <div class="relative z-10">
-                <div class="flex items-center justify-between gap-2">
-                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider bg-rose-500/20 text-rose-300 border border-rose-400/30">
-                    &#9888; Kurir Perlu Pembinaan (Terendah)
-                  </span>
-                  <span id="worstCourierCatBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/10 text-slate-200">-</span>
-                </div>
-                <div class="mt-4 flex items-center justify-between gap-3">
-                  <div class="min-w-0">
-                    <h4 id="worstCourierName" class="font-display font-extrabold text-lg sm:text-xl text-white truncate">-</h4>
-                    <p class="text-xs text-slate-300 font-mono mt-0.5">ID: <span id="worstCourierId" class="text-rose-300 font-bold">-</span> &bull; <span id="worstCourierDays">0 Hari</span></p>
-                  </div>
-                  <button
-                    id="worstCourierDetailBtn"
-                    type="button"
-                    class="px-3.5 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white text-xs font-extrabold transition shrink-0"
-                  >
-                    Cek Detail
-                  </button>
-                </div>
-                <div class="mt-4 pt-3.5 border-t border-white/10 grid grid-cols-3 gap-2 text-center">
-                  <div class="rounded-xl bg-white/5 p-2">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">DSR %</span>
-                    <strong id="worstCourierDsr" class="text-sm sm:text-base font-black text-rose-300">0%</strong>
-                  </div>
-                  <div class="rounded-xl bg-white/5 p-2">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">Delivered</span>
-                    <strong id="worstCourierDelivered" class="text-sm sm:text-base font-black text-white">0</strong>
-                  </div>
-                  <div class="rounded-xl bg-white/5 p-2">
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400 block">On-Hold</span>
-                    <strong id="worstCourierOnHold" class="text-sm sm:text-base font-black text-amber-300">0</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Fleet Category Performance Breakdown -->
-          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
-            <div class="mb-5">
-              <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Distribusi Armada</span>
-              <h4 class="font-display font-extrabold text-lg text-slate-900 mt-0.5">Performa per Kategori Armada</h4>
-              <p class="text-xs text-slate-500 mt-1">Ringkasan jumlah kurir, paket terkirim, rata-rata DSR, dan estimasi payroll tiap kategori.</p>
-            </div>
-            <div id="fleetCategoryGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"></div>
-          </div>
-        </div>
-
-        <!-- ===============================================================
-             LEAD TAB 2: DATA & PERFORMA KURIR (FULL TABLE + FILTER + EXPORT)
-             =============================================================== -->
-        <div id="lead-tab-couriers" class="lead-tab-panel hidden space-y-5">
-          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-200">
-              <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Database Kinerja Kurir</span>
-                <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Data &amp; Performa Seluruh Kurir Aktif</h3>
-                <p class="text-xs text-slate-500 mt-1">Klik tombol <strong>Detail</strong> pada baris kurir untuk melihat rincian slip simulasi gaji.</p>
-              </div>
-              <button
-                type="button"
-                onclick="exportFilteredCouriersCSV()"
-                class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition flex items-center gap-2 self-start lg:self-auto"
-              >
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
-                </svg>
-                <span>Export CSV Rekap</span>
-              </button>
-            </div>
-
-            <!-- Search, Category Filter & Sort Controls -->
-            <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-              <div class="lg:col-span-2">
-                <label for="courierSearchInput" class="sr-only">Cari Nama atau Driver ID</label>
-                <input
-                  id="courierSearchInput"
-                  type="text"
-                  oninput="renderLeadCourierTable()"
-                  placeholder="Cari Nama Kurir atau Driver ID..."
-                  class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-spx-orange"
-                />
-              </div>
-              <div>
-                <label for="courierCategoryFilter" class="sr-only">Filter Kategori Armada</label>
-                <select
-                  id="courierCategoryFilter"
-                  onchange="renderLeadCourierTable()"
-                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:border-spx-orange"
-                >
-                  <option value="ALL">Semua Kategori Armada</option>
-                  <option value="4WH Mitra">4WH Mitra</option>
-                  <option value="2WH Dedicated">2WH Dedicated</option>
-                  <option value="2WH Courier Plus">2WH Courier Plus</option>
-                  <option value="2WH Mitra">2WH Mitra</option>
-                </select>
-              </div>
-              <div>
-                <label for="courierSortSelect" class="sr-only">Urutkan Data</label>
-                <select
-                  id="courierSortSelect"
-                  onchange="renderLeadCourierTable()"
-                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:border-spx-orange"
-                >
-                  <option value="delivered_desc">Urutkan: Delivered Tertinggi</option>
-                  <option value="delivered_asc">Urutkan: Delivered Terendah</option>
-                  <option value="dsr_desc">Urutkan: DSR % Tertinggi</option>
-                  <option value="dsr_asc">Urutkan: DSR % Terendah</option>
-                  <option value="salary_desc">Urutkan: Estimasi Gaji Tertinggi</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Couriers Table -->
-            <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
-              <table class="w-full text-left border-collapse text-xs sm:text-sm">
-                <thead>
-                  <tr class="bg-slate-900 text-white">
-                    <th class="py-3.5 px-4 font-bold">Driver ID</th>
-                    <th class="py-3.5 px-4 font-bold">Nama Kurir</th>
-                    <th class="py-3.5 px-4 font-bold">Kategori Armada</th>
-                    <th class="py-3.5 px-4 font-bold text-center">Hari Kerja</th>
-                    <th class="py-3.5 px-4 font-bold text-right">Penugasan</th>
-                    <th class="py-3.5 px-4 font-bold text-right">Delivered</th>
-                    <th class="py-3.5 px-4 font-bold text-right">OnHold</th>
-                    <th class="py-3.5 px-4 font-bold text-center">DSR %</th>
-                    <th class="py-3.5 px-4 font-bold text-right">Estimasi Gaji</th>
-                    <th class="py-3.5 px-4 font-bold text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="leadCourierTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
-              </table>
-            </div>
-            <p id="leadTableCountInfo" class="text-xs text-slate-500 mt-3">Menampilkan 0 kurir.</p>
-          </div>
-        </div>
-
-        <!-- ===============================================================
-             LEAD TAB 2.5: SCHEDULE KURIR HUB (KELOLA JADWAL & SHIFT)
+             LEAD TAB 2.5: SCHEDULE KURIR HUB (PERIODE 22 - 30 NOVEMBER)
              =============================================================== -->
         <div id="lead-tab-schedule" class="lead-tab-panel hidden space-y-5">
           <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-200">
               <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Manajemen Roster Mingguan</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Penyusunan Roster 22 – 30 November</span>
                 <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Schedule &amp; Roster Kurir Pringapus 2 Hub</h3>
-                <p class="text-xs text-slate-500 mt-1">Atur hari libur (OFF), jam masuk, dan zona pengantaran setiap kurir. Perubahan otomatis tersimpan.</p>
+                <p class="text-xs text-slate-500 mt-1">Khusus tanggal <strong>22–30 November</strong>. Saat kurir dijadwalkan masuk, sistem otomatis memicu <strong>Notifikasi, Dering &amp; Getar H-1</strong> di HP kurir.</p>
               </div>
               <div class="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onclick="publishAndTriggerAllH1Alerts()"
+                  class="px-4 py-2.5 rounded-xl bg-spx-orange hover:bg-[#FF7337] text-white text-xs font-bold shadow-xs transition flex items-center gap-2"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                  <span>Publikasikan &amp; Kirim Trigger H-1</span>
+                </button>
                 <button
                   type="button"
                   onclick="exportScheduleCSV()"
@@ -1353,7 +950,7 @@
                   <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
                   </svg>
-                  <span>Export Schedule CSV</span>
+                  <span>Export CSV (22–30 Nov)</span>
                 </button>
               </div>
             </div>
@@ -1375,42 +972,45 @@
                   onchange="renderLeadScheduleTable()"
                   class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:border-spx-orange"
                 >
-                  <option value="ALL">Semua Hari (Senin - Minggu)</option>
-                  <option value="Senin">Filter Libur: Senin</option>
-                  <option value="Selasa">Filter Libur: Selasa</option>
-                  <option value="Rabu">Filter Libur: Rabu</option>
-                  <option value="Kamis">Filter Libur: Kamis</option>
-                  <option value="Jumat">Filter Libur: Jumat</option>
-                  <option value="Sabtu">Filter Libur: Sabtu</option>
-                  <option value="Minggu">Filter Libur: Minggu</option>
+                  <option value="ALL">Semua Tanggal (22–30 Nov)</option>
+                  <option value="2026-11-22">Filter OFF: 22 Nov (Min)</option>
+                  <option value="2026-11-23">Filter OFF: 23 Nov (Sen)</option>
+                  <option value="2026-11-24">Filter OFF: 24 Nov (Sel)</option>
+                  <option value="2026-11-25">Filter OFF: 25 Nov (Rab)</option>
+                  <option value="2026-11-26">Filter OFF: 26 Nov (Kam)</option>
+                  <option value="2026-11-27">Filter OFF: 27 Nov (Jum)</option>
+                  <option value="2026-11-28">Filter OFF: 28 Nov (Sab)</option>
+                  <option value="2026-11-29">Filter OFF: 29 Nov (Min)</option>
+                  <option value="2026-11-30">Filter OFF: 30 Nov (Sen)</option>
                 </select>
               </div>
             </div>
 
-            <!-- Tabel Roster Mingguan Kurir -->
+            <!-- Tabel Roster Tanggal 22 - 30 November -->
             <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
               <table class="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr class="bg-slate-900 text-white">
-                    <th class="py-3 px-3.5 font-bold">Kurir &amp; ID</th>
-                    <th class="py-3 px-3 font-bold">Armada</th>
+                    <th class="py-3 px-3.5 font-bold sticky left-0 bg-slate-900 z-10">Kurir &amp; ID</th>
                     <th class="py-3 px-3 font-bold">Zona / Cluster</th>
                     <th class="py-3 px-3 font-bold">Jam Masuk</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Sen</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Sel</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Rab</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Kam</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Jum</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Sab</th>
-                    <th class="py-3 px-2.5 font-bold text-center">Min</th>
-                    <th class="py-3 px-3 font-bold text-center">Edit</th>
+                    <th class="py-3 px-2 font-bold text-center">22 Nov<br><span class="text-[10px] font-normal text-orange-300">Min</span></th>
+                    <th class="py-3 px-2 font-bold text-center">23 Nov<br><span class="text-[10px] font-normal text-slate-400">Sen</span></th>
+                    <th class="py-3 px-2 font-bold text-center">24 Nov<br><span class="text-[10px] font-normal text-slate-400">Sel</span></th>
+                    <th class="py-3 px-2 font-bold text-center">25 Nov<br><span class="text-[10px] font-normal text-slate-400">Rab</span></th>
+                    <th class="py-3 px-2 font-bold text-center">26 Nov<br><span class="text-[10px] font-normal text-slate-400">Kam</span></th>
+                    <th class="py-3 px-2 font-bold text-center">27 Nov<br><span class="text-[10px] font-normal text-slate-400">Jum</span></th>
+                    <th class="py-3 px-2 font-bold text-center">28 Nov<br><span class="text-[10px] font-normal text-slate-400">Sab</span></th>
+                    <th class="py-3 px-2 font-bold text-center">29 Nov<br><span class="text-[10px] font-normal text-slate-400">Min</span></th>
+                    <th class="py-3 px-2 font-bold text-center">30 Nov<br><span class="text-[10px] font-normal text-slate-400">Sen</span></th>
+                    <th class="py-3 px-3 font-bold text-center">Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="leadScheduleTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
               </table>
             </div>
             <p class="text-[11px] text-slate-500 mt-3">
-              Klik kotak status hari (<strong class="text-emerald-700">IN</strong> / <strong class="text-rose-600">OFF</strong>) atau tombol <strong>Atur</strong> untuk mengubah jadwal shift dan zona kurir.
+              Klik kotak tanggal (<strong class="text-emerald-700">IN</strong> / <strong class="text-rose-600">OFF</strong> / <strong class="text-slate-500">-</strong>) untuk mengatur jadwal 22–30 November secara instan.
             </p>
           </div>
         </div>
@@ -1422,82 +1022,82 @@
           <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
               <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Konfigurasi Simulasi Payroll</span>
-                <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Pengaturan Tarif &amp; Simulasi Gaji Kurir</h3>
-                <p class="text-xs text-slate-500 mt-1">Perubahan tarif disimpan di browser ini dan langsung memperbarui kalkulasi gaji seluruh kurir.</p>
-              </div>
-              <button
-                type="button"
-                onclick="resetSalaryRatesToDefault()"
-                class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 text-xs font-bold transition self-start sm:self-auto"
-              >
-                Reset ke Tarif Standar
-              </button>
-            </div>
+          <label class="block font-bold text-slate-700 mb-2">Status Jadwal Tanggal 22 – 30 November</label>
+          <div id="schedModalDaysGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1"></div>
+        </div>
 
-            <form id="rateSettingsForm" onsubmit="saveSalaryRates(event)" class="mt-6 space-y-6">
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                <!-- 2WH Dedicated Card -->
-                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
-                  <h4 class="font-display font-extrabold text-slate-900 text-base">1. Kategori 2WH Dedicated</h4>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Gaji Pokok (Rp)</label>
-                      <input id="rateDedBase" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Insentif per Hari Kerja (Rp)</label>
-                      <input id="rateDedDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 1 (1.951–3.120)</label>
-                      <input id="rateDedTier1" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Rate Paket Tier 2 (&gt; 3.120)</label>
-                      <input id="rateDedTier2" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                  </div>
-                </div>
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Catatan Operasional</label>
+          <input id="schedModalNote" type="text" placeholder="Contoh: Sortir pagi & rute prioritas" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900" />
+        </div>
 
-                <!-- 2WH Courier Plus Card -->
-                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
-                  <h4 class="font-display font-extrabold text-slate-900 text-base">2. Kategori 2WH Courier Plus</h4>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Gaji Pokok (Rp)</label>
-                      <input id="rateCpBase" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Bonus Harian per Hari Kerja (Rp)</label>
-                      <input id="rateCpDaily" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Incentive 1 (601–1.090 pkt) (Rp)</label>
-                      <input id="rateCpTier1" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Incentive 2 (&gt; 1.090 pkt) (Rp)</label>
-                      <input id="rateCpTier2" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                  </div>
-                </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeEditScheduleModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">Batal</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-spx-orange hover:bg-[#FF7337] text-white font-bold shadow-md">Simpan &amp; Aktifkan H-1</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-                <!-- 4WH Mitra & 2WH Mitra Card -->
-                <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
-                  <h4 class="font-display font-extrabold text-slate-900 text-base">3. Kategori Mitra (4WH &amp; 2WH)</h4>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Rate 4WH Mitra per Paket (Rp)</label>
-                      <input id="rate4whPkg" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                    <div>
-                      <label class="block font-bold text-slate-600 mb-1">Rate 2WH Mitra per Paket (Rp)</label>
-                      <input id="rate2whPkg" type="number" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 font-bold text-slate-900" />
-                    </div>
-                  </div>
-                </div>
+  <!-- =====================================================================
+       MODAL ALARM H-1 KURIR (DERING + GETAR + KONFIRMASI SIAP BERANGKAT)
+       ===================================================================== -->
+  <div id="h1RingAlarmModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+    <div class="bg-gradient-to-b from-slate-900 to-[#1F120E] text-white rounded-3xl max-w-sm w-full shadow-2xl border-2 border-spx-orange p-6 text-center space-y-4 animate-card-in">
+      <div class="mx-auto w-16 h-16 rounded-2xl bg-spx-orange/20 border border-spx-orange flex items-center justify-center text-spx-bright animate-bounce">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </div>
+      <div>
+        <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-spx-orange text-white">Pengingat Jadwal H-1</span>
+        <h4 id="h1ModalTitle" class="font-display font-extrabold text-xl text-white mt-2">Besok Anda Terjadwal Masuk!</h4>
+        <p id="h1ModalBody" class="text-xs text-orange-100 mt-1.5 leading-relaxed">
+          Jadwal kerja Anda besok telah ditetapkan oleh Hub Lead / Shift Lead.
+        </p>
+      </div>
+      <div class="p-3.5 rounded-2xl bg-white/10 border border-white/15 text-xs space-y-1">
+        <p class="text-slate-300">Tanggal Tugas: <strong id="h1ModalDate" class="text-white">-</strong></p>
+        <p class="text-slate-300">Jam Masuk: <strong id="h1ModalShift" class="text-emerald-300">-</strong></p>
+        <p class="text-slate-300">Zona / Cluster: <strong id="h1ModalZone" class="text-orange-300">-</strong></p>
+      </div>
+      <button
+        type="button"
+        onclick="acknowledgeH1Alarm()"
+        class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-spx-orange to-orange-600 hover:from-spx-bright hover:to-spx-orange text-white font-extrabold text-sm shadow-lg shadow-spx-orange/40 transition"
+      >
+        Siap Berangkat &amp; Matikan Dering
+      </button>
+    </div>
+  </div>
 
+  <!-- =====================================================================
+       APPLICATION JAVASCRIPT (CSV PARSER, AUTH, LEAD & COURIER DASHBOARD)
+       ===================================================================== -->
+  <script>
+    const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
+    const GITHUB_SCHEDULE_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Schedule_Database.csv";
+    const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v2";
+    const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v1";
+    const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v1";
+    const SCHEDULE_STORAGE_KEY = "spx_pringapus2_nov22_30_schedules_v2";
+    const H1_ACK_STORAGE_KEY = "spx_pringapus2_h1_ack_v1";
+
+    // Periode khusus tanggal 22 - 30 November (tanpa tanggal sebelumnya)
+    const ROSTER_DATES_NOV = [
+      { key: "2026-11-22", label: "22 Nov", dayName: "Minggu", shortDay: "Min" },
+      { key: "2026-11-23", label: "23 Nov", dayName: "Senin", shortDay: "Sen" },
+      { key: "2026-11-24", label: "24 Nov", dayName: "Selasa", shortDay: "Sel" },
+      { key: "2026-11-25", label: "25 Nov", dayName: "Rabu", shortDay: "Rab" },
+      { key: "2026-11-26", label: "26 Nov", dayName: "Kamis", shortDay: "Kam" },
+      { key: "2026-11-27", label: "27 Nov", dayName: "Jumat", shortDay: "Jum" },
+      { key: "2026-11-28", label: "28 Nov", dayName: "Sabtu", shortDay: "Sab" },
+      { key: "2026-11-29", label: "29 Nov", dayName: "Minggu", shortDay: "Min" },
+      { key: "2026-11-30", label: "30 Nov", dayName: "Senin", shortDay: "Sen" }
+    ];
+    const DEFAULT_ZONES = ["Pringapus Kota", "Klepu & Wonoyoso", "Derekan & Jatirunggo", "Candirejo & Pringsari", "Penawangan & Wonorejo"];
+    let alarmRingInterval = null;
+    let h1WatcherInterval = null;
                 <!-- Target DSR Bonus Card -->
                 <div class="rounded-2xl bg-slate-50 border border-slate-200 p-5 space-y-3.5">
                   <h4 class="font-display font-extrabold text-slate-900 text-base">4. Bonus Target DSR &ge; 98%</h4>
@@ -1691,6 +1291,7 @@
        ===================================================================== -->
   <script>
     const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
+    const GITHUB_SCHEDULE_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Schedule_Database.csv";
     const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v2";
     const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v1";
     const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v1";
@@ -1825,79 +1426,273 @@
 
     function getCourierSchedule(rec) {
       const allSched = loadAllSchedules();
-      if (allSched[rec.Driver_ID]) {
+      if (allSched[rec.Driver_ID] && allSched[rec.Driver_ID].dates) {
         return allSched[rec.Driver_ID];
       }
-      // Buat jadwal default deterministik berdasarkan Driver_ID agar rapi sejak awal
+      // Default jadwal kosong/belum diisi untuk 22-30 Nov agar Hub Lead / Shift Lead langsung menyusun dari tgl 22-30
       const numSeed = parseInt(String(rec.Driver_ID).replace(/\D/g, ""), 10) || 1;
-      const offDayIndex = numSeed % 7;
-      const daysStatus = {};
-      DAYS_OF_WEEK.forEach((dayName, idx) => {
-        daysStatus[dayName] = idx === offDayIndex ? "OFF" : "IN";
+      const datesStatus = {};
+      ROSTER_DATES_NOV.forEach(d => {
+        datesStatus[d.key] = "PENDING";
       });
       const is4WH = String(rec.Kategori_Armada || "").toUpperCase().includes("4WH");
       return {
         zone: DEFAULT_ZONES[numSeed % DEFAULT_ZONES.length],
-        shiftTime: is4WH ? "07:00 WIB" : "07:30 WIB",
-        days: daysStatus,
-        note: is4WH ? "Loading paket besar & rute utama" : "Briefing pagi & sortir inbound"
+        shiftTime: is4WH ? "07:00 - 16:00" : "07:30 - 16:30",
+        dates: datesStatus,
+        note: is4WH ? "Loading paket besar & rute utama" : "Briefing pagi & sortir inbound",
+        updatedAt: null
       };
     }
 
-    function showToast(title, message, isError = false) {
-      const box = document.getElementById("toastBox");
-      const inner = document.getElementById("toastInner");
-      const icon = document.getElementById("toastIcon");
-      const titleEl = document.getElementById("toastTitle");
-      const msgEl = document.getElementById("toastMsg");
-      if (!box || !titleEl || !msgEl) return;
+    async function loadScheduleFromGitHub() {
+      try {
+        const res = await fetch(`${GITHUB_SCHEDULE_CSV_URL}?t=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) return;
+        const csvText = await res.text();
+        const lines = csvText.split(/\r?\n/).filter(l => l.trim().length > 0);
+        if (lines.length < 2) return;
 
-      titleEl.textContent = title;
-      msgEl.textContent = message;
+        const headers = parseCSVLine(lines[0]).map(h => h.replace(/^\uFEFF/, "").trim());
+        const idx = name => headers.findIndex(h => h.toLowerCase() === name.toLowerCase());
+        const iId = idx("Driver_ID");
+        const iJam = idx("Jam_Masuk");
+        const iZona = idx("Zona");
+        if (iId === -1) return;
 
-      if (isError) {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-rose-950/95 border-rose-500/50 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center shrink-0 font-bold";
-        icon.textContent = "!";
+        const allSched = loadAllSchedules();
+        for (let r = 1; r < lines.length; r++) {
+          const cols = parseCSVLine(lines[r]);
+          const drvId = (cols[iId] || "").trim();
+          if (!drvId) continue;
+
+          const existing = allSched[drvId] || {};
+          const datesObj = { ...(existing.dates || {}) };
+          ROSTER_DATES_NOV.forEach(d => {
+            const colIdx = idx(d.key) !== -1 ? idx(d.key) : idx(d.label);
+            if (colIdx !== -1 && cols[colIdx] !== undefined) {
+              const rawVal = cols[colIdx].trim();
+              if (rawVal) datesObj[d.key] = rawVal;
+            } else if (!datesObj[d.key]) {
+              datesObj[d.key] = "PENDING";
+            }
+          });
+
+          allSched[drvId] = {
+            zone: (iZona !== -1 && cols[iZona] ? cols[iZona].trim() : existing.zone) || DEFAULT_ZONES[(parseInt(drvId, 10) || 1) % DEFAULT_ZONES.length],
+            shiftTime: (iJam !== -1 && cols[iJam] ? cols[iJam].trim() : existing.shiftTime) || "07:30 - 16:30",
+            dates: datesObj,
+            note: existing.note || "Sinkron jadwal 22–30 November"
+          };
+        }
+        saveAllSchedules(allSched);
+      } catch (err) {
+        console.warn("Memakai jadwal lokal 22-30 November:", err);
+      }
+    }
+
+    // =======================================================================
+    // ENGINE NOTIFIKASI HP, DERING ALARM & GETAR H-1 (UNTUK APLIKASI TERINSTAL)
+    // =======================================================================
+    function getTomorrowDateKey() {
+      const now = new Date();
+      // Jika sedang berada pada 21 Nov 2026 atau dalam rentang 21-29 Nov, hitung tanggal besok (H+1)
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const yyyy = tomorrow.getFullYear();
+      const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
+      const dd = String(tomorrow.getDate()).padStart(2, "0");
+      const candidateKey = `${yyyy}-${mm}-${dd}`;
+      // Jika tanggal sistem di luar November 2026 (misal uji coba), fallback ke H-1 dari jadwal pertama yang aktif (22 Nov)
+      if (ROSTER_DATES_NOV.some(d => d.key === candidateKey)) {
+        return candidateKey;
+      }
+      return "2026-11-22";
+    }
+
+    function playRingtoneAndVibrate() {
+      // 1. Trigger Getar HP (Vibration API untuk Android WebView / PWA terinstal)
+      try {
+        if ("vibrate" in navigator) {
+          navigator.vibrate([500, 200, 500, 200, 700, 250, 700]);
+        }
+      } catch (e) {
+        console.warn("Getar tidak didukung perangkat ini:", e);
+      }
+
+      // 2. Trigger Dering Audio sintetis via Web Audio API (tanpa URL eksternal)
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const notes = [880, 1108.73, 1318.51, 1760];
+        notes.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.14);
+          gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.14);
+          gain.gain.exponentialRampToValueAtTime(0.28, ctx.currentTime + idx * 0.14 + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.14 + 0.35);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(ctx.currentTime + idx * 0.14);
+          osc.stop(ctx.currentTime + idx * 0.14 + 0.38);
+        });
+      } catch (e) {
+        console.warn("Audio dering menunggu interaksi layar:", e);
+      }
+    }
+
+    async function sendSystemPhoneNotification(title, bodyText) {
+      try {
+        if (!("Notification" in window)) return;
+        if (Notification.permission === "default") {
+          await Notification.requestPermission();
+        }
+        if (Notification.permission === "granted") {
+          const notif = new Notification(title, {
+            body: bodyText,
+            tag: "spx-pringapus-h1-roster",
+            renotify: true,
+            vibrate: [500, 200, 500, 200, 700]
+          });
+          notif.onclick = () => {
+            window.focus();
+            switchDashboardTab("schedule");
+          };
+        }
+      } catch (e) {
+        console.warn("Notifikasi browser/WebView:", e);
+      }
+    }
+
+    async function enableDeviceAlarmPermission(testRing = false) {
+      if ("Notification" in window && Notification.permission !== "granted") {
+        await Notification.requestPermission();
+      }
+      updateH1PermissionBadge();
+      if (testRing) {
+        playRingtoneAndVibrate();
+        await sendSystemPhoneNotification(
+          "SPX Pringapus 2 Hub — Tes Pengingat H-1",
+          "Dering, getar, dan notifikasi jadwal kerja H-1 aktif di perangkat Anda!"
+        );
+        showToast("Alarm H-1 Aktif", "Notifikasi sistem, dering, dan getar HP berhasil diuji!");
+      }
+    }
+
+    function updateH1PermissionBadge() {
+      const badge = document.getElementById("h1PermissionStatusBadge");
+      if (!badge) return;
+      if ("Notification" in window && Notification.permission === "granted") {
+        badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        badge.textContent = "Notifikasi & Alarm Aktif ✓";
       } else {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-spx-orange/50 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-spx-orange/20 text-spx-bright flex items-center justify-center shrink-0 font-bold";
-        icon.textContent = "✓";
+        badge.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+        badge.textContent = "Ketuk Aktifkan Dering";
+      }
+    }
+
+    function checkAndTriggerCourierH1Reminder(rec, forceTrigger = false) {
+      if (!rec) return;
+      updateH1PermissionBadge();
+
+      const sched = getCourierSchedule(rec);
+      const tomorrowKey = getTomorrowDateKey();
+      const tomorrowMeta = ROSTER_DATES_NOV.find(d => d.key === tomorrowKey) || ROSTER_DATES_NOV[0];
+      const tomorrowStatus = sched.dates[tomorrowMeta.key] || "PENDING";
+
+      const headlineEl = document.getElementById("h1AlertHeadline");
+      const subtextEl = document.getElementById("h1AlertSubtext");
+      const isScheduledIn = tomorrowStatus !== "OFF" && tomorrowStatus !== "PENDING";
+      const shiftLabel = tomorrowStatus === "IN" ? sched.shiftTime : tomorrowStatus;
+
+      if (headlineEl && subtextEl) {
+        if (isScheduledIn) {
+          headlineEl.textContent = `Pengingat H-1: Besok (${tomorrowMeta.label}) Anda Terjadwal Masuk!`;
+          subtextEl.textContent = `Shift ${shiftLabel} di Zona ${sched.zone}. Pastikan hadir tepat waktu untuk briefing & sortir pagi.`;
+        } else if (tomorrowStatus === "OFF") {
+          headlineEl.textContent = `Info H-1: Besok (${tomorrowMeta.label}) Anda Jadwal OFF / Libur`;
+          subtextEl.textContent = `Selamat beristirahat! Pantau jadwal berikutnya pada tabel 22–30 November di bawah.`;
+        } else {
+          headlineEl.textContent = `Menunggu Jadwal Besok (${tomorrowMeta.label}) dari Shift Lead`;
+          subtextEl.textContent = `Begitu Hub Lead / Shift Lead mengisi jadwal masuk Anda, alarm H-1 akan otomatis berdering.`;
+        }
       }
 
-      box.classList.remove("hidden");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(hideToast, 4000);
-    }
+      if (!isScheduledIn) return;
 
-    function hideToast() {
-      document.getElementById("toastBox").classList.add("hidden");
-    }
-
-    function togglePasswordVisibility() {
-      const input = document.getElementById("passwordInput");
-      input.type = input.type === "password" ? "text" : "password";
-    }
-
-    function copyDriverIdToPassword() {
-      const idVal = document.getElementById("driverIdInput").value.trim();
-      if (!idVal) {
-        showToast("Isi ID Dulu", "Ketik Driver ID atau Ops ID Anda terlebih dahulu.", true);
-        return;
+      // Cek apakah alarm H-1 untuk kurir & tanggal besok sudah dikonfirmasi
+      const ackKey = `${rec.Driver_ID}_${tomorrowMeta.key}_${sched.updatedAt || "init"}`;
+      let ackMap = {};
+      try {
+        ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
+      } catch (e) {
+        ackMap = {};
       }
-      document.getElementById("passwordInput").value = idVal;
+
+      if (ackMap[ackKey] && !forceTrigger) return;
+
+      // Tampilkan modal alarm penuh + bunyikan dering berulang + getar + push notifikasi sistem
+      document.getElementById("h1ModalTitle").textContent = `Halo ${rec.Nama_Kurir}, Besok Masuk Kerja!`;
+      document.getElementById("h1ModalBody").textContent = `Jadwal Anda untuk H+1 sudah dirilis oleh Hub Lead / Shift Lead Pringapus 2 Hub.`;
+      document.getElementById("h1ModalDate").textContent = `${tomorrowMeta.dayName}, ${tomorrowMeta.label} 2026`;
+      document.getElementById("h1ModalShift").textContent = shiftLabel;
+      document.getElementById("h1ModalZone").textContent = sched.zone;
+      document.getElementById("h1RingAlarmModal").classList.remove("hidden");
+
+      playRingtoneAndVibrate();
+      sendSystemPhoneNotification(
+        `Pengingat H-1 SPX: Besok (${tomorrowMeta.label}) Masuk ${shiftLabel}`,
+        `${rec.Nama_Kurir}, Anda terjadwal masuk besok di Zona ${sched.zone}.`
+      );
+
+      if (alarmRingInterval) clearInterval(alarmRingInterval);
+      alarmRingInterval = setInterval(() => {
+        playRingtoneAndVibrate();
+      }, 4500);
     }
 
-    function toggleMobileSidebar(open) {
-      const sidebar = document.getElementById("appSidebar");
-      const backdrop = document.getElementById("sidebarBackdrop");
-      if (open) {
-        sidebar.classList.remove("-translate-x-full");
-        backdrop.classList.remove("hidden");
-      } else {
-        sidebar.classList.add("-translate-x-full");
-        backdrop.classList.add("hidden");
+    function acknowledgeH1Alarm() {
+      if (alarmRingInterval) {
+        clearInterval(alarmRingInterval);
+        alarmRingInterval = null;
       }
+      if ("vibrate" in navigator) {
+        navigator.vibrate(0);
+      }
+      document.getElementById("h1RingAlarmModal").classList.add("hidden");
+
+      if (loggedInDriverId) {
+        const rec = currentCourierRecords[0];
+        if (rec) {
+          const sched = getCourierSchedule(rec);
+          const tomorrowKey = getTomorrowDateKey();
+          const ackKey = `${rec.Driver_ID}_${tomorrowKey}_${sched.updatedAt || "init"}`;
+          let ackMap = {};
+          try {
+            ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
+          } catch (e) {
+            ackMap = {};
+          }
+          ackMap[ackKey] = Date.now();
+          localStorage.setItem(H1_ACK_STORAGE_KEY, JSON.stringify(ackMap));
+        }
+      }
+      showToast("Jadwal H-1 Dikonfirmasi", "Terima kasih! Pengingat jadwal masuk besok telah dikonfirmasi.");
+    }
+
+    function startCourierH1BackgroundWatcher() {
+      if (h1WatcherInterval) clearInterval(h1WatcherInterval);
+      h1WatcherInterval = setInterval(async () => {
+        if (!loggedInDriverId) return;
+        await loadScheduleFromGitHub();
+        const rec = currentCourierRecords[0];
+        if (rec) {
+          renderCourierSchedule(rec);
+          checkAndTriggerCourierH1Reminder(rec, false);
+        }
+      }, 30000);
     }
 
     function toggleLeadSidebar(open) {
@@ -2188,6 +1983,8 @@
       renderCourierDashboard(targetRecord);
       renderMonthlyHistory();
       renderCourierSchedule(targetRecord);
+      checkAndTriggerCourierH1Reminder(targetRecord, false);
+      startCourierH1BackgroundWatcher();
       return true;
     }
 
@@ -2271,6 +2068,14 @@
     }
 
     function handleLogout() {
+      if (alarmRingInterval) {
+        clearInterval(alarmRingInterval);
+        alarmRingInterval = null;
+      }
+      if (h1WatcherInterval) {
+        clearInterval(h1WatcherInterval);
+        h1WatcherInterval = null;
+      }
       clearActiveSession();
       loggedInDriverId = null;
       loggedInLeader = null;
@@ -2285,25 +2090,275 @@
     }
 
     // -----------------------------------------------------------------------
-    // Hub Lead & Shift Lead Dashboard Logic
+    // Schedule Render & Management (Periode 22 - 30 November + Trigger H-1)
     // -----------------------------------------------------------------------
-    function initLeadDashboard(savedTab = "monitoring", savedMonth = null) {
-      if (!loggedInLeader) return;
-      const roleUpper = loggedInLeader.role.toUpperCase();
-      document.getElementById("leadRolePill").textContent = roleUpper;
-      document.getElementById("leadSidebarBadgeText").textContent = `${roleUpper} — Ops ID ${loggedInLeader.opsId}`;
-      document.getElementById("leadBannerRoleBadge").textContent = roleUpper;
-      document.getElementById("leadBannerOpsId").textContent = loggedInLeader.opsId;
-      document.getElementById("leadAccountRoleBadge").textContent = loggedInLeader.role;
-      document.getElementById("leadAccountTitle").textContent = `${loggedInLeader.role} — SPX Pringapus 2 Hub`;
-      document.getElementById("leadAccountOpsId").textContent = loggedInLeader.opsId;
-      document.getElementById("leadAccountPosition").textContent = loggedInLeader.role;
+    function renderCourierSchedule(rec) {
+      if (!rec) return;
+      const sched = getCourierSchedule(rec);
+      const tbody = document.getElementById("courierScheduleTableBody");
+      if (!tbody) return;
 
-      populateLeadMonthSelector(savedMonth);
-      populateRateSettingsForm();
-      switchLeadTab(savedTab || "monitoring", false);
-      renderLeadHubView();
+      const tomorrowKey = getTomorrowDateKey();
+      const tomorrowMeta = ROSTER_DATES_NOV.find(d => d.key === tomorrowKey) || ROSTER_DATES_NOV[0];
+      const tomorrowStatus = sched.dates[tomorrowMeta.key] || "PENDING";
+
+      const badgeEl = document.getElementById("courierTodayShiftBadge");
+      if (badgeEl) {
+        if (tomorrowStatus === "OFF") {
+          badgeEl.textContent = `Besok (${tomorrowMeta.label}): Jadwal OFF / Libur`;
+        } else if (tomorrowStatus === "PENDING") {
+          badgeEl.textContent = `Besok (${tomorrowMeta.label}): Menunggu Jadwal`;
+        } else {
+          const jamTampil = tomorrowStatus === "IN" ? sched.shiftTime : tomorrowStatus;
+          badgeEl.textContent = `Besok (${tomorrowMeta.label}): Masuk (${jamTampil})`;
+        }
+      }
+
+      const workDays = ROSTER_DATES_NOV.filter(d => sched.dates[d.key] !== "OFF" && sched.dates[d.key] !== "PENDING").length;
+      const offDays = ROSTER_DATES_NOV.filter(d => sched.dates[d.key] === "OFF").length;
+      document.getElementById("courierWorkDaysCount").textContent = `${workDays} Hari`;
+      document.getElementById("courierOffDaysCount").textContent = `${offDays} Hari`;
+      document.getElementById("courierAssignedZone").textContent = sched.zone;
+
+      tbody.innerHTML = ROSTER_DATES_NOV.map(dateObj => {
+        const val = sched.dates[dateObj.key] || "PENDING";
+        const isOff = val === "OFF";
+        const isPending = val === "PENDING";
+        const isTomorrow = dateObj.key === tomorrowKey;
+        const rowHighlight = isTomorrow ? "bg-orange-50/80" : "hover:bg-slate-50";
+
+        let statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
+        let jamKerja = val === "IN" ? sched.shiftTime : val;
+        let alarmInfo = `<span class="text-[11px] font-bold text-emerald-700">🔔 Aktif H-1</span>`;
+
+        if (isOff) {
+          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">OFF / LIBUR</span>`;
+          jamKerja = "-";
+          alarmInfo = `<span class="text-[11px] text-slate-400">Tidak aktif (Libur)</span>`;
+        } else if (isPending) {
+          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">BELUM DIJADWALKAN</span>`;
+          jamKerja = "Menunggu Shift Lead";
+          alarmInfo = `<span class="text-[11px] text-slate-400">Menunggu rilis</span>`;
+        }
+
+        return `
+          <tr class="${rowHighlight} transition">
+            <td class="py-3.5 px-4 font-extrabold text-slate-900">
+              ${dateObj.label} <span class="text-xs font-normal text-slate-500">(${dateObj.dayName})</span>
+              ${isTomorrow ? '<span class="ml-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold bg-spx-orange text-white">Besok (H+1)</span>' : ''}
+            </td>
+            <td class="py-3.5 px-4">${statusPill}</td>
+            <td class="py-3.5 px-4 font-mono font-bold text-slate-700">${jamKerja}</td>
+            <td class="py-3.5 px-4 font-semibold text-slate-800">${isOff || isPending ? "-" : sched.zone}</td>
+            <td class="py-3.5 px-4">${alarmInfo}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderLeadScheduleTable() {
+      const tbody = document.getElementById("leadScheduleTableBody");
+      if (!tbody) return;
+
+      const selMonth = document.getElementById("leadMonthSelect")?.value || "";
+      const q = (document.getElementById("leadScheduleSearchInput")?.value || "").trim().toLowerCase();
+      const dayFilter = document.getElementById("leadScheduleDayFilter")?.value || "ALL";
+
+      const baseList = selMonth ? allRecords.filter(r => r.Bulan === selMonth) : [...allRecords];
+      const uniqueMap = new Map();
+      baseList.forEach(r => {
+        if (!uniqueMap.has(r.Driver_ID)) uniqueMap.set(r.Driver_ID, r);
+      });
+
+      const list = Array.from(uniqueMap.values()).filter(rec => {
+        const sched = getCourierSchedule(rec);
+        const matchQ = !q || rec.Nama_Kurir.toLowerCase().includes(q) || rec.Driver_ID.toLowerCase().includes(q) || sched.zone.toLowerCase().includes(q);
+        const matchDay = dayFilter === "ALL" || sched.dates[dayFilter] === "OFF";
+        return matchQ && matchDay;
+      });
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="13" class="py-8 px-4 text-center text-slate-500">Tidak ada jadwal kurir yang cocok dengan filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(rec => {
+        const sched = getCourierSchedule(rec);
+        const dayCells = ROSTER_DATES_NOV.map(dateObj => {
+          const statusVal = sched.dates[dateObj.key] || "PENDING";
+          let btnCls = "bg-slate-100 text-slate-500 border-slate-300 hover:bg-slate-200";
+          let shortLabel = "-";
+          if (statusVal === "OFF") {
+            btnCls = "bg-rose-100 text-rose-700 border-rose-300 hover:bg-rose-200";
+            shortLabel = "OFF";
+          } else if (statusVal !== "PENDING") {
+            btnCls = "bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200";
+            shortLabel = "IN";
+          }
+          return `
+            <td class="py-2.5 px-1 text-center">
+              <button
+                type="button"
+                onclick="quickToggleCourierDate('${rec.Driver_ID}', '${dateObj.key}')"
+                title="Klik untuk ubah IN / OFF / Belum Diisi (${dateObj.label})"
+                class="w-10 py-1 rounded-lg border text-[10px] font-black transition ${btnCls}"
+              >
+                ${shortLabel}
+              </button>
+            </td>
+          `;
+        }).join("");
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-3.5 sticky left-0 bg-white z-10 border-r border-slate-100">
+              <p class="font-extrabold text-slate-900">${rec.Nama_Kurir}</p>
+              <p class="text-[11px] font-mono text-slate-500">ID: ${rec.Driver_ID} &bull; ${rec.Kategori_Armada}</p>
+            </td>
+            <td class="py-3 px-3 font-bold text-slate-800">${sched.zone}</td>
+            <td class="py-3 px-3 font-mono font-semibold text-slate-700">${sched.shiftTime}</td>
+            ${dayCells}
+            <td class="py-3 px-3 text-center">
+              <button
+                type="button"
+                onclick="openEditScheduleModal('${rec.Driver_ID}')"
+                class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-spx-orange text-white text-[10px] font-bold transition"
+              >
+                Atur
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function quickToggleCourierDate(driverId, dateKey) {
+      const rec = allRecords.find(r => r.Driver_ID === driverId);
+      if (!rec) return;
+      const allSched = loadAllSchedules();
+      const current = getCourierSchedule(rec);
+      const prev = current.dates[dateKey] || "PENDING";
+      // Siklus klik cepat: PENDING (-) -> IN -> OFF -> PENDING
+      current.dates[dateKey] = prev === "PENDING" ? "IN" : (prev === "IN" ? "OFF" : "PENDING");
+      current.updatedAt = Date.now();
+      allSched[driverId] = current;
+      saveAllSchedules(allSched);
       renderLeadScheduleTable();
+    }
+
+    function publishAndTriggerAllH1Alerts() {
+      const allSched = loadAllSchedules();
+      const nowTs = Date.now();
+      let scheduledTomorrowCount = 0;
+      const tomorrowKey = getTomorrowDateKey();
+
+      Object.keys(allSched).forEach(drvId => {
+        allSched[drvId].updatedAt = nowTs;
+        const st = allSched[drvId].dates?.[tomorrowKey];
+        if (st && st !== "OFF" && st !== "PENDING") {
+          scheduledTomorrowCount++;
+        }
+      });
+      saveAllSchedules(allSched);
+      showToast(
+        "Jadwal 22–30 Nov Dipublikasikan!",
+        `Trigger notifikasi, dering & getar H-1 aktif untuk ${scheduledTomorrowCount} kurir yang masuk besok.`
+      );
+    }
+
+    function openEditScheduleModal(driverId) {
+      const rec = allRecords.find(r => r.Driver_ID === driverId);
+      if (!rec) return;
+      const sched = getCourierSchedule(rec);
+
+      document.getElementById("schedModalDriverIdInput").value = rec.Driver_ID;
+      document.getElementById("schedModalName").textContent = rec.Nama_Kurir;
+      document.getElementById("schedModalId").textContent = rec.Driver_ID;
+      document.getElementById("schedModalZone").value = sched.zone;
+      document.getElementById("schedModalShiftTime").value = sched.shiftTime;
+      document.getElementById("schedModalNote").value = sched.note || "";
+
+      document.getElementById("schedModalDaysGrid").innerHTML = ROSTER_DATES_NOV.map(dateObj => {
+        const val = sched.dates[dateObj.key] || "PENDING";
+        return `
+          <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="font-bold text-slate-800">${dateObj.label} (${dateObj.shortDay})</span>
+            <select data-date-key="${dateObj.key}" class="sched-day-select px-2 py-1 rounded-lg border border-slate-300 bg-white font-bold text-xs">
+              <option value="IN" ${val !== "OFF" && val !== "PENDING" ? "selected" : ""}>MASUK (IN)</option>
+              <option value="OFF" ${val === "OFF" ? "selected" : ""}>LIBUR (OFF)</option>
+              <option value="PENDING" ${val === "PENDING" ? "selected" : ""}>BELUM DIISI</option>
+            </select>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("editScheduleModal").classList.remove("hidden");
+    }
+
+    function closeEditScheduleModal() {
+      document.getElementById("editScheduleModal").classList.add("hidden");
+    }
+
+    function saveCourierScheduleForm(e) {
+      e.preventDefault();
+      const driverId = document.getElementById("schedModalDriverIdInput").value;
+      const zone = document.getElementById("schedModalZone").value.trim();
+      const shiftTime = document.getElementById("schedModalShiftTime").value.trim();
+      const note = document.getElementById("schedModalNote").value.trim();
+
+      const datesObj = {};
+      document.querySelectorAll(".sched-day-select").forEach(sel => {
+        datesObj[sel.getAttribute("data-date-key")] = sel.value;
+      });
+
+      const allSched = loadAllSchedules();
+      allSched[driverId] = { zone, shiftTime, dates: datesObj, note, updatedAt: Date.now() };
+      saveAllSchedules(allSched);
+
+      closeEditScheduleModal();
+      renderLeadScheduleTable();
+      showToast("Schedule 22–30 Nov Disimpan", `Jadwal & trigger alarm H-1 untuk Driver ID ${driverId} telah aktif.`);
+    }
+
+    function exportScheduleCSV() {
+      const selMonth = document.getElementById("leadMonthSelect")?.value || "";
+      const baseList = selMonth ? allRecords.filter(r => r.Bulan === selMonth) : [...allRecords];
+      const uniqueMap = new Map();
+      baseList.forEach(r => { if (!uniqueMap.has(r.Driver_ID)) uniqueMap.set(r.Driver_ID, r); });
+      const rows = Array.from(uniqueMap.values());
+
+      if (rows.length === 0) {
+        showToast("Tidak Ada Data", "Belum ada data kurir untuk diekspor.", true);
+        return;
+      }
+
+      const headers = ["Driver_ID", "Nama_Kurir", "Kategori_Armada", "Zona", "Jam_Masuk", ...ROSTER_DATES_NOV.map(d => d.label), "Catatan"];
+      const csvLines = [
+        headers.join(","),
+        ...rows.map(r => {
+          const s = getCourierSchedule(r);
+          return [
+            r.Driver_ID,
+            `"${r.Nama_Kurir.replace(/"/g, '""')}"`,
+            `"${r.Kategori_Armada}"`,
+            `"${s.zone}"`,
+            `"${s.shiftTime}"`,
+            ...ROSTER_DATES_NOV.map(d => s.dates[d.key] || "PENDING"),
+            `"${(s.note || "").replace(/"/g, '""')}"`
+          ].join(",");
+        })
+      ];
+
+      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Schedule_Kurir_SPX_Pringapus2_22-30Nov.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Export Berhasil", "File CSV Schedule 22–30 November berhasil diunduh.");
     }
 
     function populateLeadMonthSelector(selectedVal = null) {
@@ -2684,24 +2739,42 @@
 
       const badgeEl = document.getElementById("courierTodayShiftBadge");
       if (badgeEl) {
-        badgeEl.textContent = todayStatus === "OFF"
-          ? `Hari Ini (${todayName}): Jadwal OFF / Libur`
-          : `Hari Ini (${todayName}): Masuk (${sched.shiftTime})`;
+        if (todayStatus === "OFF") {
+          badgeEl.textContent = `Hari Ini (${todayName}): Jadwal OFF / Libur`;
+        } else if (todayStatus === "PENDING") {
+          badgeEl.textContent = `Hari Ini (${todayName}): Menunggu Jadwal Shift Lead`;
+        } else {
+          const jamTampil = todayStatus === "IN" ? sched.shiftTime : todayStatus;
+          badgeEl.textContent = `Hari Ini (${todayName}): Masuk (${jamTampil})`;
+        }
       }
 
-      const workDays = DAYS_OF_WEEK.filter(d => sched.days[d] !== "OFF").length;
-      const offDays = 7 - workDays;
+      const workDays = DAYS_OF_WEEK.filter(d => sched.days[d] !== "OFF" && sched.days[d] !== "PENDING").length;
+      const offDays = DAYS_OF_WEEK.filter(d => sched.days[d] === "OFF").length;
       document.getElementById("courierWorkDaysCount").textContent = `${workDays} Hari`;
       document.getElementById("courierOffDaysCount").textContent = `${offDays} Hari`;
       document.getElementById("courierAssignedZone").textContent = sched.zone;
 
       tbody.innerHTML = DAYS_OF_WEEK.map(dayName => {
-        const isOff = sched.days[dayName] === "OFF";
+        const val = sched.days[dayName] || "IN";
+        const isOff = val === "OFF";
+        const isPending = val === "PENDING";
         const isToday = dayName === todayName;
         const rowHighlight = isToday ? "bg-orange-50/70" : "hover:bg-slate-50";
-        const statusPill = isOff
-          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">OFF / LIBUR</span>`
-          : `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
+
+        let statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
+        let jamKerja = val === "IN" ? sched.shiftTime : val;
+        let catatan = sched.note;
+
+        if (isOff) {
+          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">OFF / LIBUR</span>`;
+          jamKerja = "-";
+          catatan = "Istirahat mingguan";
+        } else if (isPending) {
+          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">BELUM DIISI</span>`;
+          jamKerja = "Menunggu Shift Lead";
+          catatan = "Jadwal tanggal ini sedang disusun";
+        }
 
         return `
           <tr class="${rowHighlight} transition">
@@ -2709,9 +2782,9 @@
               ${dayName} ${isToday ? '<span class="ml-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold bg-spx-orange text-white">Hari Ini</span>' : ''}
             </td>
             <td class="py-3.5 px-4">${statusPill}</td>
-            <td class="py-3.5 px-4 font-mono font-bold text-slate-700">${isOff ? "-" : sched.shiftTime}</td>
+            <td class="py-3.5 px-4 font-mono font-bold text-slate-700">${jamKerja}</td>
             <td class="py-3.5 px-4 font-semibold text-slate-800">${isOff ? "-" : sched.zone}</td>
-            <td class="py-3.5 px-4 text-slate-500">${isOff ? "Istirahat mingguan" : sched.note}</td>
+            <td class="py-3.5 px-4 text-slate-500">${catatan}</td>
           </tr>
         `;
       }).join("");
@@ -3076,7 +3149,7 @@
       }
 
       // Sinkronkan data terbaru dari GitHub di latar belakang
-      await loadDatabaseFromGitHub();
+      await Promise.all([loadDatabaseFromGitHub(), loadScheduleFromGitHub()]);
 
       // Perbarui tampilan dengan data terbaru setelah fetch selesai
       if (savedSession) {
