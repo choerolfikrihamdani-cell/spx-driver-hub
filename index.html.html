@@ -1146,15 +1146,13 @@
       }
 
       if (catUpper.includes("4WH")) {
-        const uangHarian = 250000 * workDays;
-        const komisiPaket = 2000 * delivered;
+        const komisiPaket = 5400 * delivered;
         return {
-          schemeDesc: "Skema 4WH Mitra: Uang Harian Rp250.000/hari + Komisi Rp2.000/paket Delivered.",
+          schemeDesc: "Skema 4WH Mitra: Tarif Rp5.400 per paket Delivered.",
           items: [
-            { label: "Uang Harian Armada 4WH", detail: `${workDays} hari kerja × Rp250.000`, amount: uangHarian },
-            { label: "Komisi Paket Terkirim", detail: `${delivered.toLocaleString("id-ID")} paket × Rp2.000`, amount: komisiPaket }
+            { label: "Komisi Paket Terkirim (4WH Mitra)", detail: `${delivered.toLocaleString("id-ID")} paket × Rp5.400`, amount: komisiPaket }
           ],
-          total: uangHarian + komisiPaket
+          total: komisiPaket
         };
       }
 
