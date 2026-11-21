@@ -1455,16 +1455,24 @@
       }
 
       if (cat.includes("courier plus")) {
-        const retainer = workDays * 95000;
-        const feePaket = delivered * 1150;
-        const bonusDsr = parseDsrNumber(rec.Delivery_Success_Rate) >= 96 ? 250000 : 0;
-        items.push({ label: `Uang Saku Harian (${workDays} hari × Rp95.000)`, amount: retainer });
-        items.push({ label: `Komisi Pengantaran (${delivered.toLocaleString("id-ID")} paket × Rp1.150)`, amount: feePaket });
-        items.push({ label: "Bonus Kualitas DSR ≥ 96%", amount: bonusDsr });
-        total = retainer + feePaket + bonusDsr;
+        const gajiPokok = 1700109;
+        const bonusHarian = workDays * 20000;
+        // Threshold 1: 600 paket (rate Rp475 untuk paket 601 s/d 1.090 -> maks 490 paket = Rp232.750)
+        // Threshold 2: > 1.090 paket (rate Rp875 per paket di atas 1.090)
+        const paketTier1 = Math.max(0, Math.min(delivered, 1090) - 600);
+        const paketTier2 = Math.max(0, delivered - 1090);
+        const incentive1 = paketTier1 * 475;
+        const incentive2 = paketTier2 * 875;
+        const gajiInsentif = incentive1 + incentive2;
+
+        items.push({ label: "Gaji Pokok (Kurir Plus)", amount: gajiPokok });
+        items.push({ label: `Bonus Harian (${workDays} hari × Rp20.000)`, amount: bonusHarian });
+        items.push({ label: `Incentive 1 (${paketTier1.toLocaleString("id-ID")} paket [601–1.090] × Rp475)`, amount: incentive1 });
+        items.push({ label: `Incentive 2 (${paketTier2.toLocaleString("id-ID")} paket [>1.090] × Rp875)`, amount: incentive2 });
+        total = gajiPokok + bonusHarian + gajiInsentif;
         return {
           schemeName: "Skema: 2WH Courier Plus",
-          schemeDesc: "Kombinasi uang saku harian tetap + komisi per paket terkirim + bonus DSR.",
+          schemeDesc: "Gaji Pokok Rp1.700.109 + Bonus Harian Rp20.000/hari + Insentif Berjenjang (Threshold 1: >600 @Rp475, Threshold 2: >1.090 @Rp875).",
           items,
           total
         };
