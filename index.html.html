@@ -1439,16 +1439,24 @@
       let total = 0;
 
       if (cat.includes("dedicated")) {
-        const gapok = 2850000;
-        const uangHadir = workDays * 35000;
-        const insentifPaket = delivered > 1200 ? (delivered - 1200) * 850 : 0;
-        items.push({ label: "Gaji Pokok Bulanan (2WH Dedicated)", amount: gapok });
-        items.push({ label: `Tunjangan Kehadiran & BBM (${workDays} hari × Rp35.000)`, amount: uangHadir });
-        items.push({ label: `Insentif Kelebihan Target (>1.200 paket)`, amount: insentifPaket });
-        total = gapok + uangHadir + insentifPaket;
+        const gapok = 1981000;
+        const bonusHarian = workDays * 104240;
+         // Threshold 1: 1950 paket (rate Rp620 untuk paket 1951 s/d 3120)
+        // Threshold 2: > 3120 paket (rate Rp1095 per paket di atas 3120)
+        const paketTier1 = Math.max(0, Math.min(delivered, 3120) - 1950);
+        const paketTier2 = Math.max(0, delivered - 3120);
+        const incentive1 = paketTier1 * 620;
+        const incentive2 = paketTier2 * 1095;
+        const gajiInsentif = incentive1 + incentive2;
+
+        items.push({ label: "Gaji Pokok (Kurir Plus)", amount: gajiPokok });
+        items.push({ label: `Bonus Harian (${workDays} hari × Rp104.240)`, amount: bonusHarian });
+        items.push({ label: `Incentive 1 (${paketTier1.toLocaleString("id-ID")} paket [1951–3120] × Rp620)`, amount: incentive1 });
+        items.push({ label: `Incentive 2 (${paketTier2.toLocaleString("id-ID")} paket [>3120] × Rp1.095)`, amount: incentive2 });
+        total = gajiPokok + bonusHarian + gajiInsentif;
         return {
           schemeName: "Skema: 2WH Dedicated",
-          schemeDesc: "Gaji pokok bulanan + tunjangan harian + insentif kelebihan target paket.",
+          schemeDesc: "Gaji Pokok Rp1.981.000 + Bonus Harian Rp104.240/hari + Insentif Berjenjang (Threshold 1: >1950 @Rp620, Threshold 2: >3.120 @Rp1.095).",
           items,
           total
         };
