@@ -833,6 +833,25 @@
               </select>
             </div>
 
+            <!-- Sub-Menu Jenis Kurir (Semua, 2WH Dedicated, 2WH Courier Plus, 2WH Mitra, 4WH Mitra) -->
+            <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-slate-100 border border-slate-200">
+              <button type="button" data-sched-cat="ALL" onclick="switchLeadScheduleCategory('ALL')" class="lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 text-white shadow transition">
+                Semua Jenis Kurir
+              </button>
+              <button type="button" data-sched-cat="2WH Dedicated" onclick="switchLeadScheduleCategory('2WH Dedicated')" class="lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition">
+                2WH Dedicated
+              </button>
+              <button type="button" data-sched-cat="2WH Courier Plus" onclick="switchLeadScheduleCategory('2WH Courier Plus')" class="lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition">
+                2WH Courier Plus
+              </button>
+              <button type="button" data-sched-cat="2WH Mitra" onclick="switchLeadScheduleCategory('2WH Mitra')" class="lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition">
+                2WH Mitra
+              </button>
+              <button type="button" data-sched-cat="4WH Mitra" onclick="switchLeadScheduleCategory('4WH Mitra')" class="lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition">
+                4WH Mitra
+              </button>
+            </div>
+
             <div class="overflow-x-auto rounded-2xl border border-slate-200">
               <table class="w-full text-left border-collapse text-xs">
                 <thead id="leadScheduleTableHead"></thead>
@@ -1156,9 +1175,10 @@
     let selectedCourierMonth = "";
     let loggedInDriverId = null;
     let loggedInLeader = null;
-    let activeTab = "performance";
+    let activeTab = "schedule";
     let activeLeadTab = "schedule";
     let selectedLeadPeriodId = "2026-11";
+    let selectedLeadScheduleCategory = "ALL";
     let toastTimer = null;
     let alarmRingInterval = null;
     let h1WatcherInterval = null;
@@ -1168,9 +1188,30 @@
     // -----------------------------------------------------------------------
     // UI & Formatting Helpers
     // -----------------------------------------------------------------------
+    function normalizeMonthKey(rawMonth) {
+      const s = String(rawMonth || "").trim();
+      if (/^\d{4}-\d{2}$/.test(s)) return s;
+      const mIso = s.match(/^(\d{4})[\/-](\d{1,2})/);
+      if (mIso) return `${mIso[1]}-${mIso[2].padStart(2, "0")}`;
+      const monthsMap = {
+        jan: "01", feb: "02", mar: "03", apr: "04", mei: "05", may: "05",
+        jun: "06", jul: "07", agu: "08", aug: "08", sep: "09", okt: "10",
+        oct: "10", nov: "11", des: "12", dec: "12"
+      };
+      const lower = s.toLowerCase();
+      const yMatch = lower.match(/(20\d{2})/);
+      if (yMatch) {
+        for (const [k, num] of Object.entries(monthsMap)) {
+          if (lower.includes(k)) return `${yMatch[1]}-${num}`;
+        }
+      }
+      return s || "2026-11";
+    }
+
     function formatMonthLabel(ym) {
-      if (!ym || !String(ym).includes("-")) return String(ym || "November 2026");
-      const [y, m] = String(ym).split("-");
+      const norm = normalizeMonthKey(ym);
+      if (!norm || !String(norm).includes("-")) return String(norm || "November 2026");
+      const [y, m] = String(norm).split("-");
       const idx = parseInt(m, 10) - 1;
       return `${MONTH_NAMES_ID[idx] || m} ${y}`;
     }
@@ -1517,7 +1558,7 @@
         const text = await res.text();
         const rows = parseCSVRows(text);
         if (rows.length > 0) {
-          const parsedList = [];
+          const parsedMap = new Map();
           rows.forEach(r => {
             const id = String(r.Driver_ID || "").trim();
             const name = String(r.Nama_Kurir || "").trim();
@@ -1526,9 +1567,11 @@
             const delivered = parseInt(r.Delivered || 0, 10) || 0;
             const onhold = parseInt(r.OnHold || 0, 10) || 0;
             const daysWork = parseInt(r.Total_Hari_Kerja || 0, 10) || (delivered > 0 ? Math.min(26, Math.max(1, Math.ceil(delivered / 75))) : 0);
-            const bulan = String(r.Bulan || "2026-11").trim();
+            const bulan = normalizeMonthKey(r.Bulan || "2026-11");
 
-            parsedList.push({
+            // Kunci unik per Driver_ID + Bulan agar data bulan lama tidak tertimpa dan tidak duplikat
+            const uniqueKey = `${id}_${bulan}`;
+            parsedMap.set(uniqueKey, {
               Driver_ID: id,
               Nama_Kurir: name,
               Password: String(r.Password || id).trim(),
@@ -1541,6 +1584,7 @@
               Bulan: bulan
             });
           });
+          const parsedList = Array.from(parsedMap.values());
           if (parsedList.length > 0) {
             allRecords = parsedList;
             saveCachedRecords(allRecords);
@@ -1655,8 +1699,8 @@
           return;
         }
 
-        saveActiveSession({ role: "courier", id: idInput, tab: "performance" });
-        const ok = activateCourierSession(idInput, "performance");
+        saveActiveSession({ role: "courier", id: idInput, tab: "schedule" });
+        const ok = activateCourierSession(idInput, "schedule");
         if (ok) {
           enableDeviceAlarmPermission(false);
           showToast("Login Berhasil", `Selamat bertugas, ${matched[0].Nama_Kurir}!`);
@@ -1679,7 +1723,7 @@
       initLeadDashboard(tab);
     }
 
-    function activateCourierSession(driverId, tab = "performance") {
+    function activateCourierSession(driverId, tab = "schedule") {
       const records = allRecords
         .filter(r => r.Driver_ID === String(driverId).trim())
         .sort((a, b) => String(b.Bulan || "").localeCompare(String(a.Bulan || "")));
@@ -1711,7 +1755,7 @@
 
       renderCourierPerformanceAndSalary(activeRec);
       renderCourierSchedule(activeRec);
-      const validTab = (tab === "overview" || !tab) ? "performance" : tab;
+      const validTab = (tab === "overview" || !tab) ? "schedule" : tab;
       switchDashboardTab(validTab, false);
       startH1ScheduleWatcher(activeRec);
       return true;
@@ -1852,7 +1896,7 @@
     }
 
     function switchDashboardTab(tabName, persist = true) {
-      const normalizedTab = tabName === "overview" ? "performance" : tabName;
+      const normalizedTab = tabName === "overview" ? "schedule" : tabName;
       activeTab = normalizedTab;
       const titles = {
         schedule: "Schedule",
@@ -1862,7 +1906,7 @@
         profile: "Alarm HP & Profil Kurir"
       };
       const headerTitle = document.getElementById("headerPageTitle");
-      if (headerTitle) headerTitle.textContent = titles[normalizedTab] || "Perform";
+      if (headerTitle) headerTitle.textContent = titles[normalizedTab] || "Schedule";
 
       document.querySelectorAll(".dashboard-tab-panel").forEach(panel => {
         panel.classList.toggle("hidden", panel.id !== `tab-${normalizedTab}`);
@@ -2102,6 +2146,17 @@
 
     function onLeadPeriodChange() {
       selectedLeadPeriodId = document.getElementById("leadPeriodSelect")?.value || "2026-11";
+      renderLeadScheduleTable();
+    }
+
+    function switchLeadScheduleCategory(catName) {
+      selectedLeadScheduleCategory = catName || "ALL";
+      document.querySelectorAll(".lead-sched-cat-btn").forEach(btn => {
+        const isMatch = btn.getAttribute("data-sched-cat") === selectedLeadScheduleCategory;
+        btn.className = isMatch
+          ? "lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 text-white shadow transition"
+          : "lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition";
+      });
       renderLeadScheduleTable();
     }
 
@@ -2669,17 +2724,19 @@
 
       const q = (document.getElementById("leadScheduleSearchInput")?.value || "").trim().toLowerCase();
       const dayFilter = dayFilterSel?.value || "ALL";
+      const catFilter = selectedLeadScheduleCategory || "ALL";
       const uniqueDrivers = getUniqueLatestDriverRecords();
 
       const list = uniqueDrivers.filter(rec => {
         const sched = getCourierSchedule(rec, selectedLeadPeriodId);
         const matchQ = !q || rec.Nama_Kurir.toLowerCase().includes(q) || rec.Driver_ID.toLowerCase().includes(q) || sched.zone.toLowerCase().includes(q);
         const matchDay = dayFilter === "ALL" || sched.days[dayFilter] === "OFF";
-        return matchQ && matchDay;
+        const matchCat = catFilter === "ALL" || String(rec.Kategori_Armada || "").trim().toLowerCase() === catFilter.toLowerCase();
+        return matchQ && matchDay && matchCat;
       });
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${datesList.length + 4}" class="py-8 px-4 text-center text-slate-500">Tidak ada jadwal kurir yang cocok dengan filter.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="${datesList.length + 4}" class="py-8 px-4 text-center text-slate-500">Tidak ada jadwal kurir yang cocok dengan filter jenis kurir ini.</td></tr>`;
         return;
       }
 
@@ -3103,7 +3160,7 @@
         if (savedSess.role === "leader" && LEADERSHIP_ACCOUNTS[savedSess.id]) {
           activateLeaderSession(LEADERSHIP_ACCOUNTS[savedSess.id], savedSess.tab || "schedule");
         } else if (savedSess.role === "courier" && allRecords.some(r => r.Driver_ID === savedSess.id)) {
-          activateCourierSession(savedSess.id, savedSess.tab || "performance");
+          activateCourierSession(savedSess.id, savedSess.tab || "schedule");
         }
       }
 
@@ -3114,7 +3171,7 @@
         if (savedSess.role === "leader" && LEADERSHIP_ACCOUNTS[savedSess.id]) {
           activateLeaderSession(LEADERSHIP_ACCOUNTS[savedSess.id], activeLeadTab || "schedule");
         } else if (savedSess.role === "courier" && allRecords.some(r => r.Driver_ID === savedSess.id)) {
-          activateCourierSession(savedSess.id, activeTab || "performance");
+          activateCourierSession(savedSess.id, activeTab || "schedule");
         }
       }
     });
