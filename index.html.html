@@ -43,7 +43,6 @@
       overflow-x: hidden;
     }
 
-    /* Animasi Kartu & Transisi Halus */
     @keyframes cardIn {
       from { opacity: 0; transform: translateY(14px) scale(0.97); }
       to { opacity: 1; transform: translateY(0) scale(1); }
@@ -52,7 +51,6 @@
       animation: cardIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* Animasi Float Logo & Ornamen */
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-6px); }
@@ -61,7 +59,6 @@
       animation: floatSlow 3.2s ease-in-out infinite;
     }
 
-    /* Animasi Shimmer Kartu Gaji Utama */
     @keyframes shimmerSweep {
       0% { transform: translateX(-120%) skewX(-18deg); }
       100% { transform: translateX(260%) skewX(-18deg); }
@@ -76,7 +73,6 @@
       pointer-events: none;
     }
 
-    /* Animasi Lonceng Alarm */
     @keyframes ringPulse {
       0%, 100% { transform: scale(1) rotate(0deg); }
       20% { transform: scale(1.08) rotate(-10deg); }
@@ -88,7 +84,6 @@
       animation: ringPulse 1.1s infinite;
     }
 
-    /* Hover Elevation Kartu Statistik */
     .stat-card-hover {
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
     }
@@ -97,7 +92,6 @@
       box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
     }
 
-    /* Animasi Halaman Login Modern */
     @keyframes orbDrift {
       0%, 100% { transform: translate(0, 0) scale(1); }
       33% { transform: translate(28px, -22px) scale(1.08); }
@@ -144,19 +138,16 @@
        1. HALAMAN LOGIN UTAMA (KURIR & HUB LEAD / SHIFT LEAD)
        ===================================================================== -->
   <div id="loginView" class="min-h-screen flex flex-col justify-between bg-[#070B14] login-grid-pattern text-white px-4 py-8 relative overflow-hidden">
-    <!-- Latar Glow Animasi Dinamis -->
     <div class="pointer-events-none absolute -top-28 -left-24 w-96 h-96 rounded-full bg-spx-orange/25 blur-3xl animate-orb-drift"></div>
     <div class="pointer-events-none absolute top-1/3 -right-28 w-80 h-80 rounded-full bg-amber-500/15 blur-3xl animate-orb-drift-reverse"></div>
     <div class="pointer-events-none absolute -bottom-28 left-1/4 w-96 h-96 rounded-full bg-orange-600/20 blur-3xl animate-orb-drift"></div>
 
-    <!-- Garis Jalur Pengiriman Animasi (SVG) -->
     <svg class="pointer-events-none absolute inset-x-0 top-14 w-full h-36 opacity-25" viewBox="0 0 1200 140" fill="none" preserveAspectRatio="none">
       <path d="M-40 110 C 260 15, 520 135, 840 40 C 1020 -10, 1140 75, 1250 35" stroke="#EE4D2D" stroke-width="2.5" stroke-dasharray="10 14" class="animate-route-dash"/>
       <path d="M-40 70 C 320 140, 620 10, 920 95 C 1070 130, 1160 60, 1250 85" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="6 12" class="animate-route-dash"/>
     </svg>
 
     <div class="flex-1 flex flex-col justify-center items-center w-full max-w-md mx-auto relative z-10">
-      <!-- Branding Header -->
       <div class="text-center mb-7 w-full animate-card-in">
         <div class="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-spx-orange via-orange-500 to-amber-500 shadow-2xl shadow-orange-600/40 mb-4 border border-orange-300/40 animate-float-slow logo-pulse-ring">
           <i class="fas fa-shipping-fast text-white text-3xl drop-shadow"></i>
@@ -173,7 +164,6 @@
         </div>
       </div>
 
-      <!-- Card Form Login Glassmorphism -->
       <div class="w-full bg-slate-900/80 backdrop-blur-xl border border-slate-700/70 rounded-3xl p-6 sm:p-7 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.75)] animate-card-in">
         <div class="flex items-center justify-between mb-5">
           <div>
@@ -241,7 +231,6 @@
           </button>
         </form>
 
-        <!-- Feature Badges Mini -->
         <div class="grid grid-cols-3 gap-2 pt-5 mt-5 border-t border-slate-800/80 text-center text-[10px] text-slate-400">
           <div class="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
             <i class="fas fa-calendar-check text-spx-orange block mb-1 text-xs"></i>
@@ -267,20 +256,19 @@
   <!-- =====================================================================
        2. DASHBOARD KURIR (PERFORMA, ESTIMASI GAJI, SCHEDULE & ALARM H-30m)
        ===================================================================== -->
-  <div id="dashboardView" class="hidden min-h-screen flex bg-slate-100">
-    <!-- Backdrop Sidebar Mobile -->
-    <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar(false)" class="fixed inset-0 z-30 bg-slate-950/60 hidden lg:hidden"></div>
+  <div id="dashboardView" class="hidden min-h-screen flex bg-gradient-to-br from-slate-100 via-slate-50 to-orange-50/40">
+    <div id="mobileSidebarBackdrop" onclick="toggleMobileSidebar(false)" class="fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-xs hidden lg:hidden"></div>
 
     <!-- Sidebar Kurir -->
-    <aside id="courierSidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-[#090D16] text-white flex flex-col justify-between p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 border-r border-slate-800">
+    <aside id="courierSidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-72 bg-[#070B14] text-white flex flex-col justify-between p-4 transform -translate-x-full lg:translate-x-0 transition-transform duration-200 border-r border-slate-800/90 shadow-2xl lg:shadow-none">
       <div class="space-y-6">
         <div class="flex items-center justify-between px-2 pt-1">
           <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-spx-orange to-orange-600 flex items-center justify-center shadow-lg">
-              <i class="fas fa-shipping-fast text-white"></i>
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-spx-orange via-orange-500 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-600/30 border border-orange-300/30">
+              <i class="fas fa-shipping-fast text-white text-base"></i>
             </div>
             <div>
-              <h2 class="font-extrabold text-sm leading-tight">SPX Pringapus 2</h2>
+              <h2 class="font-black text-sm tracking-tight leading-tight">SPX Pringapus 2</h2>
               <p class="text-[10px] font-bold text-spx-orange">Portal Performa &amp; Payroll</p>
             </div>
           </div>
@@ -289,23 +277,24 @@
           </button>
         </div>
 
-        <!-- Kartu Mini Profil di Sidebar -->
-        <div class="p-3.5 rounded-2xl bg-slate-900 border border-slate-800">
-          <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Kurir Aktif</p>
-          <p id="sidebarCourierName" class="text-sm font-extrabold text-white mt-0.5 truncate">-</p>
-          <div class="flex items-center gap-2 mt-2">
-            <span id="sidebarCourierId" class="px-2 py-0.5 rounded-md bg-slate-950 text-[11px] font-mono text-orange-300 border border-slate-800">ID: -</span>
-            <span id="sidebarCourierCat" class="px-2 py-0.5 rounded-md bg-spx-orange/20 text-[10px] font-bold text-orange-200">-</span>
+        <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 shadow-inner">
+          <div class="flex items-center justify-between">
+            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Kurir Aktif</p>
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          </div>
+          <p id="sidebarCourierName" class="text-sm font-extrabold text-white mt-1 truncate">-</p>
+          <div class="flex items-center gap-2 mt-2.5 flex-wrap">
+            <span id="sidebarCourierId" class="px-2.5 py-0.5 rounded-lg bg-slate-950 text-[11px] font-mono text-orange-300 border border-slate-800">ID: -</span>
+            <span id="sidebarCourierCat" class="px-2.5 py-0.5 rounded-lg bg-spx-orange/20 text-[10px] font-bold text-orange-200 border border-spx-orange/30">-</span>
           </div>
         </div>
 
-        <!-- Menu Navigasi Lengkap Kurir (Urutan: Schedule, Perform, Gaji) -->
         <nav class="space-y-1.5">
-          <button type="button" data-tab="schedule" onclick="switchDashboardTab('schedule')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition">
+          <button type="button" data-tab="schedule" onclick="switchDashboardTab('schedule')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
             <i class="fas fa-calendar-check w-4 text-center"></i>
             <span>Schedule</span>
           </button>
-          <button type="button" data-tab="performance" onclick="switchDashboardTab('performance')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+          <button type="button" data-tab="performance" onclick="switchDashboardTab('performance')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-gradient-to-r from-spx-orange to-orange-500 text-white shadow-lg shadow-spx-orange/25 transition">
             <i class="fas fa-chart-line w-4 text-center"></i>
             <span>Perform</span>
           </button>
@@ -324,7 +313,7 @@
         </nav>
       </div>
 
-      <button type="button" onclick="handleLogout()" class="w-full py-3 px-4 rounded-2xl bg-slate-900 hover:bg-rose-950/70 border border-slate-800 text-xs font-bold text-slate-300 hover:text-rose-300 flex items-center justify-center gap-2 transition">
+      <button type="button" onclick="handleLogout()" class="w-full py-3 px-4 rounded-2xl bg-slate-900/90 hover:bg-rose-950/70 border border-slate-800 text-xs font-bold text-slate-300 hover:text-rose-300 flex items-center justify-center gap-2 transition">
         <i class="fas fa-sign-out-alt"></i>
         <span>Keluar dari Akun</span>
       </button>
@@ -332,22 +321,20 @@
 
     <!-- Konten Utama Kurir -->
     <div class="flex-1 flex flex-col min-w-0">
-      <!-- Top Header -->
-      <header class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3">
+      <header class="sticky top-0 z-20 bg-white/85 backdrop-blur-xl border-b border-slate-200/80 px-4 sm:px-6 py-3.5 flex items-center justify-between gap-3 shadow-2xs">
         <div class="flex items-center gap-3">
-          <button type="button" onclick="toggleMobileSidebar(true)" class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700">
+          <button type="button" onclick="toggleMobileSidebar(true)" class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
             <i class="fas fa-bars"></i>
           </button>
           <div>
-            <h2 id="headerPageTitle" class="text-base sm:text-lg font-extrabold text-slate-900">Schedule</h2>
+            <h2 id="headerPageTitle" class="text-base sm:text-lg font-black tracking-tight text-slate-900">Perform</h2>
             <p class="text-[11px] text-slate-500">SPX Pringapus 2 Hub &bull; Jadwal Aktif: <strong id="courierActivePeriodBadge" class="text-spx-orange">November 2026</strong></p>
           </div>
         </div>
 
         <div class="flex items-center gap-2">
-          <!-- Pilihan Bulan Laporan Performa & Gaji -->
-          <select id="courierMonthSelect" onchange="onCourierMonthChange()" class="px-3 py-2 rounded-xl bg-slate-100 border border-slate-300 text-xs font-extrabold text-slate-900 focus:outline-none focus:border-spx-orange"></select>
-          <button type="button" onclick="syncCourierDataNow()" class="px-3 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-spx-orange border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition" title="Sinkronkan Data Terbaru">
+          <select id="courierMonthSelect" onchange="onCourierMonthChange()" class="px-3.5 py-2 rounded-xl bg-white border border-slate-300/90 shadow-2xs text-xs font-extrabold text-slate-900 focus:outline-none focus:border-spx-orange transition"></select>
+          <button type="button" onclick="syncCourierDataNow()" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 text-spx-orange border border-orange-200 text-xs font-extrabold flex items-center gap-1.5 shadow-2xs transition" title="Sinkronkan Data Terbaru">
             <i id="courierSyncSpinIcon" class="fas fa-sync-alt text-xs"></i>
             <span class="hidden sm:inline">Refresh</span>
           </button>
@@ -379,7 +366,6 @@
              TAB 1: PERFORMA PENGIRIMAN KURIR (DENGAN MENU ATAS & ANALISA)
              =============================================================== -->
         <section id="tab-performance" class="dashboard-tab-panel space-y-5 animate-card-in">
-          <!-- Menu Navigasi Atas di Dalam Tab Perform -->
           <div class="bg-white rounded-3xl p-2 border border-slate-200 shadow-xs flex flex-wrap sm:flex-nowrap items-center gap-1.5">
             <button type="button" data-perf-subtab="my" onclick="switchPerformSubTab('my')" class="perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-extrabold bg-slate-900 text-white shadow transition flex items-center justify-center gap-2">
               <i class="fas fa-user-chart text-spx-orange"></i>
@@ -397,12 +383,31 @@
 
           <!-- SUB-PANEL A: PERFORMA PRIBADI KURIR -->
           <div id="perf-subpanel-my" class="perf-subpanel space-y-5 animate-card-in">
-            <!-- 4 Kartu Metrik Pengiriman Utama dengan Animasi Counter -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#070B14] via-slate-900 to-slate-950 text-white p-5 sm:p-6 border border-slate-800 shadow-xl">
+              <div class="pointer-events-none absolute -top-16 -right-16 w-48 h-48 rounded-full bg-spx-orange/20 blur-3xl"></div>
+              <div class="pointer-events-none absolute -bottom-16 left-1/3 w-44 h-44 rounded-full bg-emerald-500/15 blur-3xl"></div>
+              <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-[11px] font-bold text-orange-300 mb-2">
+                    <i class="fas fa-bolt text-spx-orange"></i>
+                    <span>Dashboard Performa Aktif</span>
+                  </div>
+                  <h3 id="perfHeroGreeting" class="text-lg sm:text-xl font-black tracking-tight text-white">Ringkasan Capaian Pengantaran Anda</h3>
+                  <p class="text-xs text-slate-400 mt-1">Pantau real-time rasio sukses pengiriman (DSR), paket terkirim, dan peringkat hub Anda.</p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <button type="button" onclick="switchDashboardTab('payroll')" class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white text-xs font-extrabold shadow-lg shadow-emerald-600/25 transition flex items-center gap-1.5">
+                    <i class="fas fa-wallet"></i>
+                    <span>Cek Estimasi Gaji</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-              <!-- Total Penugasan -->
-              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+              <div class="bg-white/95 backdrop-blur-xs rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-xs stat-card-hover">
                 <div class="flex items-center justify-between mb-3">
-                  <span class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                  <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-100 text-blue-600 border border-blue-200/60 flex items-center justify-center">
                     <i class="fas fa-boxes text-base"></i>
                   </span>
                   <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Penugasan</span>
@@ -411,10 +416,9 @@
                 <p class="text-[11px] font-semibold text-slate-500 mt-1">Total Paket Penugasan</p>
               </div>
 
-              <!-- Total Delivered -->
-              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+              <div class="bg-white/95 backdrop-blur-xs rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-xs stat-card-hover">
                 <div class="flex items-center justify-between mb-3">
-                  <span class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-100 text-emerald-600 border border-emerald-200/60 flex items-center justify-center">
                     <i class="fas fa-check-circle text-base"></i>
                   </span>
                   <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Delivered</span>
@@ -423,10 +427,9 @@
                 <p class="text-[11px] font-semibold text-slate-500 mt-1">Paket Berhasil Terkirim</p>
               </div>
 
-              <!-- Total OnHold -->
-              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+              <div class="bg-white/95 backdrop-blur-xs rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-xs stat-card-hover">
                 <div class="flex items-center justify-between mb-3">
-                  <span class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                  <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-100 text-amber-600 border border-amber-200/60 flex items-center justify-center">
                     <i class="fas fa-pause-circle text-base"></i>
                   </span>
                   <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600">OnHold</span>
@@ -435,10 +438,9 @@
                 <p class="text-[11px] font-semibold text-slate-500 mt-1">Paket Status OnHold</p>
               </div>
 
-              <!-- Delivery Success Rate (DSR) -->
-              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+              <div class="bg-white/95 backdrop-blur-xs rounded-3xl p-4 sm:p-5 border border-slate-200/90 shadow-xs stat-card-hover">
                 <div class="flex items-center justify-between mb-3">
-                  <span class="w-10 h-10 rounded-2xl bg-orange-50 text-spx-orange flex items-center justify-center">
+                  <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-50 to-rose-100 text-spx-orange border border-orange-200/60 flex items-center justify-center">
                     <i class="fas fa-chart-line text-base"></i>
                   </span>
                   <span id="statDsrStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700">Sangat Baik</span>
@@ -450,7 +452,6 @@
               </div>
             </div>
 
-            <!-- Ringkasan Produktivitas Kerja -->
             <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 space-y-3">
               <div class="flex items-center justify-between">
                 <h4 class="text-sm font-extrabold text-slate-900">Detail Produktivitas Harian Anda</h4>
@@ -481,10 +482,9 @@
         </section>
 
         <!-- ===============================================================
-             TAB 2: ESTIMASI, RINCIAN & SIMULASI GAJI / PAYROLL (TERPISAH)
+             TAB 2: ESTIMASI, RINCIAN & SIMULASI GAJI / PAYROLL
              =============================================================== -->
         <section id="tab-payroll" class="dashboard-tab-panel hidden space-y-5 animate-card-in">
-          <!-- Hero Kartu Estimasi Total Gaji -->
           <div class="relative overflow-hidden salary-shimmer rounded-3xl bg-gradient-to-br from-[#090D16] via-slate-900 to-slate-950 text-white p-6 sm:p-7 border border-slate-800 shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
               <div>
@@ -506,7 +506,6 @@
             </div>
           </div>
 
-          <!-- Rincian Komponen Gaji -->
           <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 space-y-4">
             <div>
               <h3 class="text-base font-extrabold text-slate-900">Rincian Komponen Gaji (<span id="payrollMonthLabel">-</span>)</h3>
@@ -524,7 +523,6 @@
             </div>
           </div>
 
-          <!-- Kalkulator Simulasi Target Paket & Hari Kerja -->
           <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 space-y-4">
             <div>
               <h4 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
@@ -560,23 +558,28 @@
         </section>
 
         <!-- ===============================================================
-             TAB 3: SCHEDULE TERBARU (OTOMATIS PERIODE TERBARU)
+             TAB 3: SCHEDULE TERBARU (RINGKAS, MODERN & TETAP BISA DIEDIT)
              =============================================================== -->
         <section id="tab-schedule" class="dashboard-tab-panel hidden space-y-5 animate-card-in">
           <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
             <div class="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h3 class="text-base font-extrabold text-slate-900">Jadwal Kerja Kurir (<span id="courierSchedulePeriodTitle">November 2026</span>)</h3>
-                <p class="text-xs text-slate-500">Otomatis menampilkan periode bulan terbaru dari Hub Lead &amp; Shift Lead.</p>
+                <p class="text-xs text-slate-500">Jadwal fleksibel dari Hub Lead &bull; Total hari berangkat mengikuti rekap absensi aktual.</p>
               </div>
-              <span id="courierTodayShiftBadge" class="px-3.5 py-1.5 rounded-full bg-orange-100 text-spx-orange text-xs font-extrabold">
-                Memuat jadwal besok...
-              </span>
+              <div class="flex items-center gap-2">
+                <span id="courierTodayShiftBadge" class="px-3.5 py-1.5 rounded-full bg-orange-100 text-spx-orange text-xs font-extrabold">
+                  Memuat jadwal...
+                </span>
+                <button type="button" id="toggleFullScheduleBtn" onclick="toggleCourierScheduleViewMode()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-spx-orange text-white text-[11px] font-bold transition">
+                  Lihat 1–30 Nov
+                </button>
+              </div>
             </div>
 
             <div class="grid grid-cols-3 gap-3">
               <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200">
-                <span class="text-[11px] font-bold text-emerald-700 block">Total Hari Masuk</span>
+                <span class="text-[11px] font-bold text-emerald-700 block">Total Berangkat (Aktual)</span>
                 <strong id="courierWorkDaysCount" class="text-lg font-black text-emerald-900">0 Hari</strong>
               </div>
               <div class="p-3.5 rounded-2xl bg-rose-50 border border-rose-200">
@@ -589,12 +592,16 @@
               </div>
             </div>
 
-            <div class="overflow-x-auto rounded-2xl border border-slate-200">
+            <!-- Kartu Preview Ringkas 7 Hari Terdekat -->
+            <div id="courierCompactScheduleGrid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5"></div>
+
+            <!-- Tabel Lengkap 1-30 November -->
+            <div id="courierFullScheduleTableWrapper" class="hidden overflow-x-auto rounded-2xl border border-slate-200">
               <table class="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr class="bg-slate-900 text-white">
                     <th class="py-3 px-4 font-bold">Tanggal</th>
-                    <th class="py-3 px-4 font-bold">Status Kehadiran</th>
+                    <th class="py-3 px-4 font-bold">Status Jadwal</th>
                     <th class="py-3 px-4 font-bold">Jam Masuk</th>
                     <th class="py-3 px-4 font-bold">Zona Pengantaran</th>
                     <th class="py-3 px-4 font-bold">Status Alarm HP</th>
@@ -616,7 +623,6 @@
               <p class="text-xs text-slate-500 mt-0.5">Saran yang Anda kirim bersifat rahasia dan <strong>hanya dapat dilihat oleh Hub Lead &amp; Shift Lead</strong>.</p>
             </div>
 
-            <!-- Kontak Cepat WhatsApp Hub Lead & Shift Lead -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <a href="https://wa.me/6285701765261?text=Halo%20Hub%20Lead%20SPX%20Pringapus%202%20Hub" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-2xl bg-orange-50/90 hover:bg-orange-100/90 border border-orange-200 flex items-center justify-between transition">
                 <div class="flex items-center gap-3">
@@ -656,7 +662,6 @@
               </a>
             </div>
 
-            <!-- Form Kirim Saran ke Portal Hub Lead & Shift Lead -->
             <form onsubmit="submitCourierFeedback(event)" class="space-y-3.5 text-xs pt-2 border-t border-slate-100">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
@@ -813,11 +818,14 @@
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
               <div>
                 <h3 class="text-base font-extrabold text-slate-900">Penyusunan Schedule (<span id="leadCurrentPeriodTitle">November 2026</span>)</h3>
-                <p class="text-xs text-slate-500">Klik <strong>IN / OFF</strong> pada tanggal untuk mengubah jadwal cepat. Kurir otomatis melihat periode bulan terbaru.</p>
+                <p class="text-xs text-slate-500">Klik <strong>IN / OFF</strong> pada tanggal untuk mengubah jadwal cepat. Total hari kerja aktual tidak berubah.</p>
               </div>
               <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="openGitHubUploadScheduleModal()" class="px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold shadow-md shadow-emerald-600/20 transition">
+                  <i class="fab fa-github mr-1.5"></i>Unggah ke GitHub
+                </button>
                 <button type="button" onclick="publishAndTriggerAllH1Alerts()" class="px-4 py-2.5 rounded-2xl bg-spx-orange hover:bg-spx-bright text-white text-xs font-extrabold shadow-md shadow-spx-orange/25 transition">
-                  <i class="fas fa-bell mr-1.5"></i>Publikasikan &amp; Trigger Alarm HP
+                  <i class="fas fa-bell mr-1.5"></i>Publikasikan &amp; Alarm HP
                 </button>
                 <button type="button" onclick="exportScheduleCSV()" class="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
                   <i class="fas fa-file-csv mr-1.5 text-emerald-400"></i>Export CSV
@@ -833,7 +841,7 @@
               </select>
             </div>
 
-            <!-- Sub-Menu Jenis Kurir (Semua, 2WH Dedicated, 2WH Courier Plus, 2WH Mitra, 4WH Mitra) -->
+            <!-- Sub-Menu Jenis Kurir -->
             <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-slate-100 border border-slate-200">
               <button type="button" data-sched-cat="ALL" onclick="switchLeadScheduleCategory('ALL')" class="lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 text-white shadow transition">
                 Semua Jenis Kurir
@@ -863,7 +871,6 @@
 
         <!-- LEAD TAB 2: REKAP PERFORMA, GAJI & CLUSTER KURIR -->
         <section id="lead-tab-couriers" class="lead-tab-panel hidden space-y-4 animate-card-in">
-          <!-- Ringkasan Kurir Terbaik (2WH Dedicated & Courier Plus) & Terburuk (Semua Kategori) -->
           <div id="leadLeaderboardSection" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
 
           <div class="flex flex-col sm:flex-row gap-3">
@@ -911,6 +918,32 @@
           </div>
         </section>
       </main>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       MODAL: UNGGAH SCHEDULE LANGSUNG KE GITHUB REPO
+       ===================================================================== -->
+  <div id="githubScheduleModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-xs">
+    <div class="bg-white text-slate-900 rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden animate-card-in">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <h4 class="font-extrabold text-base"><i class="fab fa-github mr-1.5 text-emerald-400"></i>Unggah Schedule ke GitHub</h4>
+          <p class="text-xs text-slate-400">Sinkronkan langsung ke <code>Schedule_Database.csv</code></p>
+        </div>
+        <button type="button" onclick="closeGitHubUploadScheduleModal()" class="p-2 text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+      <form onsubmit="pushScheduleToGitHub(event)" class="p-6 space-y-4 text-xs">
+        <div>
+          <label class="font-bold text-slate-700 block mb-1">GitHub Personal Access Token</label>
+          <input type="password" id="githubTokenInput" required placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 font-mono text-slate-900">
+          <p class="text-[11px] text-slate-500 mt-1">Mengunggah jadwal tanggal 1–30 tanpa mengubah <strong>Total_Hari_Kerja</strong> di database utama.</p>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeGitHubUploadScheduleModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 font-bold text-slate-700">Batal</button>
+          <button type="submit" id="btnPushGitHubSched" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold">Unggah Sekarang</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1075,6 +1108,7 @@
   <script>
     const GITHUB_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Master_Database.csv";
     const GITHUB_SCHEDULE_CSV_URL = "https://raw.githubusercontent.com/choerolfikrihamdani-cell/spx-driver-hub/main/Schedule_Database.csv";
+    const GITHUB_API_SCHEDULE_URL = "https://api.github.com/repos/choerolfikrihamdani-cell/spx-driver-hub/contents/Schedule_Database.csv";
     const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v3";
     const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v3";
     const PERIODS_STORAGE_KEY = "spx_pringapus2_schedule_periods_v1";
@@ -1117,1672 +1151,1128 @@
       {
         id: "2026-11",
         label: "November 2026",
-        startDay: 22,
+        startDay: 1,
         endDay: 30
       }
     ];
 
-    const DEFAULT_ZONES = [
-      "PPB-A-01", "PPB-A-02", "PPB-A-03", "PPB-A-04", "PPB-A-05",
-      "PPB-A-06", "PPB-A-07", "PPB-A-08", "PPB-A-09", "PPB-A-10", "PPB-A-11"
-    ];
-
-    const DRIVER_CLUSTER_MAP = {
+    const OFFICIAL_CLUSTER_MAP = {
       "1353049": "PPB-A-01",
-      "594188":  "PPB-A-01",
+      "594188": "PPB-A-01",
       "1207637": "PPB-A-02",
-      "457770":  "PPB-A-02",
+      "457770": "PPB-A-02",
       "1194512": "PPB-A-03",
       "1191220": "PPB-A-03",
       "1313718": "PPB-A-04",
       "1189067": "PPB-A-04",
-      "646598":  "PPB-A-05",
+      "646598": "PPB-A-05",
       "1207638": "PPB-A-05",
       "1100475": "PPB-A-06",
       "1291606": "PPB-A-07 / PPB-A-06",
-      "710119":  "PPB-A-07",
+      "710119": "PPB-A-07",
       "1054791": "PPB-A-08",
       "1330235": "PPB-A-08",
       "1102568": "PPB-A-09",
-      "829762":  "PPB-A-09",
+      "829762": "PPB-A-09",
       "1106350": "PPB-A-10",
       "1184817": "PPB-A-10",
       "1208523": "PPB-A-10 / PPB-A-05 (Backup)",
-      "860468":  "PPB-A-10 (Backup)",
+      "860468": "PPB-A-10 (Backup)",
       "1297004": "PPB-A-11",
-      "893812":  "PPB-A-11",
+      "893812": "PPB-A-11",
       "1400080": "Backup All Cluster (PPB-A-01..11)",
-      "1392965": "Backup All Cluster (PPB-A-01..11)"
-    };
-    const DEFAULT_SHIFT_TIME = "07:15 WIB";
-
-    const LEADERSHIP_ACCOUNTS = {
-      "1792821": { opsId: "1792821", password: "1792821", role: "Hub Lead" },
-      "1731944": { opsId: "1731944", password: "1731944", role: "Shift Lead" },
-      "1727343": { opsId: "1727343", password: "1727343", role: "Shift Lead" }
+      "1392965": "Backup All Cluster (PPB-A-01..11)",
+      "1241227": "PPB-4WH-01"
     };
 
-    // Data Fallback Bawaan (Jika belum terhubung ke internet)
-    const FALLBACK_RECORDS = [
-      { Driver_ID: "1194512", Nama_Kurir: "ADE DWIKI IMAM SYAFII", Password: "spx4512", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "89.66%", Total_Penugasan: 2150, Delivered: 1928, OnHold: 12, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1330235", Nama_Kurir: "SETIO BUDI UTOMO", Password: "spx0235", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "87.63%", Total_Penugasan: 2420, Delivered: 2120, OnHold: 18, Total_Hari_Kerja: 26, Bulan: "2026-11" },
-      { Driver_ID: "1208523", Nama_Kurir: "FANDY ACHMAD AL BALAD", Password: "spx8523", Kategori_Armada: "2WH Mitra", Delivery_Success_Rate: "95.92%", Total_Penugasan: 1480, Delivered: 1420, OnHold: 5, Total_Hari_Kerja: 25, Bulan: "2026-11" },
-      { Driver_ID: "1241227", Nama_Kurir: "RIZKY WAHYU WIJAYA", Password: "spx1227", Kategori_Armada: "4WH Mitra", Delivery_Success_Rate: "93.55%", Total_Penugasan: 930, Delivered: 870, OnHold: 4, Total_Hari_Kerja: 25, Bulan: "2026-11" }
+    const LEAD_ACCOUNTS = {
+      "1792821": { id: "1792821", role: "Hub Lead", name: "Hub Lead Pringapus 2" },
+      "1548400": { id: "1548400", role: "Shift Lead", name: "Shift Lead 1" },
+      "1548375": { id: "1548375", role: "Shift Lead", name: "Shift Lead 2" }
+    };
+
+    const BUILTIN_MASTER_DB = [
+      { Driver_ID: "1353049", Nama_Kurir: "RENDI SETIAWAN", Password: "1353049", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "98.45%", Total_Penugasan: 2150, Delivered: 2117, OnHold: 12, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "594188", Nama_Kurir: "DANANG PRASETYO", Password: "594188", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.80%", Total_Penugasan: 2040, Delivered: 1995, OnHold: 15, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1207637", Nama_Kurir: "MUHAMMAD FAIZAL", Password: "1207637", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.92%", Total_Penugasan: 1980, Delivered: 1919, OnHold: 18, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "457770", Nama_Kurir: "AGUS SUPRIYANTO", Password: "457770", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.10%", Total_Penugasan: 2100, Delivered: 2039, OnHold: 14, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1194512", Nama_Kurir: "ADE DWIKI IMAM SYAFII", Password: "1194512", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "98.12%", Total_Penugasan: 2210, Delivered: 2168, OnHold: 10, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1191220", Nama_Kurir: "EKO WAHYUDI", Password: "1191220", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.88%", Total_Penugasan: 1890, Delivered: 1812, OnHold: 22, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "1313718", Nama_Kurir: "BAYU SAPUTRA", Password: "1313718", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.40%", Total_Penugasan: 1950, Delivered: 1880, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1189067", Nama_Kurir: "ARIF NUR HIDAYAT", Password: "1189067", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.55%", Total_Penugasan: 2080, Delivered: 2029, OnHold: 11, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "646598", Nama_Kurir: "HENDRA KUSUMA", Password: "646598", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.20%", Total_Penugasan: 1820, Delivered: 1733, OnHold: 24, Total_Hari_Kerja: 24, Bulan: "2026-11" },
+      { Driver_ID: "1207638", Nama_Kurir: "DIMAS ADITYA PRATAMA", Password: "1207638", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.75%", Total_Penugasan: 2005, Delivered: 1940, OnHold: 16, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1100475", Nama_Kurir: "WAHYU NUGROHO", Password: "1100475", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "97.30%", Total_Penugasan: 2115, Delivered: 2058, OnHold: 13, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1291606", Nama_Kurir: "ILHAM RAMADHAN", Password: "1291606", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "96.15%", Total_Penugasan: 1930, Delivered: 1856, OnHold: 20, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "710119", Nama_Kurir: "SLAMET RIYADI", Password: "710119", Kategori_Armada: "2WH Dedicated", Delivery_Success_Rate: "95.60%", Total_Penugasan: 1875, Delivered: 1793, OnHold: 21, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "1054791", Nama_Kurir: "ANDI SETYAWAN", Password: "1054791", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.90%", Total_Penugasan: 2450, Delivered: 2399, OnHold: 14, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1330235", Nama_Kurir: "SETIO BUDI UTOMO", Password: "1330235", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.85%", Total_Penugasan: 2320, Delivered: 2247, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1102568", Nama_Kurir: "TEGUH SANTOSO", Password: "1102568", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "95.95%", Total_Penugasan: 2190, Delivered: 2101, OnHold: 23, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "829762", Nama_Kurir: "JOKO SUSILO", Password: "829762", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.50%", Total_Penugasan: 2280, Delivered: 2200, OnHold: 18, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1106350", Nama_Kurir: "HERU PURNOMO", Password: "1106350", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.20%", Total_Penugasan: 2390, Delivered: 2323, OnHold: 16, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1184817", Nama_Kurir: "FAJAR SIDIQ", Password: "1184817", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "95.40%", Total_Penugasan: 2120, Delivered: 2022, OnHold: 25, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "1208523", Nama_Kurir: "FANDY ACHMAD AL BALAD", Password: "1208523", Kategori_Armada: "2WH Mitra", Delivery_Success_Rate: "94.80%", Total_Penugasan: 1450, Delivered: 1375, OnHold: 28, Total_Hari_Kerja: 22, Bulan: "2026-11" },
+      { Driver_ID: "860468", Nama_Kurir: "DWI CAHYONO", Password: "860468", Kategori_Armada: "2WH Mitra", Delivery_Success_Rate: "93.90%", Total_Penugasan: 1320, Delivered: 1239, OnHold: 31, Total_Hari_Kerja: 20, Bulan: "2026-11" },
+      { Driver_ID: "1297004", Nama_Kurir: "BAGAS KARA", Password: "1297004", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.70%", Total_Penugasan: 2295, Delivered: 2219, OnHold: 17, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "893812", Nama_Kurir: "SIGIT PRAMONO", Password: "893812", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.10%", Total_Penugasan: 2210, Delivered: 2124, OnHold: 20, Total_Hari_Kerja: 25, Bulan: "2026-11" },
+      { Driver_ID: "1400080", Nama_Kurir: "REZA PAHLEVI", Password: "1400080", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "97.45%", Total_Penugasan: 2410, Delivered: 2349, OnHold: 15, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1392965", Nama_Kurir: "YOGA PRATAMA", Password: "1392965", Kategori_Armada: "2WH Courier Plus", Delivery_Success_Rate: "96.30%", Total_Penugasan: 2250, Delivered: 2167, OnHold: 19, Total_Hari_Kerja: 26, Bulan: "2026-11" },
+      { Driver_ID: "1241227", Nama_Kurir: "RIZKY WAHYU WIJAYA", Password: "1241227", Kategori_Armada: "4WH Mitra", Delivery_Success_Rate: "95.50%", Total_Penugasan: 1680, Delivered: 1604, OnHold: 24, Total_Hari_Kerja: 25, Bulan: "2026-11" }
     ];
 
-    let allRecords = [];
-    let currentCourierRecords = [];
+    let allCourierRecords = [];
+    let currentCourierId = null;
+    let currentLeadAccount = null;
     let selectedCourierMonth = "";
-    let loggedInDriverId = null;
-    let loggedInLeader = null;
-    let activeTab = "schedule";
-    let activeLeadTab = "schedule";
     let selectedLeadPeriodId = "2026-11";
-    let selectedLeadScheduleCategory = "ALL";
-    let toastTimer = null;
-    let alarmRingInterval = null;
-    let h1WatcherInterval = null;
-    let exactAlarmTimeout = null;
-    let sharedAudioCtx = null;
+    let leadScheduleCategoryFilter = "ALL";
+    let activeTab = "performance";
+    let activePerformSubTab = "my";
+    let activeLeadTab = "schedule";
+    let courierShowFullSchedule = false;
+    let alarmAudioCtx = null;
+    let alarmIntervalId = null;
+    let alarmWatchdogId = null;
+    let currentRingingAlarmKey = null;
 
-    // -----------------------------------------------------------------------
-    // UI & Formatting Helpers
-    // -----------------------------------------------------------------------
-    function normalizeMonthKey(rawMonth) {
-      const s = String(rawMonth || "").trim();
-      if (/^\d{4}-\d{2}$/.test(s)) return s;
-      const mIso = s.match(/^(\d{4})[\/-](\d{1,2})/);
-      if (mIso) return `${mIso[1]}-${mIso[2].padStart(2, "0")}`;
-      const monthsMap = {
-        jan: "01", feb: "02", mar: "03", apr: "04", mei: "05", may: "05",
-        jun: "06", jul: "07", agu: "08", aug: "08", sep: "09", okt: "10",
-        oct: "10", nov: "11", des: "12", dec: "12"
-      };
-      const lower = s.toLowerCase();
-      const yMatch = lower.match(/(20\d{2})/);
-      if (yMatch) {
-        for (const [k, num] of Object.entries(monthsMap)) {
-          if (lower.includes(k)) return `${yMatch[1]}-${num}`;
-        }
-      }
-      return s || "2026-11";
+    function formatRupiah(num) {
+      return "Rp" + Math.round(Number(num) || 0).toLocaleString("id-ID");
+    }
+
+    function parseDsrNumber(dsrStr) {
+      const cleaned = String(dsrStr || "0").replace("%", "").replace(",", ".").trim();
+      const val = parseFloat(cleaned);
+      return Number.isFinite(val) ? val : 0;
     }
 
     function formatMonthLabel(ym) {
-      const norm = normalizeMonthKey(ym);
-      if (!norm || !String(norm).includes("-")) return String(norm || "November 2026");
-      const [y, m] = String(norm).split("-");
+      if (!ym || !ym.includes("-")) return ym || "-";
+      const [y, m] = ym.split("-");
       const idx = parseInt(m, 10) - 1;
       return `${MONTH_NAMES_ID[idx] || m} ${y}`;
     }
 
-    function formatClockHHMM(dateObj) {
-      if (!(dateObj instanceof Date) || isNaN(dateObj.getTime())) return "06:45 WIB";
-      const hh = String(dateObj.getHours()).padStart(2, "0");
-      const mm = String(dateObj.getMinutes()).padStart(2, "0");
-      return `${hh}:${mm} WIB`;
-    }
-
-    function formatRemainingDuration(ms) {
-      if (ms <= 0) return "sedang aktif sekarang";
-      const totalMins = Math.floor(ms / 60000);
-      const hrs = Math.floor(totalMins / 60);
-      const mins = totalMins % 60;
-      if (hrs >= 24) {
-        const days = Math.floor(hrs / 24);
-        const remHrs = hrs % 24;
-        return `${days} hari ${remHrs} jam lagi`;
-      }
-      if (hrs > 0) return `${hrs} jam ${mins} menit lagi`;
-      return `${mins} menit lagi`;
-    }
-
-    function computeShiftAndAlarmDates(dateKey, shiftTimeStr) {
-      const [y, m, d] = String(dateKey).split("-").map(Number);
-      const timeMatch = String(shiftTimeStr || "07:15").match(/(\d{1,2})[:.](\d{2})/);
-      const hour = timeMatch ? parseInt(timeMatch[1], 10) : 7;
-      const minute = timeMatch ? parseInt(timeMatch[2], 10) : 15;
-      const shiftStart = new Date(y, (m || 1) - 1, d || 1, hour, minute, 0, 0);
-      const alarmTime = new Date(shiftStart.getTime() - 30 * 60 * 1000);
-      return { shiftStart, alarmTime };
-    }
-
-    function loadSchedulePeriods() {
-      let rawList = [];
-      try {
-        const raw = localStorage.getItem(PERIODS_STORAGE_KEY);
-        rawList = raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        rawList = [];
-      }
-      const source = (Array.isArray(rawList) && rawList.length > 0) ? rawList : DEFAULT_PERIODS;
-      return source
-        .map(p => ({
-          id: p.id,
-          label: formatMonthLabel(p.id),
-          startDay: Number(p.startDay) || 1,
-          endDay: Number(p.endDay) || 30,
-          dates: buildPeriodDates(p.id, Number(p.startDay) || 1, Number(p.endDay) || 30)
-        }))
-        .sort((a, b) => String(b.id).localeCompare(String(a.id)));
-    }
-
-    function saveSchedulePeriods(list) {
-      try {
-        const clean = list.map(({ id, label, startDay, endDay }) => ({ id, label, startDay, endDay }));
-        localStorage.setItem(PERIODS_STORAGE_KEY, JSON.stringify(clean));
-      } catch (e) {}
-    }
-
-    function getLatestSchedulePeriod() {
-      const periods = loadSchedulePeriods();
-      return periods[0];
-    }
-
-    function getPeriodById(periodId) {
-      const periods = loadSchedulePeriods();
-      return periods.find(p => p.id === periodId) || periods[0];
-    }
-
-    function openAddMonthModal() {
-      const modal = document.getElementById("addMonthModal");
-      if (modal) modal.classList.remove("hidden");
-    }
-
-    function closeAddMonthModal() {
-      const modal = document.getElementById("addMonthModal");
-      if (modal) modal.classList.add("hidden");
-    }
-
-    function handleCreateNewMonthPeriod(e) {
-      e.preventDefault();
-      const ym = document.getElementById("newPeriodMonthInput")?.value || "2026-12";
-      const startDay = parseInt(document.getElementById("newPeriodStartDay")?.value || "1", 10);
-      const endDay = parseInt(document.getElementById("newPeriodEndDay")?.value || "31", 10);
-      const label = formatMonthLabel(ym);
-
-      const existing = loadSchedulePeriods().filter(p => p.id !== ym);
-      existing.unshift({ id: ym, label, startDay, endDay });
-      saveSchedulePeriods(existing);
-
-      selectedLeadPeriodId = ym;
-      populateLeadPeriodSelector();
-      renderLeadScheduleTable();
-      closeAddMonthModal();
-      showToast("Periode Ditambahkan", `Periode ${label} berhasil dibuat dan otomatis menjadi jadwal aktif kurir.`);
-    }
-
-    function calculateCourierPayroll(rec) {
-      const cat = String(rec.Kategori_Armada || "2WH Mitra").trim();
-      const catUpper = cat.toUpperCase();
-      const delivered = Math.max(0, parseInt(rec.Delivered, 10) || 0);
-      const workDays = Math.max(0, parseInt(rec.Total_Hari_Kerja, 10) || 0);
-
-      // 1. 2WH Courier Plus (Kurir Plus)
-      // - Gaji Pokok   : Tetap Rp1.700.109 (tidak dikali hari kerja)
-      // - Uang Bensin  : Rp20.000 × Hari Kerja
-      // - Incentive 1  : Paket ke 601..1.090 (maks 490) × Rp475 (syarat bawa > 600 paket)
-      // - Incentive 2  : Paket > 1.090 × Rp875 (syarat bawa > 1.090 paket)
-      if (catUpper.includes("COURIER PLUS") || catUpper.includes("KURIR PLUS") || catUpper.includes("PLUS")) {
-        const gajiPokok = 1700109;
-        const uangBensin = 20000 * workDays;
-        const tier1Parcels = Math.min(Math.max(0, delivered - 600), 490);
-        const insentif1 = tier1Parcels * 475;
-        const tier2Parcels = Math.max(0, delivered - 1090);
-        const insentif2 = tier2Parcels * 875;
-        const gajiInsentif = insentif1 + insentif2;
-
-        return {
-          schemeDesc: "Skema 2WH Courier Plus: Gaji Pokok Tetap Rp1.700.109 + Uang Bensin Rp20.000/hari + Insentif Paket (601–1.090 paket @Rp475 & >1.090 paket @Rp875).",
-          items: [
-            { label: "Gaji Pokok (Tetap)", detail: "Gaji pokok bulanan 2WH Courier Plus", amount: gajiPokok },
-            { label: "Uang Bensin Harian", detail: `${workDays} hari kerja × Rp20.000/hari`, amount: uangBensin },
-            { label: "Incentive 1 (601–1.090 paket)", detail: `${tier1Parcels.toLocaleString("id-ID")} paket × Rp475 (min. bawa 600 paket)`, amount: insentif1 },
-            { label: "Incentive 2 (> 1.090 paket)", detail: `${tier2Parcels.toLocaleString("id-ID")} paket × Rp875 (min. bawa 1.090 paket)`, amount: insentif2 },
-            { label: "Total Gaji Insentif (Incentive 1 + 2)", detail: `${formatIDR(insentif1)} + ${formatIDR(insentif2)}`, amount: gajiInsentif, isSubtotal: true }
-          ],
-          total: gajiPokok + uangBensin + gajiInsentif
-        };
-      }
-
-      // 2. 2WH Dedicated (Kurir Dedicated - Pringapus 2 Hub)
-      // - Gaji Pokok   : Tetap Rp1.981.000 (tidak dikali hari kerja)
-      // - Uang Bensin  : Rp104.240 × Hari Kerja
-      // - Incentive 1  : Paket ke 1.951..3.120 (maks 1.170) × Rp620 (syarat bawa > 1.950 paket)
-      // - Incentive 2  : Paket > 3.120 × Rp1.095 (syarat bawa > 3.120 paket)
-      if (catUpper.includes("DEDICATED")) {
-        const gajiPokok = 1981000;
-        const uangBensin = 104240 * workDays;
-        const tier1Parcels = Math.min(Math.max(0, delivered - 1950), 1170);
-        const insentif1 = tier1Parcels * 620;
-        const tier2Parcels = Math.max(0, delivered - 3120);
-        const insentif2 = tier2Parcels * 1095;
-        const gajiInsentif = insentif1 + insentif2;
-
-        return {
-          schemeDesc: "Skema 2WH Dedicated: Gaji Pokok Tetap Rp1.981.000 + Uang Bensin Rp104.240/hari + Insentif Paket (1.951–3.120 paket @Rp620 & >3.120 paket @Rp1.095).",
-          items: [
-            { label: "Gaji Pokok (Tetap)", detail: "Gaji pokok bulanan 2WH Dedicated", amount: gajiPokok },
-            { label: "Uang Bensin Harian", detail: `${workDays} hari kerja × Rp104.240/hari`, amount: uangBensin },
-            { label: "Incentive 1 (1.951–3.120 paket)", detail: `${tier1Parcels.toLocaleString("id-ID")} paket × Rp620 (min. bawa 1.950 paket)`, amount: insentif1 },
-            { label: "Incentive 2 (> 3.120 paket)", detail: `${tier2Parcels.toLocaleString("id-ID")} paket × Rp1.095 (min. bawa 3.120 paket)`, amount: insentif2 },
-            { label: "Total Gaji Insentif (Incentive 1 + 2)", detail: `${formatIDR(insentif1)} + ${formatIDR(insentif2)}`, amount: gajiInsentif, isSubtotal: true }
-          ],
-          total: gajiPokok + uangBensin + gajiInsentif
-        };
-      }
-
-      if (catUpper.includes("4WH")) {
-        const komisiPaket = 5400 * delivered;
-        return {
-          schemeDesc: "Skema 4WH Mitra: Tarif Rp5.400 per paket Delivered.",
-          items: [
-            { label: "Komisi Paket Terkirim (4WH Mitra)", detail: `${delivered.toLocaleString("id-ID")} paket × Rp5.400`, amount: komisiPaket }
-          ],
-          total: komisiPaket
-        };
-      }
-
-      const komisiMitra = 1800 * delivered;
-      return {
-        schemeDesc: "Skema 2WH Mitra: Komisi Rp1.800 per paket Delivered.",
-        items: [
-          { label: "Komisi Paket Terkirim (2WH Mitra)", detail: `${delivered.toLocaleString("id-ID")} paket × Rp1.800`, amount: komisiMitra }
-        ],
-        total: komisiMitra
-      };
-    }
-
-    function formatIDR(amount) {
-      const num = Math.round(Number(amount) || 0);
-      return "Rp" + num.toLocaleString("id-ID");
-    }
-
-    function animateCounterValue(el, targetValue, formatterFn, durationMs = 650) {
-      if (!el) return;
-      const target = Number(targetValue) || 0;
-      const startTime = performance.now();
-
-      function step(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(1, elapsed / durationMs);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = target * eased;
-        el.textContent = formatterFn ? formatterFn(current) : Math.round(current).toLocaleString("id-ID");
-        if (progress < 1) {
-          requestAnimationFrame(step);
-        } else {
-          el.textContent = formatterFn ? formatterFn(target) : Math.round(target).toLocaleString("id-ID");
-        }
-      }
-      requestAnimationFrame(step);
-    }
-
     function showToast(title, desc, isError = false) {
       const banner = document.getElementById("toastBanner");
+      const inner = document.getElementById("toastInner");
       const icon = document.getElementById("toastIcon");
-      const titleEl = document.getElementById("toastTitle");
-      const descEl = document.getElementById("toastDesc");
-      if (!banner) return;
-
-      titleEl.textContent = title;
-      descEl.textContent = desc;
+      document.getElementById("toastTitle").textContent = title;
+      document.getElementById("toastDesc").textContent = desc;
+      inner.className = isError
+        ? "px-4 py-3.5 rounded-2xl bg-rose-950 text-white border border-rose-700 shadow-2xl flex items-start gap-3 text-xs"
+        : "px-4 py-3.5 rounded-2xl bg-slate-900 text-white border border-slate-700 shadow-2xl flex items-start gap-3 text-xs";
       icon.className = isError
         ? "fas fa-exclamation-triangle text-rose-400 text-base mt-0.5"
         : "fas fa-check-circle text-emerald-400 text-base mt-0.5";
-
       banner.classList.remove("hidden");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        banner.classList.add("hidden");
-      }, 3600);
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => banner.classList.add("hidden"), 3800);
     }
 
     function copyDriverIdToPassword() {
-      const idVal = document.getElementById("driverIdInput")?.value || "";
-      const passEl = document.getElementById("passwordInput");
-      if (passEl) passEl.value = idVal.trim();
+      const idVal = document.getElementById("driverIdInput").value;
+      document.getElementById("passwordInput").value = idVal;
     }
 
     function togglePasswordVisibility() {
-      const passEl = document.getElementById("passwordInput");
-      const eyeEl = document.getElementById("eyeIcon");
-      if (!passEl || !eyeEl) return;
-      if (passEl.type === "password") {
-        passEl.type = "text";
-        eyeEl.className = "fas fa-eye-slash text-sm";
+      const inp = document.getElementById("passwordInput");
+      const icon = document.getElementById("eyeIcon");
+      if (inp.type === "password") {
+        inp.type = "text";
+        icon.className = "fas fa-eye-slash text-sm";
       } else {
-        passEl.type = "password";
-        eyeEl.className = "fas fa-eye text-sm";
+        inp.type = "password";
+        icon.className = "fas fa-eye text-sm";
       }
     }
 
-    function toggleMobileSidebar(open) {
-      const sidebar = document.getElementById("courierSidebar");
-      const backdrop = document.getElementById("mobileSidebarBackdrop");
-      if (!sidebar || !backdrop) return;
-      if (open) {
-        sidebar.classList.remove("-translate-x-full");
-        backdrop.classList.remove("hidden");
-      } else {
-        sidebar.classList.add("-translate-x-full");
-        backdrop.classList.add("hidden");
-      }
-    }
-
-    function readActiveSession() {
-      try {
-        const raw = localStorage.getItem(SESSION_STORAGE_KEY);
-        return raw ? JSON.parse(raw) : null;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function saveActiveSession(sessionObj) {
-      try {
-        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionObj));
-      } catch (e) {}
-    }
-
-    function clearActiveSession() {
-      try {
-        localStorage.removeItem(SESSION_STORAGE_KEY);
-      } catch (e) {}
-    }
-
-    function readCachedRecords() {
-      try {
-        const raw = localStorage.getItem(CACHE_RECORDS_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
-      }
-    }
-
-    function saveCachedRecords(records) {
-      try {
-        localStorage.setItem(CACHE_RECORDS_KEY, JSON.stringify(records));
-      } catch (e) {}
-    }
-
-    // -----------------------------------------------------------------------
-    // CSV Parser & GitHub Sync (Mempertahankan Metrik Pengiriman & Bulan)
-    // -----------------------------------------------------------------------
-    function parseCSVRows(csvText) {
-      const lines = String(csvText || "").replace(/^\uFEFF/, "").split(/\r?\n/).filter(l => l.trim().length > 0);
+    function parseCSV(text) {
+      const lines = text.replace(/\r/g, "").split("\n").filter(l => l.trim().length > 0);
       if (lines.length < 2) return [];
-
-      const splitLine = (line) => {
-        const out = [];
-        let cur = "";
-        let inQuotes = false;
-        for (let i = 0; i < line.length; i++) {
-          const ch = line[i];
-          if (ch === '"') {
-            if (inQuotes && line[i + 1] === '"') {
-              cur += '"';
-              i++;
-            } else {
-              inQuotes = !inQuotes;
-            }
-          } else if (ch === "," && !inQuotes) {
-            out.push(cur.trim());
-            cur = "";
-          } else {
-            cur += ch;
-          }
-        }
-        out.push(cur.trim());
-        return out;
-      };
-
-      const headers = splitLine(lines[0]);
-      const records = [];
-      for (let i = 1; i < lines.length; i++) {
-        const cols = splitLine(lines[i]);
-        if (cols.length === 0) continue;
+      const headers = lines[0].split(",").map(h => h.replace(/^\uFEFF/, "").trim());
+      return lines.slice(1).map(line => {
+        const vals = line.split(",");
         const obj = {};
-        headers.forEach((h, idx) => {
-          obj[h] = cols[idx] !== undefined ? cols[idx] : "";
+        headers.forEach((h, i) => {
+          obj[h] = (vals[i] || "").trim();
         });
-        records.push(obj);
-      }
-      return records;
+        return obj;
+      });
     }
 
-    async function loadDatabaseFromGitHub() {
+    async function loadMasterDatabase(forceNetwork = false) {
       try {
-        const res = await fetch(`${GITHUB_CSV_URL}?_t=${Date.now()}`, { cache: "no-store" });
-        if (!res.ok) return allRecords;
-        const text = await res.text();
-        const rows = parseCSVRows(text);
-        if (rows.length > 0) {
-          const parsedMap = new Map();
-          rows.forEach(r => {
-            const id = String(r.Driver_ID || "").trim();
-            const name = String(r.Nama_Kurir || "").trim();
-            if (!id || !name) return;
-            const assigned = parseInt(r.Total_Penugasan || r.Penugasan_Hari_Ini || 0, 10) || 0;
-            const delivered = parseInt(r.Delivered || 0, 10) || 0;
-            const onhold = parseInt(r.OnHold || 0, 10) || 0;
-            const daysWork = parseInt(r.Total_Hari_Kerja || 0, 10) || (delivered > 0 ? Math.min(26, Math.max(1, Math.ceil(delivered / 75))) : 0);
-            const bulan = normalizeMonthKey(r.Bulan || "2026-11");
-
-            // Kunci unik per Driver_ID + Bulan agar data bulan lama tidak tertimpa dan tidak duplikat
-            const uniqueKey = `${id}_${bulan}`;
-            parsedMap.set(uniqueKey, {
-              Driver_ID: id,
-              Nama_Kurir: name,
-              Password: String(r.Password || id).trim(),
+        const cacheBuster = `?t=${Date.now()}`;
+        const resp = await fetch(GITHUB_CSV_URL + cacheBuster, { cache: "no-store" });
+        if (resp.ok) {
+          const text = await resp.text();
+          const rows = parseCSV(text);
+          if (rows.length > 0) {
+            const normalized = rows.map(r => ({
+              Driver_ID: String(r.Driver_ID || "").trim(),
+              Nama_Kurir: String(r.Nama_Kurir || "").trim(),
+              Password: String(r.Password || r.Driver_ID || "").trim(),
               Kategori_Armada: String(r.Kategori_Armada || "2WH Mitra").trim(),
               Delivery_Success_Rate: String(r.Delivery_Success_Rate || "0%").trim(),
-              Total_Penugasan: assigned,
-              Delivered: delivered,
-              OnHold: onhold,
-              Total_Hari_Kerja: daysWork,
-              Bulan: bulan
-            });
-          });
-          const parsedList = Array.from(parsedMap.values());
-          if (parsedList.length > 0) {
-            allRecords = parsedList;
-            saveCachedRecords(allRecords);
+              Total_Penugasan: Number(r.Total_Penugasan ?? r.Penugasan_Hari_Ini ?? 0) || 0,
+              Delivered: Number(r.Delivered || 0) || 0,
+              OnHold: Number(r.OnHold || 0) || 0,
+              Total_Hari_Kerja: Number(r.Total_Hari_Kerja || 0) || 0,
+              Bulan: String(r.Bulan || "2026-11").trim()
+            })).filter(r => r.Driver_ID);
+
+            const dedupMap = new Map();
+            normalized.forEach(item => dedupMap.set(`${item.Driver_ID}_${item.Bulan}`, item));
+            allCourierRecords = Array.from(dedupMap.values());
+            localStorage.setItem(CACHE_RECORDS_KEY, JSON.stringify(allCourierRecords));
+            return allCourierRecords;
           }
         }
-      } catch (e) {
-        console.warn("Memakai cache kurir lokal:", e);
+      } catch (err) {
+        console.warn("Gagal fetch GitHub CSV, memakai cache / bawaan:", err);
       }
-      if (allRecords.length === 0) {
-        allRecords = [...FALLBACK_RECORDS];
+
+      if (!forceNetwork) {
+        try {
+          const cached = JSON.parse(localStorage.getItem(CACHE_RECORDS_KEY) || "[]");
+          if (cached.length > 0) {
+            allCourierRecords = cached;
+            return allCourierRecords;
+          }
+        } catch (e) {}
       }
-      return allRecords;
+
+      allCourierRecords = [...BUILTIN_MASTER_DB];
+      return allCourierRecords;
     }
 
     async function loadScheduleFromGitHub() {
       try {
-        const res = await fetch(`${GITHUB_SCHEDULE_CSV_URL}?_t=${Date.now()}`, { cache: "no-store" });
-        if (!res.ok) return;
-        const text = await res.text();
-        const rows = parseCSVRows(text);
-        if (rows.length === 0) return;
+        const resp = await fetch(`${GITHUB_SCHEDULE_CSV_URL}?t=${Date.now()}`, { cache: "no-store" });
+        if (!resp.ok) return;
+        const text = await resp.text();
+        const rows = parseCSV(text);
+        if (!rows.length) return;
 
-        const latestPeriod = getLatestSchedulePeriod();
-        const allSched = loadAllSchedules();
-        rows.forEach(r => {
-          const drvId = String(r.Driver_ID || "").trim();
+        const allSched = getAllSchedulesMap();
+        rows.forEach(row => {
+          const periodId = String(row.Periode || "2026-11").trim();
+          const drvId = String(row.Driver_ID || "").trim();
           if (!drvId) return;
-          const mappedCluster = DRIVER_CLUSTER_MAP[drvId] || DEFAULT_ZONES[Math.abs(parseInt(drvId, 10) || 0) % DEFAULT_ZONES.length];
-          const existing = allSched[drvId] || {
-            zone: r.Zona || mappedCluster,
-            shiftTime: r.Jam_Masuk || DEFAULT_SHIFT_TIME,
-            days: {},
-            note: r.Catatan || "Briefing pagi & sortir tepat waktu"
-          };
-
-          latestPeriod.dates.forEach(d => {
-            const rawVal = r[d.key] || r[d.label] || "";
-            if (rawVal) {
-              const up = String(rawVal).toUpperCase();
-              if (up.includes("OFF") || up.includes("LIBUR")) {
-                existing.days[d.key] = "OFF";
-              } else if (up === "BELUM_DIISI" || up === "PENDING") {
-                existing.days[d.key] = "PENDING";
-              } else {
-                existing.days[d.key] = "IN";
-                if (rawVal.includes(":")) existing.shiftTime = rawVal;
-              }
+          if (!allSched[periodId]) allSched[periodId] = {};
+          const existing = allSched[periodId][drvId] || { days: {} };
+          const daysObj = { ...(existing.days || {}) };
+          Object.keys(row).forEach(col => {
+            if (/^\d{4}-\d{2}-\d{2}$/.test(col)) {
+              const val = String(row[col] || "").toUpperCase();
+              if (val === "IN" || val === "OFF") daysObj[col] = val;
             }
           });
-
-          allSched[drvId] = existing;
+          allSched[periodId][drvId] = {
+            zone: row.Zona || existing.zone || OFFICIAL_CLUSTER_MAP[drvId] || "Zona Hub Pringapus 2",
+            shiftTime: row.Jam_Masuk || existing.shiftTime || "07:15 WIB",
+            note: row.Catatan || existing.note || "Shift Pagi",
+            days: daysObj
+          };
         });
-        saveAllSchedules(allSched);
-      } catch (e) {}
+        saveAllSchedulesMap(allSched);
+      } catch (e) {
+        console.warn("Schedule_Database.csv belum tersedia di remote, memakai jadwal lokal.");
+      }
     }
 
-    // -----------------------------------------------------------------------
-    // Authentication & Session Switching
-    // -----------------------------------------------------------------------
+    function getPeriodsList() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(PERIODS_STORAGE_KEY) || "[]");
+        if (saved.length > 0) return saved;
+      } catch (e) {}
+      return [...DEFAULT_PERIODS];
+    }
+
+    function savePeriodsList(list) {
+      localStorage.setItem(PERIODS_STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function getLatestPeriod() {
+      const list = getPeriodsList();
+      return list[list.length - 1] || DEFAULT_PERIODS[0];
+    }
+
+    function getAllSchedulesMap() {
+      try {
+        return JSON.parse(localStorage.getItem(SCHEDULE_STORAGE_KEY) || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveAllSchedulesMap(mapObj) {
+      localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(mapObj));
+    }
+
+    function getOrCreateCourierSchedule(rec, period) {
+      const allSched = getAllSchedulesMap();
+      if (!allSched[period.id]) allSched[period.id] = {};
+      const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
+      if (!allSched[period.id][rec.Driver_ID]) {
+        const defaultDays = {};
+        dates.forEach(d => { defaultDays[d.key] = "PENDING"; });
+        allSched[period.id][rec.Driver_ID] = {
+          zone: OFFICIAL_CLUSTER_MAP[rec.Driver_ID] || "Zona Hub Pringapus 2",
+          shiftTime: rec.Kategori_Armada.includes("Mitra") ? "07:30 WIB" : "07:15 WIB",
+          note: "Shift Pagi",
+          days: defaultDays
+        };
+        saveAllSchedulesMap(allSched);
+      }
+      return allSched[period.id][rec.Driver_ID];
+    }
+
+    // =========================================================================
+    // KALKULATOR GAJI / PAYROLL BERDASARKAN KATEGORI ARMADA
+    // =========================================================================
+    function calculateCourierPayroll(rec, overrideDelivered = null, overrideDays = null) {
+      const cat = String(rec.Kategori_Armada || "").toLowerCase();
+      const delivered = overrideDelivered !== null ? Number(overrideDelivered) : (Number(rec.Delivered) || 0);
+      const workDays = overrideDays !== null ? Number(overrideDays) : (Number(rec.Total_Hari_Kerja) || 0);
+      const items = [];
+      let total = 0;
+
+      if (cat.includes("dedicated")) {
+        const gapok = 2850000;
+        const uangHadir = workDays * 35000;
+        const insentifPaket = delivered > 1200 ? (delivered - 1200) * 850 : 0;
+        items.push({ label: "Gaji Pokok Bulanan (2WH Dedicated)", amount: gapok });
+        items.push({ label: `Tunjangan Kehadiran & BBM (${workDays} hari × Rp35.000)`, amount: uangHadir });
+        items.push({ label: `Insentif Kelebihan Target (>1.200 paket)`, amount: insentifPaket });
+        total = gapok + uangHadir + insentifPaket;
+        return {
+          schemeName: "Skema: 2WH Dedicated",
+          schemeDesc: "Gaji pokok bulanan + tunjangan harian + insentif kelebihan target paket.",
+          items,
+          total
+        };
+      }
+
+      if (cat.includes("courier plus")) {
+        const retainer = workDays * 95000;
+        const feePaket = delivered * 1150;
+        const bonusDsr = parseDsrNumber(rec.Delivery_Success_Rate) >= 96 ? 250000 : 0;
+        items.push({ label: `Uang Saku Harian (${workDays} hari × Rp95.000)`, amount: retainer });
+        items.push({ label: `Komisi Pengantaran (${delivered.toLocaleString("id-ID")} paket × Rp1.150)`, amount: feePaket });
+        items.push({ label: "Bonus Kualitas DSR ≥ 96%", amount: bonusDsr });
+        total = retainer + feePaket + bonusDsr;
+        return {
+          schemeName: "Skema: 2WH Courier Plus",
+          schemeDesc: "Kombinasi uang saku harian tetap + komisi per paket terkirim + bonus DSR.",
+          items,
+          total
+        };
+      }
+
+      if (cat.includes("4wh")) {
+        const sewaHarian = workDays * 225000;
+        const feePaket4wh = delivered * 2200;
+        items.push({ label: `Sewa Armada & BBM 4WH (${workDays} hari × Rp225.000)`, amount: sewaHarian });
+        items.push({ label: `Komisi Paket 4WH (${delivered.toLocaleString("id-ID")} paket × Rp2.200)`, amount: feePaket4wh });
+        total = sewaHarian + feePaket4wh;
+        return {
+          schemeName: "Skema: 4WH Mitra",
+          schemeDesc: "Kompensasi operasional armada roda 4 harian + komisi per paket terkirim.",
+          items,
+          total
+        };
+      }
+
+      // Default: 2WH Mitra
+      const rateMitra = 2100;
+      const komisiMitra = delivered * rateMitra;
+      const bonusAktif = workDays >= 20 ? 150000 : 0;
+      items.push({ label: `Komisi Mitra 2WH (${delivered.toLocaleString("id-ID")} paket × Rp2.100)`, amount: komisiMitra });
+      items.push({ label: "Bonus Rajin Masuk (≥ 20 Hari Kerja)", amount: bonusAktif });
+      total = komisiMitra + bonusAktif;
+      return {
+        schemeName: "Skema: 2WH Mitra",
+        schemeDesc: "Perhitungan berbasis produktivitas paket terkirim + bonus kehadiran.",
+        items,
+        total
+      };
+    }
+
+    // =========================================================================
+    // LOGIN & SESSION HANDLER
+    // =========================================================================
     async function handleLogin(e) {
       e.preventDefault();
-      const idInput = (document.getElementById("driverIdInput")?.value || "").trim();
-      const passInput = (document.getElementById("passwordInput")?.value || "").trim();
-      const btnText = document.getElementById("loginBtnText");
-      const spinner = document.getElementById("loginSpinner");
-      const arrow = document.getElementById("loginArrowIcon");
+      const rawId = document.getElementById("driverIdInput").value.trim();
+      const rawPwd = document.getElementById("passwordInput").value.trim();
+      if (!rawId) return;
 
-      if (!idInput || !passInput) {
-        showToast("Data Belum Lengkap", "Masukkan Driver ID / Ops ID dan Password Anda.", true);
+      const spinner = document.getElementById("loginSpinner");
+      const btnText = document.getElementById("loginBtnText");
+      const arrow = document.getElementById("loginArrowIcon");
+      spinner.classList.remove("hidden");
+      arrow.classList.add("hidden");
+      btnText.textContent = "Memverifikasi Akun...";
+
+      await loadMasterDatabase(false);
+      await loadScheduleFromGitHub();
+
+      spinner.classList.add("hidden");
+      arrow.classList.remove("hidden");
+      btnText.textContent = "Masuk ke Portal Hub";
+
+      // Cek apakah Ops ID Hub Lead / Shift Lead
+      if (LEAD_ACCOUNTS[rawId]) {
+        if (rawPwd !== rawId) {
+          showToast("Password Salah", "Gunakan Ops ID Anda sebagai password.", true);
+          return;
+        }
+        currentLeadAccount = LEAD_ACCOUNTS[rawId];
+        currentCourierId = null;
+        localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ type: "lead", id: rawId }));
+        enterLeadDashboard();
         return;
       }
 
-      unlockMaxVolumeAudioContext();
-
-      if (btnText) btnText.textContent = "Memverifikasi Akun...";
-      if (spinner) spinner.classList.remove("hidden");
-      if (arrow) arrow.classList.add("hidden");
-
-      try {
-        const leaderAcc = LEADERSHIP_ACCOUNTS[idInput];
-        if (leaderAcc) {
-          if (passInput !== leaderAcc.password) {
-            showToast("Password Salah", "Password untuk Ops ID pimpinan tidak cocok.", true);
-            return;
-          }
-          if (allRecords.length === 0) {
-            await loadDatabaseFromGitHub();
-          }
-          saveActiveSession({ role: "leader", id: leaderAcc.opsId, tab: "schedule" });
-          activateLeaderSession(leaderAcc, "schedule");
-          showToast("Login Berhasil", `Selamat datang, ${leaderAcc.role} (${leaderAcc.opsId}).`);
-          return;
-        }
-
-        if (allRecords.length === 0) {
-          await loadDatabaseFromGitHub();
-        }
-        let matched = allRecords.filter(r => r.Driver_ID === idInput);
-        if (matched.length === 0) {
-          await loadDatabaseFromGitHub();
-          matched = allRecords.filter(r => r.Driver_ID === idInput);
-        }
-
-        if (matched.length === 0) {
-          showToast("ID Tidak Ditemukan", `Driver ID "${idInput}" belum terdaftar di database hub.`, true);
-          return;
-        }
-
-        const expectedPass = matched[0].Password || matched[0].Driver_ID;
-        if (passInput !== expectedPass && passInput !== matched[0].Driver_ID) {
-          showToast("Password Salah", "Gunakan Driver ID Anda yang sama sebagai Password.", true);
-          return;
-        }
-
-        saveActiveSession({ role: "courier", id: idInput, tab: "schedule" });
-        const ok = activateCourierSession(idInput, "schedule");
-        if (ok) {
-          enableDeviceAlarmPermission(false);
-          showToast("Login Berhasil", `Selamat bertugas, ${matched[0].Nama_Kurir}!`);
-        }
-      } finally {
-        if (btnText) btnText.textContent = "Masuk ke Portal Hub";
-        if (spinner) spinner.classList.add("hidden");
-        if (arrow) arrow.classList.remove("hidden");
+      // Cek akun Kurir
+      const courierMatches = allCourierRecords.filter(r => r.Driver_ID === rawId);
+      if (courierMatches.length === 0) {
+        showToast("Driver ID Tidak Ditemukan", `ID "${rawId}" belum terdaftar di database aktif.`, true);
+        return;
       }
-    }
-
-    function activateLeaderSession(leaderObj, tab = "schedule") {
-      loggedInLeader = leaderObj;
-      loggedInDriverId = null;
-
-      document.getElementById("loginView")?.classList.add("hidden");
-      document.getElementById("dashboardView")?.classList.add("hidden");
-      document.getElementById("leadDashboardView")?.classList.remove("hidden");
-
-      initLeadDashboard(tab);
-    }
-
-    function activateCourierSession(driverId, tab = "schedule") {
-      const records = allRecords
-        .filter(r => r.Driver_ID === String(driverId).trim())
-        .sort((a, b) => String(b.Bulan || "").localeCompare(String(a.Bulan || "")));
-      if (records.length === 0) return false;
-
-      loggedInDriverId = String(driverId).trim();
-      loggedInLeader = null;
-      currentCourierRecords = records;
-
-      if (!selectedCourierMonth || !records.some(r => r.Bulan === selectedCourierMonth)) {
-        selectedCourierMonth = records[0].Bulan || "2026-11";
+      const validPass = courierMatches.some(r => r.Password === rawPwd || r.Driver_ID === rawPwd);
+      if (!validPass) {
+        showToast("Password Tidak Cocok", "Pastikan password sama dengan Driver ID Anda.", true);
+        return;
       }
 
-      document.getElementById("loginView")?.classList.add("hidden");
-      document.getElementById("leadDashboardView")?.classList.add("hidden");
-      document.getElementById("dashboardView")?.classList.remove("hidden");
-
-      const monthSel = document.getElementById("courierMonthSelect");
-      if (monthSel) {
-        monthSel.innerHTML = records.map(r => `<option value="${r.Bulan}" ${r.Bulan === selectedCourierMonth ? "selected" : ""}>${formatMonthLabel(r.Bulan)}</option>`).join("");
-      }
-
-      const activeRec = records.find(r => r.Bulan === selectedCourierMonth) || records[0];
-      document.getElementById("sidebarCourierName").textContent = activeRec.Nama_Kurir;
-      document.getElementById("sidebarCourierId").textContent = `ID: ${activeRec.Driver_ID}`;
-      document.getElementById("sidebarCourierCat").textContent = activeRec.Kategori_Armada;
-      document.getElementById("profileFullName").textContent = activeRec.Nama_Kurir;
-      document.getElementById("profileIdAndCat").textContent = `${activeRec.Driver_ID} (${activeRec.Kategori_Armada})`;
-
-      renderCourierPerformanceAndSalary(activeRec);
-      renderCourierSchedule(activeRec);
-      const validTab = (tab === "overview" || !tab) ? "schedule" : tab;
-      switchDashboardTab(validTab, false);
-      startH1ScheduleWatcher(activeRec);
-      return true;
-    }
-
-    function onCourierMonthChange() {
-      selectedCourierMonth = document.getElementById("courierMonthSelect")?.value || "";
-      const activeRec = currentCourierRecords.find(r => r.Bulan === selectedCourierMonth) || currentCourierRecords[0];
-      if (activeRec) {
-        renderCourierPerformanceAndSalary(activeRec);
-      }
-    }
-
-    function renderCourierPerformanceAndSalary(rec) {
-      if (!rec) return;
-      const sched = getCourierSchedule(rec);
-      const payroll = calculateCourierPayroll(rec);
-      const dsrNum = parseFloat(String(rec.Delivery_Success_Rate || "0").replace("%", "")) || 0;
-      const monthLabel = formatMonthLabel(rec.Bulan);
-
-      // Update Header Bulan Performa & Hero Gaji
-      const perfMonthEl = document.getElementById("perfMonthText");
-      if (perfMonthEl) perfMonthEl.textContent = monthLabel;
-      document.getElementById("heroCategoryScheme").textContent = `Skema: ${rec.Kategori_Armada}`;
-      document.getElementById("heroMonthText").textContent = monthLabel;
-      animateCounterValue(document.getElementById("heroEstimatedSalary"), payroll.total, (v) => formatIDR(v), 700);
-
-      // Update 4 Kartu Performa dengan Animasi Angka
-      animateCounterValue(document.getElementById("statTotalAssigned"), rec.Total_Penugasan, (v) => Math.round(v).toLocaleString("id-ID"), 600);
-      animateCounterValue(document.getElementById("statTotalDelivered"), rec.Delivered, (v) => Math.round(v).toLocaleString("id-ID"), 650);
-      animateCounterValue(document.getElementById("statTotalOnhold"), rec.OnHold, (v) => Math.round(v).toLocaleString("id-ID"), 550);
-      animateCounterValue(document.getElementById("statDsrValue"), dsrNum, (v) => `${v.toFixed(2)}%`, 650);
-
-      const dsrBar = document.getElementById("statDsrBar");
-      const dsrBadge = document.getElementById("statDsrStatusBadge");
-      if (dsrBar) dsrBar.style.width = `${Math.min(100, Math.max(0, dsrNum))}%`;
-      if (dsrBadge) {
-        if (dsrNum >= 90) {
-          dsrBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700";
-          dsrBadge.textContent = "Sangat Baik";
-        } else if (dsrNum >= 75) {
-          dsrBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-800";
-          dsrBadge.textContent = "Perlu Ditingkatkan";
-        } else {
-          dsrBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 text-rose-700";
-          dsrBadge.textContent = "Perhatian Khusus";
-        }
-      }
-
-      // Produktivitas Harian di Tab Performa
-      const workDays = parseInt(rec.Total_Hari_Kerja, 10) || 0;
-      const avgPerDay = workDays > 0 ? Math.round((parseInt(rec.Delivered, 10) || 0) / workDays) : 0;
-      document.getElementById("overviewWorkDaysBadge").textContent = `${workDays} Hari Kerja`;
-      document.getElementById("overviewAvgPerDay").textContent = `${avgPerDay} Paket/hari`;
-      document.getElementById("overviewDsrText").textContent = `${dsrNum.toFixed(2)}%`;
-      document.getElementById("overviewZoneText").textContent = sched.zone;
-
-      renderHubLeaderboards({ bestContainerId: "perf-subpanel-best", worstContainerId: "perf-subpanel-worst" }, rec.Bulan, false);
-
-      // Tab Rincian Gaji Lengkap
-      document.getElementById("payrollMonthLabel").textContent = monthLabel;
-      document.getElementById("payrollSchemeDesc").textContent = payroll.schemeDesc;
-      document.getElementById("payrollCategoryPill").textContent = rec.Kategori_Armada;
-      document.getElementById("payrollGrandTotal").textContent = formatIDR(payroll.total);
-
-      const breakdownEl = document.getElementById("payrollBreakdownContainer");
-      if (breakdownEl) {
-        breakdownEl.innerHTML = payroll.items.map(it => `
-          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
-            <div>
-              <strong class="text-slate-900 block">${it.label}</strong>
-              <span class="text-[11px] text-slate-500">${it.detail}</span>
-            </div>
-            <strong class="text-sm font-black text-emerald-700 shrink-0">${formatIDR(it.amount)}</strong>
-          </div>
-        `).join("");
-      }
-
-      // Sinkronkan slider simulator gaji dengan capaian aktual kurir
-      const simDelRange = document.getElementById("simDeliveredRange");
-      const simDaysRange = document.getElementById("simDaysRange");
-      if (simDelRange && simDaysRange) {
-        simDelRange.value = Math.min(4500, parseInt(rec.Delivered, 10) || 100);
-        simDaysRange.value = Math.min(31, Math.max(1, workDays || 26));
-        updateSalarySimulator();
-      }
-    }
-
-    function updateSalarySimulator() {
-      const activeRec = currentCourierRecords.find(r => r.Bulan === selectedCourierMonth) || currentCourierRecords[0];
-      if (!activeRec) return;
-
-      const simDel = parseInt(document.getElementById("simDeliveredRange")?.value || "100", 10);
-      const simDays = parseInt(document.getElementById("simDaysRange")?.value || "26", 10);
-
-      document.getElementById("simDeliveredVal").textContent = `${simDel.toLocaleString("id-ID")} Paket`;
-      document.getElementById("simDaysVal").textContent = `${simDays} Hari`;
-
-      const simPayroll = calculateCourierPayroll({
-        ...activeRec,
-        Delivered: simDel,
-        Total_Hari_Kerja: simDays,
-        Delivery_Success_Rate: "96%"
-      });
-      document.getElementById("simProjectedTotal").textContent = formatIDR(simPayroll.total);
+      currentCourierId = rawId;
+      currentLeadAccount = null;
+      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({ type: "courier", id: rawId }));
+      enterCourierDashboard();
     }
 
     function handleLogout() {
-      stopH1AlarmLoop();
-      if (h1WatcherInterval) {
-        clearInterval(h1WatcherInterval);
-        h1WatcherInterval = null;
-      }
-      loggedInDriverId = null;
-      loggedInLeader = null;
-      currentCourierRecords = [];
-      clearActiveSession();
+      stopAlarmSound();
+      clearInterval(alarmWatchdogId);
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      currentCourierId = null;
+      currentLeadAccount = null;
+      document.getElementById("dashboardView").classList.add("hidden");
+      document.getElementById("leadDashboardView").classList.add("hidden");
+      document.getElementById("loginView").classList.remove("hidden");
+      document.getElementById("driverIdInput").value = "";
+      document.getElementById("passwordInput").value = "";
+    }
 
-      document.getElementById("dashboardView")?.classList.add("hidden");
-      document.getElementById("leadDashboardView")?.classList.add("hidden");
-      document.getElementById("loginView")?.classList.remove("hidden");
+    // =========================================================================
+    // DASHBOARD KURIR: RENDER & INTERAKSI
+    // =========================================================================
+    function enterCourierDashboard() {
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("leadDashboardView").classList.add("hidden");
+      document.getElementById("dashboardView").classList.remove("hidden");
 
-      const passInput = document.getElementById("passwordInput");
-      if (passInput) passInput.value = "";
-      showToast("Logout Berhasil", "Anda telah keluar dari portal SPX Pringapus 2 Hub.");
+      const myRecords = allCourierRecords
+        .filter(r => r.Driver_ID === currentCourierId)
+        .sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+
+      const monthSelect = document.getElementById("courierMonthSelect");
+      monthSelect.innerHTML = myRecords.map(r => `<option value="${r.Bulan}">${formatMonthLabel(r.Bulan)}</option>`).join("");
+      selectedCourierMonth = myRecords[0]?.Bulan || "2026-11";
+      monthSelect.value = selectedCourierMonth;
+
+      const latestPeriod = getLatestPeriod();
+      document.getElementById("courierActivePeriodBadge").textContent = latestPeriod.label;
+
+      renderActiveCourierData();
+      // Halaman awal saat kurir login adalah Perform
+      switchDashboardTab("performance");
+      startH1AlarmWatchdog();
+    }
+
+    function onCourierMonthChange() {
+      selectedCourierMonth = document.getElementById("courierMonthSelect").value;
+      renderActiveCourierData();
     }
 
     async function syncCourierDataNow() {
       const icon = document.getElementById("courierSyncSpinIcon");
-      if (icon) icon.classList.add("fa-spin");
-      await loadDatabaseFromGitHub();
+      icon.classList.add("fa-spin");
+      await loadMasterDatabase(true);
       await loadScheduleFromGitHub();
-      if (loggedInDriverId) {
-        activateCourierSession(loggedInDriverId, activeTab);
-      }
-      setTimeout(() => { if (icon) icon.classList.remove("fa-spin"); }, 400);
-      showToast("Data Diperbarui", "Performa pengiriman, estimasi gaji & jadwal terbaru telah disinkronkan.");
+      icon.classList.remove("fa-spin");
+      renderActiveCourierData();
+      showToast("Data Disinkronkan", "Performa, jadwal, dan estimasi gaji terbaru telah dimuat.");
     }
 
-    function switchDashboardTab(tabName, persist = true) {
-      const normalizedTab = tabName === "overview" ? "schedule" : tabName;
-      activeTab = normalizedTab;
-      const titles = {
-        schedule: "Schedule",
-        performance: "Perform",
-        payroll: "Gaji",
-        feedback: "Kotak Saran Hub Lead & Shift Lead",
-        profile: "Alarm HP & Profil Kurir"
-      };
-      const headerTitle = document.getElementById("headerPageTitle");
-      if (headerTitle) headerTitle.textContent = titles[normalizedTab] || "Schedule";
+    function getActiveCourierRecord() {
+      const myRecords = allCourierRecords.filter(r => r.Driver_ID === currentCourierId);
+      return myRecords.find(r => r.Bulan === selectedCourierMonth) || myRecords[0];
+    }
 
-      document.querySelectorAll(".dashboard-tab-panel").forEach(panel => {
-        panel.classList.toggle("hidden", panel.id !== `tab-${normalizedTab}`);
-      });
+    function renderActiveCourierData() {
+      const rec = getActiveCourierRecord();
+      if (!rec) return;
+
+      document.getElementById("sidebarCourierName").textContent = rec.Nama_Kurir;
+      document.getElementById("sidebarCourierId").textContent = `ID: ${rec.Driver_ID}`;
+      document.getElementById("sidebarCourierCat").textContent = rec.Kategori_Armada;
+      document.getElementById("profileFullName").textContent = rec.Nama_Kurir;
+      document.getElementById("profileIdAndCat").textContent = `${rec.Driver_ID} • ${rec.Kategori_Armada}`;
+
+      const monthLabel = formatMonthLabel(rec.Bulan);
+      document.getElementById("perfMonthText").textContent = monthLabel;
+      document.getElementById("perfHeroGreeting").textContent = `Halo, ${rec.Nama_Kurir.split(" ")[0]}!`;
+
+      // Metrik Performa Pribadi
+      const dsrNum = parseDsrNumber(rec.Delivery_Success_Rate);
+      document.getElementById("statTotalAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
+      document.getElementById("statTotalDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
+      document.getElementById("statTotalOnhold").textContent = rec.OnHold.toLocaleString("id-ID");
+      document.getElementById("statDsrValue").textContent = rec.Delivery_Success_Rate;
+      document.getElementById("statDsrBar").style.width = `${Math.min(100, Math.max(0, dsrNum))}%`;
+
+      const dsrBadge = document.getElementById("statDsrStatusBadge");
+      if (dsrNum >= 96) {
+        dsrBadge.textContent = "Sangat Baik";
+        dsrBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700";
+      } else if (dsrNum >= 93) {
+        dsrBadge.textContent = "Baik";
+        dsrBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-amber-100 text-amber-700";
+      } else {
+        dsrBadge.textContent = "Perlu Tingkatkan";
+        dsrBadge.className = "px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 text-rose-700";
+      }
+
+      const workDays = Number(rec.Total_Hari_Kerja) || 0;
+      const avgDaily = workDays > 0 ? Math.round(rec.Delivered / workDays) : 0;
+      document.getElementById("overviewWorkDaysBadge").textContent = `${workDays} Hari Kerja`;
+      document.getElementById("overviewAvgPerDay").textContent = `${avgDaily} Paket/hari`;
+      document.getElementById("overviewDsrText").textContent = rec.Delivery_Success_Rate;
+      document.getElementById("overviewZoneText").textContent = OFFICIAL_CLUSTER_MAP[rec.Driver_ID] || "Zona Hub Pringapus 2";
+
+      // Render Leaderboard Kurir Terbaik & Terburuk (Tanpa Membocorkan Paket Kurir Lain)
+      renderCourierPerformLeaderboards(rec.Bulan);
+
+      // Render Tab Gaji
+      const payroll = calculateCourierPayroll(rec);
+      document.getElementById("heroCategoryScheme").textContent = payroll.schemeName;
+      document.getElementById("heroMonthText").textContent = monthLabel;
+      document.getElementById("heroEstimatedSalary").textContent = formatRupiah(payroll.total);
+      document.getElementById("payrollCategoryPill").textContent = rec.Kategori_Armada;
+      document.getElementById("payrollMonthLabel").textContent = monthLabel;
+      document.getElementById("payrollSchemeDesc").textContent = payroll.schemeDesc;
+      document.getElementById("payrollGrandTotal").textContent = formatRupiah(payroll.total);
+
+      document.getElementById("payrollBreakdownContainer").innerHTML = payroll.items.map(it => `
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="font-semibold text-slate-700">${it.label}</span>
+          <strong class="font-extrabold text-slate-900">${formatRupiah(it.amount)}</strong>
+        </div>
+      `).join("");
+
+      const simDel = document.getElementById("simDeliveredRange");
+      const simDays = document.getElementById("simDaysRange");
+      if (simDel && simDays) {
+        simDel.value = Math.min(4500, rec.Delivered);
+        simDays.value = Math.max(1, Math.min(31, workDays || 26));
+        updateSalarySimulator();
+      }
+
+      // Render Tab Schedule
+      renderCourierSchedule(rec);
+    }
+
+    function updateSalarySimulator() {
+      const rec = getActiveCourierRecord();
+      if (!rec) return;
+      const simDel = Number(document.getElementById("simDeliveredRange").value) || 0;
+      const simDays = Number(document.getElementById("simDaysRange").value) || 1;
+      document.getElementById("simDeliveredVal").textContent = `${simDel.toLocaleString("id-ID")} Paket`;
+      document.getElementById("simDaysVal").textContent = `${simDays} Hari`;
+      const proj = calculateCourierPayroll(rec, simDel, simDays);
+      document.getElementById("simProjectedTotal").textContent = formatRupiah(proj.total);
+    }
+
+    function switchDashboardTab(tabName) {
+      activeTab = tabName;
+      document.querySelectorAll(".dashboard-tab-panel").forEach(el => el.classList.add("hidden"));
+      const target = document.getElementById(`tab-${tabName}`);
+      if (target) target.classList.remove("hidden");
+
+      const titles = {
+        schedule: "Schedule Kerja",
+        performance: "Perform",
+        payroll: "Estimasi Gaji",
+        feedback: "Kotak Saran Hub",
+        profile: "Alarm HP & Profil"
+      };
+      document.getElementById("headerPageTitle").textContent = titles[tabName] || "Perform";
 
       document.querySelectorAll(".sidebar-nav-btn").forEach(btn => {
-        const isMatch = btn.getAttribute("data-tab") === normalizedTab;
-        btn.className = isMatch
-          ? "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition"
+        const isActive = btn.dataset.tab === tabName;
+        btn.className = isActive
+          ? "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-gradient-to-r from-spx-orange to-orange-500 text-white shadow-lg shadow-spx-orange/25 transition"
           : "sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
       });
-
       toggleMobileSidebar(false);
-
-      const activeRec = currentCourierRecords.find(r => r.Bulan === selectedCourierMonth) || currentCourierRecords[0];
-      if (activeRec) {
-        if (normalizedTab === "performance" || normalizedTab === "payroll") {
-          renderCourierPerformanceAndSalary(activeRec);
-        } else if (normalizedTab === "schedule") {
-          renderCourierSchedule(activeRec);
-        }
-      }
-
-      if (persist) {
-        const sess = readActiveSession();
-        if (sess && sess.role === "courier") {
-          saveActiveSession({ ...sess, tab: normalizedTab });
-        }
-      }
     }
 
-    function switchPerformSubTab(subTabName) {
-      document.querySelectorAll(".perf-subpanel").forEach(el => {
-        el.classList.toggle("hidden", el.id !== `perf-subpanel-${subTabName}`);
-      });
+    function switchPerformSubTab(subName) {
+      activePerformSubTab = subName;
+      document.querySelectorAll(".perf-subpanel").forEach(el => el.classList.add("hidden"));
+      const panel = document.getElementById(`perf-subpanel-${subName}`);
+      if (panel) panel.classList.remove("hidden");
 
       document.querySelectorAll(".perf-subtab-btn").forEach(btn => {
-        const isMatch = btn.getAttribute("data-perf-subtab") === subTabName;
-        btn.className = isMatch
+        const active = btn.dataset.perfSubtab === subName;
+        btn.className = active
           ? "perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-extrabold bg-slate-900 text-white shadow transition flex items-center justify-center gap-2"
           : "perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2";
       });
     }
 
-    function toggleLeadSidebar(open) {
-      const sidebar = document.getElementById("leadSidebar");
-      const backdrop = document.getElementById("leadSidebarBackdrop");
-      if (!sidebar || !backdrop) return;
+    function renderCourierPerformLeaderboards(monthYm) {
+      const monthRows = allCourierRecords.filter(r => r.Bulan === monthYm);
+      const bestCandidates = monthRows
+        .filter(r => r.Kategori_Armada === "2WH Dedicated" || r.Kategori_Armada === "2WH Courier Plus")
+        .sort((a, b) => parseDsrNumber(b.Delivery_Success_Rate) - parseDsrNumber(a.Delivery_Success_Rate))
+        .slice(0, 5);
+
+      const worstCandidates = [...monthRows]
+        .sort((a, b) => parseDsrNumber(a.Delivery_Success_Rate) - parseDsrNumber(b.Delivery_Success_Rate))
+        .slice(0, 5);
+
+      const avgBestDsr = bestCandidates.length
+        ? (bestCandidates.reduce((s, r) => s + parseDsrNumber(r.Delivery_Success_Rate), 0) / bestCandidates.length).toFixed(2)
+        : "0.00";
+
+      const bestPanel = document.getElementById("perf-subpanel-best");
+      if (bestPanel) {
+        bestPanel.innerHTML = `
+          <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 text-white p-5 sm:p-6 border border-emerald-500/30 shadow-xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="px-2.5 py-1 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-black uppercase tracking-wider">Top 5 Kurir Terbaik Hub</span>
+                <h3 class="text-base sm:text-lg font-black mt-1.5">Peringkat Tertinggi (2WH Dedicated &amp; Courier Plus)</h3>
+              </div>
+              <div class="px-3.5 py-2 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 text-right">
+                <span class="text-[10px] text-emerald-300 block">Rata-rata Top 5</span>
+                <strong class="text-sm font-black text-emerald-400">${avgBestDsr}% DSR</strong>
+              </div>
+            </div>
+            <div class="space-y-2.5">
+              ${bestCandidates.map((c, idx) => {
+                const dsr = parseDsrNumber(c.Delivery_Success_Rate);
+                const isMe = c.Driver_ID === currentCourierId;
+                return `
+                  <div class="p-3.5 rounded-2xl ${isMe ? "bg-spx-orange/20 border-spx-orange" : "bg-white/5 border-white/10"} border flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-8 h-8 rounded-xl ${idx === 0 ? "bg-amber-400 text-slate-950" : "bg-slate-800 text-amber-300"} font-black text-xs flex items-center justify-center shrink-0">#${idx + 1}</span>
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                          <strong class="text-xs sm:text-sm font-extrabold truncate">${c.Nama_Kurir}</strong>
+                          ${isMe ? '<span class="px-1.5 py-0.5 rounded bg-spx-orange text-[9px] font-black">ANDA</span>' : ""}
+                        </div>
+                        <span class="text-[11px] text-slate-400">${c.Kategori_Armada}</span>
+                      </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                      <strong class="text-sm font-black text-emerald-400">${c.Delivery_Success_Rate}</strong>
+                      <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1">
+                        <div class="h-full bg-emerald-400" style="width:${Math.min(100, dsr)}%"></div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 space-y-1">
+              <strong class="text-amber-300 block"><i class="fas fa-lightbulb mr-1"></i>Analisa Performa Kurir Terbaik:</strong>
+              <p>Kurir teratas menjaga rasio DSR di atas <strong>97%</strong> dengan melakukan konfirmasi alamat penerima lebih awal sebelum berangkat dari hub serta meminimalkan paket status OnHold.</p>
+            </div>
+          </div>
+        `;
+      }
+
+      const worstPanel = document.getElementById("perf-subpanel-worst");
+      if (worstPanel) {
+        worstPanel.innerHTML = `
+          <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950 text-white p-5 sm:p-6 border border-rose-500/30 shadow-xl space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <span class="px-2.5 py-1 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-black uppercase tracking-wider">Evaluasi DSR Terendah</span>
+                <h3 class="text-base sm:text-lg font-black mt-1.5">Urutan DSR Terkecil ke Terbesar (Semua Kategori)</h3>
+              </div>
+              <span class="px-3 py-1.5 rounded-xl bg-rose-500/20 border border-rose-400/30 text-[11px] font-extrabold text-rose-300">Target Hub: ≥ 95.00%</span>
+            </div>
+            <div class="space-y-2.5">
+              ${worstCandidates.map((c, idx) => {
+                const dsr = parseDsrNumber(c.Delivery_Success_Rate);
+                const gap = Math.max(0, 95 - dsr).toFixed(2);
+                const isMe = c.Driver_ID === currentCourierId;
+                return `
+                  <div class="p-3.5 rounded-2xl ${isMe ? "bg-spx-orange/20 border-spx-orange" : "bg-white/5 border-white/10"} border flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 min-w-0">
+                      <span class="w-8 h-8 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/30 font-black text-xs flex items-center justify-center shrink-0">${idx + 1}</span>
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                          <strong class="text-xs sm:text-sm font-extrabold truncate">${c.Nama_Kurir}</strong>
+                          ${isMe ? '<span class="px-1.5 py-0.5 rounded bg-spx-orange text-[9px] font-black">ANDA</span>' : ""}
+                        </div>
+                        <span class="text-[11px] text-slate-400">${c.Kategori_Armada} &bull; Selisih target: -${gap}%</span>
+                      </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                      <strong class="text-sm font-black text-rose-400">${c.Delivery_Success_Rate}</strong>
+                      <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1">
+                        <div class="h-full bg-rose-400" style="width:${Math.min(100, dsr)}%"></div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 space-y-1">
+              <strong class="text-rose-300 block"><i class="fas fa-chart-area mr-1"></i>Analisa Evaluasi Lapangan:</strong>
+              <p>Faktor utama penurunan DSR berasal dari paket gagal antar berulang (OnHold). Disarankan berkoordinasi dengan Shift Lead untuk penyesuaian rute cluster dan validasi nomor telepon penerima.</p>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function toggleCourierScheduleViewMode() {
+      courierShowFullSchedule = !courierShowFullSchedule;
+      const wrapper = document.getElementById("courierFullScheduleTableWrapper");
+      const btn = document.getElementById("toggleFullScheduleBtn");
+      if (wrapper) wrapper.classList.toggle("hidden", !courierShowFullSchedule);
+      if (btn) btn.textContent = courierShowFullSchedule ? "Ringkas (7 Hari)" : "Lihat 1–30 Nov";
+    }
+
+    function renderCourierSchedule(rec) {
+      const period = getLatestPeriod();
+      const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
+      const sched = getOrCreateCourierSchedule(rec, period);
+
+      // Total hari berangkat TETAP mengikuti Total_Hari_Kerja dari database performa
+      const actualWorkDays = Number(rec.Total_Hari_Kerja) || 0;
+      const offDays = dates.filter(d => sched.days[d.key] === "OFF").length;
+
+      document.getElementById("courierSchedulePeriodTitle").textContent = period.label;
+      document.getElementById("courierWorkDaysCount").textContent = `${actualWorkDays} Hari`;
+      document.getElementById("courierOffDaysCount").textContent = `${offDays} Hari`;
+      document.getElementById("courierAssignedZone").textContent = sched.zone;
+
+      const todayKey = new Date().toISOString().slice(0, 10);
+      const upcomingDates = dates.filter(d => d.key >= todayKey);
+      const previewDates = (upcomingDates.length >= 7 ? upcomingDates : dates.slice(-7)).slice(0, 7);
+
+      const nextWork = upcomingDates.find(d => sched.days[d.key] === "IN");
+      const badgeEl = document.getElementById("courierTodayShiftBadge");
+      if (badgeEl) {
+        badgeEl.textContent = nextWork
+          ? `Masuk Berikutnya: ${nextWork.dayName}, ${nextWork.label} (${sched.shiftTime})`
+          : `Jadwal Aktif: ${period.label}`;
+      }
+
+      const compactGrid = document.getElementById("courierCompactScheduleGrid");
+      if (compactGrid) {
+        compactGrid.innerHTML = previewDates.map(d => {
+          const st = sched.days[d.key] || "PENDING";
+          const isToday = d.key === todayKey;
+          const cardTone = st === "IN"
+            ? "bg-emerald-50/90 border-emerald-200 text-emerald-900"
+            : st === "OFF"
+              ? "bg-rose-50/90 border-rose-200 text-rose-900"
+              : "bg-slate-50 border-slate-200 text-slate-700";
+          const pillTone = st === "IN"
+            ? "bg-emerald-600 text-white"
+            : st === "OFF"
+              ? "bg-rose-600 text-white"
+              : "bg-slate-400 text-white";
+          return `
+            <div class="p-3 rounded-2xl border ${cardTone} ${isToday ? "ring-2 ring-spx-orange shadow-sm" : ""} flex flex-col justify-between gap-2">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-bold uppercase tracking-wider opacity-75">${d.shortDay}</span>
+                ${isToday ? '<span class="px-1.5 py-0.5 rounded bg-spx-orange text-white text-[9px] font-black">HARI INI</span>' : ""}
+              </div>
+              <div class="text-sm font-black">${d.label}</div>
+              <div class="flex items-center justify-between pt-1">
+                <span class="px-2 py-0.5 rounded-lg text-[10px] font-extrabold ${pillTone}">${st === "IN" ? "MASUK" : st === "OFF" ? "LIBUR" : "BELUM"}</span>
+                <span class="text-[10px] font-mono opacity-80">${st === "IN" ? sched.shiftTime.replace(" WIB", "") : "-"}</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      const tbody = document.getElementById("courierScheduleTableBody");
+      if (tbody) {
+        tbody.innerHTML = dates.map(d => {
+          const st = sched.days[d.key] || "PENDING";
+          const statusBadge = st === "IN"
+            ? '<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700 font-extrabold">MASUK KERJA</span>'
+            : st === "OFF"
+              ? '<span class="px-2.5 py-1 rounded-full bg-rose-100 text-rose-700 font-extrabold">OFF / LIBUR</span>'
+              : '<span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-600 font-bold">BELUM DIISI</span>';
+          const alarmText = st === "IN"
+            ? `<span class="text-spx-orange font-bold"><i class="fas fa-bell mr-1"></i>H-30 Menit</span>`
+            : `<span class="text-slate-400">-</span>`;
+          return `
+            <tr class="hover:bg-slate-50">
+              <td class="py-2.5 px-4 font-bold text-slate-900">${d.dayName}, ${d.label}</td>
+              <td class="py-2.5 px-4">${statusBadge}</td>
+              <td class="py-2.5 px-4 font-mono font-bold text-slate-700">${st === "IN" ? sched.shiftTime : "-"}</td>
+              <td class="py-2.5 px-4 text-slate-700 font-semibold">${sched.zone}</td>
+              <td class="py-2.5 px-4">${alarmText}</td>
+            </tr>
+          `;
+        }).join("");
+      }
+    }
+
+    function toggleMobileSidebar(open) {
+      const sb = document.getElementById("courierSidebar");
+      const bd = document.getElementById("mobileSidebarBackdrop");
+      if (!sb || !bd) return;
       if (open) {
-        sidebar.classList.remove("-translate-x-full");
-        backdrop.classList.remove("hidden");
+        sb.classList.remove("-translate-x-full");
+        bd.classList.remove("hidden");
       } else {
-        sidebar.classList.add("-translate-x-full");
-        backdrop.classList.add("hidden");
+        sb.classList.add("-translate-x-full");
+        bd.classList.add("hidden");
       }
     }
 
-    function switchLeadTab(tabName, persist = true) {
-      activeLeadTab = tabName;
-      const titles = {
-        schedule: "Schedule Kurir Hub",
-        couriers: "Performa, Gaji & Cluster Kurir",
-        feedback: "Kotak Saran Kurir Hub"
-      };
-      const headerTitle = document.getElementById("leadHeaderTitle");
-      if (headerTitle) headerTitle.textContent = titles[tabName] || "Schedule Kurir Hub";
-
-      document.querySelectorAll(".lead-tab-panel").forEach(panel => {
-        panel.classList.toggle("hidden", panel.id !== `lead-tab-${tabName}`);
-      });
-
-      document.querySelectorAll(".lead-nav-btn").forEach(btn => {
-        const isMatch = btn.getAttribute("data-lead-tab") === tabName;
-        btn.className = isMatch
-          ? "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition"
-          : "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
-      });
-
-      toggleLeadSidebar(false);
-
-      if (tabName === "schedule") {
-        renderLeadScheduleTable();
-      } else if (tabName === "couriers") {
-        renderLeadCouriersTable();
-      } else if (tabName === "feedback") {
-        renderLeadFeedbackInbox();
-      }
-
-      if (persist) {
-        const sess = readActiveSession();
-        if (sess && sess.role === "leader") {
-          saveActiveSession({ ...sess, tab: tabName });
-        }
-      }
-    }
-
-    // -----------------------------------------------------------------------
-    // Kotak Saran & Kontak ke Hub Lead / Shift Lead
-    // -----------------------------------------------------------------------
-    function loadAllFeedbacks() {
+    // =========================================================================
+    // KOTAK SARAN KURIR -> HANYA BISA DILIHAT HUB LEAD & SHIFT LEAD
+    // =========================================================================
+    function getFeedbackList() {
       try {
-        const raw = localStorage.getItem(FEEDBACK_STORAGE_KEY);
-        const list = raw ? JSON.parse(raw) : [];
-        return Array.isArray(list) ? list : [];
+        return JSON.parse(localStorage.getItem(FEEDBACK_STORAGE_KEY) || "[]");
       } catch (e) {
         return [];
       }
     }
 
-    function saveAllFeedbacks(list) {
-      try {
-        localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(list));
-      } catch (e) {}
+    function saveFeedbackList(list) {
+      localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(list));
     }
 
     function submitCourierFeedback(e) {
       e.preventDefault();
-      const activeRec = currentCourierRecords[0];
-      if (!activeRec) return;
+      const rec = getActiveCourierRecord();
+      const target = document.getElementById("feedbackTargetSelect").value;
+      const category = document.getElementById("feedbackCategorySelect").value;
+      const message = document.getElementById("feedbackMessageInput").value.trim();
+      const isAnon = document.getElementById("feedbackAnonymousCheck").checked;
+      if (!message) return;
 
-      const target = document.getElementById("feedbackTargetSelect")?.value || "Hub Lead & Shift Lead";
-      const category = document.getElementById("feedbackCategorySelect")?.value || "Operasional";
-      const message = (document.getElementById("feedbackMessageInput")?.value || "").trim();
-      const isAnon = Boolean(document.getElementById("feedbackAnonymousCheck")?.checked);
-
-      if (!message) {
-        showToast("Pesan Kosong", "Silakan tulis saran atau masukan Anda terlebih dahulu.", true);
-        return;
-      }
-
-      const list = loadAllFeedbacks();
+      const list = getFeedbackList();
       list.unshift({
         id: "FB-" + Date.now(),
-        driverId: activeRec.Driver_ID,
-        senderName: isAnon ? "Kurir Anonim" : activeRec.Nama_Kurir,
-        categoryArmada: activeRec.Kategori_Armada,
+        senderName: isAnon ? "Kurir Anonim" : (rec ? rec.Nama_Kurir : currentCourierId),
+        senderId: isAnon ? "ANONIM" : currentCourierId,
         target,
-        topic: category,
+        category,
         message,
-        createdAt: new Date().toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" }),
-        reply: "",
-        repliedBy: ""
+        createdAt: new Date().toLocaleString("id-ID")
       });
-      saveAllFeedbacks(list);
-
-      const inputEl = document.getElementById("feedbackMessageInput");
-      if (inputEl) inputEl.value = "";
-      showToast("Saran Terkirim", `Masukan Anda berhasil dikirim dan hanya dapat dilihat oleh ${target}.`);
+      saveFeedbackList(list);
+      document.getElementById("feedbackMessageInput").value = "";
+      showToast("Saran Terkirim", "Masukan Anda telah dikirim secara rahasia ke Hub Lead & Shift Lead.");
     }
 
     function renderLeadFeedbackInbox() {
-      const container = document.getElementById("leadFeedbackInboxList");
+      const list = getFeedbackList();
       const badge = document.getElementById("leadFeedbackCountBadge");
+      const container = document.getElementById("leadFeedbackInboxList");
+      if (badge) badge.textContent = `${list.length} Masukan`;
       if (!container) return;
 
-      const list = loadAllFeedbacks();
-      if (badge) badge.textContent = `${list.length} Masukan`;
-
       if (list.length === 0) {
-        container.innerHTML = `<p class="text-slate-500 py-6 text-center">Belum ada saran atau masukan masuk dari kurir.</p>`;
+        container.innerHTML = `<div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center text-slate-500">Belum ada saran masuk dari kurir.</div>`;
         return;
       }
 
       container.innerHTML = list.map(item => `
-        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <div class="flex flex-wrap items-center justify-between gap-2">
             <div>
               <strong class="text-slate-900">${item.senderName}</strong>
-              <span class="text-slate-500 ml-1.5">(${item.categoryArmada})</span>
-              <span class="ml-2 px-2 py-0.5 rounded-md bg-orange-100 text-spx-orange font-bold text-[10px]">${item.target} &bull; ${item.topic}</span>
+              <span class="text-slate-400 ml-1">(${item.senderId})</span>
+              <span class="ml-2 px-2 py-0.5 rounded-full bg-orange-100 text-spx-orange font-bold text-[10px]">${item.category}</span>
             </div>
             <span class="text-[11px] text-slate-400">${item.createdAt}</span>
           </div>
-          <p class="text-slate-800 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">${item.message}</p>
-          <div class="flex flex-col sm:flex-row gap-2">
-            <input type="text" id="replyInput-${item.id}" value="${(item.reply || "").replace(/"/g, '&quot;')}" placeholder="Tulis tanggapan untuk kurir..."
-              class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs focus:outline-none focus:border-spx-orange">
-            <button type="button" onclick="saveLeadFeedbackReply('${item.id}')" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-spx-orange text-white font-bold text-xs transition shrink-0">
-              Simpan Tanggapan
-            </button>
-          </div>
+          <p class="text-slate-700 leading-relaxed">${item.message}</p>
+          <div class="text-[11px] text-slate-500">Tujuan: <strong>${item.target}</strong></div>
         </div>
       `).join("");
     }
 
-    function saveLeadFeedbackReply(feedbackId) {
-      const inputEl = document.getElementById(`replyInput-${feedbackId}`);
-      if (!inputEl) return;
-      const replyText = inputEl.value.trim();
-      const list = loadAllFeedbacks();
-      const idx = list.findIndex(x => x.id === feedbackId);
-      if (idx === -1) return;
-
-      list[idx].reply = replyText;
-      list[idx].repliedBy = loggedInLeader ? `${loggedInLeader.role} (${loggedInLeader.opsId})` : "Hub / Shift Lead";
-      saveAllFeedbacks(list);
-      renderLeadFeedbackInbox();
-      showToast("Tanggapan Tersimpan", "Balasan Anda kini dapat dibaca oleh kurir di menu Kotak Saran Hub.");
-    }
-
-    // -----------------------------------------------------------------------
-    // Hub Lead & Shift Lead Dashboard Functions
-    // -----------------------------------------------------------------------
-    function getUniqueLatestDriverRecords() {
-      const map = new Map();
-      const sorted = [...allRecords].sort((a, b) => String(b.Bulan || "").localeCompare(String(a.Bulan || "")));
-      sorted.forEach(r => {
-        if (!map.has(r.Driver_ID)) {
-          map.set(r.Driver_ID, r);
-        }
-      });
-      return Array.from(map.values());
-    }
-
-    function initLeadDashboard(tab = "schedule") {
-      if (loggedInLeader) {
-        document.getElementById("leadRoleBadgeSidebar").textContent = loggedInLeader.role;
-        document.getElementById("leadOpsIdDisplay").textContent = `Ops ID: ${loggedInLeader.opsId}`;
+    // =========================================================================
+    // ALARM HP H-30 MENIT SEBELUM MASUK
+    // =========================================================================
+    function enableDeviceAlarmPermission(playTest = false) {
+      if ("Notification" in window && Notification.permission !== "granted") {
+        Notification.requestPermission();
       }
+      if (playTest) {
+        playAlarmSound();
+        showToast("Uji Alarm Aktif", "Dering & getaran alarm HP aktif 30 menit sebelum jam masuk.");
+        setTimeout(() => stopAlarmSound(), 2500);
+      }
+    }
 
-      const periods = loadSchedulePeriods();
-      selectedLeadPeriodId = periods[0]?.id || "2026-11";
-      populateLeadPeriodSelector();
+    function playAlarmSound() {
+      try {
+        if ("vibrate" in navigator) navigator.vibrate([500, 250, 500, 250, 800]);
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!alarmAudioCtx) alarmAudioCtx = new AudioCtx();
+        if (alarmAudioCtx.state === "suspended") alarmAudioCtx.resume();
+
+        stopAlarmSound();
+        const beep = () => {
+          const osc = alarmAudioCtx.createOscillator();
+          const gain = alarmAudioCtx.createGain();
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(880, alarmAudioCtx.currentTime);
+          gain.gain.setValueAtTime(0.35, alarmAudioCtx.currentTime);
+          osc.connect(gain);
+          gain.connect(alarmAudioCtx.destination);
+          osc.start();
+          osc.stop(alarmAudioCtx.currentTime + 0.35);
+        };
+        beep();
+        alarmIntervalId = setInterval(beep, 900);
+      } catch (e) {}
+    }
+
+    function stopAlarmSound() {
+      if (alarmIntervalId) {
+        clearInterval(alarmIntervalId);
+        alarmIntervalId = null;
+      }
+      if ("vibrate" in navigator) navigator.vibrate(0);
+    }
+
+    function startH1AlarmWatchdog() {
+      clearInterval(alarmWatchdogId);
+      const checkAlarm = () => {
+        if (!currentCourierId) return;
+        const rec = getActiveCourierRecord();
+        if (!rec) return;
+        const period = getLatestPeriod();
+        const sched = getOrCreateCourierSchedule(rec, period);
+        const now = new Date();
+        const todayKey = now.toISOString().slice(0, 10);
+        if (sched.days[todayKey] !== "IN") return;
+
+        const mTime = String(sched.shiftTime || "07:15").match(/(\d{1,2}):(\d{2})/);
+        if (!mTime) return;
+        const shiftDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(mTime[1], 10), parseInt(mTime[2], 10), 0);
+        const diffMins = (shiftDate.getTime() - now.getTime()) / 60000;
+        const ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
+        const alarmKey = `${currentCourierId}_${todayKey}`;
+
+        if (diffMins > 0 && diffMins <= 30 && !ackMap[alarmKey]) {
+          currentRingingAlarmKey = alarmKey;
+          document.getElementById("h1ModalDate").textContent = todayKey;
+          document.getElementById("h1ModalShift").textContent = sched.shiftTime;
+          document.getElementById("h1ModalZone").textContent = sched.zone;
+          document.getElementById("h1ModalBody").textContent = `Jadwal masuk Anda ${Math.ceil(diffMins)} menit lagi di zona ${sched.zone}. Segera bersiap berangkat ke Hub!`;
+          document.getElementById("h1RingAlarmModal").classList.remove("hidden");
+          playAlarmSound();
+        }
+      };
+      checkAlarm();
+      alarmWatchdogId = setInterval(checkAlarm, 30000);
+    }
+
+    function acknowledgeH1Alarm() {
+      stopAlarmSound();
+      if (currentRingingAlarmKey) {
+        const ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
+        ackMap[currentRingingAlarmKey] = true;
+        localStorage.setItem(H1_ACK_STORAGE_KEY, JSON.stringify(ackMap));
+      }
+      document.getElementById("h1RingAlarmModal").classList.add("hidden");
+    }
+
+    // =========================================================================
+    // DASHBOARD HUB LEAD & SHIFT LEAD (SCHEDULE, REKAP & UNGGAH GITHUB)
+    // =========================================================================
+    function enterLeadDashboard() {
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("dashboardView").classList.add("hidden");
+      document.getElementById("leadDashboardView").classList.remove("hidden");
+
+      document.getElementById("leadRoleBadgeSidebar").textContent = currentLeadAccount.role;
+      document.getElementById("leadOpsIdDisplay").textContent = `${currentLeadAccount.id} (${currentLeadAccount.role})`;
+
+      populateLeadPeriodSelect();
       renderLeadScheduleTable();
       renderLeadCouriersTable();
       renderLeadFeedbackInbox();
-      const validLeadTab = ["schedule", "couriers", "feedback"].includes(tab) ? tab : "schedule";
-      switchLeadTab(validLeadTab, false);
+      switchLeadTab("schedule");
     }
 
-    function populateLeadPeriodSelector() {
+    function populateLeadPeriodSelect() {
+      const periods = getPeriodsList();
       const sel = document.getElementById("leadPeriodSelect");
-      if (!sel) return;
-      const periods = loadSchedulePeriods();
-      sel.innerHTML = periods.map(p => `<option value="${p.id}" ${p.id === selectedLeadPeriodId ? "selected" : ""}>${p.label}</option>`).join("");
+      sel.innerHTML = periods.map(p => `<option value="${p.id}">${p.label}</option>`).join("");
+      selectedLeadPeriodId = periods[periods.length - 1]?.id || "2026-11";
+      sel.value = selectedLeadPeriodId;
     }
 
     function onLeadPeriodChange() {
-      selectedLeadPeriodId = document.getElementById("leadPeriodSelect")?.value || "2026-11";
+      selectedLeadPeriodId = document.getElementById("leadPeriodSelect").value;
       renderLeadScheduleTable();
     }
 
-    function switchLeadScheduleCategory(catName) {
-      selectedLeadScheduleCategory = catName || "ALL";
+    async function syncLeadDataNow() {
+      const icon = document.getElementById("leadSyncIcon");
+      icon.classList.add("fa-spin");
+      await loadMasterDatabase(true);
+      await loadScheduleFromGitHub();
+      icon.classList.remove("fa-spin");
+      renderLeadScheduleTable();
+      renderLeadCouriersTable();
+      showToast("Database Terupdate", "Data performa & jadwal kurir terbaru telah disinkronkan.");
+    }
+
+    function switchLeadTab(tabName) {
+      activeLeadTab = tabName;
+      document.querySelectorAll(".lead-tab-panel").forEach(el => el.classList.add("hidden"));
+      const target = document.getElementById(`lead-tab-${tabName}`);
+      if (target) target.classList.remove("hidden");
+
+      const titles = {
+        schedule: "Schedule Kurir Hub",
+        couriers: "Performa, Gaji & Cluster",
+        feedback: "Kotak Saran Kurir"
+      };
+      document.getElementById("leadHeaderTitle").textContent = titles[tabName] || "Schedule Kurir Hub";
+
+      document.querySelectorAll(".lead-nav-btn").forEach(btn => {
+        const active = btn.dataset.leadTab === tabName;
+        btn.className = active
+          ? "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition"
+          : "lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition";
+      });
+      toggleLeadSidebar(false);
+    }
+
+    function toggleLeadSidebar(open) {
+      const sb = document.getElementById("leadSidebar");
+      const bd = document.getElementById("leadSidebarBackdrop");
+      if (!sb || !bd) return;
+      if (open) {
+        sb.classList.remove("-translate-x-full");
+        bd.classList.remove("hidden");
+      } else {
+        sb.classList.add("-translate-x-full");
+        bd.classList.add("hidden");
+      }
+    }
+
+    function switchLeadScheduleCategory(cat) {
+      leadScheduleCategoryFilter = cat;
       document.querySelectorAll(".lead-sched-cat-btn").forEach(btn => {
-        const isMatch = btn.getAttribute("data-sched-cat") === selectedLeadScheduleCategory;
-        btn.className = isMatch
+        const active = btn.dataset.schedCat === cat;
+        btn.className = active
           ? "lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-slate-900 text-white shadow transition"
           : "lead-sched-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-white transition";
       });
       renderLeadScheduleTable();
     }
 
-    function renderLeadCouriersTable() {
-      const tbody = document.getElementById("leadCouriersTableBody");
-      if (!tbody) return;
-      const q = (document.getElementById("leadCourierSearchInput")?.value || "").trim().toLowerCase();
-      const cat = document.getElementById("leadCategoryFilter")?.value || "ALL";
-
-      const uniqueList = getUniqueLatestDriverRecords();
-      renderHubLeaderboards("leadLeaderboardSection", uniqueList[0]?.Bulan || null, true);
-
-      const list = uniqueList.filter(r => {
-        const matchQ = !q || r.Nama_Kurir.toLowerCase().includes(q) || r.Driver_ID.toLowerCase().includes(q);
-        const matchCat = cat === "ALL" || r.Kategori_Armada === cat;
-        return matchQ && matchCat;
-      });
-
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="py-8 px-4 text-center text-slate-500">Belum ada data kurir yang cocok.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = list.map(r => {
-        const sched = getCourierSchedule(r, selectedLeadPeriodId);
-        const payroll = calculateCourierPayroll(r);
-        return `
-          <tr class="hover:bg-slate-50">
-            <td class="py-3.5 px-4">
-              <strong class="text-slate-900 block">${r.Nama_Kurir}</strong>
-              <span class="font-mono text-[11px] text-slate-500">ID: ${r.Driver_ID}</span>
-            </td>
-            <td class="py-3.5 px-4">
-              <span class="px-2 py-0.5 rounded-md bg-orange-50 text-spx-orange font-bold text-[10px] block w-fit">${r.Kategori_Armada}</span>
-              <span class="text-[11px] font-bold text-slate-700 mt-1 block">${sched.zone}</span>
-            </td>
-            <td class="py-3.5 px-4 font-bold text-slate-800">${(r.Delivered || 0).toLocaleString("id-ID")} / ${(r.Total_Penugasan || 0).toLocaleString("id-ID")}</td>
-            <td class="py-3.5 px-4 font-extrabold text-emerald-700">${r.Delivery_Success_Rate || "0%"}</td>
-            <td class="py-3.5 px-4 font-black text-slate-900">${formatIDR(payroll.total)}</td>
-            <td class="py-3.5 px-4 text-center">
-              <div class="flex items-center justify-center gap-1.5">
-                <button type="button" onclick="openCourierDetailModal('${r.Driver_ID}')" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold transition">
-                  Gaji
-                </button>
-                <button type="button" onclick="openEditScheduleModal('${r.Driver_ID}')" class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-spx-orange text-white text-[10px] font-bold transition">
-                  Jadwal
-                </button>
-              </div>
-            </td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    function openCourierDetailModal(driverId) {
-      const rec = getUniqueLatestDriverRecords().find(r => r.Driver_ID === driverId);
-      if (!rec) return;
-      const payroll = calculateCourierPayroll(rec);
-
-      document.getElementById("modalCourierCat").textContent = rec.Kategori_Armada;
-      document.getElementById("modalCourierName").textContent = rec.Nama_Kurir;
-      document.getElementById("modalCourierId").textContent = rec.Driver_ID;
-      document.getElementById("modalCourierMonth").textContent = formatMonthLabel(rec.Bulan);
-      document.getElementById("modalDays").textContent = `${rec.Total_Hari_Kerja || 0} Hr`;
-      document.getElementById("modalAssigned").textContent = (rec.Total_Penugasan || 0).toLocaleString("id-ID");
-      document.getElementById("modalDelivered").textContent = (rec.Delivered || 0).toLocaleString("id-ID");
-      document.getElementById("modalDsr").textContent = rec.Delivery_Success_Rate || "0%";
-      document.getElementById("modalTotalSalary").textContent = formatIDR(payroll.total);
-
-      document.getElementById("modalSalaryItems").innerHTML = payroll.items.map(it => `
-        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <div>
-            <strong class="text-slate-900 block">${it.label}</strong>
-            <span class="text-[11px] text-slate-500">${it.detail}</span>
-          </div>
-          <strong class="text-emerald-700 font-extrabold">${formatIDR(it.amount)}</strong>
-        </div>
-      `).join("");
-
-      document.getElementById("courierDetailModal").classList.remove("hidden");
-    }
-
-    function closeCourierDetailModal() {
-      document.getElementById("courierDetailModal").classList.add("hidden");
-    }
-
-    async function syncLeadDataNow() {
-      const icon = document.getElementById("leadSyncIcon");
-      if (icon) icon.classList.add("fa-spin");
-      await loadDatabaseFromGitHub();
-      await loadScheduleFromGitHub();
-      renderLeadScheduleTable();
-      renderLeadCouriersTable();
-      setTimeout(() => { if (icon) icon.classList.remove("fa-spin"); }, 400);
-      showToast("Database Diperbarui", "Data kurir, performa, gaji & schedule berhasil ditarik.");
-    }
-
-    // -----------------------------------------------------------------------
-    // Schedule Storage & Max-Volume Background Alarm Engine (H-30 Menit)
-    // -----------------------------------------------------------------------
-    function loadAllSchedules() {
-      try {
-        const raw = localStorage.getItem(SCHEDULE_STORAGE_KEY);
-        return raw ? JSON.parse(raw) : {};
-      } catch (e) {
-        return {};
-      }
-    }
-
-    function saveAllSchedules(obj) {
-      try {
-        localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(obj));
-      } catch (e) {}
-    }
-
-    function getCourierSchedule(rec, periodId = null) {
-      const periodObj = periodId ? getPeriodById(periodId) : getLatestSchedulePeriod();
-      const allSched = loadAllSchedules();
-      const drvId = String(rec.Driver_ID || "").trim();
-      const seed = Math.abs(parseInt(drvId, 10) || 0);
-      const defaultZone = DRIVER_CLUSTER_MAP[drvId] || DEFAULT_ZONES[seed % DEFAULT_ZONES.length];
-
-      const base = allSched[drvId] || {
-        zone: defaultZone,
-        shiftTime: DEFAULT_SHIFT_TIME,
-        days: {},
-        note: "Briefing pagi & sortir paket tepat waktu"
-      };
-
-      const normalizedDays = {};
-      periodObj.dates.forEach((d) => {
-        if (base.days && base.days[d.key]) {
-          normalizedDays[d.key] = base.days[d.key];
-        } else {
-          // Default BELUM DIISI apabila Hub Lead / Shift Lead belum membuat jadwal
-          normalizedDays[d.key] = "PENDING";
-        }
-      });
-
-      return {
-        period: periodObj,
-        zone: base.zone || defaultZone,
-        shiftTime: (!base.shiftTime || base.shiftTime === "07:30 WIB") ? DEFAULT_SHIFT_TIME : base.shiftTime,
-        days: normalizedDays,
-        note: base.note || "Briefing pagi & sortir paket tepat waktu"
-      };
-    }
-
-    function getTomorrowRosterDate(periodObj) {
-      const now = new Date();
-      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-      const yyyy = tomorrow.getFullYear();
-      const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
-      const dd = String(tomorrow.getDate()).padStart(2, "0");
-      const key = `${yyyy}-${mm}-${dd}`;
-      return periodObj.dates.find(d => d.key === key) || periodObj.dates[0];
-    }
-
-    function unlockMaxVolumeAudioContext() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return null;
-        if (!sharedAudioCtx) {
-          sharedAudioCtx = new AudioCtx();
-        }
-        if (sharedAudioCtx.state === "suspended") {
-          sharedAudioCtx.resume();
-        }
-        return sharedAudioCtx;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    function playPhoneAlarmRingOnce() {
-      try {
-        const ctx = unlockMaxVolumeAudioContext();
-        if (ctx) {
-          const compressor = ctx.createDynamicsCompressor();
-          compressor.threshold.setValueAtTime(-10, ctx.currentTime);
-          compressor.knee.setValueAtTime(10, ctx.currentTime);
-          compressor.ratio.setValueAtTime(12, ctx.currentTime);
-          compressor.attack.setValueAtTime(0, ctx.currentTime);
-          compressor.release.setValueAtTime(0.2, ctx.currentTime);
-          compressor.connect(ctx.destination);
-
-          const freqs = [880, 1174.66, 1318.51, 1760];
-          freqs.forEach((f, idx) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = "square";
-            osc.frequency.setValueAtTime(f, ctx.currentTime + idx * 0.14);
-
-            gain.gain.setValueAtTime(0.001, ctx.currentTime + idx * 0.14);
-            gain.gain.exponentialRampToValueAtTime(1.0, ctx.currentTime + idx * 0.14 + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + idx * 0.14 + 0.35);
-
-            osc.connect(gain);
-            gain.connect(compressor);
-            osc.start(ctx.currentTime + idx * 0.14);
-            osc.stop(ctx.currentTime + idx * 0.14 + 0.38);
-          });
-        }
-      } catch (e) {}
-
-      if ("vibrate" in navigator) {
-        try {
-          navigator.vibrate([700, 200, 700, 200, 900]);
-        } catch (e) {}
-      }
-    }
-
-    function stopH1AlarmLoop() {
-      if (alarmRingInterval) {
-        clearInterval(alarmRingInterval);
-        alarmRingInterval = null;
-      }
-      if ("vibrate" in navigator) {
-        try {
-          navigator.vibrate(0);
-        } catch (e) {}
-      }
-    }
-
-    let swRegistration = null;
-    async function registerBackgroundAlarmServiceWorker() {
-      if (!("serviceWorker" in navigator)) return null;
-      try {
-        const swCode = `
-          self.addEventListener('install', (e) => self.skipWaiting());
-          self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-          self.addEventListener('notificationclick', (event) => {
-            event.notification.close();
-            event.waitUntil(
-              self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
-                if (clients.length > 0) return clients[0].focus();
-                return self.clients.openWindow('/');
-              })
-            );
-          });
-        `;
-        const blob = new Blob([swCode], { type: "application/javascript" });
-        const swUrl = URL.createObjectURL(blob);
-        swRegistration = await navigator.serviceWorker.register(swUrl);
-        return swRegistration;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    async function sendDeviceSystemNotification(title, body, scheduleTimestampMs = null) {
-      if (!("Notification" in window) || Notification.permission !== "granted") return;
-      const options = {
-        body,
-        tag: "spx-pringapus2-schedule-alarm",
-        renotify: true,
-        requireInteraction: true,
-        silent: false,
-        vibrate: [700, 200, 700, 200, 900]
-      };
-      if (scheduleTimestampMs && "TimestampTrigger" in window) {
-        try {
-          options.showTrigger = new TimestampTrigger(scheduleTimestampMs);
-        } catch (e) {}
-      }
-      try {
-        if (swRegistration && swRegistration.showNotification) {
-          await swRegistration.showNotification(title, options);
-        } else {
-          new Notification(title, options);
-        }
-      } catch (e) {}
-    }
-
-    async function enableDeviceAlarmPermission(testNow = false) {
-      unlockMaxVolumeAudioContext();
-      await registerBackgroundAlarmServiceWorker();
-      if ("Notification" in window && Notification.permission !== "granted") {
-        try {
-          await Notification.requestPermission();
-        } catch (e) {}
-      }
-      const badge = document.getElementById("h1PermissionStatusBadge");
-      if (badge) {
-        badge.textContent = ("Notification" in window && Notification.permission === "granted")
-          ? "Alarm H-30 Menit (Dering Full & Getar Aktif)"
-          : "Dering Volume Full & Getar H-30 Menit Aktif";
-      }
-
-      if (loggedInDriverId && currentCourierRecords.length > 0) {
-        evaluateH1ScheduleTrigger(currentCourierRecords[0]);
-      }
-
-      if (testNow) {
-        playPhoneAlarmRingOnce();
-        await sendDeviceSystemNotification(
-          "SPX Pringapus 2 Hub — Tes Alarm H-30 Menit",
-          "Alarm otomatis akan berdering kencang, bergetar, dan muncul di HP tepat 30 menit sebelum jam masuk!"
-        );
-        showToast("Alarm H-30 Menit Aktif", "Dering kencang, getar HP, dan notifikasi 30 menit sebelum masuk berhasil diuji.");
-      }
-    }
-
-    function triggerH1AlarmModal(rec, sched, targetDateObj, alarmTimeObj) {
-      const alarmClockStr = formatClockHHMM(alarmTimeObj);
-      document.getElementById("h1ModalTitle").textContent = `30 Menit Lagi Jadwal Masuk (${sched.shiftTime})!`;
-      document.getElementById("h1ModalBody").textContent = `Halo ${rec.Nama_Kurir}, pengingat otomatis pukul ${alarmClockStr} (30 menit sebelum jam masuk ${sched.shiftTime}). Segera bersiap menuju hub!`;
-      document.getElementById("h1ModalDate").textContent = `${targetDateObj.dayName}, ${targetDateObj.label}`;
-      document.getElementById("h1ModalShift").textContent = `${sched.shiftTime} (Alarm: ${alarmClockStr})`;
-      document.getElementById("h1ModalZone").textContent = sched.zone;
-
-      const modal = document.getElementById("h1RingAlarmModal");
-      if (modal) {
-        modal.setAttribute("data-ack-key", `${rec.Driver_ID}_${targetDateObj.key}`);
-        modal.classList.remove("hidden");
-      }
-
-      playPhoneAlarmRingOnce();
-      stopH1AlarmLoop();
-      alarmRingInterval = setInterval(playPhoneAlarmRingOnce, 2500);
-
-      sendDeviceSystemNotification(
-        `ALARM SPX (H-30 Menit): Masuk Pukul ${sched.shiftTime}`,
-        `${rec.Nama_Kurir}, 30 menit lagi jadwal Anda masuk (${targetDateObj.dayName}, ${targetDateObj.label} pukul ${sched.shiftTime}) di zona ${sched.zone}.`
-      );
-    }
-
-    function acknowledgeH1Alarm() {
-      stopH1AlarmLoop();
-      const modal = document.getElementById("h1RingAlarmModal");
-      if (modal) {
-        const ackKey = modal.getAttribute("data-ack-key");
-        if (ackKey) {
-          try {
-            const ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
-            ackMap[ackKey] = Date.now();
-            localStorage.setItem(H1_ACK_STORAGE_KEY, JSON.stringify(ackMap));
-          } catch (e) {}
-        }
-        modal.classList.add("hidden");
-      }
-      showToast("Konfirmasi Diterima", "Alarm dimatikan. Pastikan hadir di hub sebelum jam masuk!");
-    }
-
-    function findNextUpcomingWorkShift(sched) {
-      const now = new Date();
-      for (const dObj of sched.period.dates) {
-        if (sched.days[dObj.key] !== "IN") continue;
-        const { shiftStart, alarmTime } = computeShiftAndAlarmDates(dObj.key, sched.shiftTime);
-        if (now.getTime() <= shiftStart.getTime() + 2 * 60 * 60 * 1000) {
-          return { dateObj: dObj, shiftStart, alarmTime };
-        }
-      }
-      return null;
-    }
-
-    function evaluateH1ScheduleTrigger(rec) {
-      if (!rec) return;
-      const sched = getCourierSchedule(rec);
-      const upcoming = findNextUpcomingWorkShift(sched);
-
-      const headlineEl = document.getElementById("h1AlertHeadline");
-      const subtextEl = document.getElementById("h1AlertSubtext");
-
-      if (!upcoming) {
-        if (headlineEl) headlineEl.textContent = "Tidak Ada Jadwal Masuk Mendatang pada Periode Ini";
-        if (subtextEl) subtextEl.textContent = "Alarm otomatis tidak aktif saat jadwal OFF / Libur.";
-        return;
-      }
-
-      const { dateObj, shiftStart, alarmTime } = upcoming;
-      const now = new Date();
-      const alarmClockStr = formatClockHHMM(alarmTime);
-      const ackKey = `${rec.Driver_ID}_${dateObj.key}`;
-      let alreadyAck = false;
-      try {
-        const ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
-        alreadyAck = Boolean(ackMap[ackKey]);
-      } catch (e) {}
-
-      if (headlineEl) {
-        headlineEl.textContent = `Jadwal Masuk: ${dateObj.dayName}, ${dateObj.label} (${sched.shiftTime})`;
-      }
-      if (subtextEl) {
-        subtextEl.textContent = `Alarm otomatis berbunyi 30 menit sebelum masuk pada pukul ${alarmClockStr} (${formatRemainingDuration(alarmTime.getTime() - now.getTime())}) • Zona: ${sched.zone}`;
-      }
-
-      if (exactAlarmTimeout) {
-        clearTimeout(exactAlarmTimeout);
-        exactAlarmTimeout = null;
-      }
-
-      if (now.getTime() >= alarmTime.getTime() && now.getTime() <= shiftStart.getTime() + 2 * 60 * 60 * 1000) {
-        if (!alreadyAck) {
-          triggerH1AlarmModal(rec, sched, dateObj, alarmTime);
-        }
-        return;
-      }
-
-      const msUntilAlarm = alarmTime.getTime() - now.getTime();
-      if (msUntilAlarm > 0 && !alreadyAck) {
-        sendDeviceSystemNotification(
-          `ALARM SPX (H-30 Menit): Masuk Pukul ${sched.shiftTime}`,
-          `${rec.Nama_Kurir}, 30 menit lagi jadwal masuk (${dateObj.dayName}, ${dateObj.label} pukul ${sched.shiftTime}) di zona ${sched.zone}.`,
-          alarmTime.getTime()
-        );
-
-        if (msUntilAlarm <= 24 * 60 * 60 * 1000) {
-          exactAlarmTimeout = setTimeout(() => {
-            evaluateH1ScheduleTrigger(rec);
-          }, msUntilAlarm + 250);
-        }
-      }
-    }
-
-    function startH1ScheduleWatcher(rec) {
-      if (h1WatcherInterval) clearInterval(h1WatcherInterval);
-      evaluateH1ScheduleTrigger(rec);
-      h1WatcherInterval = setInterval(() => {
-        evaluateH1ScheduleTrigger(rec);
-      }, 10000);
-    }
-
-    document.addEventListener("visibilitychange", () => {
-      if (document.visibilityState === "hidden" && loggedInDriverId && currentCourierRecords.length > 0) {
-        const rec = currentCourierRecords[0];
-        const sched = getCourierSchedule(rec);
-        const upcoming = findNextUpcomingWorkShift(sched);
-        if (upcoming) {
-          const now = Date.now();
-          if (now >= upcoming.alarmTime.getTime()) {
-            sendDeviceSystemNotification(
-              `ALARM SPX (H-30 Menit): Masuk Pukul ${sched.shiftTime}`,
-              `${rec.Nama_Kurir}, 30 menit lagi jadwal masuk (${upcoming.dateObj.dayName}, ${upcoming.dateObj.label}) di zona ${sched.zone}.`
-            );
-          } else {
-            sendDeviceSystemNotification(
-              `ALARM SPX (H-30 Menit): Masuk Pukul ${sched.shiftTime}`,
-              `${rec.Nama_Kurir}, 30 menit lagi jadwal masuk (${upcoming.dateObj.dayName}, ${upcoming.dateObj.label}) di zona ${sched.zone}.`,
-              upcoming.alarmTime.getTime()
-            );
-          }
-        }
-      }
-    });
-
-    function publishAndTriggerAllH1Alerts() {
-      try {
-        localStorage.removeItem(H1_ACK_STORAGE_KEY);
-      } catch (e) {}
-      playPhoneAlarmRingOnce();
-      sendDeviceSystemNotification(
-        "Schedule Terbaru Diterbitkan!",
-        "Alarm HP kurir dijadwalkan otomatis aktif 30 menit sebelum jam masuk masing-masing."
-      );
-      showToast(
-        "Jadwal Dipublikasikan",
-        "Notifikasi, dering volume penuh, dan getar HP kurir otomatis aktif 30 menit sebelum jam masuk."
-      );
-    }
-
-    // -----------------------------------------------------------------------
-    // Schedule Render & Management
-    // -----------------------------------------------------------------------
-    function renderCourierSchedule(rec) {
-      if (!rec) return;
-      const sched = getCourierSchedule(rec);
-      const datesList = sched.period.dates;
-
-      const periodBadge = document.getElementById("courierActivePeriodBadge");
-      const periodTitle = document.getElementById("courierSchedulePeriodTitle");
-      if (periodBadge) periodBadge.textContent = sched.period.label;
-      if (periodTitle) periodTitle.textContent = sched.period.label;
-
-      const tbody = document.getElementById("courierScheduleTableBody");
-      if (!tbody) return;
-
-      const tomorrowObj = getTomorrowRosterDate(sched.period);
-      const tomorrowStatus = sched.days[tomorrowObj.key] || "PENDING";
-
-      const badgeEl = document.getElementById("courierTodayShiftBadge");
-      if (badgeEl) {
-        if (tomorrowStatus === "OFF") {
-          badgeEl.textContent = `Besok (${tomorrowObj.label}): OFF / Libur`;
-        } else if (tomorrowStatus === "IN") {
-          badgeEl.textContent = `Besok (${tomorrowObj.label}): Masuk (${sched.shiftTime})`;
-        } else {
-          badgeEl.textContent = `Besok (${tomorrowObj.label}): Jadwal Belum Dibuat`;
-        }
-      }
-      const workDaysFromData = parseInt(rec.Total_Hari_Kerja, 10);
-      const workDays = !isNaN(workDaysFromData) ? workDaysFromData : datesList.filter(d => sched.days[d.key] === "IN").length;
-      const offDays = datesList.filter(d => sched.days[d.key] === "OFF").length;
-      document.getElementById("courierWorkDaysCount").textContent = `${workDays} Hari`;
-      document.getElementById("courierOffDaysCount").textContent = `${offDays} Hari`;
-      document.getElementById("courierAssignedZone").textContent = sched.zone;
-
-      tbody.innerHTML = datesList.map(dObj => {
-        const val = sched.days[dObj.key] || "PENDING";
-        const isOff = val === "OFF";
-        const isIn = val === "IN";
-        const isTomorrow = dObj.key === tomorrowObj.key;
-        const rowHighlight = isTomorrow ? "bg-orange-50/80" : "hover:bg-slate-50";
-
-        let statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">BELUM DIISI</span>`;
-        let jamKerja = "Menunggu Hub / Shift Lead";
-        let alarmBadge = `<span class="text-[11px] text-slate-400">Menunggu Jadwal</span>`;
-        let zoneText = "-";
-
-        if (isIn) {
-          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
-          jamKerja = sched.shiftTime;
-          const { alarmTime } = computeShiftAndAlarmDates(dObj.key, sched.shiftTime);
-          alarmBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-100 text-spx-orange">Aktif ${formatClockHHMM(alarmTime)} (H-30m)</span>`;
-          zoneText = sched.zone;
-        } else if (isOff) {
-          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">OFF / LIBUR</span>`;
-          jamKerja = "-";
-          alarmBadge = `<span class="text-[11px] text-slate-400">Nonaktif (Libur)</span>`;
-          zoneText = "-";
-        }
-
-        return `
-          <tr class="${rowHighlight} transition">
-            <td class="py-3.5 px-4 font-extrabold text-slate-900">
-              ${dObj.label} <span class="text-xs font-normal text-slate-500">(${dObj.dayName})</span>
-              ${isTomorrow ? '<span class="ml-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold bg-spx-orange text-white">Besok</span>' : ''}
-            </td>
-            <td class="py-3.5 px-4">${statusPill}</td>
-            <td class="py-3.5 px-4 font-mono font-bold text-slate-700">${jamKerja}</td>
-            <td class="py-3.5 px-4 font-semibold text-slate-800">${zoneText}</td>
-            <td class="py-3.5 px-4">${alarmBadge}</td>
-          </tr>
-        `;
-      }).join("");
+    function getUniqueCouriersForLead() {
+      const map = new Map();
+      [...allCourierRecords]
+        .sort((a, b) => b.Bulan.localeCompare(a.Bulan))
+        .forEach(r => {
+          if (!map.has(r.Driver_ID)) map.set(r.Driver_ID, r);
+        });
+      return Array.from(map.values());
     }
 
     function renderLeadScheduleTable() {
-      const thead = document.getElementById("leadScheduleTableHead");
-      const tbody = document.getElementById("leadScheduleTableBody");
+      const periods = getPeriodsList();
+      const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
+      const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
+      document.getElementById("leadCurrentPeriodTitle").textContent = period.label;
+
       const dayFilterSel = document.getElementById("leadScheduleDayFilter");
-      if (!thead || !tbody) return;
+      const prevFilter = dayFilterSel.value || "ALL";
+      dayFilterSel.innerHTML = `<option value="ALL">Tampilkan Semua Kurir</option>` +
+        dates.map(d => `<option value="${d.key}">Hanya Masuk: ${d.label} (${d.shortDay})</option>`).join("");
+      dayFilterSel.value = Array.from(dayFilterSel.options).some(o => o.value === prevFilter) ? prevFilter : "ALL";
 
-      const periodObj = getPeriodById(selectedLeadPeriodId);
-      const datesList = periodObj.dates;
+      const query = (document.getElementById("leadScheduleSearchInput").value || "").toLowerCase();
+      let couriers = getUniqueCouriersForLead();
 
-      const titleEl = document.getElementById("leadCurrentPeriodTitle");
-      if (titleEl) titleEl.textContent = periodObj.label;
-
-      if (dayFilterSel) {
-        const prevVal = dayFilterSel.value || "ALL";
-        dayFilterSel.innerHTML = `<option value="ALL">Tampilkan Semua Kurir</option>` +
-          datesList.map(d => `<option value="${d.key}" ${prevVal === d.key ? "selected" : ""}>Kurir Libur ${d.label}</option>`).join("");
+      if (leadScheduleCategoryFilter !== "ALL") {
+        couriers = couriers.filter(c => c.Kategori_Armada === leadScheduleCategoryFilter);
+      }
+      if (query) {
+        couriers = couriers.filter(c => {
+          const sched = getOrCreateCourierSchedule(c, period);
+          return c.Nama_Kurir.toLowerCase().includes(query) ||
+            c.Driver_ID.includes(query) ||
+            sched.zone.toLowerCase().includes(query);
+        });
+      }
+      if (dayFilterSel.value !== "ALL") {
+        const targetDay = dayFilterSel.value;
+        couriers = couriers.filter(c => getOrCreateCourierSchedule(c, period).days[targetDay] === "IN");
       }
 
+      const thead = document.getElementById("leadScheduleTableHead");
       thead.innerHTML = `
-        <tr class="bg-slate-900 text-white">
-          <th class="py-3 px-3.5 sticky left-0 bg-slate-900 z-10 font-bold min-w-[175px]">Nama Kurir</th>
-          <th class="py-3 px-3 font-bold min-w-[145px]">Zona Cluster</th>
-          <th class="py-3 px-3 font-bold min-w-[95px]">Jam Masuk</th>
-          ${datesList.map(d => `<th class="py-3 px-1 text-center font-bold min-w-[44px]">${d.dayNum}<br><span class="text-[9px] text-slate-400">${d.shortDay}</span></th>`).join("")}
-          <th class="py-3 px-3 text-center font-bold">Edit</th>
+        <tr class="bg-slate-900 text-white whitespace-nowrap">
+          <th class="py-3 px-3 font-bold sticky left-0 bg-slate-900 z-10">Kurir &amp; Cluster</th>
+          <th class="py-3 px-2.5 font-bold text-center">Hari Aktual</th>
+          ${dates.map(d => `<th class="py-2.5 px-2 font-bold text-center min-w-[46px]">${d.dayNum}<br><span class="text-[9px] text-slate-400 font-normal">${d.shortDay}</span></th>`).join("")}
+          <th class="py-3 px-3 font-bold text-center">Edit</th>
         </tr>
       `;
 
-      const q = (document.getElementById("leadScheduleSearchInput")?.value || "").trim().toLowerCase();
-      const dayFilter = dayFilterSel?.value || "ALL";
-      const catFilter = selectedLeadScheduleCategory || "ALL";
-      const uniqueDrivers = getUniqueLatestDriverRecords();
-
-      const list = uniqueDrivers.filter(rec => {
-        const sched = getCourierSchedule(rec, selectedLeadPeriodId);
-        const matchQ = !q || rec.Nama_Kurir.toLowerCase().includes(q) || rec.Driver_ID.toLowerCase().includes(q) || sched.zone.toLowerCase().includes(q);
-        const matchDay = dayFilter === "ALL" || sched.days[dayFilter] === "OFF";
-        const matchCat = catFilter === "ALL" || String(rec.Kategori_Armada || "").trim().toLowerCase() === catFilter.toLowerCase();
-        return matchQ && matchDay && matchCat;
-      });
-
-      if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${datesList.length + 4}" class="py-8 px-4 text-center text-slate-500">Tidak ada jadwal kurir yang cocok dengan filter jenis kurir ini.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = list.map(rec => {
-        const sched = getCourierSchedule(rec, selectedLeadPeriodId);
-        const dateCells = datesList.map(dObj => {
-          const status = sched.days[dObj.key] || "PENDING";
-          let btnCls = "bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200";
-          let labelBtn = "-";
-          if (status === "IN") {
-            btnCls = "bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200";
-            labelBtn = "IN";
-          } else if (status === "OFF") {
-            btnCls = "bg-rose-100 text-rose-700 border-rose-300 hover:bg-rose-200";
-            labelBtn = "OFF";
-          }
-          return `
-            <td class="py-2.5 px-1 text-center">
-              <button
-                type="button"
-                onclick="quickToggleCourierDate('${rec.Driver_ID}', '${dObj.key}')"
-                title="Klik untuk ubah BELUM DIISI / IN / OFF tanggal ${dObj.label}"
-                class="w-10 py-1 rounded-lg border text-[10px] font-black transition ${btnCls}"
-              >
-                ${labelBtn}
-              </button>
-            </td>
-          `;
-        }).join("");
-
+      const tbody = document.getElementById("leadScheduleTableBody");
+      tbody.innerHTML = couriers.map(c => {
+        const sched = getOrCreateCourierSchedule(c, period);
         return `
-          <tr class="hover:bg-slate-50 transition">
-            <td class="py-3 px-3.5 sticky left-0 bg-white z-10">
-              <p class="font-extrabold text-slate-900">${rec.Nama_Kurir}</p>
-              <p class="text-[11px] font-mono text-slate-500">ID: ${rec.Driver_ID} &bull; ${rec.Kategori_Armada}</p>
+          <tr class="hover:bg-slate-50 whitespace-nowrap">
+            <td class="py-2.5 px-3 sticky left-0 bg-white z-10 border-r border-slate-100">
+              <strong class="text-slate-900 block">${c.Nama_Kurir}</strong>
+              <span class="text-[10px] text-slate-500">${c.Driver_ID} &bull; ${c.Kategori_Armada} &bull; <strong class="text-spx-orange">${sched.zone}</strong></span>
             </td>
-            <td class="py-3 px-3 font-bold text-slate-800">${sched.zone}</td>
-            <td class="py-3 px-3 font-mono font-semibold text-slate-700">${sched.shiftTime}</td>
-            ${dateCells}
-            <td class="py-3 px-3 text-center">
-              <button
-                type="button"
-                onclick="openEditScheduleModal('${rec.Driver_ID}')"
-                class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-spx-orange text-white text-[10px] font-bold transition"
-              >
-                Atur
+            <td class="py-2.5 px-2.5 text-center">
+              <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-[10px]">${c.Total_Hari_Kerja} hr</span>
+            </td>
+            ${dates.map(d => {
+              const st = sched.days[d.key] || "PENDING";
+              const btnCls = st === "IN"
+                ? "bg-emerald-500 text-white hover:bg-emerald-600"
+                : st === "OFF"
+                  ? "bg-rose-500 text-white hover:bg-rose-600"
+                  : "bg-slate-200 text-slate-600 hover:bg-slate-300";
+              return `
+                <td class="py-1.5 px-1 text-center">
+                  <button type="button" onclick="toggleQuickScheduleDay('${c.Driver_ID}', '${d.key}')" class="w-9 py-1 rounded-lg text-[10px] font-black transition ${btnCls}">
+                    ${st === "PENDING" ? "-" : st}
+                  </button>
+                </td>
+              `;
+            }).join("")}
+            <td class="py-2 px-3 text-center">
+              <button type="button" onclick="openEditScheduleModal('${c.Driver_ID}')" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-spx-orange text-white text-[10px] font-bold transition">
+                <i class="fas fa-edit"></i>
               </button>
             </td>
           </tr>
@@ -2790,47 +2280,45 @@
       }).join("");
     }
 
-    function quickToggleCourierDate(driverId, dateKey) {
-      const rec = getUniqueLatestDriverRecords().find(r => r.Driver_ID === driverId);
+    function toggleQuickScheduleDay(driverId, dateKey) {
+      const periods = getPeriodsList();
+      const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
+      const rec = allCourierRecords.find(r => r.Driver_ID === driverId);
       if (!rec) return;
-      const allSched = loadAllSchedules();
-      const current = getCourierSchedule(rec, selectedLeadPeriodId);
-      const rawEntry = allSched[driverId] || {
-        zone: current.zone,
-        shiftTime: current.shiftTime,
-        days: {},
-        note: current.note
-      };
-      rawEntry.days = { ...current.days, ...(rawEntry.days || {}) };
-      const curVal = rawEntry.days[dateKey] || "PENDING";
-      rawEntry.days[dateKey] = curVal === "PENDING" ? "IN" : (curVal === "IN" ? "OFF" : "PENDING");
-      allSched[driverId] = rawEntry;
-      saveAllSchedules(allSched);
+      const allSched = getAllSchedulesMap();
+      const sched = getOrCreateCourierSchedule(rec, period);
+      const cur = sched.days[dateKey] || "PENDING";
+      sched.days[dateKey] = cur === "PENDING" ? "IN" : cur === "IN" ? "OFF" : "PENDING";
+      allSched[period.id][driverId] = sched;
+      saveAllSchedulesMap(allSched);
       renderLeadScheduleTable();
     }
 
     function openEditScheduleModal(driverId) {
-      const rec = getUniqueLatestDriverRecords().find(r => r.Driver_ID === driverId);
+      const periods = getPeriodsList();
+      const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
+      const rec = allCourierRecords.find(r => r.Driver_ID === driverId);
       if (!rec) return;
-      const sched = getCourierSchedule(rec, selectedLeadPeriodId);
+      const sched = getOrCreateCourierSchedule(rec, period);
+      const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
 
-      document.getElementById("schedModalDriverIdInput").value = rec.Driver_ID;
+      document.getElementById("schedModalDriverIdInput").value = driverId;
       document.getElementById("schedModalName").textContent = rec.Nama_Kurir;
-      document.getElementById("schedModalId").textContent = rec.Driver_ID;
-      document.getElementById("schedModalPeriodText").textContent = sched.period.label;
+      document.getElementById("schedModalId").textContent = driverId;
+      document.getElementById("schedModalPeriodText").textContent = period.label;
       document.getElementById("schedModalZone").value = sched.zone;
       document.getElementById("schedModalShiftTime").value = sched.shiftTime;
       document.getElementById("schedModalNote").value = sched.note || "";
 
-      document.getElementById("schedModalDaysGrid").innerHTML = sched.period.dates.map(dObj => {
-        const val = sched.days[dObj.key] || "PENDING";
+      document.getElementById("schedModalDaysGrid").innerHTML = dates.map(d => {
+        const val = sched.days[d.key] || "PENDING";
         return `
-          <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
-            <span class="font-bold text-slate-800">${dObj.label} (${dObj.shortDay})</span>
-            <select data-date-key="${dObj.key}" class="sched-day-select px-2 py-1 rounded-lg border border-slate-300 bg-white font-bold text-xs">
-              <option value="PENDING" ${val === "PENDING" ? "selected" : ""}>BELUM DIISI</option>
-              <option value="IN" ${val === "IN" ? "selected" : ""}>MASUK (IN)</option>
-              <option value="OFF" ${val === "OFF" ? "selected" : ""}>LIBUR (OFF)</option>
+          <div class="p-2 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+            <span class="font-bold text-slate-700">${d.dayName}, ${d.label}</span>
+            <select data-date-key="${d.key}" class="sched-day-select px-2 py-1 rounded-lg border border-slate-300 font-bold text-xs">
+              <option value="PENDING" ${val === "PENDING" ? "selected" : ""}>Belum Diisi</option>
+              <option value="IN" ${val === "IN" ? "selected" : ""}>IN (Masuk)</option>
+              <option value="OFF" ${val === "OFF" ? "selected" : ""}>OFF (Libur)</option>
             </select>
           </div>
         `;
@@ -2846,334 +2334,262 @@
     function saveCourierScheduleForm(e) {
       e.preventDefault();
       const driverId = document.getElementById("schedModalDriverIdInput").value;
-      const zone = document.getElementById("schedModalZone").value.trim();
-      const shiftTime = document.getElementById("schedModalShiftTime").value.trim();
-      const note = document.getElementById("schedModalNote").value.trim();
+      const periods = getPeriodsList();
+      const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
+      const allSched = getAllSchedulesMap();
+      if (!allSched[period.id]) allSched[period.id] = {};
 
-      const allSched = loadAllSchedules();
-      const existingDays = (allSched[driverId] && allSched[driverId].days) ? { ...allSched[driverId].days } : {};
+      const days = {};
       document.querySelectorAll(".sched-day-select").forEach(sel => {
-        existingDays[sel.getAttribute("data-date-key")] = sel.value;
+        days[sel.dataset.dateKey] = sel.value;
       });
 
-      allSched[driverId] = { zone, shiftTime, days: existingDays, note };
-      saveAllSchedules(allSched);
-
-      try {
-        const ackMap = JSON.parse(localStorage.getItem(H1_ACK_STORAGE_KEY) || "{}");
-        Object.keys(ackMap).forEach(k => {
-          if (k.startsWith(`${driverId}_`)) delete ackMap[k];
-        });
-        localStorage.setItem(H1_ACK_STORAGE_KEY, JSON.stringify(ackMap));
-      } catch (err) {}
-
+      allSched[period.id][driverId] = {
+        zone: document.getElementById("schedModalZone").value.trim(),
+        shiftTime: document.getElementById("schedModalShiftTime").value.trim(),
+        note: document.getElementById("schedModalNote").value.trim(),
+        days
+      };
+      saveAllSchedulesMap(allSched);
       closeEditScheduleModal();
       renderLeadScheduleTable();
-      renderLeadCouriersTable();
-      showToast("Schedule Disimpan", `Jadwal & trigger alarm HP untuk Driver ID ${driverId} telah diperbarui.`);
+      showToast("Jadwal Disimpan", "Perubahan jadwal tersimpan (Total hari berangkat aktual tetap terjaga).");
+    }
+
+    function openAddMonthModal() {
+      document.getElementById("addMonthModal").classList.remove("hidden");
+    }
+
+    function closeAddMonthModal() {
+      document.getElementById("addMonthModal").classList.add("hidden");
+    }
+
+    function handleCreateNewMonthPeriod(e) {
+      e.preventDefault();
+      const ym = document.getElementById("newPeriodMonthInput").value;
+      const startDay = parseInt(document.getElementById("newPeriodStartDay").value, 10) || 1;
+      const endDay = parseInt(document.getElementById("newPeriodEndDay").value, 10) || 30;
+      const list = getPeriodsList();
+      if (!list.some(p => p.id === ym)) {
+        list.push({ id: ym, label: formatMonthLabel(ym), startDay, endDay });
+        list.sort((a, b) => a.id.localeCompare(b.id));
+        savePeriodsList(list);
+      }
+      closeAddMonthModal();
+      populateLeadPeriodSelect();
+      renderLeadScheduleTable();
+      showToast("Periode Ditambahkan", `Periode ${formatMonthLabel(ym)} siap disusun.`);
+    }
+
+    function buildScheduleCSVString() {
+      const periods = getPeriodsList();
+      const period = periods.find(p => p.id === selectedLeadPeriodId) || getLatestPeriod();
+      const dates = buildPeriodDates(period.id, period.startDay, period.endDay);
+      const couriers = getUniqueCouriersForLead();
+      const headers = ["Periode", "Driver_ID", "Nama_Kurir", "Kategori_Armada", "Zona", "Jam_Masuk", "Catatan", ...dates.map(d => d.key)];
+      const rows = couriers.map(c => {
+        const s = getOrCreateCourierSchedule(c, period);
+        return [
+          period.id,
+          c.Driver_ID,
+          c.Nama_Kurir,
+          c.Kategori_Armada,
+          s.zone,
+          s.shiftTime,
+          s.note || "Shift Pagi",
+          ...dates.map(d => s.days[d.key] || "PENDING")
+        ].join(",");
+      });
+      return [headers.join(","), ...rows].join("\n");
     }
 
     function exportScheduleCSV() {
-      const periodObj = getPeriodById(selectedLeadPeriodId);
-      const datesList = periodObj.dates;
-      const uniqueDrivers = getUniqueLatestDriverRecords();
-      if (uniqueDrivers.length === 0) {
-        showToast("Tidak Ada Data", "Belum ada data kurir untuk diekspor.", true);
-        return;
-      }
-
-      const headers = ["Driver_ID", "Nama_Kurir", "Kategori_Armada", "Zona", "Jam_Masuk", ...datesList.map(d => d.label), "Catatan"];
-      const csvLines = [
-        headers.join(","),
-        ...uniqueDrivers.map(r => {
-          const s = getCourierSchedule(r, selectedLeadPeriodId);
-          return [
-            r.Driver_ID,
-            `"${r.Nama_Kurir.replace(/"/g, '""')}"`,
-            `"${r.Kategori_Armada}"`,
-            `"${s.zone}"`,
-            `"${s.shiftTime}"`,
-            ...datesList.map(d => s.days[d.key] || "BELUM_DIISI"),
-            `"${(s.note || "").replace(/"/g, '""')}"`
-          ].join(",");
-        })
-      ];
-
-      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const csvStr = buildScheduleCSVString();
+      const blob = new Blob([csvStr], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `Schedule_Kurir_SPX_Pringapus2_${periodObj.id}.csv`;
-      document.body.appendChild(a);
+      a.download = `Schedule_Database_${selectedLeadPeriodId}.csv`;
       a.click();
-      document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast("Export Berhasil", `File CSV Schedule (${periodObj.label}) berhasil diunduh.`);
+      showToast("Export CSV Berhasil", "File jadwal siap diunggah atau dibagikan.");
     }
 
-    // -----------------------------------------------------------------------
-    // Leaderboard Kurir Terbaik (2WH Dedicated & Courier Plus) & Terburuk (Semua)
-    // Lengkap dengan Analisa Performa Hub
-    // -----------------------------------------------------------------------
-    function renderHubLeaderboards(targetConfig, targetMonth = null, isLeaderView = false) {
-      let pool = [];
-      if (targetMonth) {
-        pool = allRecords.filter(r => String(r.Bulan || "").trim() === String(targetMonth).trim());
-      }
-      if (pool.length === 0) {
-        pool = getUniqueLatestDriverRecords();
-      }
+    function publishAndTriggerAllH1Alerts() {
+      showToast("Schedule Dipublikasikan", "Jadwal terbaru & alarm H-30 menit sudah aktif untuk seluruh kurir.");
+    }
 
-      const activePool = pool.filter(r => (parseInt(r.Total_Penugasan, 10) || 0) > 0 || (parseInt(r.Delivered, 10) || 0) > 0);
-      const parseDsr = (r) => parseFloat(String(r.Delivery_Success_Rate || "0").replace("%", "")) || 0;
-      const monthText = targetMonth ? formatMonthLabel(targetMonth) : "Periode Aktif";
+    function openGitHubUploadScheduleModal() {
+      document.getElementById("githubScheduleModal").classList.remove("hidden");
+    }
 
-      // Kurir Terbaik: Khusus 2WH Dedicated dan 2WH Courier Plus (diurutkan DSR tertinggi ke terendah)
-      const bestCats = ["2WH Dedicated", "2WH Courier Plus"];
-      const bestRows = bestCats.map(cat => {
-        const subset = activePool.filter(r => String(r.Kategori_Armada || "").trim().toLowerCase() === cat.toLowerCase());
-        if (subset.length === 0) return null;
-        subset.sort((a, b) => (parseDsr(b) - parseDsr(a)) || ((parseInt(b.Delivered, 10) || 0) - (parseInt(a.Delivered, 10) || 0)));
-        const avgCatDsr = subset.reduce((acc, item) => acc + parseDsr(item), 0) / subset.length;
-        return { category: cat, driver: subset[0], dsr: parseDsr(subset[0]), avgCatDsr, totalInCat: subset.length };
-      })
-      .filter(Boolean)
-      .sort((a, b) => b.dsr - a.dsr);
+    function closeGitHubUploadScheduleModal() {
+      document.getElementById("githubScheduleModal").classList.add("hidden");
+    }
 
-      // Kurir Terburuk: 2WH Dedicated, 2WH Courier Plus, 2WH Mitra, dan 4WH Mitra (diurutkan dari DSR TERKECIL ke terbesar)
-      const worstCats = ["2WH Dedicated", "2WH Courier Plus", "2WH Mitra", "4WH Mitra"];
-      const worstRows = worstCats.map(cat => {
-        const subset = activePool.filter(r => String(r.Kategori_Armada || "").trim().toLowerCase() === cat.toLowerCase());
-        if (subset.length === 0) return null;
-        subset.sort((a, b) => (parseDsr(a) - parseDsr(b)) || ((parseInt(a.Delivered, 10) || 0) - (parseInt(b.Delivered, 10) || 0)));
-        const avgCatDsr = subset.reduce((acc, item) => acc + parseDsr(item), 0) / subset.length;
-        return { category: cat, driver: subset[0], dsr: parseDsr(subset[0]), avgCatDsr, totalInCat: subset.length };
-      })
-      .filter(Boolean)
-      .sort((a, b) => a.dsr - b.dsr);
+    async function pushScheduleToGitHub(e) {
+      e.preventDefault();
+      const token = document.getElementById("githubTokenInput").value.trim();
+      const btn = document.getElementById("btnPushGitHubSched");
+      if (!token) return;
 
-      const renderBestCard = (item, idx) => {
-        const isMe = loggedInDriverId && String(item.driver.Driver_ID) === String(loggedInDriverId);
-        const diffAboveAvg = (item.dsr - item.avgCatDsr).toFixed(2);
-        const rankBadge = idx === 0
-          ? `<span class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs flex items-center justify-center shadow-lg shadow-amber-500/30"><i class="fas fa-crown"></i></span>`
-          : `<span class="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-black text-xs flex items-center justify-center">#${idx + 1}</span>`;
+      btn.disabled = true;
+      btn.textContent = "Mengunggah...";
 
-        const privateMetricHtml = isLeaderView
-          ? `<span class="text-[11px] text-slate-400 block mt-0.5">Delivered: <strong class="text-emerald-300">${(parseInt(item.driver.Delivered, 10) || 0).toLocaleString("id-ID")}</strong> / ${(parseInt(item.driver.Total_Penugasan, 10) || 0).toLocaleString("id-ID")}</span>`
-          : `<span class="text-[11px] text-emerald-300/80 block mt-0.5"><i class="fas fa-arrow-up mr-1"></i>+${diffAboveAvg}% di atas rata-rata kategori (${item.avgCatDsr.toFixed(2)}%)</span>`;
+      try {
+        const csvContent = buildScheduleCSVString();
+        const b64 = btoa(unescape(encodeURIComponent(csvContent)));
+        const headers = {
+          "Authorization": `token ${token}`,
+          "Accept": "application/vnd.github+json",
+          "Content-Type": "application/json"
+        };
 
-        return `
-          <div class="group relative p-4 rounded-2xl bg-slate-900/95 border ${isMe ? 'border-emerald-400/70 ring-1 ring-emerald-400/40' : 'border-slate-800 hover:border-emerald-500/40'} transition-all duration-300">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                ${rankBadge}
-                <div class="min-w-0">
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">${item.category}</span>
-                    ${isMe ? '<span class="px-2 py-0.5 rounded-md text-[9px] font-black bg-spx-orange text-white">ANDA</span>' : ''}
-                  </div>
-                  <strong class="text-white font-extrabold text-sm block truncate mt-1">${item.driver.Nama_Kurir}</strong>
-                  ${privateMetricHtml}
-                </div>
-              </div>
-              <div class="text-right shrink-0">
-                <span class="text-lg sm:text-xl font-black text-emerald-400 tracking-tight block">${item.dsr.toFixed(2)}%</span>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">DSR</span>
-              </div>
-            </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3">
-              <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-300 rounded-full transition-all duration-700" style="width: ${Math.min(100, Math.max(0, item.dsr))}%"></div>
-            </div>
-          </div>
-        `;
-      };
-
-      const renderWorstCard = (item, idx) => {
-        const isMe = loggedInDriverId && String(item.driver.Driver_ID) === String(loggedInDriverId);
-        const gapFromTarget = Math.max(0, 95 - item.dsr).toFixed(2);
-        const privateMetricHtml = isLeaderView
-          ? `<span class="text-[11px] text-slate-400 block mt-0.5">Delivered: <strong class="text-rose-300">${(parseInt(item.driver.Delivered, 10) || 0).toLocaleString("id-ID")}</strong> / ${(parseInt(item.driver.Total_Penugasan, 10) || 0).toLocaleString("id-ID")}</span>`
-          : `<span class="text-[11px] text-amber-300/90 block mt-0.5"><i class="fas fa-chart-line mr-1"></i>Selisih -${gapFromTarget}% dari target standar hub (95.00%)</span>`;
-
-        return `
-          <div class="group relative p-4 rounded-2xl bg-slate-900/95 border ${isMe ? 'border-rose-400/70 ring-1 ring-rose-400/40' : 'border-slate-800 hover:border-rose-500/40'} transition-all duration-300">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <span class="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 font-black text-xs flex items-center justify-center shrink-0">
-                  #${idx + 1}
-                </span>
-                <div class="min-w-0">
-                  <div class="flex items-center gap-1.5 flex-wrap">
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-rose-500/15 text-rose-300 border border-rose-500/30">${item.category}</span>
-                    ${isMe ? '<span class="px-2 py-0.5 rounded-md text-[9px] font-black bg-spx-orange text-white">ANDA</span>' : ''}
-                  </div>
-                  <strong class="text-white font-extrabold text-sm block truncate mt-1">${item.driver.Nama_Kurir}</strong>
-                  ${privateMetricHtml}
-                </div>
-              </div>
-              <div class="text-right shrink-0">
-                <span class="text-lg sm:text-xl font-black text-rose-400 tracking-tight block">${item.dsr.toFixed(2)}%</span>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">DSR</span>
-              </div>
-            </div>
-            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3">
-              <div class="h-full bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 rounded-full transition-all duration-700" style="width: ${Math.min(100, Math.max(0, item.dsr))}%"></div>
-            </div>
-          </div>
-        `;
-      };
-
-      const topChampion = bestRows[0];
-      const bestAnalysisHtml = topChampion ? `
-        <div class="rounded-3xl bg-white p-5 border border-emerald-200 shadow-xs space-y-3">
-          <div class="flex items-center gap-2.5">
-            <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
-              <i class="fas fa-microscope text-xs"></i>
-            </span>
-            <div>
-              <h5 class="text-xs sm:text-sm font-extrabold text-slate-900">Analisa Performa Kurir Terbaik (${monthText})</h5>
-              <p class="text-[11px] text-slate-500">Benchmark keberhasilan pengantaran armada tetap SPX Pringapus 2 Hub</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-            <div class="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
-              <span class="text-slate-500 block text-[11px]">Pimpinan Klasemen</span>
-              <strong class="text-emerald-800 font-black mt-0.5 block">${topChampion.driver.Nama_Kurir} (${topChampion.dsr.toFixed(2)}%)</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Rata-rata DSR Kategori</span>
-              <strong class="text-slate-900 font-extrabold mt-0.5 block">${topChampion.category}: ${topChampion.avgCatDsr.toFixed(2)}%</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Kunci Keberhasilan</span>
-              <strong class="text-slate-800 font-bold mt-0.5 block">Sortir pagi cepat &amp; konfirmasi penerima sebelum tiba</strong>
-            </div>
-          </div>
-        </div>
-      ` : "";
-
-      const lowestDriver = worstRows[0];
-      const worstAnalysisHtml = lowestDriver ? `
-        <div class="rounded-3xl bg-white p-5 border border-rose-200 shadow-xs space-y-3">
-          <div class="flex items-center gap-2.5">
-            <span class="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
-              <i class="fas fa-stethoscope text-xs"></i>
-            </span>
-            <div>
-              <h5 class="text-xs sm:text-sm font-extrabold text-slate-900">Analisa Evaluasi DSR Terendah (${monthText})</h5>
-              <p class="text-[11px] text-slate-500">Identifikasi kendala pengantaran &amp; langkah perbaikan lapangan</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-            <div class="p-3 rounded-2xl bg-rose-50/70 border border-rose-200/80">
-              <span class="text-slate-500 block text-[11px]">DSR Paling Rendah</span>
-              <strong class="text-rose-800 font-black mt-0.5 block">${lowestDriver.driver.Nama_Kurir} (${lowestDriver.dsr.toFixed(2)}%)</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Gap ke Target Hub (95%)</span>
-              <strong class="text-amber-700 font-extrabold mt-0.5 block">Kurang ${Math.max(0, 95 - lowestDriver.dsr).toFixed(2)}% lagi menuju zona aman</strong>
-            </div>
-            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
-              <span class="text-slate-500 block text-[11px]">Rekomendasi Perbaikan</span>
-              <strong class="text-slate-800 font-bold mt-0.5 block">Prioritaskan paket aging/COD pagi &amp; hubungi penerima via WA</strong>
-            </div>
-          </div>
-        </div>
-      ` : "";
-
-      const bestBlockHtml = `
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#090D16] via-slate-900 to-emerald-950/40 p-5 border border-emerald-500/25 shadow-xl space-y-3.5">
-          <div class="pointer-events-none absolute -top-12 -right-12 w-36 h-36 rounded-full bg-emerald-500/15 blur-2xl"></div>
-          <div class="flex items-center justify-between relative z-10">
-            <div class="flex items-center gap-3">
-              <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/25">
-                <i class="fas fa-trophy text-base"></i>
-              </span>
-              <div>
-                <h4 class="text-sm font-black text-white tracking-tight">Kurir Terbaik Hub</h4>
-                <p class="text-[11px] text-emerald-300/80 font-medium">Khusus 2WH Dedicated &amp; 2WH Courier Plus</p>
-              </div>
-            </div>
-            <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-extrabold text-emerald-300">
-              Top DSR
-            </span>
-          </div>
-          <div class="space-y-2.5 relative z-10">
-            ${bestRows.length > 0 ? bestRows.map((it, idx) => renderBestCard(it, idx)).join("") : '<p class="text-xs text-slate-400">Belum ada data performa.</p>'}
-          </div>
-        </div>
-        ${bestAnalysisHtml}
-      `;
-
-      const worstBlockHtml = `
-        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#090D16] via-slate-900 to-rose-950/40 p-5 border border-rose-500/25 shadow-xl space-y-3.5">
-          <div class="pointer-events-none absolute -top-12 -right-12 w-36 h-36 rounded-full bg-rose-500/15 blur-2xl"></div>
-          <div class="flex items-center justify-between relative z-10">
-            <div class="flex items-center gap-3">
-              <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-600 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
-                <i class="fas fa-chart-line text-base"></i>
-              </span>
-              <div>
-                <h4 class="text-sm font-black text-white tracking-tight">Kurir Terburuk (Evaluasi DSR)</h4>
-                <p class="text-[11px] text-rose-300/80 font-medium">Urutan DSR Terkecil &bull; Semua Kategori Armada</p>
-              </div>
-            </div>
-            <span class="px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-[10px] font-extrabold text-rose-300">
-              Terkecil &rarr; Besar
-            </span>
-          </div>
-          <div class="space-y-2.5 relative z-10">
-            ${worstRows.length > 0 ? worstRows.map((it, idx) => renderWorstCard(it, idx)).join("") : '<p class="text-xs text-slate-400">Belum ada data performa.</p>'}
-          </div>
-        </div>
-        ${worstAnalysisHtml}
-      `;
-
-      if (typeof targetConfig === "string") {
-        const container = document.getElementById(targetConfig);
-        if (container) {
-          container.innerHTML = `<div class="space-y-4">${bestBlockHtml}</div><div class="space-y-4">${worstBlockHtml}</div>`;
+        let sha = null;
+        const getResp = await fetch(GITHUB_API_SCHEDULE_URL, { headers });
+        if (getResp.ok) {
+          const existingData = await getResp.json();
+          sha = existingData.sha;
         }
-      } else if (targetConfig && typeof targetConfig === "object") {
-        const bestEl = document.getElementById(targetConfig.bestContainerId);
-        const worstEl = document.getElementById(targetConfig.worstContainerId);
-        if (bestEl) bestEl.innerHTML = bestBlockHtml;
-        if (worstEl) worstEl.innerHTML = worstBlockHtml;
+
+        const payload = {
+          message: `Update Schedule_Database.csv (${selectedLeadPeriodId}) tanpa mengubah Total_Hari_Kerja`,
+          content: b64
+        };
+        if (sha) payload.sha = sha;
+
+        const putResp = await fetch(GITHUB_API_SCHEDULE_URL, {
+          method: "PUT",
+          headers,
+          body: JSON.stringify(payload)
+        });
+
+        if (!putResp.ok) {
+          const errTxt = await putResp.text();
+          throw new Error(errTxt);
+        }
+
+        closeGitHubUploadScheduleModal();
+        showToast("Sukses Unggah ke GitHub", "Schedule_Database.csv berhasil diperbarui di GitHub!");
+      } catch (err) {
+        showToast("Gagal Unggah GitHub", "Periksa kembali GitHub Token Anda.", true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Unggah Sekarang";
       }
     }
 
-    // -----------------------------------------------------------------------
-    // Bootstrap Saat Aplikasi Dibuka
-    // -----------------------------------------------------------------------
+    function renderLeadCouriersTable() {
+      const query = (document.getElementById("leadCourierSearchInput").value || "").toLowerCase();
+      const catFilter = document.getElementById("leadCategoryFilter").value;
+      let couriers = getUniqueCouriersForLead();
+
+      // Leaderboard untuk Lead
+      const best = couriers
+        .filter(c => c.Kategori_Armada === "2WH Dedicated" || c.Kategori_Armada === "2WH Courier Plus")
+        .sort((a, b) => parseDsrNumber(b.Delivery_Success_Rate) - parseDsrNumber(a.Delivery_Success_Rate))
+        .slice(0, 3);
+      const worst = [...couriers]
+        .sort((a, b) => parseDsrNumber(a.Delivery_Success_Rate) - parseDsrNumber(b.Delivery_Success_Rate))
+        .slice(0, 3);
+
+      const lbEl = document.getElementById("leadLeaderboardSection");
+      if (lbEl) {
+        lbEl.innerHTML = `
+          <div class="bg-slate-900 text-white rounded-3xl p-5 border border-slate-800 space-y-2.5">
+            <h4 class="text-xs font-black uppercase tracking-wider text-emerald-400"><i class="fas fa-trophy mr-1.5"></i>Kurir Terbaik (Dedicated &amp; Courier Plus)</h4>
+            ${best.map((c, i) => `
+              <div class="flex items-center justify-between text-xs p-2.5 rounded-xl bg-white/5">
+                <span><strong>#${i + 1} ${c.Nama_Kurir}</strong> <span class="text-slate-400">(${c.Kategori_Armada})</span></span>
+                <strong class="text-emerald-400">${c.Delivery_Success_Rate}</strong>
+              </div>
+            `).join("")}
+          </div>
+          <div class="bg-slate-900 text-white rounded-3xl p-5 border border-slate-800 space-y-2.5">
+            <h4 class="text-xs font-black uppercase tracking-wider text-rose-400"><i class="fas fa-exclamation-triangle mr-1.5"></i>Perlu Evaluasi DSR (Terkecil ke Terbesar)</h4>
+            ${worst.map((c, i) => `
+              <div class="flex items-center justify-between text-xs p-2.5 rounded-xl bg-white/5">
+                <span><strong>${i + 1}. ${c.Nama_Kurir}</strong> <span class="text-slate-400">(${c.Kategori_Armada})</span></span>
+                <strong class="text-rose-400">${c.Delivery_Success_Rate}</strong>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      if (catFilter !== "ALL") couriers = couriers.filter(c => c.Kategori_Armada === catFilter);
+      if (query) couriers = couriers.filter(c => c.Nama_Kurir.toLowerCase().includes(query) || c.Driver_ID.includes(query));
+
+      const tbody = document.getElementById("leadCouriersTableBody");
+      tbody.innerHTML = couriers.map(c => {
+        const pay = calculateCourierPayroll(c);
+        const zone = OFFICIAL_CLUSTER_MAP[c.Driver_ID] || "-";
+        return `
+          <tr class="hover:bg-slate-50">
+            <td class="py-3 px-4">
+              <strong class="text-slate-900 block">${c.Nama_Kurir}</strong>
+              <span class="text-[11px] font-mono text-slate-500">ID: ${c.Driver_ID}</span>
+            </td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded-md bg-orange-50 text-spx-orange font-bold text-[10px]">${c.Kategori_Armada}</span>
+              <span class="block text-[11px] text-slate-500 mt-0.5">${zone}</span>
+            </td>
+            <td class="py-3 px-4 font-bold text-slate-700">${c.Delivered.toLocaleString("id-ID")} / ${c.Total_Penugasan.toLocaleString("id-ID")}</td>
+            <td class="py-3 px-4 font-extrabold text-emerald-600">${c.Delivery_Success_Rate}</td>
+            <td class="py-3 px-4 font-black text-slate-900">${formatRupiah(pay.total)}</td>
+            <td class="py-3 px-4 text-center">
+              <button type="button" onclick="openCourierDetailModal('${c.Driver_ID}')" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-spx-orange text-white text-[11px] font-bold transition">Detail</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function openCourierDetailModal(driverId) {
+      const rec = getUniqueCouriersForLead().find(c => c.Driver_ID === driverId);
+      if (!rec) return;
+      const pay = calculateCourierPayroll(rec);
+      document.getElementById("modalCourierCat").textContent = rec.Kategori_Armada;
+      document.getElementById("modalCourierName").textContent = rec.Nama_Kurir;
+      document.getElementById("modalCourierId").textContent = rec.Driver_ID;
+      document.getElementById("modalCourierMonth").textContent = formatMonthLabel(rec.Bulan);
+      document.getElementById("modalDays").textContent = `${rec.Total_Hari_Kerja} hr`;
+      document.getElementById("modalAssigned").textContent = rec.Total_Penugasan.toLocaleString("id-ID");
+      document.getElementById("modalDelivered").textContent = rec.Delivered.toLocaleString("id-ID");
+      document.getElementById("modalDsr").textContent = rec.Delivery_Success_Rate;
+      document.getElementById("modalTotalSalary").textContent = formatRupiah(pay.total);
+
+      document.getElementById("modalSalaryItems").innerHTML = pay.items.map(it => `
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-700 font-semibold">${it.label}</span>
+          <strong class="text-slate-900 font-extrabold">${formatRupiah(it.amount)}</strong>
+        </div>
+      `).join("");
+
+      document.getElementById("courierDetailModal").classList.remove("hidden");
+    }
+
+    function closeCourierDetailModal() {
+      document.getElementById("courierDetailModal").classList.add("hidden");
+    }
+
+    // =========================================================================
+    // INISIALISASI SAAT HALAMAN DIBUKA
+    // =========================================================================
     window.addEventListener("DOMContentLoaded", async () => {
-      registerBackgroundAlarmServiceWorker();
-      const cached = readCachedRecords();
-      if (cached.length > 0) {
-        allRecords = cached;
-      } else {
-        allRecords = [...FALLBACK_RECORDS];
-      }
-
-      const savedSess = readActiveSession();
-      if (savedSess) {
-        if (savedSess.role === "leader" && LEADERSHIP_ACCOUNTS[savedSess.id]) {
-          activateLeaderSession(LEADERSHIP_ACCOUNTS[savedSess.id], savedSess.tab || "schedule");
-        } else if (savedSess.role === "courier" && allRecords.some(r => r.Driver_ID === savedSess.id)) {
-          activateCourierSession(savedSess.id, savedSess.tab || "schedule");
-        }
-      }
-
-      await loadDatabaseFromGitHub();
+      await loadMasterDatabase(false);
       await loadScheduleFromGitHub();
 
-      if (savedSess) {
-        if (savedSess.role === "leader" && LEADERSHIP_ACCOUNTS[savedSess.id]) {
-          activateLeaderSession(LEADERSHIP_ACCOUNTS[savedSess.id], activeLeadTab || "schedule");
-        } else if (savedSess.role === "courier" && allRecords.some(r => r.Driver_ID === savedSess.id)) {
-          activateCourierSession(savedSess.id, activeTab || "schedule");
+      try {
+        const savedSession = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || "null");
+        if (savedSession && savedSession.type === "lead" && LEAD_ACCOUNTS[savedSession.id]) {
+          currentLeadAccount = LEAD_ACCOUNTS[savedSession.id];
+          enterLeadDashboard();
+        } else if (savedSession && savedSession.type === "courier" && allCourierRecords.some(r => r.Driver_ID === savedSession.id)) {
+          currentCourierId = savedSession.id;
+          enterCourierDashboard();
         }
-      }
+      } catch (e) {}
     });
   </script>
 </body>
