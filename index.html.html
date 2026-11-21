@@ -96,6 +96,46 @@
       transform: translateY(-3px);
       box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
     }
+
+    /* Animasi Halaman Login Modern */
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(28px, -22px) scale(1.08); }
+      66% { transform: translate(-20px, 18px) scale(0.95); }
+    }
+    .animate-orb-drift {
+      animation: orbDrift 9s ease-in-out infinite;
+    }
+    .animate-orb-drift-reverse {
+      animation: orbDrift 11s ease-in-out infinite reverse;
+    }
+
+    @keyframes routeDash {
+      to { stroke-dashoffset: -48; }
+    }
+    .animate-route-dash {
+      animation: routeDash 1.8s linear infinite;
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.92); opacity: 0.75; }
+      70% { transform: scale(1.38); opacity: 0; }
+      100% { transform: scale(1.38); opacity: 0; }
+    }
+    .logo-pulse-ring::before {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: 1.25rem;
+      border: 2px solid rgba(238, 77, 45, 0.65);
+      animation: pulseRing 2.4s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+      pointer-events: none;
+    }
+
+    .login-grid-pattern {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-slate-100 text-slate-900 selection:bg-spx-orange selection:text-white">
@@ -103,34 +143,46 @@
   <!-- =====================================================================
        1. HALAMAN LOGIN UTAMA (KURIR & HUB LEAD / SHIFT LEAD)
        ===================================================================== -->
-  <div id="loginView" class="min-h-screen flex flex-col justify-between bg-[#090D16] text-white px-4 py-8 relative overflow-hidden">
-    <!-- Latar Glow Animasi -->
-    <div class="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-spx-orange/15 blur-3xl"></div>
-    <div class="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-orange-500/10 blur-3xl"></div>
+  <div id="loginView" class="min-h-screen flex flex-col justify-between bg-[#070B14] login-grid-pattern text-white px-4 py-8 relative overflow-hidden">
+    <!-- Latar Glow Animasi Dinamis -->
+    <div class="pointer-events-none absolute -top-28 -left-24 w-96 h-96 rounded-full bg-spx-orange/25 blur-3xl animate-orb-drift"></div>
+    <div class="pointer-events-none absolute top-1/3 -right-28 w-80 h-80 rounded-full bg-amber-500/15 blur-3xl animate-orb-drift-reverse"></div>
+    <div class="pointer-events-none absolute -bottom-28 left-1/4 w-96 h-96 rounded-full bg-orange-600/20 blur-3xl animate-orb-drift"></div>
+
+    <!-- Garis Jalur Pengiriman Animasi (SVG) -->
+    <svg class="pointer-events-none absolute inset-x-0 top-14 w-full h-36 opacity-25" viewBox="0 0 1200 140" fill="none" preserveAspectRatio="none">
+      <path d="M-40 110 C 260 15, 520 135, 840 40 C 1020 -10, 1140 75, 1250 35" stroke="#EE4D2D" stroke-width="2.5" stroke-dasharray="10 14" class="animate-route-dash"/>
+      <path d="M-40 70 C 320 140, 620 10, 920 95 C 1070 130, 1160 60, 1250 85" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="6 12" class="animate-route-dash"/>
+    </svg>
 
     <div class="flex-1 flex flex-col justify-center items-center w-full max-w-md mx-auto relative z-10">
       <!-- Branding Header -->
       <div class="text-center mb-7 w-full animate-card-in">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-spx-orange to-orange-600 shadow-lg shadow-orange-600/35 mb-4 border border-orange-400/30 animate-float-slow">
-          <i class="fas fa-shipping-fast text-white text-2xl"></i>
+        <div class="relative inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-spx-orange via-orange-500 to-amber-500 shadow-2xl shadow-orange-600/40 mb-4 border border-orange-300/40 animate-float-slow logo-pulse-ring">
+          <i class="fas fa-shipping-fast text-white text-3xl drop-shadow"></i>
         </div>
-        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+        <h1 class="text-2xl sm:text-3xl font-black tracking-tight bg-gradient-to-r from-white via-orange-100 to-orange-300 bg-clip-text text-transparent">
           SPX Pringapus 2 Hub
         </h1>
-        <p class="text-xs sm:text-sm font-bold text-spx-orange tracking-wide mt-1">
+        <p class="text-xs sm:text-sm font-extrabold text-spx-orange tracking-wide mt-1">
           Strong and Growth Together!
         </p>
-        <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] text-slate-400">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Portal Performa, Payroll &amp; Schedule Kurir</span>
+        <div class="mt-3.5 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-[11px] text-slate-300 shadow-lg">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Portal Schedule, Performa &amp; Payroll Kurir</span>
         </div>
       </div>
 
-      <!-- Card Form Login -->
-      <div class="w-full bg-slate-900/95 border border-slate-800 rounded-3xl p-6 sm:p-7 shadow-2xl animate-card-in">
-        <div class="mb-5">
-          <h2 class="text-base font-extrabold text-white">Masuk ke Portal Hub</h2>
-          <p class="text-xs text-slate-400 mt-0.5">Gunakan <strong>Driver ID</strong> (Kurir) atau <strong>Ops ID</strong> (Hub/Shift Lead).</p>
+      <!-- Card Form Login Glassmorphism -->
+      <div class="w-full bg-slate-900/80 backdrop-blur-xl border border-slate-700/70 rounded-3xl p-6 sm:p-7 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.75)] animate-card-in">
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <h2 class="text-base font-extrabold text-white">Masuk ke Portal Hub</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Gunakan <strong>Driver ID</strong> (Kurir) atau <strong>Ops ID</strong> (Lead).</p>
+          </div>
+          <span class="w-9 h-9 rounded-2xl bg-spx-orange/15 border border-spx-orange/30 text-spx-orange flex items-center justify-center">
+            <i class="fas fa-shield-alt text-sm"></i>
+          </span>
         </div>
 
         <form onsubmit="handleLogin(event)" class="space-y-4" autocomplete="off">
@@ -138,8 +190,8 @@
             <label for="driverIdInput" class="block text-xs font-bold text-slate-300 mb-1.5">
               Driver ID / Ops ID
             </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+            <div class="relative group">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 group-focus-within:text-spx-orange transition">
                 <i class="fas fa-id-badge text-sm"></i>
               </span>
               <input
@@ -148,7 +200,7 @@
                 oninput="copyDriverIdToPassword()"
                 required
                 placeholder="Contoh: 1194512 atau Ops ID"
-                class="w-full pl-10 pr-4 py-3 bg-slate-950 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange focus:ring-1 focus:ring-spx-orange transition"
+                class="w-full pl-10 pr-4 py-3.5 bg-slate-950/90 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange focus:ring-2 focus:ring-spx-orange/30 transition"
               >
             </div>
           </div>
@@ -157,8 +209,8 @@
             <label for="passwordInput" class="block text-xs font-bold text-slate-300 mb-1.5">
               Password
             </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+            <div class="relative group">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400 group-focus-within:text-spx-orange transition">
                 <i class="fas fa-lock text-sm"></i>
               </span>
               <input
@@ -166,7 +218,7 @@
                 id="passwordInput"
                 required
                 placeholder="Otomatis terisi sama dengan ID Anda"
-                class="w-full pl-10 pr-11 py-3 bg-slate-950 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange focus:ring-1 focus:ring-spx-orange transition"
+                class="w-full pl-10 pr-11 py-3.5 bg-slate-950/90 border border-slate-700 rounded-2xl text-sm text-white placeholder-slate-500 focus:outline-none focus:border-spx-orange focus:ring-2 focus:ring-spx-orange/30 transition"
               >
               <button
                 type="button"
@@ -181,13 +233,29 @@
 
           <button
             type="submit"
-            class="w-full py-3.5 px-4 bg-gradient-to-r from-spx-orange to-orange-600 hover:from-spx-bright hover:to-spx-orange text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-orange-600/30 active:scale-[0.99] transition flex items-center justify-center gap-2 mt-2"
+            class="w-full py-3.5 px-4 bg-gradient-to-r from-spx-orange via-orange-500 to-amber-500 hover:from-spx-bright hover:to-orange-500 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-orange-600/35 hover:shadow-orange-500/50 hover:-translate-y-0.5 active:scale-[0.99] transition-all flex items-center justify-center gap-2 mt-2"
           >
             <i id="loginSpinner" class="fas fa-circle-notch fa-spin hidden"></i>
             <span id="loginBtnText">Masuk ke Portal Hub</span>
             <i id="loginArrowIcon" class="fas fa-arrow-right text-xs"></i>
           </button>
         </form>
+
+        <!-- Feature Badges Mini -->
+        <div class="grid grid-cols-3 gap-2 pt-5 mt-5 border-t border-slate-800/80 text-center text-[10px] text-slate-400">
+          <div class="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
+            <i class="fas fa-calendar-check text-spx-orange block mb-1 text-xs"></i>
+            <span>Schedule Aktif</span>
+          </div>
+          <div class="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
+            <i class="fas fa-chart-line text-emerald-400 block mb-1 text-xs"></i>
+            <span>Live DSR</span>
+          </div>
+          <div class="p-2 rounded-xl bg-slate-950/60 border border-slate-800/80">
+            <i class="fas fa-wallet text-amber-400 block mb-1 text-xs"></i>
+            <span>Slip Gaji</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -231,19 +299,23 @@
           </div>
         </div>
 
-        <!-- Menu Navigasi Lengkap Kurir (Dipisah Rapi Per Fitur) -->
+        <!-- Menu Navigasi Lengkap Kurir (Urutan: Schedule, Perform, Gaji) -->
         <nav class="space-y-1.5">
-          <button type="button" data-tab="performance" onclick="switchDashboardTab('performance')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition">
+          <button type="button" data-tab="schedule" onclick="switchDashboardTab('schedule')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-bold bg-spx-orange text-white shadow-lg shadow-spx-orange/25 transition">
+            <i class="fas fa-calendar-check w-4 text-center"></i>
+            <span>Schedule</span>
+          </button>
+          <button type="button" data-tab="performance" onclick="switchDashboardTab('performance')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
             <i class="fas fa-chart-line w-4 text-center"></i>
-            <span>Performa Pengiriman</span>
+            <span>Perform</span>
           </button>
           <button type="button" data-tab="payroll" onclick="switchDashboardTab('payroll')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
             <i class="fas fa-wallet w-4 text-center"></i>
-            <span>Estimasi &amp; Rincian Gaji</span>
+            <span>Gaji</span>
           </button>
-          <button type="button" data-tab="schedule" onclick="switchDashboardTab('schedule')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
-            <i class="fas fa-calendar-check w-4 text-center"></i>
-            <span>Schedule Kerja</span>
+          <button type="button" data-tab="feedback" onclick="switchDashboardTab('feedback')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+            <i class="fas fa-comment-dots w-4 text-center"></i>
+            <span>Kotak Saran Hub</span>
           </button>
           <button type="button" data-tab="profile" onclick="switchDashboardTab('profile')" class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
             <i class="fas fa-bell w-4 text-center"></i>
@@ -267,8 +339,8 @@
             <i class="fas fa-bars"></i>
           </button>
           <div>
-            <h2 id="headerPageTitle" class="text-base sm:text-lg font-extrabold text-slate-900">Performa Pengiriman</h2>
-            <p class="text-[11px] text-slate-500">SPX Pringapus 2 Hub &bull; Jadwal Aktif: <strong id="courierActivePeriodBadge" class="text-spx-orange">November 2026 (22–30)</strong></p>
+            <h2 id="headerPageTitle" class="text-base sm:text-lg font-extrabold text-slate-900">Schedule</h2>
+            <p class="text-[11px] text-slate-500">SPX Pringapus 2 Hub &bull; Jadwal Aktif: <strong id="courierActivePeriodBadge" class="text-spx-orange">November 2026</strong></p>
           </div>
         </div>
 
@@ -283,8 +355,8 @@
       </header>
 
       <main class="p-4 sm:p-6 max-w-5xl w-full mx-auto space-y-5">
-        <!-- Banner Pengingat Alarm H-30 Menit Sebelum Masuk -->
-        <div class="rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-4 sm:p-5 border border-slate-700 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-card-in">
+        <!-- Banner Pengingat Alarm H-30 Menit Sebelum Masuk (Disembunyikan) -->
+        <div class="hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white p-4 sm:p-5 border border-slate-700 shadow-lg flex-col sm:flex-row sm:items-center justify-between gap-4 animate-card-in">
           <div class="flex items-start gap-3.5">
             <div class="w-11 h-11 rounded-2xl bg-spx-orange/20 border border-spx-orange/40 flex items-center justify-center text-spx-orange shrink-0">
               <i class="fas fa-volume-up animate-ring-bell text-lg"></i>
@@ -298,111 +370,114 @@
               <p id="h1AlertSubtext" class="text-xs text-slate-300 mt-0.5">Notifikasi HP, dering volume penuh, dan getaran otomatis berbunyi tepat 30 menit sebelum jam masuk.</p>
             </div>
           </div>
-          <button type="button" onclick="enableDeviceAlarmPermission(true)" class="px-4 py-2.5 rounded-2xl bg-spx-orange hover:bg-spx-bright text-white text-xs font-extrabold shadow shrink-0 transition">
+          <button type="button" onclick="enableDeviceAlarmPermission(true)" class="hidden px-4 py-2.5 rounded-2xl bg-spx-orange hover:bg-spx-bright text-white text-xs font-extrabold shadow shrink-0 transition">
             <i class="fas fa-bell mr-1.5"></i>Tes Alarm
           </button>
         </div>
 
         <!-- ===============================================================
-             TAB 1: PERFORMA PENGIRIMAN KURIR (KHUSUS METRIK & PRODUKTIVITAS)
+             TAB 1: PERFORMA PENGIRIMAN KURIR (DENGAN MENU ATAS & ANALISA)
              =============================================================== -->
         <section id="tab-performance" class="dashboard-tab-panel space-y-5 animate-card-in">
-          <!-- Banner Ringkasan Performa Bulan Aktif -->
-          <div class="rounded-3xl bg-gradient-to-br from-[#090D16] via-slate-900 to-slate-950 text-white p-6 border border-slate-800 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[11px] font-bold mb-2">
-                <i class="fas fa-shipping-fast"></i>
-                <span>Laporan Performa Bulan <span id="perfMonthText">-</span></span>
-              </span>
-              <h3 class="text-xl sm:text-2xl font-black tracking-tight text-white">Statistik Pengantaran Paket</h3>
-              <p class="text-xs text-slate-400 mt-1">Pantau rasio sukses pengantaran (DSR), jumlah paket terkirim, dan status OnHold Anda.</p>
+          <!-- Menu Navigasi Atas di Dalam Tab Perform -->
+          <div class="bg-white rounded-3xl p-2 border border-slate-200 shadow-xs flex flex-wrap sm:flex-nowrap items-center gap-1.5">
+            <button type="button" data-perf-subtab="my" onclick="switchPerformSubTab('my')" class="perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-extrabold bg-slate-900 text-white shadow transition flex items-center justify-center gap-2">
+              <i class="fas fa-user-chart text-spx-orange"></i>
+              <span>Performa Saya (<span id="perfMonthText">-</span>)</span>
+            </button>
+            <button type="button" data-perf-subtab="best" onclick="switchPerformSubTab('best')" class="perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
+              <i class="fas fa-trophy text-amber-500"></i>
+              <span>Kurir Terbaik</span>
+            </button>
+            <button type="button" data-perf-subtab="worst" onclick="switchPerformSubTab('worst')" class="perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2">
+              <i class="fas fa-exclamation-triangle text-rose-500"></i>
+              <span>Kurir Terburuk</span>
+            </button>
+          </div>
+
+          <!-- SUB-PANEL A: PERFORMA PRIBADI KURIR -->
+          <div id="perf-subpanel-my" class="perf-subpanel space-y-5 animate-card-in">
+            <!-- 4 Kartu Metrik Pengiriman Utama dengan Animasi Counter -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+              <!-- Total Penugasan -->
+              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <i class="fas fa-boxes text-base"></i>
+                  </span>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Penugasan</span>
+                </div>
+                <div id="statTotalAssigned" class="text-2xl sm:text-3xl font-black text-slate-900">0</div>
+                <p class="text-[11px] font-semibold text-slate-500 mt-1">Total Paket Penugasan</p>
+              </div>
+
+              <!-- Total Delivered -->
+              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i class="fas fa-check-circle text-base"></i>
+                  </span>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Delivered</span>
+                </div>
+                <div id="statTotalDelivered" class="text-2xl sm:text-3xl font-black text-emerald-600">0</div>
+                <p class="text-[11px] font-semibold text-slate-500 mt-1">Paket Berhasil Terkirim</p>
+              </div>
+
+              <!-- Total OnHold -->
+              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                    <i class="fas fa-pause-circle text-base"></i>
+                  </span>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600">OnHold</span>
+                </div>
+                <div id="statTotalOnhold" class="text-2xl sm:text-3xl font-black text-amber-600">0</div>
+                <p class="text-[11px] font-semibold text-slate-500 mt-1">Paket Status OnHold</p>
+              </div>
+
+              <!-- Delivery Success Rate (DSR) -->
+              <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-10 h-10 rounded-2xl bg-orange-50 text-spx-orange flex items-center justify-center">
+                    <i class="fas fa-chart-line text-base"></i>
+                  </span>
+                  <span id="statDsrStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700">Sangat Baik</span>
+                </div>
+                <div id="statDsrValue" class="text-2xl sm:text-3xl font-black text-slate-900">0%</div>
+                <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mt-2">
+                  <div id="statDsrBar" class="h-full bg-gradient-to-r from-spx-orange to-emerald-500 rounded-full transition-all duration-700" style="width: 0%"></div>
+                </div>
+              </div>
             </div>
-            <div class="flex flex-wrap gap-2 shrink-0">
-              <button type="button" onclick="switchDashboardTab('payroll')" class="px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold shadow transition flex items-center gap-2">
-                <i class="fas fa-wallet"></i>
-                <span>Buka Menu Gaji</span>
-              </button>
-              <button type="button" onclick="switchDashboardTab('schedule')" class="px-4 py-2.5 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition flex items-center gap-2">
-                <i class="fas fa-calendar-alt text-spx-orange"></i>
-                <span>Buka Schedule</span>
-              </button>
+
+            <!-- Ringkasan Produktivitas Kerja -->
+            <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-extrabold text-slate-900">Detail Produktivitas Harian Anda</h4>
+                <span id="overviewWorkDaysBadge" class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-extrabold">0 Hari Kerja</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
+                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <span class="text-slate-500 block">Rata-rata Paket / Hari</span>
+                  <strong id="overviewAvgPerDay" class="text-base font-black text-slate-900 mt-0.5 block">0 Paket/hari</strong>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <span class="text-slate-500 block">Rasio Sukses (DSR)</span>
+                  <strong id="overviewDsrText" class="text-base font-black text-emerald-600 mt-0.5 block">0%</strong>
+                </div>
+                <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <span class="text-slate-500 block">Zona Pengantaran Utama</span>
+                  <strong id="overviewZoneText" class="text-base font-black text-spx-orange mt-0.5 block">-</strong>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- 4 Kartu Metrik Pengiriman Utama dengan Animasi Counter -->
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
-            <!-- Total Penugasan -->
-            <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
-              <div class="flex items-center justify-between mb-3">
-                <span class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                  <i class="fas fa-boxes text-base"></i>
-                </span>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Penugasan</span>
-              </div>
-              <div id="statTotalAssigned" class="text-2xl sm:text-3xl font-black text-slate-900">0</div>
-              <p class="text-[11px] font-semibold text-slate-500 mt-1">Total Paket Penugasan</p>
-            </div>
+          <!-- SUB-PANEL B: KURIR TERBAIK HUB + ANALISA -->
+          <div id="perf-subpanel-best" class="perf-subpanel hidden space-y-4 animate-card-in"></div>
 
-            <!-- Total Delivered -->
-            <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
-              <div class="flex items-center justify-between mb-3">
-                <span class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                  <i class="fas fa-check-circle text-base"></i>
-                </span>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600">Delivered</span>
-              </div>
-              <div id="statTotalDelivered" class="text-2xl sm:text-3xl font-black text-emerald-600">0</div>
-              <p class="text-[11px] font-semibold text-slate-500 mt-1">Paket Berhasil Terkirim</p>
-            </div>
-
-            <!-- Total OnHold -->
-            <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
-              <div class="flex items-center justify-between mb-3">
-                <span class="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                  <i class="fas fa-pause-circle text-base"></i>
-                </span>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600">OnHold</span>
-              </div>
-              <div id="statTotalOnhold" class="text-2xl sm:text-3xl font-black text-amber-600">0</div>
-              <p class="text-[11px] font-semibold text-slate-500 mt-1">Paket Status OnHold</p>
-            </div>
-
-            <!-- Delivery Success Rate (DSR) -->
-            <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200 stat-card-hover">
-              <div class="flex items-center justify-between mb-3">
-                <span class="w-10 h-10 rounded-2xl bg-orange-50 text-spx-orange flex items-center justify-center">
-                  <i class="fas fa-chart-line text-base"></i>
-                </span>
-                <span id="statDsrStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700">Sangat Baik</span>
-              </div>
-              <div id="statDsrValue" class="text-2xl sm:text-3xl font-black text-slate-900">0%</div>
-              <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mt-2">
-                <div id="statDsrBar" class="h-full bg-gradient-to-r from-spx-orange to-emerald-500 rounded-full transition-all duration-700" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Ringkasan Produktivitas Kerja -->
-          <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 space-y-3">
-            <div class="flex items-center justify-between">
-              <h4 class="text-sm font-extrabold text-slate-900">Detail Produktivitas Harian</h4>
-              <span id="overviewWorkDaysBadge" class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-extrabold">0 Hari Kerja</span>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 block">Rata-rata Paket / Hari</span>
-                <strong id="overviewAvgPerDay" class="text-base font-black text-slate-900 mt-0.5 block">0 Paket/hari</strong>
-              </div>
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 block">Rasio Sukses (DSR)</span>
-                <strong id="overviewDsrText" class="text-base font-black text-emerald-600 mt-0.5 block">0%</strong>
-              </div>
-              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
-                <span class="text-slate-500 block">Zona Pengantaran Utama</span>
-                <strong id="overviewZoneText" class="text-base font-black text-spx-orange mt-0.5 block">-</strong>
-              </div>
-            </div>
-          </div>
+          <!-- SUB-PANEL C: KURIR TERBURUK HUB + ANALISA -->
+          <div id="perf-subpanel-worst" class="perf-subpanel hidden space-y-4 animate-card-in"></div>
         </section>
 
         <!-- ===============================================================
@@ -532,7 +607,99 @@
         </section>
 
         <!-- ===============================================================
-             TAB 4: PROFIL & PENGATURAN ALARM HP
+             TAB 4: KOTAK SARAN & KONTAK HUB LEAD / SHIFT LEAD
+             =============================================================== -->
+        <section id="tab-feedback" class="dashboard-tab-panel hidden space-y-5 animate-card-in">
+          <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+            <div>
+              <h3 class="text-base font-extrabold text-slate-900">Kontak &amp; Kotak Saran ke Hub Lead / Shift Lead</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Saran yang Anda kirim bersifat rahasia dan <strong>hanya dapat dilihat oleh Hub Lead &amp; Shift Lead</strong>.</p>
+            </div>
+
+            <!-- Kontak Cepat WhatsApp Hub Lead & Shift Lead -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <a href="https://wa.me/6285701765261?text=Halo%20Hub%20Lead%20SPX%20Pringapus%202%20Hub" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-2xl bg-orange-50/90 hover:bg-orange-100/90 border border-orange-200 flex items-center justify-between transition">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-spx-orange text-white flex items-center justify-center shrink-0">
+                    <i class="fab fa-whatsapp text-base"></i>
+                  </span>
+                  <div>
+                    <strong class="text-slate-900 block">Hub Lead (Ops 1792821)</strong>
+                    <span class="text-[11px] text-spx-orange font-semibold">Chat Langsung via WhatsApp</span>
+                  </div>
+                </div>
+                <i class="fas fa-external-link-alt text-spx-orange"></i>
+              </a>
+              <a href="https://wa.me/6282231157342" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100/80 border border-emerald-200 flex items-center justify-between transition">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                    <i class="fab fa-whatsapp text-base"></i>
+                  </span>
+                  <div>
+                    <strong class="text-slate-900 block">Mas Novan (Shift Lead)</strong>
+                    <span class="text-[11px] text-emerald-700 font-semibold">Chat Langsung via WhatsApp</span>
+                  </div>
+                </div>
+                <i class="fas fa-external-link-alt text-emerald-700"></i>
+              </a>
+              <a href="https://wa.me/6285701765261" target="_blank" rel="noopener noreferrer" class="p-3.5 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100/80 border border-emerald-200 flex items-center justify-between transition">
+                <div class="flex items-center gap-3">
+                  <span class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                    <i class="fab fa-whatsapp text-base"></i>
+                  </span>
+                  <div>
+                    <strong class="text-slate-900 block">Mas Ibnu (Shift Lead)</strong>
+                    <span class="text-[11px] text-emerald-700 font-semibold">Chat Langsung via WhatsApp</span>
+                  </div>
+                </div>
+                <i class="fas fa-external-link-alt text-emerald-700"></i>
+              </a>
+            </div>
+
+            <!-- Form Kirim Saran ke Portal Hub Lead & Shift Lead -->
+            <form onsubmit="submitCourierFeedback(event)" class="space-y-3.5 text-xs pt-2 border-t border-slate-100">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="feedbackTargetSelect" class="font-bold text-slate-700 block mb-1">Tujuan Saran</label>
+                  <select id="feedbackTargetSelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-spx-orange">
+                    <option value="Hub Lead & Shift Lead">Hub Lead &amp; Shift Lead (Semua)</option>
+                    <option value="Hub Lead">Hub Lead</option>
+                    <option value="Shift Lead (Mas Novan / Mas Ibnu)">Shift Lead (Mas Novan / Mas Ibnu)</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="feedbackCategorySelect" class="font-bold text-slate-700 block mb-1">Topik Masukan</label>
+                  <select id="feedbackCategorySelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 font-bold text-slate-900 focus:outline-none focus:border-spx-orange">
+                    <option value="Operasional & Rute Pengantaran">Operasional &amp; Rute Pengantaran</option>
+                    <option value="Jadwal Kerja / Schedule">Jadwal Kerja / Schedule</option>
+                    <option value="Perhitungan Gaji & Insentif">Perhitungan Gaji &amp; Insentif</option>
+                    <option value="Fasilitas Hub & Lainnya">Fasilitas Hub &amp; Lainnya</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="feedbackMessageInput" class="font-bold text-slate-700 block mb-1">Isi Saran / Masukan Anda</label>
+                <textarea id="feedbackMessageInput" rows="3" required placeholder="Tuliskan saran, kendala lapangan, atau masukan Anda untuk Hub Lead / Shift Lead..."
+                  class="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-300 text-slate-900 focus:outline-none focus:border-spx-orange"></textarea>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <label class="inline-flex items-center gap-2 cursor-pointer select-none text-slate-600 font-semibold">
+                  <input type="checkbox" id="feedbackAnonymousCheck" class="rounded accent-[#EE4D2D]">
+                  <span>Kirim sebagai Anonim (Sembunyikan nama saya)</span>
+                </label>
+                <button type="submit" class="px-5 py-2.5 rounded-2xl bg-spx-orange hover:bg-spx-bright text-white font-extrabold shadow-md shadow-spx-orange/25 transition flex items-center gap-2">
+                  <i class="fas fa-paper-plane"></i>
+                  <span>Kirim Saran ke Lead</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ===============================================================
+             TAB 5: PROFIL & PENGATURAN ALARM HP
              =============================================================== -->
         <section id="tab-profile" class="dashboard-tab-panel hidden space-y-5 animate-card-in">
           <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
@@ -600,6 +767,10 @@
           <button type="button" data-lead-tab="couriers" onclick="switchLeadTab('couriers')" class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
             <i class="fas fa-users w-4 text-center"></i>
             <span>Performa, Gaji &amp; Cluster</span>
+          </button>
+          <button type="button" data-lead-tab="feedback" onclick="switchLeadTab('feedback')" class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition">
+            <i class="fas fa-inbox w-4 text-center"></i>
+            <span>Kotak Saran Kurir</span>
           </button>
         </nav>
       </div>
@@ -673,6 +844,9 @@
 
         <!-- LEAD TAB 2: REKAP PERFORMA, GAJI & CLUSTER KURIR -->
         <section id="lead-tab-couriers" class="lead-tab-panel hidden space-y-4 animate-card-in">
+          <!-- Ringkasan Kurir Terbaik (2WH Dedicated & Courier Plus) & Terburuk (Semua Kategori) -->
+          <div id="leadLeaderboardSection" class="grid grid-cols-1 lg:grid-cols-2 gap-4"></div>
+
           <div class="flex flex-col sm:flex-row gap-3">
             <input type="text" id="leadCourierSearchInput" oninput="renderLeadCouriersTable()" placeholder="Cari nama kurir atau Driver ID..."
               class="flex-1 px-4 py-3 rounded-2xl bg-white border border-slate-200 text-xs font-medium focus:outline-none focus:border-spx-orange">
@@ -701,6 +875,20 @@
                 <tbody id="leadCouriersTableBody" class="divide-y divide-slate-200"></tbody>
               </table>
             </div>
+          </div>
+        </section>
+
+        <!-- LEAD TAB 3: KOTAK MASUK SARAN DARI KURIR -->
+        <section id="lead-tab-feedback" class="lead-tab-panel hidden space-y-4 animate-card-in">
+          <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 class="text-base font-extrabold text-slate-900">Kotak Masuk Saran &amp; Masukan Kurir</h3>
+                <p class="text-xs text-slate-500">Aspirasi, masukan jadwal, dan laporan kendala lapangan dari kurir SPX Pringapus 2 Hub.</p>
+              </div>
+              <span id="leadFeedbackCountBadge" class="px-3 py-1 rounded-full bg-orange-100 text-spx-orange text-xs font-extrabold">0 Masukan</span>
+            </div>
+            <div id="leadFeedbackInboxList" class="space-y-3 text-xs"></div>
           </div>
         </section>
       </main>
@@ -873,6 +1061,7 @@
     const PERIODS_STORAGE_KEY = "spx_pringapus2_schedule_periods_v1";
     const SCHEDULE_STORAGE_KEY = "spx_pringapus2_schedules_by_period_v1";
     const H1_ACK_STORAGE_KEY = "spx_pringapus2_h1_ack_v2";
+    const FEEDBACK_STORAGE_KEY = "spx_pringapus2_feedbacks_v1";
 
     const MONTH_NAMES_ID = [
       "Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -908,7 +1097,7 @@
     const DEFAULT_PERIODS = [
       {
         id: "2026-11",
-        label: "November 2026 (22–30 Nov)",
+        label: "November 2026",
         startDay: 22,
         endDay: 30
       }
@@ -1029,7 +1218,7 @@
       return source
         .map(p => ({
           id: p.id,
-          label: p.label || `${formatMonthLabel(p.id)} (${p.startDay}–${p.endDay})`,
+          label: formatMonthLabel(p.id),
           startDay: Number(p.startDay) || 1,
           endDay: Number(p.endDay) || 30,
           dates: buildPeriodDates(p.id, Number(p.startDay) || 1, Number(p.endDay) || 30)
@@ -1069,10 +1258,7 @@
       const ym = document.getElementById("newPeriodMonthInput")?.value || "2026-12";
       const startDay = parseInt(document.getElementById("newPeriodStartDay")?.value || "1", 10);
       const endDay = parseInt(document.getElementById("newPeriodEndDay")?.value || "31", 10);
-      const [yStr, mStr] = ym.split("-");
-      const mIdx = parseInt(mStr, 10) - 1;
-      const shortM = SHORT_MONTH_ID[mIdx] || mStr;
-      const label = `${formatMonthLabel(ym)} (${startDay}–${endDay} ${shortM})`;
+      const label = formatMonthLabel(ym);
 
       const existing = loadSchedulePeriods().filter(p => p.id !== ym);
       existing.unshift({ id: ym, label, startDay, endDay });
@@ -1583,6 +1769,8 @@
       document.getElementById("overviewDsrText").textContent = `${dsrNum.toFixed(2)}%`;
       document.getElementById("overviewZoneText").textContent = sched.zone;
 
+      renderHubLeaderboards({ bestContainerId: "perf-subpanel-best", worstContainerId: "perf-subpanel-worst" }, rec.Bulan, false);
+
       // Tab Rincian Gaji Lengkap
       document.getElementById("payrollMonthLabel").textContent = monthLabel;
       document.getElementById("payrollSchemeDesc").textContent = payroll.schemeDesc;
@@ -1667,13 +1855,14 @@
       const normalizedTab = tabName === "overview" ? "performance" : tabName;
       activeTab = normalizedTab;
       const titles = {
-        performance: "Performa Pengiriman",
-        payroll: "Estimasi & Rincian Gaji",
-        schedule: "Schedule Kerja",
+        schedule: "Schedule",
+        performance: "Perform",
+        payroll: "Gaji",
+        feedback: "Kotak Saran Hub Lead & Shift Lead",
         profile: "Alarm HP & Profil Kurir"
       };
       const headerTitle = document.getElementById("headerPageTitle");
-      if (headerTitle) headerTitle.textContent = titles[normalizedTab] || "Performa Pengiriman";
+      if (headerTitle) headerTitle.textContent = titles[normalizedTab] || "Perform";
 
       document.querySelectorAll(".dashboard-tab-panel").forEach(panel => {
         panel.classList.toggle("hidden", panel.id !== `tab-${normalizedTab}`);
@@ -1705,6 +1894,19 @@
       }
     }
 
+    function switchPerformSubTab(subTabName) {
+      document.querySelectorAll(".perf-subpanel").forEach(el => {
+        el.classList.toggle("hidden", el.id !== `perf-subpanel-${subTabName}`);
+      });
+
+      document.querySelectorAll(".perf-subtab-btn").forEach(btn => {
+        const isMatch = btn.getAttribute("data-perf-subtab") === subTabName;
+        btn.className = isMatch
+          ? "perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-extrabold bg-slate-900 text-white shadow transition flex items-center justify-center gap-2"
+          : "perf-subtab-btn flex-1 py-2.5 px-3.5 rounded-2xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition flex items-center justify-center gap-2";
+      });
+    }
+
     function toggleLeadSidebar(open) {
       const sidebar = document.getElementById("leadSidebar");
       const backdrop = document.getElementById("leadSidebarBackdrop");
@@ -1722,7 +1924,8 @@
       activeLeadTab = tabName;
       const titles = {
         schedule: "Schedule Kurir Hub",
-        couriers: "Performa, Gaji & Cluster Kurir"
+        couriers: "Performa, Gaji & Cluster Kurir",
+        feedback: "Kotak Saran Kurir Hub"
       };
       const headerTitle = document.getElementById("leadHeaderTitle");
       if (headerTitle) headerTitle.textContent = titles[tabName] || "Schedule Kurir Hub";
@@ -1744,6 +1947,8 @@
         renderLeadScheduleTable();
       } else if (tabName === "couriers") {
         renderLeadCouriersTable();
+      } else if (tabName === "feedback") {
+        renderLeadFeedbackInbox();
       }
 
       if (persist) {
@@ -1752,6 +1957,110 @@
           saveActiveSession({ ...sess, tab: tabName });
         }
       }
+    }
+
+    // -----------------------------------------------------------------------
+    // Kotak Saran & Kontak ke Hub Lead / Shift Lead
+    // -----------------------------------------------------------------------
+    function loadAllFeedbacks() {
+      try {
+        const raw = localStorage.getItem(FEEDBACK_STORAGE_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        return Array.isArray(list) ? list : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveAllFeedbacks(list) {
+      try {
+        localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    function submitCourierFeedback(e) {
+      e.preventDefault();
+      const activeRec = currentCourierRecords[0];
+      if (!activeRec) return;
+
+      const target = document.getElementById("feedbackTargetSelect")?.value || "Hub Lead & Shift Lead";
+      const category = document.getElementById("feedbackCategorySelect")?.value || "Operasional";
+      const message = (document.getElementById("feedbackMessageInput")?.value || "").trim();
+      const isAnon = Boolean(document.getElementById("feedbackAnonymousCheck")?.checked);
+
+      if (!message) {
+        showToast("Pesan Kosong", "Silakan tulis saran atau masukan Anda terlebih dahulu.", true);
+        return;
+      }
+
+      const list = loadAllFeedbacks();
+      list.unshift({
+        id: "FB-" + Date.now(),
+        driverId: activeRec.Driver_ID,
+        senderName: isAnon ? "Kurir Anonim" : activeRec.Nama_Kurir,
+        categoryArmada: activeRec.Kategori_Armada,
+        target,
+        topic: category,
+        message,
+        createdAt: new Date().toLocaleString("id-ID", { dateStyle: "medium", timeStyle: "short" }),
+        reply: "",
+        repliedBy: ""
+      });
+      saveAllFeedbacks(list);
+
+      const inputEl = document.getElementById("feedbackMessageInput");
+      if (inputEl) inputEl.value = "";
+      showToast("Saran Terkirim", `Masukan Anda berhasil dikirim dan hanya dapat dilihat oleh ${target}.`);
+    }
+
+    function renderLeadFeedbackInbox() {
+      const container = document.getElementById("leadFeedbackInboxList");
+      const badge = document.getElementById("leadFeedbackCountBadge");
+      if (!container) return;
+
+      const list = loadAllFeedbacks();
+      if (badge) badge.textContent = `${list.length} Masukan`;
+
+      if (list.length === 0) {
+        container.innerHTML = `<p class="text-slate-500 py-6 text-center">Belum ada saran atau masukan masuk dari kurir.</p>`;
+        return;
+      }
+
+      container.innerHTML = list.map(item => `
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <strong class="text-slate-900">${item.senderName}</strong>
+              <span class="text-slate-500 ml-1.5">(${item.categoryArmada})</span>
+              <span class="ml-2 px-2 py-0.5 rounded-md bg-orange-100 text-spx-orange font-bold text-[10px]">${item.target} &bull; ${item.topic}</span>
+            </div>
+            <span class="text-[11px] text-slate-400">${item.createdAt}</span>
+          </div>
+          <p class="text-slate-800 leading-relaxed bg-white p-3 rounded-xl border border-slate-200">${item.message}</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input type="text" id="replyInput-${item.id}" value="${(item.reply || "").replace(/"/g, '&quot;')}" placeholder="Tulis tanggapan untuk kurir..."
+              class="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-300 text-xs focus:outline-none focus:border-spx-orange">
+            <button type="button" onclick="saveLeadFeedbackReply('${item.id}')" class="px-4 py-2 rounded-xl bg-slate-900 hover:bg-spx-orange text-white font-bold text-xs transition shrink-0">
+              Simpan Tanggapan
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function saveLeadFeedbackReply(feedbackId) {
+      const inputEl = document.getElementById(`replyInput-${feedbackId}`);
+      if (!inputEl) return;
+      const replyText = inputEl.value.trim();
+      const list = loadAllFeedbacks();
+      const idx = list.findIndex(x => x.id === feedbackId);
+      if (idx === -1) return;
+
+      list[idx].reply = replyText;
+      list[idx].repliedBy = loggedInLeader ? `${loggedInLeader.role} (${loggedInLeader.opsId})` : "Hub / Shift Lead";
+      saveAllFeedbacks(list);
+      renderLeadFeedbackInbox();
+      showToast("Tanggapan Tersimpan", "Balasan Anda kini dapat dibaca oleh kurir di menu Kotak Saran Hub.");
     }
 
     // -----------------------------------------------------------------------
@@ -1779,7 +2088,9 @@
       populateLeadPeriodSelector();
       renderLeadScheduleTable();
       renderLeadCouriersTable();
-      switchLeadTab(tab === "couriers" ? "couriers" : "schedule", false);
+      renderLeadFeedbackInbox();
+      const validLeadTab = ["schedule", "couriers", "feedback"].includes(tab) ? tab : "schedule";
+      switchLeadTab(validLeadTab, false);
     }
 
     function populateLeadPeriodSelector() {
@@ -1801,6 +2112,8 @@
       const cat = document.getElementById("leadCategoryFilter")?.value || "ALL";
 
       const uniqueList = getUniqueLatestDriverRecords();
+      renderHubLeaderboards("leadLeaderboardSection", uniqueList[0]?.Bulan || null, true);
+
       const list = uniqueList.filter(r => {
         const matchQ = !q || r.Nama_Kurir.toLowerCase().includes(q) || r.Driver_ID.toLowerCase().includes(q);
         const matchCat = cat === "ALL" || r.Kategori_Armada === cat;
@@ -1919,11 +2232,12 @@
       };
 
       const normalizedDays = {};
-      periodObj.dates.forEach((d, idx) => {
+      periodObj.dates.forEach((d) => {
         if (base.days && base.days[d.key]) {
           normalizedDays[d.key] = base.days[d.key];
         } else {
-          normalizedDays[d.key] = ((seed + idx) % 7 === 0) ? "OFF" : "IN";
+          // Default BELUM DIISI apabila Hub Lead / Shift Lead belum membuat jadwal
+          normalizedDays[d.key] = "PENDING";
         }
       });
 
@@ -2135,7 +2449,7 @@
     function findNextUpcomingWorkShift(sched) {
       const now = new Date();
       for (const dObj of sched.period.dates) {
-        if ((sched.days[dObj.key] || "IN") !== "IN") continue;
+        if (sched.days[dObj.key] !== "IN") continue;
         const { shiftStart, alarmTime } = computeShiftAndAlarmDates(dObj.key, sched.shiftTime);
         if (now.getTime() <= shiftStart.getTime() + 2 * 60 * 60 * 1000) {
           return { dateObj: dObj, shiftStart, alarmTime };
@@ -2266,45 +2580,48 @@
       if (!tbody) return;
 
       const tomorrowObj = getTomorrowRosterDate(sched.period);
-      const tomorrowStatus = sched.days[tomorrowObj.key] || "IN";
+      const tomorrowStatus = sched.days[tomorrowObj.key] || "PENDING";
 
       const badgeEl = document.getElementById("courierTodayShiftBadge");
       if (badgeEl) {
         if (tomorrowStatus === "OFF") {
           badgeEl.textContent = `Besok (${tomorrowObj.label}): OFF / Libur`;
-        } else if (tomorrowStatus === "PENDING") {
-          badgeEl.textContent = `Besok (${tomorrowObj.label}): Menunggu Jadwal`;
-        } else {
+        } else if (tomorrowStatus === "IN") {
           badgeEl.textContent = `Besok (${tomorrowObj.label}): Masuk (${sched.shiftTime})`;
+        } else {
+          badgeEl.textContent = `Besok (${tomorrowObj.label}): Jadwal Belum Dibuat`;
         }
       }
-
-      const workDays = datesList.filter(d => sched.days[d.key] === "IN").length;
+      const workDaysFromData = parseInt(rec.Total_Hari_Kerja, 10);
+      const workDays = !isNaN(workDaysFromData) ? workDaysFromData : datesList.filter(d => sched.days[d.key] === "IN").length;
       const offDays = datesList.filter(d => sched.days[d.key] === "OFF").length;
       document.getElementById("courierWorkDaysCount").textContent = `${workDays} Hari`;
       document.getElementById("courierOffDaysCount").textContent = `${offDays} Hari`;
       document.getElementById("courierAssignedZone").textContent = sched.zone;
 
       tbody.innerHTML = datesList.map(dObj => {
-        const val = sched.days[dObj.key] || "IN";
+        const val = sched.days[dObj.key] || "PENDING";
         const isOff = val === "OFF";
-        const isPending = val === "PENDING";
+        const isIn = val === "IN";
         const isTomorrow = dObj.key === tomorrowObj.key;
         const rowHighlight = isTomorrow ? "bg-orange-50/80" : "hover:bg-slate-50";
 
-        let statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
-        let jamKerja = sched.shiftTime;
-        const { alarmTime } = computeShiftAndAlarmDates(dObj.key, sched.shiftTime);
-        let alarmBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-100 text-spx-orange">Aktif ${formatClockHHMM(alarmTime)} (H-30m)</span>`;
+        let statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">BELUM DIISI</span>`;
+        let jamKerja = "Menunggu Hub / Shift Lead";
+        let alarmBadge = `<span class="text-[11px] text-slate-400">Menunggu Jadwal</span>`;
+        let zoneText = "-";
 
-        if (isOff) {
+        if (isIn) {
+          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
+          jamKerja = sched.shiftTime;
+          const { alarmTime } = computeShiftAndAlarmDates(dObj.key, sched.shiftTime);
+          alarmBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-orange-100 text-spx-orange">Aktif ${formatClockHHMM(alarmTime)} (H-30m)</span>`;
+          zoneText = sched.zone;
+        } else if (isOff) {
           statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">OFF / LIBUR</span>`;
           jamKerja = "-";
           alarmBadge = `<span class="text-[11px] text-slate-400">Nonaktif (Libur)</span>`;
-        } else if (isPending) {
-          statusPill = `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-amber-800 border border-amber-200">BELUM DIISI</span>`;
-          jamKerja = "Menunggu Shift Lead";
-          alarmBadge = `<span class="text-[11px] text-slate-400">Menunggu Roster</span>`;
+          zoneText = "-";
         }
 
         return `
@@ -2315,7 +2632,7 @@
             </td>
             <td class="py-3.5 px-4">${statusPill}</td>
             <td class="py-3.5 px-4 font-mono font-bold text-slate-700">${jamKerja}</td>
-            <td class="py-3.5 px-4 font-semibold text-slate-800">${isOff ? "-" : sched.zone}</td>
+            <td class="py-3.5 px-4 font-semibold text-slate-800">${zoneText}</td>
             <td class="py-3.5 px-4">${alarmBadge}</td>
           </tr>
         `;
@@ -2369,19 +2686,25 @@
       tbody.innerHTML = list.map(rec => {
         const sched = getCourierSchedule(rec, selectedLeadPeriodId);
         const dateCells = datesList.map(dObj => {
-          const isOff = sched.days[dObj.key] === "OFF";
-          const btnCls = isOff
-            ? "bg-rose-100 text-rose-700 border-rose-300 hover:bg-rose-200"
-            : "bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200";
+          const status = sched.days[dObj.key] || "PENDING";
+          let btnCls = "bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200";
+          let labelBtn = "-";
+          if (status === "IN") {
+            btnCls = "bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200";
+            labelBtn = "IN";
+          } else if (status === "OFF") {
+            btnCls = "bg-rose-100 text-rose-700 border-rose-300 hover:bg-rose-200";
+            labelBtn = "OFF";
+          }
           return `
             <td class="py-2.5 px-1 text-center">
               <button
                 type="button"
                 onclick="quickToggleCourierDate('${rec.Driver_ID}', '${dObj.key}')"
-                title="Klik untuk ubah IN / OFF tanggal ${dObj.label}"
+                title="Klik untuk ubah BELUM DIISI / IN / OFF tanggal ${dObj.label}"
                 class="w-10 py-1 rounded-lg border text-[10px] font-black transition ${btnCls}"
               >
-                ${isOff ? "OFF" : "IN"}
+                ${labelBtn}
               </button>
             </td>
           `;
@@ -2422,7 +2745,8 @@
         note: current.note
       };
       rawEntry.days = { ...current.days, ...(rawEntry.days || {}) };
-      rawEntry.days[dateKey] = rawEntry.days[dateKey] === "OFF" ? "IN" : "OFF";
+      const curVal = rawEntry.days[dateKey] || "PENDING";
+      rawEntry.days[dateKey] = curVal === "PENDING" ? "IN" : (curVal === "IN" ? "OFF" : "PENDING");
       allSched[driverId] = rawEntry;
       saveAllSchedules(allSched);
       renderLeadScheduleTable();
@@ -2442,11 +2766,12 @@
       document.getElementById("schedModalNote").value = sched.note || "";
 
       document.getElementById("schedModalDaysGrid").innerHTML = sched.period.dates.map(dObj => {
-        const val = sched.days[dObj.key] || "IN";
+        const val = sched.days[dObj.key] || "PENDING";
         return `
           <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
             <span class="font-bold text-slate-800">${dObj.label} (${dObj.shortDay})</span>
             <select data-date-key="${dObj.key}" class="sched-day-select px-2 py-1 rounded-lg border border-slate-300 bg-white font-bold text-xs">
+              <option value="PENDING" ${val === "PENDING" ? "selected" : ""}>BELUM DIISI</option>
               <option value="IN" ${val === "IN" ? "selected" : ""}>MASUK (IN)</option>
               <option value="OFF" ${val === "OFF" ? "selected" : ""}>LIBUR (OFF)</option>
             </select>
@@ -2511,7 +2836,7 @@
             `"${r.Kategori_Armada}"`,
             `"${s.zone}"`,
             `"${s.shiftTime}"`,
-            ...datesList.map(d => s.days[d.key] || "IN"),
+            ...datesList.map(d => s.days[d.key] || "BELUM_DIISI"),
             `"${(s.note || "").replace(/"/g, '""')}"`
           ].join(",");
         })
@@ -2527,6 +2852,238 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       showToast("Export Berhasil", `File CSV Schedule (${periodObj.label}) berhasil diunduh.`);
+    }
+
+    // -----------------------------------------------------------------------
+    // Leaderboard Kurir Terbaik (2WH Dedicated & Courier Plus) & Terburuk (Semua)
+    // Lengkap dengan Analisa Performa Hub
+    // -----------------------------------------------------------------------
+    function renderHubLeaderboards(targetConfig, targetMonth = null, isLeaderView = false) {
+      let pool = [];
+      if (targetMonth) {
+        pool = allRecords.filter(r => String(r.Bulan || "").trim() === String(targetMonth).trim());
+      }
+      if (pool.length === 0) {
+        pool = getUniqueLatestDriverRecords();
+      }
+
+      const activePool = pool.filter(r => (parseInt(r.Total_Penugasan, 10) || 0) > 0 || (parseInt(r.Delivered, 10) || 0) > 0);
+      const parseDsr = (r) => parseFloat(String(r.Delivery_Success_Rate || "0").replace("%", "")) || 0;
+      const monthText = targetMonth ? formatMonthLabel(targetMonth) : "Periode Aktif";
+
+      // Kurir Terbaik: Khusus 2WH Dedicated dan 2WH Courier Plus (diurutkan DSR tertinggi ke terendah)
+      const bestCats = ["2WH Dedicated", "2WH Courier Plus"];
+      const bestRows = bestCats.map(cat => {
+        const subset = activePool.filter(r => String(r.Kategori_Armada || "").trim().toLowerCase() === cat.toLowerCase());
+        if (subset.length === 0) return null;
+        subset.sort((a, b) => (parseDsr(b) - parseDsr(a)) || ((parseInt(b.Delivered, 10) || 0) - (parseInt(a.Delivered, 10) || 0)));
+        const avgCatDsr = subset.reduce((acc, item) => acc + parseDsr(item), 0) / subset.length;
+        return { category: cat, driver: subset[0], dsr: parseDsr(subset[0]), avgCatDsr, totalInCat: subset.length };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.dsr - a.dsr);
+
+      // Kurir Terburuk: 2WH Dedicated, 2WH Courier Plus, 2WH Mitra, dan 4WH Mitra (diurutkan dari DSR TERKECIL ke terbesar)
+      const worstCats = ["2WH Dedicated", "2WH Courier Plus", "2WH Mitra", "4WH Mitra"];
+      const worstRows = worstCats.map(cat => {
+        const subset = activePool.filter(r => String(r.Kategori_Armada || "").trim().toLowerCase() === cat.toLowerCase());
+        if (subset.length === 0) return null;
+        subset.sort((a, b) => (parseDsr(a) - parseDsr(b)) || ((parseInt(a.Delivered, 10) || 0) - (parseInt(b.Delivered, 10) || 0)));
+        const avgCatDsr = subset.reduce((acc, item) => acc + parseDsr(item), 0) / subset.length;
+        return { category: cat, driver: subset[0], dsr: parseDsr(subset[0]), avgCatDsr, totalInCat: subset.length };
+      })
+      .filter(Boolean)
+      .sort((a, b) => a.dsr - b.dsr);
+
+      const renderBestCard = (item, idx) => {
+        const isMe = loggedInDriverId && String(item.driver.Driver_ID) === String(loggedInDriverId);
+        const diffAboveAvg = (item.dsr - item.avgCatDsr).toFixed(2);
+        const rankBadge = idx === 0
+          ? `<span class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-600 text-slate-950 font-black text-xs flex items-center justify-center shadow-lg shadow-amber-500/30"><i class="fas fa-crown"></i></span>`
+          : `<span class="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 text-amber-300 font-black text-xs flex items-center justify-center">#${idx + 1}</span>`;
+
+        const privateMetricHtml = isLeaderView
+          ? `<span class="text-[11px] text-slate-400 block mt-0.5">Delivered: <strong class="text-emerald-300">${(parseInt(item.driver.Delivered, 10) || 0).toLocaleString("id-ID")}</strong> / ${(parseInt(item.driver.Total_Penugasan, 10) || 0).toLocaleString("id-ID")}</span>`
+          : `<span class="text-[11px] text-emerald-300/80 block mt-0.5"><i class="fas fa-arrow-up mr-1"></i>+${diffAboveAvg}% di atas rata-rata kategori (${item.avgCatDsr.toFixed(2)}%)</span>`;
+
+        return `
+          <div class="group relative p-4 rounded-2xl bg-slate-900/95 border ${isMe ? 'border-emerald-400/70 ring-1 ring-emerald-400/40' : 'border-slate-800 hover:border-emerald-500/40'} transition-all duration-300">
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                ${rankBadge}
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">${item.category}</span>
+                    ${isMe ? '<span class="px-2 py-0.5 rounded-md text-[9px] font-black bg-spx-orange text-white">ANDA</span>' : ''}
+                  </div>
+                  <strong class="text-white font-extrabold text-sm block truncate mt-1">${item.driver.Nama_Kurir}</strong>
+                  ${privateMetricHtml}
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-lg sm:text-xl font-black text-emerald-400 tracking-tight block">${item.dsr.toFixed(2)}%</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">DSR</span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3">
+              <div class="h-full bg-gradient-to-r from-emerald-500 to-teal-300 rounded-full transition-all duration-700" style="width: ${Math.min(100, Math.max(0, item.dsr))}%"></div>
+            </div>
+          </div>
+        `;
+      };
+
+      const renderWorstCard = (item, idx) => {
+        const isMe = loggedInDriverId && String(item.driver.Driver_ID) === String(loggedInDriverId);
+        const gapFromTarget = Math.max(0, 95 - item.dsr).toFixed(2);
+        const privateMetricHtml = isLeaderView
+          ? `<span class="text-[11px] text-slate-400 block mt-0.5">Delivered: <strong class="text-rose-300">${(parseInt(item.driver.Delivered, 10) || 0).toLocaleString("id-ID")}</strong> / ${(parseInt(item.driver.Total_Penugasan, 10) || 0).toLocaleString("id-ID")}</span>`
+          : `<span class="text-[11px] text-amber-300/90 block mt-0.5"><i class="fas fa-chart-line mr-1"></i>Selisih -${gapFromTarget}% dari target standar hub (95.00%)</span>`;
+
+        return `
+          <div class="group relative p-4 rounded-2xl bg-slate-900/95 border ${isMe ? 'border-rose-400/70 ring-1 ring-rose-400/40' : 'border-slate-800 hover:border-rose-500/40'} transition-all duration-300">
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3 min-w-0">
+                <span class="w-9 h-9 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 font-black text-xs flex items-center justify-center shrink-0">
+                  #${idx + 1}
+                </span>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-rose-500/15 text-rose-300 border border-rose-500/30">${item.category}</span>
+                    ${isMe ? '<span class="px-2 py-0.5 rounded-md text-[9px] font-black bg-spx-orange text-white">ANDA</span>' : ''}
+                  </div>
+                  <strong class="text-white font-extrabold text-sm block truncate mt-1">${item.driver.Nama_Kurir}</strong>
+                  ${privateMetricHtml}
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <span class="text-lg sm:text-xl font-black text-rose-400 tracking-tight block">${item.dsr.toFixed(2)}%</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">DSR</span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden mt-3">
+              <div class="h-full bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 rounded-full transition-all duration-700" style="width: ${Math.min(100, Math.max(0, item.dsr))}%"></div>
+            </div>
+          </div>
+        `;
+      };
+
+      const topChampion = bestRows[0];
+      const bestAnalysisHtml = topChampion ? `
+        <div class="rounded-3xl bg-white p-5 border border-emerald-200 shadow-xs space-y-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <i class="fas fa-microscope text-xs"></i>
+            </span>
+            <div>
+              <h5 class="text-xs sm:text-sm font-extrabold text-slate-900">Analisa Performa Kurir Terbaik (${monthText})</h5>
+              <p class="text-[11px] text-slate-500">Benchmark keberhasilan pengantaran armada tetap SPX Pringapus 2 Hub</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div class="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/80">
+              <span class="text-slate-500 block text-[11px]">Pimpinan Klasemen</span>
+              <strong class="text-emerald-800 font-black mt-0.5 block">${topChampion.driver.Nama_Kurir} (${topChampion.dsr.toFixed(2)}%)</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Rata-rata DSR Kategori</span>
+              <strong class="text-slate-900 font-extrabold mt-0.5 block">${topChampion.category}: ${topChampion.avgCatDsr.toFixed(2)}%</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Kunci Keberhasilan</span>
+              <strong class="text-slate-800 font-bold mt-0.5 block">Sortir pagi cepat &amp; konfirmasi penerima sebelum tiba</strong>
+            </div>
+          </div>
+        </div>
+      ` : "";
+
+      const lowestDriver = worstRows[0];
+      const worstAnalysisHtml = lowestDriver ? `
+        <div class="rounded-3xl bg-white p-5 border border-rose-200 shadow-xs space-y-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center">
+              <i class="fas fa-stethoscope text-xs"></i>
+            </span>
+            <div>
+              <h5 class="text-xs sm:text-sm font-extrabold text-slate-900">Analisa Evaluasi DSR Terendah (${monthText})</h5>
+              <p class="text-[11px] text-slate-500">Identifikasi kendala pengantaran &amp; langkah perbaikan lapangan</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+            <div class="p-3 rounded-2xl bg-rose-50/70 border border-rose-200/80">
+              <span class="text-slate-500 block text-[11px]">DSR Paling Rendah</span>
+              <strong class="text-rose-800 font-black mt-0.5 block">${lowestDriver.driver.Nama_Kurir} (${lowestDriver.dsr.toFixed(2)}%)</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Gap ke Target Hub (95%)</span>
+              <strong class="text-amber-700 font-extrabold mt-0.5 block">Kurang ${Math.max(0, 95 - lowestDriver.dsr).toFixed(2)}% lagi menuju zona aman</strong>
+            </div>
+            <div class="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <span class="text-slate-500 block text-[11px]">Rekomendasi Perbaikan</span>
+              <strong class="text-slate-800 font-bold mt-0.5 block">Prioritaskan paket aging/COD pagi &amp; hubungi penerima via WA</strong>
+            </div>
+          </div>
+        </div>
+      ` : "";
+
+      const bestBlockHtml = `
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#090D16] via-slate-900 to-emerald-950/40 p-5 border border-emerald-500/25 shadow-xl space-y-3.5">
+          <div class="pointer-events-none absolute -top-12 -right-12 w-36 h-36 rounded-full bg-emerald-500/15 blur-2xl"></div>
+          <div class="flex items-center justify-between relative z-10">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 text-slate-950 flex items-center justify-center shadow-lg shadow-amber-500/25">
+                <i class="fas fa-trophy text-base"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-black text-white tracking-tight">Kurir Terbaik Hub</h4>
+                <p class="text-[11px] text-emerald-300/80 font-medium">Khusus 2WH Dedicated &amp; 2WH Courier Plus</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-extrabold text-emerald-300">
+              Top DSR
+            </span>
+          </div>
+          <div class="space-y-2.5 relative z-10">
+            ${bestRows.length > 0 ? bestRows.map((it, idx) => renderBestCard(it, idx)).join("") : '<p class="text-xs text-slate-400">Belum ada data performa.</p>'}
+          </div>
+        </div>
+        ${bestAnalysisHtml}
+      `;
+
+      const worstBlockHtml = `
+        <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#090D16] via-slate-900 to-rose-950/40 p-5 border border-rose-500/25 shadow-xl space-y-3.5">
+          <div class="pointer-events-none absolute -top-12 -right-12 w-36 h-36 rounded-full bg-rose-500/15 blur-2xl"></div>
+          <div class="flex items-center justify-between relative z-10">
+            <div class="flex items-center gap-3">
+              <span class="w-10 h-10 rounded-2xl bg-gradient-to-br from-rose-500 to-orange-600 text-white flex items-center justify-center shadow-lg shadow-rose-500/25">
+                <i class="fas fa-chart-line text-base"></i>
+              </span>
+              <div>
+                <h4 class="text-sm font-black text-white tracking-tight">Kurir Terburuk (Evaluasi DSR)</h4>
+                <p class="text-[11px] text-rose-300/80 font-medium">Urutan DSR Terkecil &bull; Semua Kategori Armada</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-[10px] font-extrabold text-rose-300">
+              Terkecil &rarr; Besar
+            </span>
+          </div>
+          <div class="space-y-2.5 relative z-10">
+            ${worstRows.length > 0 ? worstRows.map((it, idx) => renderWorstCard(it, idx)).join("") : '<p class="text-xs text-slate-400">Belum ada data performa.</p>'}
+          </div>
+        </div>
+        ${worstAnalysisHtml}
+      `;
+
+      if (typeof targetConfig === "string") {
+        const container = document.getElementById(targetConfig);
+        if (container) {
+          container.innerHTML = `<div class="space-y-4">${bestBlockHtml}</div><div class="space-y-4">${worstBlockHtml}</div>`;
+        }
+      } else if (targetConfig && typeof targetConfig === "object") {
+        const bestEl = document.getElementById(targetConfig.bestContainerId);
+        const worstEl = document.getElementById(targetConfig.worstContainerId);
+        if (bestEl) bestEl.innerHTML = bestBlockHtml;
+        if (worstEl) worstEl.innerHTML = worstBlockHtml;
+      }
     }
 
     // -----------------------------------------------------------------------
