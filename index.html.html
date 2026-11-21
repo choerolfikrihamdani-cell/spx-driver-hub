@@ -499,6 +499,18 @@
 
           <button
             type="button"
+            data-tab="schedule"
+            onclick="switchDashboardTab('schedule')"
+            class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/>
+            </svg>
+            <span>Schedule Kerja</span>
+          </button>
+
+          <button
+            type="button"
             data-tab="profile"
             onclick="switchDashboardTab('profile')"
             class="sidebar-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
@@ -774,6 +786,57 @@
         </div>
 
         <!-- ===============================================================
+             TAB 3.5: SCHEDULE KERJA KURIR (COURIER SCHEDULE VIEW)
+             =============================================================== -->
+        <div id="tab-schedule" class="dashboard-tab-panel hidden space-y-6">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-slate-200">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Jadwal Operasional Mingguan</span>
+                <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Schedule Kerja &amp; Shift Hub</h3>
+                <p class="text-xs text-slate-500 mt-1">Jadwal masuk kerja, zona pengantaran, dan status libur mingguan Anda di Pringapus 2 Hub.</p>
+              </div>
+              <div class="flex items-center gap-2 bg-orange-50 border border-orange-200 px-3.5 py-2 rounded-2xl">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span id="courierTodayShiftBadge" class="text-xs font-extrabold text-slate-900">Hari Ini: Masuk (07:30 WIB)</span>
+              </div>
+            </div>
+
+            <!-- Ringkasan Hari Masuk vs Libur Minggu Ini -->
+            <div class="mt-5 grid grid-cols-3 gap-3">
+              <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-center">
+                <span class="text-[11px] font-bold uppercase text-emerald-700 block">Jadwal Masuk</span>
+                <strong id="courierWorkDaysCount" class="font-display font-black text-xl text-emerald-800">6 Hari</strong>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-center">
+                <span class="text-[11px] font-bold uppercase text-rose-700 block">Jadwal Off / Libur</span>
+                <strong id="courierOffDaysCount" class="font-display font-black text-xl text-rose-700">1 Hari</strong>
+              </div>
+              <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-center">
+                <span class="text-[11px] font-bold uppercase text-slate-500 block">Area / Zona</span>
+                <strong id="courierAssignedZone" class="font-display font-black text-sm sm:text-base text-slate-900">Pringapus</strong>
+              </div>
+            </div>
+
+            <!-- Tabel Schedule 7 Hari (Senin - Minggu) -->
+            <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
+              <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                <thead>
+                  <tr class="bg-slate-900 text-white">
+                    <th class="py-3.5 px-4 font-bold">Hari</th>
+                    <th class="py-3.5 px-4 font-bold">Status</th>
+                    <th class="py-3.5 px-4 font-bold">Jam Briefing &amp; Sortir</th>
+                    <th class="py-3.5 px-4 font-bold">Zona / Cluster</th>
+                    <th class="py-3.5 px-4 font-bold">Catatan</th>
+                  </tr>
+                </thead>
+                <tbody id="courierScheduleTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===============================================================
              TAB 4: PROFIL & PENGATURAN AKUN (PROFILE)
              =============================================================== -->
         <div id="tab-profile" class="dashboard-tab-panel hidden space-y-6">
@@ -907,6 +970,18 @@
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
             <span>Data &amp; Performa Kurir</span>
+          </button>
+
+          <button
+            type="button"
+            data-lead-tab="schedule"
+            onclick="switchLeadTab('schedule')"
+            class="lead-nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white transition"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/>
+            </svg>
+            <span>Schedule Kurir Hub</span>
           </button>
 
           <button
@@ -1259,6 +1334,88 @@
         </div>
 
         <!-- ===============================================================
+             LEAD TAB 2.5: SCHEDULE KURIR HUB (KELOLA JADWAL & SHIFT)
+             =============================================================== -->
+        <div id="lead-tab-schedule" class="lead-tab-panel hidden space-y-5">
+          <div class="rounded-3xl bg-white border border-slate-200/90 p-6 shadow-xs">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-200">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-spx-orange">Manajemen Roster Mingguan</span>
+                <h3 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Schedule &amp; Roster Kurir Pringapus 2 Hub</h3>
+                <p class="text-xs text-slate-500 mt-1">Atur hari libur (OFF), jam masuk, dan zona pengantaran setiap kurir. Perubahan otomatis tersimpan.</p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onclick="exportScheduleCSV()"
+                  class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition flex items-center gap-2"
+                >
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/>
+                  </svg>
+                  <span>Export Schedule CSV</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter Roster -->
+            <div class="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div class="sm:col-span-2">
+                <input
+                  id="leadScheduleSearchInput"
+                  type="text"
+                  oninput="renderLeadScheduleTable()"
+                  placeholder="Cari nama kurir, Driver ID, atau zona..."
+                  class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-spx-orange"
+                />
+              </div>
+              <div>
+                <select
+                  id="leadScheduleDayFilter"
+                  onchange="renderLeadScheduleTable()"
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-800 focus:outline-none focus:border-spx-orange"
+                >
+                  <option value="ALL">Semua Hari (Senin - Minggu)</option>
+                  <option value="Senin">Filter Libur: Senin</option>
+                  <option value="Selasa">Filter Libur: Selasa</option>
+                  <option value="Rabu">Filter Libur: Rabu</option>
+                  <option value="Kamis">Filter Libur: Kamis</option>
+                  <option value="Jumat">Filter Libur: Jumat</option>
+                  <option value="Sabtu">Filter Libur: Sabtu</option>
+                  <option value="Minggu">Filter Libur: Minggu</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Tabel Roster Mingguan Kurir -->
+            <div class="mt-5 overflow-x-auto rounded-2xl border border-slate-200">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-slate-900 text-white">
+                    <th class="py-3 px-3.5 font-bold">Kurir &amp; ID</th>
+                    <th class="py-3 px-3 font-bold">Armada</th>
+                    <th class="py-3 px-3 font-bold">Zona / Cluster</th>
+                    <th class="py-3 px-3 font-bold">Jam Masuk</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Sen</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Sel</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Rab</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Kam</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Jum</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Sab</th>
+                    <th class="py-3 px-2.5 font-bold text-center">Min</th>
+                    <th class="py-3 px-3 font-bold text-center">Edit</th>
+                  </tr>
+                </thead>
+                <tbody id="leadScheduleTableBody" class="divide-y divide-slate-200 bg-white"></tbody>
+              </table>
+            </div>
+            <p class="text-[11px] text-slate-500 mt-3">
+              Klik kotak status hari (<strong class="text-emerald-700">IN</strong> / <strong class="text-rose-600">OFF</strong>) atau tombol <strong>Atur</strong> untuk mengubah jadwal shift dan zona kurir.
+            </p>
+          </div>
+        </div>
+
+        <!-- ===============================================================
              LEAD TAB 3: PENGATURAN TARIF & SIMULASI GAJI
              =============================================================== -->
         <div id="lead-tab-rates" class="lead-tab-panel hidden space-y-6">
@@ -1484,6 +1641,52 @@
   </div>
 
   <!-- =====================================================================
+       MODAL: EDIT SCHEDULE KURIR (UNTUK HUB LEAD / SHIFT LEAD)
+       ===================================================================== -->
+  <div id="editScheduleModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
+    <div class="bg-white text-slate-900 rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden animate-card-in">
+      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+        <div>
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-spx-orange text-white">Atur Roster Kurir</span>
+          <h4 id="schedModalName" class="font-display font-extrabold text-base mt-1">-</h4>
+          <p class="text-xs text-slate-400 font-mono">Driver ID: <span id="schedModalId" class="text-white">-</span></p>
+        </div>
+        <button type="button" onclick="closeEditScheduleModal()" class="p-2 rounded-xl text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+
+      <form onsubmit="saveCourierScheduleForm(event)" class="p-6 space-y-4 text-xs">
+        <input type="hidden" id="schedModalDriverIdInput" />
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Zona / Cluster</label>
+            <input id="schedModalZone" type="text" required placeholder="Contoh: Pringapus Barat" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 font-bold text-slate-900" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Jam Masuk / Briefing</label>
+            <input id="schedModalShiftTime" type="text" required placeholder="07:30 WIB" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 font-bold text-slate-900" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-2">Status Masuk (IN) / Libur (OFF) per Hari</label>
+          <div id="schedModalDaysGrid" class="grid grid-cols-2 gap-2"></div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">Catatan Operasional</label>
+          <input id="schedModalNote" type="text" placeholder="Contoh: Sortir pagi & rute prioritas" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-slate-900" />
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeEditScheduleModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">Batal</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-spx-orange hover:bg-[#FF7337] text-white font-bold shadow-md">Simpan Schedule</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =====================================================================
        APPLICATION JAVASCRIPT (CSV PARSER, AUTH, LEAD & COURIER DASHBOARD)
        ===================================================================== -->
   <script>
@@ -1491,8 +1694,10 @@
     const RATE_STORAGE_KEY = "spx_pringapus2_salary_rates_v2";
     const SESSION_STORAGE_KEY = "spx_pringapus2_active_session_v1";
     const CACHE_RECORDS_KEY = "spx_pringapus2_cached_records_v1";
+    const SCHEDULE_STORAGE_KEY = "spx_pringapus2_schedules_v1";
+    const DAYS_OF_WEEK = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+    const DEFAULT_ZONES = ["Pringapus Kota", "Klepu & Wonoyoso", "Derekan & Jatirunggo", "Candirejo & Pringsari", "Penawangan & Wonorejo"];
 
-    // Akun Pimpinan Khusus Hub Lead & Shift Lead (Ops ID = Password)
     const LEADERSHIP_ACCOUNTS = {
       "1792821": { opsId: "1792821", password: "1792821", role: "Hub Lead" },
       "1731944": { opsId: "1731944", password: "1731944", role: "Shift Lead" },
@@ -1508,38 +1713,35 @@
       cpDaily: 20000,
       cpTier1: 475,
       cpTier2: 875,
-      rate4whPkg: 3500,
-      rate2whPkg: 2200,
+      rate4whPkg: 2500,
+      rate2whPkg: 1200,
       dsrMin: 98.0,
       dsrBonus: 250000
     };
 
-    let salaryRates = loadSalaryRates();
     let allRecords = [];
     let currentCourierRecords = [];
     let loggedInDriverId = null;
     let loggedInLeader = null;
     let activeTab = "overview";
     let activeLeadTab = "monitoring";
+    let salaryRates = loadSalaryRates();
+    let toastTimer = null;
 
-    // -----------------------------------------------------------------------
-    // Persistent Session & Cache Helpers (Anti-Logout saat Refresh)
-    // -----------------------------------------------------------------------
     function saveActiveSession(sessionObj) {
       try {
         const serialized = JSON.stringify(sessionObj);
         localStorage.setItem(SESSION_STORAGE_KEY, serialized);
         sessionStorage.setItem(SESSION_STORAGE_KEY, serialized);
       } catch (e) {
-        console.warn("Gagal menyimpan sesi ke storage:", e);
+        console.warn("Gagal menyimpan sesi:", e);
       }
     }
 
     function readActiveSession() {
       try {
         const raw = localStorage.getItem(SESSION_STORAGE_KEY) || sessionStorage.getItem(SESSION_STORAGE_KEY);
-        if (!raw) return null;
-        return JSON.parse(raw);
+        return raw ? JSON.parse(raw) : null;
       } catch (e) {
         return null;
       }
@@ -1589,34 +1791,77 @@
       overview: "Ringkasan Performa",
       salary: "Simulasi Gaji & Insentif",
       history: "Riwayat Bulanan",
+      schedule: "Schedule Kerja",
       profile: "Profil & Pengaturan Akun"
     };
 
     const LEAD_TAB_TITLES = {
       monitoring: "Dashboard Monitoring Hub",
       couriers: "Data & Performa Kurir",
+      schedule: "Schedule Kurir Hub",
       rates: "Pengaturan Tarif & Simulasi",
       account: "Info Akun Pimpinan"
     };
 
     // -----------------------------------------------------------------------
-    // UI Helpers (Toast, Password Toggle, Copy ID, Sidebars)
+    // Schedule Storage & Roster Helpers
     // -----------------------------------------------------------------------
-    let toastTimer = null;
-    function showToast(title, msg, isError = false) {
+    function loadAllSchedules() {
+      try {
+        const raw = localStorage.getItem(SCHEDULE_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function saveAllSchedules(mapObj) {
+      try {
+        localStorage.setItem(SCHEDULE_STORAGE_KEY, JSON.stringify(mapObj));
+      } catch (e) {
+        console.warn("Gagal menyimpan schedule:", e);
+      }
+    }
+
+    function getCourierSchedule(rec) {
+      const allSched = loadAllSchedules();
+      if (allSched[rec.Driver_ID]) {
+        return allSched[rec.Driver_ID];
+      }
+      // Buat jadwal default deterministik berdasarkan Driver_ID agar rapi sejak awal
+      const numSeed = parseInt(String(rec.Driver_ID).replace(/\D/g, ""), 10) || 1;
+      const offDayIndex = numSeed % 7;
+      const daysStatus = {};
+      DAYS_OF_WEEK.forEach((dayName, idx) => {
+        daysStatus[dayName] = idx === offDayIndex ? "OFF" : "IN";
+      });
+      const is4WH = String(rec.Kategori_Armada || "").toUpperCase().includes("4WH");
+      return {
+        zone: DEFAULT_ZONES[numSeed % DEFAULT_ZONES.length],
+        shiftTime: is4WH ? "07:00 WIB" : "07:30 WIB",
+        days: daysStatus,
+        note: is4WH ? "Loading paket besar & rute utama" : "Briefing pagi & sortir inbound"
+      };
+    }
+
+    function showToast(title, message, isError = false) {
       const box = document.getElementById("toastBox");
       const inner = document.getElementById("toastInner");
       const icon = document.getElementById("toastIcon");
-      document.getElementById("toastTitle").textContent = title;
-      document.getElementById("toastMsg").textContent = msg;
+      const titleEl = document.getElementById("toastTitle");
+      const msgEl = document.getElementById("toastMsg");
+      if (!box || !titleEl || !msgEl) return;
+
+      titleEl.textContent = title;
+      msgEl.textContent = message;
 
       if (isError) {
-        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-rose-950/95 border-rose-500/60 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-rose-500/25 text-rose-300 flex items-center justify-center shrink-0 font-bold";
+        inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-rose-950/95 border-rose-500/50 text-white";
+        icon.className = "w-8 h-8 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center shrink-0 font-bold";
         icon.textContent = "!";
       } else {
         inner.className = "flex items-start gap-3 p-4 rounded-2xl shadow-2xl border backdrop-blur-xl bg-slate-900/95 border-spx-orange/50 text-white";
-        icon.className = "w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0 font-bold";
+        icon.className = "w-8 h-8 rounded-xl bg-spx-orange/20 text-spx-bright flex items-center justify-center shrink-0 font-bold";
         icon.textContent = "✓";
       }
 
@@ -1942,6 +2187,7 @@
       populateMonthSelector(targetRecord.Bulan);
       renderCourierDashboard(targetRecord);
       renderMonthlyHistory();
+      renderCourierSchedule(targetRecord);
       return true;
     }
 
@@ -2057,6 +2303,7 @@
       populateRateSettingsForm();
       switchLeadTab(savedTab || "monitoring", false);
       renderLeadHubView();
+      renderLeadScheduleTable();
     }
 
     function populateLeadMonthSelector(selectedVal = null) {
@@ -2218,6 +2465,7 @@
       }
 
       renderLeadCourierTable();
+      renderLeadScheduleTable();
     }
 
     function getFilteredLeadCouriers() {
@@ -2422,19 +2670,240 @@
     }
 
     // -----------------------------------------------------------------------
-    // Courier Dashboard Logic
+    // Schedule Render & Management (Courier + Hub/Shift Lead)
     // -----------------------------------------------------------------------
-    function populateMonthSelector(selectedVal = null) {
+    function renderCourierSchedule(rec) {
+      if (!rec) return;
+      const sched = getCourierSchedule(rec);
+      const tbody = document.getElementById("courierScheduleTableBody");
+      if (!tbody) return;
+
+      const jsDay = new Date().getDay(); // 0 = Minggu, 1 = Senin, ...
+      const todayName = jsDay === 0 ? "Minggu" : DAYS_OF_WEEK[jsDay - 1];
+      const todayStatus = sched.days[todayName] || "IN";
+
+      const badgeEl = document.getElementById("courierTodayShiftBadge");
+      if (badgeEl) {
+        badgeEl.textContent = todayStatus === "OFF"
+          ? `Hari Ini (${todayName}): Jadwal OFF / Libur`
+          : `Hari Ini (${todayName}): Masuk (${sched.shiftTime})`;
+      }
+
+      const workDays = DAYS_OF_WEEK.filter(d => sched.days[d] !== "OFF").length;
+      const offDays = 7 - workDays;
+      document.getElementById("courierWorkDaysCount").textContent = `${workDays} Hari`;
+      document.getElementById("courierOffDaysCount").textContent = `${offDays} Hari`;
+      document.getElementById("courierAssignedZone").textContent = sched.zone;
+
+      tbody.innerHTML = DAYS_OF_WEEK.map(dayName => {
+        const isOff = sched.days[dayName] === "OFF";
+        const isToday = dayName === todayName;
+        const rowHighlight = isToday ? "bg-orange-50/70" : "hover:bg-slate-50";
+        const statusPill = isOff
+          ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-rose-100 text-rose-700 border border-rose-200">OFF / LIBUR</span>`
+          : `<span class="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-emerald-700 border border-emerald-200">MASUK KERJA</span>`;
+
+        return `
+          <tr class="${rowHighlight} transition">
+            <td class="py-3.5 px-4 font-extrabold text-slate-900">
+              ${dayName} ${isToday ? '<span class="ml-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold bg-spx-orange text-white">Hari Ini</span>' : ''}
+            </td>
+            <td class="py-3.5 px-4">${statusPill}</td>
+            <td class="py-3.5 px-4 font-mono font-bold text-slate-700">${isOff ? "-" : sched.shiftTime}</td>
+            <td class="py-3.5 px-4 font-semibold text-slate-800">${isOff ? "-" : sched.zone}</td>
+            <td class="py-3.5 px-4 text-slate-500">${isOff ? "Istirahat mingguan" : sched.note}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderLeadScheduleTable() {
+      const tbody = document.getElementById("leadScheduleTableBody");
+      if (!tbody) return;
+
+      const selMonth = document.getElementById("leadMonthSelect")?.value || "";
+      const q = (document.getElementById("leadScheduleSearchInput")?.value || "").trim().toLowerCase();
+      const dayFilter = document.getElementById("leadScheduleDayFilter")?.value || "ALL";
+
+      const baseList = selMonth ? allRecords.filter(r => r.Bulan === selMonth) : [...allRecords];
+      const uniqueMap = new Map();
+      baseList.forEach(r => {
+        if (!uniqueMap.has(r.Driver_ID)) uniqueMap.set(r.Driver_ID, r);
+      });
+
+      const list = Array.from(uniqueMap.values()).filter(rec => {
+        const sched = getCourierSchedule(rec);
+        const matchQ = !q || rec.Nama_Kurir.toLowerCase().includes(q) || rec.Driver_ID.toLowerCase().includes(q) || sched.zone.toLowerCase().includes(q);
+        const matchDay = dayFilter === "ALL" || sched.days[dayFilter] === "OFF";
+        return matchQ && matchDay;
+      });
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="12" class="py-8 px-4 text-center text-slate-500">Tidak ada jadwal kurir yang cocok dengan filter.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(rec => {
+        const sched = getCourierSchedule(rec);
+        const dayCells = DAYS_OF_WEEK.map(dayName => {
+          const isOff = sched.days[dayName] === "OFF";
+          const btnCls = isOff
+            ? "bg-rose-100 text-rose-700 border-rose-300 hover:bg-rose-200"
+            : "bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200";
+          return `
+            <td class="py-2.5 px-1.5 text-center">
+              <button
+                type="button"
+                onclick="quickToggleCourierDay('${rec.Driver_ID}', '${dayName}')"
+                title="Klik untuk ubah IN / OFF hari ${dayName}"
+                class="w-10 py-1 rounded-lg border text-[10px] font-black transition ${btnCls}"
+              >
+                ${isOff ? "OFF" : "IN"}
+              </button>
+            </td>
+          `;
+        }).join("");
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-3.5">
+              <p class="font-extrabold text-slate-900">${rec.Nama_Kurir}</p>
+              <p class="text-[11px] font-mono text-slate-500">ID: ${rec.Driver_ID}</p>
+            </td>
+            <td class="py-3 px-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-50 text-spx-orange border border-orange-200">${rec.Kategori_Armada}</span>
+            </td>
+            <td class="py-3 px-3 font-bold text-slate-800">${sched.zone}</td>
+            <td class="py-3 px-3 font-mono font-semibold text-slate-700">${sched.shiftTime}</td>
+            ${dayCells}
+            <td class="py-3 px-3 text-center">
+              <button
+                type="button"
+                onclick="openEditScheduleModal('${rec.Driver_ID}')"
+                class="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-spx-orange text-white text-[10px] font-bold transition"
+              >
+                Atur
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function quickToggleCourierDay(driverId, dayName) {
+      const rec = allRecords.find(r => r.Driver_ID === driverId);
+      if (!rec) return;
+      const allSched = loadAllSchedules();
+      const current = getCourierSchedule(rec);
+      current.days[dayName] = current.days[dayName] === "OFF" ? "IN" : "OFF";
+      allSched[driverId] = current;
+      saveAllSchedules(allSched);
+      renderLeadScheduleTable();
+    }
+
+    function openEditScheduleModal(driverId) {
+      const rec = allRecords.find(r => r.Driver_ID === driverId);
+      if (!rec) return;
+      const sched = getCourierSchedule(rec);
+
+      document.getElementById("schedModalDriverIdInput").value = rec.Driver_ID;
+      document.getElementById("schedModalName").textContent = rec.Nama_Kurir;
+      document.getElementById("schedModalId").textContent = rec.Driver_ID;
+      document.getElementById("schedModalZone").value = sched.zone;
+      document.getElementById("schedModalShiftTime").value = sched.shiftTime;
+      document.getElementById("schedModalNote").value = sched.note || "";
+
+      document.getElementById("schedModalDaysGrid").innerHTML = DAYS_OF_WEEK.map(dayName => {
+        const val = sched.days[dayName] || "IN";
+        return `
+          <div class="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200">
+            <span class="font-bold text-slate-800">${dayName}</span>
+            <select data-day="${dayName}" class="sched-day-select px-2 py-1 rounded-lg border border-slate-300 bg-white font-bold text-xs">
+              <option value="IN" ${val === "IN" ? "selected" : ""}>MASUK (IN)</option>
+              <option value="OFF" ${val === "OFF" ? "selected" : ""}>LIBUR (OFF)</option>
+            </select>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("editScheduleModal").classList.remove("hidden");
+    }
+
+    function closeEditScheduleModal() {
+      document.getElementById("editScheduleModal").classList.add("hidden");
+    }
+
+    function saveCourierScheduleForm(e) {
+      e.preventDefault();
+      const driverId = document.getElementById("schedModalDriverIdInput").value;
+      const zone = document.getElementById("schedModalZone").value.trim();
+      const shiftTime = document.getElementById("schedModalShiftTime").value.trim();
+      const note = document.getElementById("schedModalNote").value.trim();
+
+      const daysObj = {};
+      document.querySelectorAll(".sched-day-select").forEach(sel => {
+        daysObj[sel.getAttribute("data-day")] = sel.value;
+      });
+
+      const allSched = loadAllSchedules();
+      allSched[driverId] = { zone, shiftTime, days: daysObj, note };
+      saveAllSchedules(allSched);
+
+      closeEditScheduleModal();
+      renderLeadScheduleTable();
+      showToast("Schedule Disimpan", `Jadwal kerja untuk Driver ID ${driverId} berhasil diperbarui.`);
+    }
+
+    function exportScheduleCSV() {
+      const selMonth = document.getElementById("leadMonthSelect")?.value || "";
+      const baseList = selMonth ? allRecords.filter(r => r.Bulan === selMonth) : [...allRecords];
+      const uniqueMap = new Map();
+      baseList.forEach(r => { if (!uniqueMap.has(r.Driver_ID)) uniqueMap.set(r.Driver_ID, r); });
+      const rows = Array.from(uniqueMap.values());
+
+      if (rows.length === 0) {
+        showToast("Tidak Ada Data", "Belum ada data kurir untuk diekspor.", true);
+        return;
+      }
+
+      const headers = ["Driver_ID", "Nama_Kurir", "Kategori_Armada", "Zona", "Jam_Masuk", ...DAYS_OF_WEEK, "Catatan"];
+      const csvLines = [
+        headers.join(","),
+        ...rows.map(r => {
+          const s = getCourierSchedule(r);
+          return [
+            r.Driver_ID,
+            `"${r.Nama_Kurir.replace(/"/g, '""')}"`,
+            `"${r.Kategori_Armada}"`,
+            `"${s.zone}"`,
+            `"${s.shiftTime}"`,
+            ...DAYS_OF_WEEK.map(d => s.days[d] || "IN"),
+            `"${(s.note || "").replace(/"/g, '""')}"`
+          ].join(",");
+        })
+      ];
+
+      const blob = new Blob([csvLines.join("\n")], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Schedule_Kurir_SPX_Pringapus2.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Export Berhasil", "File CSV Schedule Kurir berhasil diunduh.");
+    }
+
+    function populateMonthSelector(selectedMonth) {
       const sel = document.getElementById("monthSelect");
       if (!sel) return;
       sel.innerHTML = "";
-      currentCourierRecords.forEach((r, idx) => {
+      currentCourierRecords.forEach(r => {
         const opt = document.createElement("option");
         opt.value = r.Bulan;
         opt.textContent = r.Bulan;
-        if ((selectedVal && r.Bulan === selectedVal) || (!selectedVal && idx === 0)) {
-          opt.selected = true;
-        }
+        if (r.Bulan === selectedMonth) opt.selected = true;
         sel.appendChild(opt);
       });
     }
