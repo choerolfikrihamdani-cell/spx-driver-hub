@@ -1405,6 +1405,9 @@
       if (forceNetwork) {
         localStorage.removeItem(CACHE_RECORDS_KEY);
       }
+      const previousRecords = Array.isArray(allCourierRecords) && allCourierRecords.length > 0
+        ? [...allCourierRecords]
+        : [];
       try {
         const text = await fetchTextFromGitHubSources(GITHUB_CSV_URL, "Master_Database.csv");
         if (text) {
@@ -1434,17 +1437,20 @@
         console.warn("Gagal fetch GitHub CSV, memakai cache / bawaan:", err);
       }
 
-      if (!forceNetwork) {
-        try {
-          const cached = JSON.parse(localStorage.getItem(CACHE_RECORDS_KEY) || "[]");
-          if (cached.length > 0) {
-            allCourierRecords = cached.map(r => ({
-              ...r,
-              Kategori_Armada: normalizeCategoryName(r.Kategori_Armada)
-            }));
-            return allCourierRecords;
-          }
-        } catch (e) {}
+      try {
+        const cached = JSON.parse(localStorage.getItem(CACHE_RECORDS_KEY) || "[]");
+        if (cached.length > 0) {
+          allCourierRecords = cached.map(r => ({
+            ...r,
+            Kategori_Armada: normalizeCategoryName(r.Kategori_Armada)
+          }));
+          return allCourierRecords;
+        }
+      } catch (e) {}
+
+      if (previousRecords.length > 0) {
+        allCourierRecords = previousRecords;
+        return allCourierRecords;
       }
 
       allCourierRecords = [...BUILTIN_MASTER_DB];
@@ -1684,7 +1690,7 @@
       document.getElementById("passwordInput").value = "";
     }
 
-// =========================================================================
+    // =========================================================================
     // DASHBOARD KURIR: RENDER & INTERAKSI
     // =========================================================================
     function enterCourierDashboard() {
@@ -2800,33 +2806,74 @@
       document.getElementById("courierDetailModal").classList.add("hidden");
     }
 
-    // =========================================================================
+   // =========================================================================
     // INISIALISASI SAAT HALAMAN DIBUKA
     // =========================================================================
-    window.addEventListener("DOMContentLoaded", async () => {
-      await loadMasterDatabase(true);
-      await loadScheduleFromGitHub();
-
+    function restoreSavedSessionImmediately() {
       try {
         const savedSession = JSON.parse(localStorage.getItem(SESSION_STORAGE_KEY) || "null");
-        if (savedSession && savedSession.type === "lead" && LEAD_ACCOUNTS[savedSession.id]) {
+        if (!savedSession) return false;
+
+        if (savedSession.type === "lead" && LEAD_ACCOUNTS[savedSession.id]) {
           currentLeadAccount = LEAD_ACCOUNTS[savedSession.id];
+          currentCourierId = null;
           enterLeadDashboard();
-        } else if (savedSession && savedSession.type === "courier" && allCourierRecords.some(r => r.Driver_ID === savedSession.id)) {
+          return true;
+        }
+
+        if (savedSession.type === "courier" && savedSession.id) {
+          if (!Array.isArray(allCourierRecords) || allCourierRecords.length === 0) {
+            try {
+              const cached = JSON.parse(localStorage.getItem(CACHE_RECORDS_KEY) || "[]");
+              allCourierRecords = cached.length > 0 ? cached : [...BUILTIN_MASTER_DB];
+            } catch (e) {
+              allCourierRecords = [...BUILTIN_MASTER_DB];
+            }
+          }
+          const existsInDb = allCourierRecords.some(r => r.Driver_ID === savedSession.id);
           currentCourierId = savedSession.id;
+          currentLeadAccount = null;
+          if (!existsInDb) {
+            allCourierRecords.push({
+              Driver_ID: savedSession.id,
+              Nama_Kurir: `Kurir ${savedSession.id}`,
+              Password: savedSession.id,
+              Kategori_Armada: "2WH Mitra",
+              Delivery_Success_Rate: "0%",
+              Total_Penugasan: 0,
+              Delivered: 0,
+              OnHold: 0,
+              Total_Hari_Kerja: 0,
+              Bulan: "2026-11"
+            });
+          }
           enterCourierDashboard();
+          return true;
         }
       } catch (e) {}
+      return false;
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      const hasSession = restoreSavedSessionImmediately();
+      await loadMasterDatabase(!hasSession);
+      await loadScheduleFromGitHub();
+
+      if (currentLeadAccount) {
+        enterLeadDashboard();
+      } else if (currentCourierId) {
+        enterCourierDashboard();
+      }
     });
 
     document.addEventListener("visibilitychange", async () => {
       if (document.visibilityState !== "visible") return;
       if (currentCourierId) {
-        await loadMasterDatabase(true);
+        await loadMasterDatabase(false);
         await loadScheduleFromGitHub();
         renderActiveCourierData();
       } else if (currentLeadAccount) {
-        await loadMasterDatabase(true);
+        await loadMasterDatabase(false);
         await loadScheduleFromGitHub();
         populateLeadPeriodSelect();
         renderLeadScheduleTable();
