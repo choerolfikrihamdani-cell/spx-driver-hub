@@ -1321,13 +1321,35 @@
         icon.className = "fas fa-eye text-sm";
       }
     }
-
     function parseCSV(text) {
       const lines = text.replace(/\r/g, "").split("\n").filter(l => l.trim().length > 0);
       if (lines.length < 2) return [];
-      const headers = lines[0].split(",").map(h => h.replace(/^\uFEFF/, "").trim());
+      const splitCsvLine = (line) => {
+        const out = [];
+        let cur = "";
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            if (inQuotes && line[i + 1] === '"') {
+              cur += '"';
+              i++;
+            } else {
+              inQuotes = !inQuotes;
+            }
+          } else if (ch === "," && !inQuotes) {
+            out.push(cur.trim());
+            cur = "";
+          } else {
+            cur += ch;
+          }
+        }
+        out.push(cur.trim());
+        return out;
+      };
+      const headers = splitCsvLine(lines[0]).map(h => h.replace(/^\uFEFF/, "").trim());
       return lines.slice(1).map(line => {
-        const vals = line.split(",");
+        const vals = splitCsvLine(line);
         const obj = {};
         headers.forEach((h, i) => {
           obj[h] = (vals[i] || "").trim();
@@ -1336,12 +1358,56 @@
       });
     }
 
+    async function fetchTextFromGitHubSources(rawUrl, apiPath) {
+      const cacheBuster = `t=${Date.now()}&r=${Math.random().toString(36).slice(2, 8)}`;
+      const candidates = [
+        `${rawUrl}?${cacheBuster}`,
+        rawUrl.replace("/main/", "/master/") + `?${cacheBuster}`
+      ];
+
+      for (const url of candidates) {
+        try {
+          const resp = await fetch(url, {
+            cache: "no-store",
+            headers: {
+              "Cache-Control": "no-cache, no-store, must-revalidate",
+              "Pragma": "no-cache"
+            }
+          });
+          if (resp.ok) {
+            const txt = await resp.text();
+            if (txt && txt.trim().length > 0) return txt;
+          }
+        } catch (e) {}
+      }
+
+      if (apiPath) {
+        try {
+          const apiResp = await fetch(`https://api.github.com/repos/choerolfikrihamdani-cell/spx-driver-hub/contents/${apiPath}?${cacheBuster}`, {
+            cache: "no-store",
+            headers: { "Accept": "application/vnd.github+json" }
+          });
+          if (apiResp.ok) {
+            const apiJson = await apiResp.json();
+            if (apiJson && apiJson.content) {
+              const binary = atob(apiJson.content.replace(/\n/g, ""));
+              const bytes = new Uint8Array(binary.length);
+              for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+              return new TextDecoder("utf-8").decode(bytes);
+            }
+          }
+        } catch (e) {}
+      }
+      return null;
+    }
+
     async function loadMasterDatabase(forceNetwork = false) {
+      if (forceNetwork) {
+        localStorage.removeItem(CACHE_RECORDS_KEY);
+      }
       try {
-        const cacheBuster = `?t=${Date.now()}`;
-        const resp = await fetch(GITHUB_CSV_URL + cacheBuster, { cache: "no-store" });
-        if (resp.ok) {
-          const text = await resp.text();
+        const text = await fetchTextFromGitHubSources(GITHUB_CSV_URL, "Master_Database.csv");
+        if (text) {
           const rows = parseCSV(text);
           if (rows.length > 0) {
             const normalized = rows.map(r => ({
@@ -1387,9 +1453,8 @@
 
     async function loadScheduleFromGitHub() {
       try {
-        const resp = await fetch(`${GITHUB_SCHEDULE_CSV_URL}?t=${Date.now()}`, { cache: "no-store" });
-        if (!resp.ok) return;
-        const text = await resp.text();
+        const text = await fetchTextFromGitHubSources(GITHUB_SCHEDULE_CSV_URL, "Schedule_Database.csv");
+        if (!text) return;
         const rows = parseCSV(text);
         if (!rows.length) return;
 
@@ -1619,7 +1684,7 @@
       document.getElementById("passwordInput").value = "";
     }
 
-    // =========================================================================
+// =========================================================================
     // DASHBOARD KURIR: RENDER & INTERAKSI
     // =========================================================================
     function enterCourierDashboard() {
@@ -1633,8 +1698,21 @@
 
       const monthSelect = document.getElementById("courierMonthSelect");
       monthSelect.innerHTML = myRecords.map(r => `<option value="${r.Bulan}">${formatMonthLabel(r.Bulan)}</option>`).join("");
-      selectedCourierMonth = myRecords[0]?.Bulan || "2026-11";
-      monthSelect.value = selectedCourierMonth;
+
+      const latestDbMonth = [...allCourierRecords]
+        .map(r => r.Bulan)
+        .filter(Boolean)
+        .sort((a, b) => b.localeCompare(a))[0];
+
+      if (myRecords.some(r => r.Bulan === selectedCourierMonth)) {
+        monthSelect.value = selectedCourierMonth;
+      } else if (myRecords.some(r => r.Bulan === latestDbMonth)) {
+        selectedCourierMonth = latestDbMonth;
+        monthSelect.value = selectedCourierMonth;
+      } else {
+        selectedCourierMonth = myRecords[0]?.Bulan || "2026-11";
+        monthSelect.value = selectedCourierMonth;
+      }
 
       const latestPeriod = getLatestPeriod();
       document.getElementById("courierActivePeriodBadge").textContent = latestPeriod.label;
@@ -1656,8 +1734,19 @@
       await loadMasterDatabase(true);
       await loadScheduleFromGitHub();
       icon.classList.remove("fa-spin");
+
+      const myRecords = allCourierRecords
+        .filter(r => r.Driver_ID === currentCourierId)
+        .sort((a, b) => b.Bulan.localeCompare(a.Bulan));
+      const monthSelect = document.getElementById("courierMonthSelect");
+      if (monthSelect && myRecords.length > 0) {
+        monthSelect.innerHTML = myRecords.map(r => `<option value="${r.Bulan}">${formatMonthLabel(r.Bulan)}</option>`).join("");
+        selectedCourierMonth = myRecords[0].Bulan;
+        monthSelect.value = selectedCourierMonth;
+      }
+
       renderActiveCourierData();
-      showToast("Data Disinkronkan", "Performa, jadwal, dan estimasi gaji terbaru telah dimuat.");
+      showToast("Data Disinkronkan", "Performa, jadwal, dan estimasi gaji terbaru dari GitHub telah dimuat.");
     }
 
     function getActiveCourierRecord() {
@@ -2715,7 +2804,7 @@
     // INISIALISASI SAAT HALAMAN DIBUKA
     // =========================================================================
     window.addEventListener("DOMContentLoaded", async () => {
-      await loadMasterDatabase(false);
+      await loadMasterDatabase(true);
       await loadScheduleFromGitHub();
 
       try {
@@ -2728,6 +2817,21 @@
           enterCourierDashboard();
         }
       } catch (e) {}
+    });
+
+    document.addEventListener("visibilitychange", async () => {
+      if (document.visibilityState !== "visible") return;
+      if (currentCourierId) {
+        await loadMasterDatabase(true);
+        await loadScheduleFromGitHub();
+        renderActiveCourierData();
+      } else if (currentLeadAccount) {
+        await loadMasterDatabase(true);
+        await loadScheduleFromGitHub();
+        populateLeadPeriodSelect();
+        renderLeadScheduleTable();
+        renderLeadCouriersTable();
+      }
     });
   </script>
 </body>
